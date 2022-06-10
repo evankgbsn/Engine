@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Engine">
+      <UniqueIdentifier>{fe48035f-9b33-4991-bc9b-5028028e87df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Utils">
+      <UniqueIdentifier>{4ebf257b-19c2-49ab-942e-03b13bef6224}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Renderer">
+      <UniqueIdentifier>{e1efe210-7b5f-4a31-8324-797b331daeab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Renderer\Vulkan">
+      <UniqueIdentifier>{321023a7-34cd-457d-8ed5-bb31212350a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Renderer\Windows">
+      <UniqueIdentifier>{b9861980-208e-4d36-9aed-78dcba846fb5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Engine\Engine.h">
+      <Filter>Source Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Utils\Logger.h">
+      <Filter>Source Files\Engine\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Renderer.h">
+      <Filter>Source Files\Engine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Vulkan\VulkanPhysicalDevice.h">
+      <Filter>Source Files\Engine\Renderer\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Windows\WindowManager.h">
+      <Filter>Source Files\Engine\Renderer\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Windows\Window.h">
+      <Filter>Source Files\Engine\Renderer\Windows</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Engine\Engine.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Utils\Logger.cpp">
+      <Filter>Source Files\Engine\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Renderer.cpp">
+      <Filter>Source Files\Engine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Windows\WindowManager.cpp">
+      <Filter>Source Files\Engine\Renderer\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Windows\Window.cpp">
+      <Filter>Source Files\Engine\Renderer\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Vulkan\VulkanPhysicalDevice.cpp">
+      <Filter>Source Files\Engine\Renderer\Vulkan</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

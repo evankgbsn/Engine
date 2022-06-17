@@ -178,8 +178,7 @@ void Renderer::CreateVulkanInstance()
 	createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 	createInfo.pApplicationInfo = &applicationInfo;
 	static const char* extensions[] = { 
-		"VK_KHR_surface", 
-		"VK_KHR_display"
+		"VK_KHR_surface"
 #ifdef _WIN32
 		,"VK_KHR_win32_surface"
 #endif

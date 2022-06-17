@@ -11,7 +11,7 @@ VulkanPhysicalDevice::VulkanPhysicalDevice(VkPhysicalDevice&& device, VkPhysical
 	features(f)
 {
 	FindQueueFamilies();
-	GetDisplayProperties();
+	//GetDisplayProperties();
 }
 
 VulkanPhysicalDevice::~VulkanPhysicalDevice()

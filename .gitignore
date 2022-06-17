@@ -32,4 +32,4 @@
 *.app
 
 # Allow
-!Engine/Dependencies/Lib
+!Engine/Engine/Dependencies/Lib

@@ -32,4 +32,5 @@
 *.app
 
 # Allow
-!Engine/Engine/Dependencies/Lib
+!*glfw3.lib
+!*vulkan-1.lib

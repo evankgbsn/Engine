@@ -78,6 +78,9 @@ private:
 	// The swapchain images.
 	std::vector<VkImage> swapchainImages;
 
+	// The swapchain image views that we can render to.
+	std::vector<VkImageView> swapchainImageViews;
+
 	std::string name = "";
 	uint32_t width = 0;
 	uint32_t height = 0;

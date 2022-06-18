@@ -40,6 +40,10 @@ Window::Window(uint32_t w, uint32_t h, std::string&& windowName) :
 
 Window::~Window()
 {
+	for (const auto& imageView : swapchainImageViews)
+	{
+		vkDestroyImageView(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), imageView, nullptr);
+	}
 	vkDestroySwapchainKHR(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), swapchain, nullptr);
 	vkDestroySurfaceKHR(Renderer::GetVulkanInstance(), surface, nullptr);
 }
@@ -206,6 +210,7 @@ void Window::CreateSwapchain()
 	if (!device)
 	{
 		Logger::Log(std::string("Could not get VulkanPhysicalDevice in Window::CreateSwapchain"), Logger::Category::Error);
+		throw std::runtime_error("Could not get VulkanPhysicalDevice in Window::CreateSwapchain");
 		return;
 	}
 
@@ -232,6 +237,7 @@ void Window::CreateSwapchain()
 	else
 	{
 		Logger::Log(std::string("Graphics queue or Present queue not set for chosen vulkan physical device"), Logger::Category::Error);
+		throw std::runtime_error("Graphics queue or Present queue not set for chosen vulkan physical device");
 		return;
 	}
 	
@@ -240,12 +246,44 @@ void Window::CreateSwapchain()
 	if (result != VK_SUCCESS)
 	{
 		Logger::Log(std::string("Failed to create swapchain"), Logger::Category::Error);
+		throw std::runtime_error("Failed to create swapchain");
 		return;
 	}
 
 	vkGetSwapchainImagesKHR(device->GetLogicalDevice(), swapchain, &imageCount, nullptr);
 	swapchainImages.resize(imageCount);
 	vkGetSwapchainImagesKHR(device->GetLogicalDevice(), swapchain, &imageCount, swapchainImages.data());
+
+	uint32_t index = 0;
+	swapchainImageViews.resize(imageCount);
+	for (const auto& image : swapchainImages)
+	{
+		VkImageViewCreateInfo imageViewCreateInfo = {};
+		imageViewCreateInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+		imageViewCreateInfo.image = image;
+		imageViewCreateInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+		imageViewCreateInfo.format = surfaceFormat.format;
+		imageViewCreateInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
+		imageViewCreateInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
+		imageViewCreateInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
+		imageViewCreateInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
+		imageViewCreateInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+		imageViewCreateInfo.subresourceRange.baseMipLevel = 0;
+		imageViewCreateInfo.subresourceRange.levelCount = 1;
+		imageViewCreateInfo.subresourceRange.baseArrayLayer = 0;
+		imageViewCreateInfo.subresourceRange.layerCount = 1;
+
+		result = vkCreateImageView(device->GetLogicalDevice(), &imageViewCreateInfo, nullptr, &swapchainImageViews[index]);
+
+		if (result != VK_SUCCESS)
+		{
+			Logger::Log(std::string("Failed to create image view"), Logger::Category::Error);
+			throw std::runtime_error("Failed to create image view");
+			return;
+		}
+
+		index++;
+	}
 
 	Logger::Log(std::string("Created swapchain with ") + std::to_string(imageCount) + std::string(" images"), Logger::Category::Success);
 }

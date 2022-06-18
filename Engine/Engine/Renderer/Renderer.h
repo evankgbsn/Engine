@@ -30,6 +30,9 @@ public:
 	// Choose a device to be used for rendering.
 	static void ChooseDevice(Window& window);
 
+	// Get the chosen VulkanPhysicalDevice.
+	static VulkanPhysicalDevice* GetVulkanPhysicalDevice();
+
 private:
 
 	Renderer();

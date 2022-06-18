@@ -53,6 +53,10 @@ public:
 
 	const char* const GetName() const { return properties.deviceName; };
 
+	const QueueFamilies& GetQueueFamilies() const { return queueFamilies; };
+
+	VkDevice& GetLogicalDevice() { return logicalDevice; };
+
 private:
 
 	void FindQueueFamilies();

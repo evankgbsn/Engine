@@ -46,7 +46,11 @@ public:
 		std::vector<VkPresentModeKHR> presentModes = std::vector<VkPresentModeKHR>();
 	};
 
+	// This must be called before CreateSwapchain.
 	const SurfaceInfo& GetSurfaceInfo(const VulkanPhysicalDevice& device);
+
+	// GetSurfaceInfo needs to be called before CreateSwapchain.
+	void CreateSwapchain();
 
 private:
 
@@ -65,8 +69,14 @@ private:
 	// The surface format to use for the swapchain.
 	VkSurfaceFormatKHR surfaceFormat = {};
 
+	// The extent of the swapchain. This is in pixels.
+	VkExtent2D swapchainExtent = {};
+
 	// The info about the surface and the device using the surface.
 	SurfaceInfo surfaceInfo = {};
+
+	// The swapchain images.
+	std::vector<VkImage> swapchainImages;
 
 	std::string name = "";
 	uint32_t width = 0;

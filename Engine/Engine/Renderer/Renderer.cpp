@@ -78,6 +78,7 @@ void Renderer::ChooseDevice(Window& window)
 
 				instance->chosenDevice = device;
 				device->FinalizeDevice();
+				window.CreateSwapchain();
 				Logger::Log(std::string(device->GetName()) + std::string(" has been chosen as the rendering device."), Logger::Category::Success);
 				chosen = true;
 				return;
@@ -86,6 +87,17 @@ void Renderer::ChooseDevice(Window& window)
 
 		Logger::Log(std::string("Could not find a suitable vulkan physical device. Renderer::ChooseDevice"), Logger::Category::Error);
 	}
+}
+
+VulkanPhysicalDevice* Renderer::GetVulkanPhysicalDevice()
+{
+	if (!instance)
+	{
+		Logger::Log(std::string("Calling Renderer::GetVulkanPhysicalDevice before Renderer::Initialize"), Logger::Category::Error);
+		return nullptr;
+	}
+
+	return instance->chosenDevice;
 }
 
 Renderer::Renderer() :

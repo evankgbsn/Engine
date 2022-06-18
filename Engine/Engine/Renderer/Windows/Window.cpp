@@ -1,5 +1,6 @@
 #include "Window.h"
 
+#include <algorithm>
 #include <unordered_set>
 #include <stdexcept>
 
@@ -17,7 +18,7 @@ Window::Window(uint32_t w, uint32_t h, std::string&& windowName) :
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
-	window = glfwCreateWindow(width, height, name.c_str(), nullptr, nullptr);
+	window = glfwCreateWindow(static_cast<int>(width), static_cast<int>(height), name.c_str(), nullptr, nullptr);
 
 	if (!window)
 	{
@@ -39,6 +40,7 @@ Window::Window(uint32_t w, uint32_t h, std::string&& windowName) :
 
 Window::~Window()
 {
+	vkDestroySwapchainKHR(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), swapchain, nullptr);
 	vkDestroySurfaceKHR(Renderer::GetVulkanInstance(), surface, nullptr);
 }
 
@@ -151,5 +153,99 @@ const Window::SurfaceInfo& Window::GetSurfaceInfo(const VulkanPhysicalDevice& de
 		Logger::Log(std::string("Present Mode set to FIFO"), Logger::Category::Warning);
 	}
 
+	// Vulkan uses pixels and GLFW uses screen coordinates so we need to convert when choosing the correct extent values for the swap chain.
+	if (surfaceInfo.surfaceInfo.currentExtent.width != std::numeric_limits<uint32_t>::max())
+	{
+		swapchainExtent = surfaceInfo.surfaceInfo.currentExtent;
+	}
+	else
+	{
+		int w, h;
+		glfwGetFramebufferSize(window, &w, &h);
+
+		VkExtent2D extentInPixels{
+			static_cast<uint32_t>(w),
+			static_cast<uint32_t>(h)
+		};
+
+		swapchainExtent = extentInPixels;
+	}
+
+	// Make sure the extent is allowed.
+	swapchainExtent.width = std::clamp(swapchainExtent.width, surfaceInfo.surfaceInfo.minImageExtent.width, surfaceInfo.surfaceInfo.maxImageExtent.width);
+	swapchainExtent.height = std::clamp(swapchainExtent.height, surfaceInfo.surfaceInfo.minImageExtent.height, surfaceInfo.surfaceInfo.maxImageExtent.height);
+
 	return surfaceInfo;
+}
+
+void Window::CreateSwapchain()
+{
+	Logger::Log(std::string("Min sawpchain images: ") + std::to_string(surfaceInfo.surfaceInfo.minImageCount));
+	Logger::Log(std::string("Max swapchain images: ") + std::to_string(surfaceInfo.surfaceInfo.maxImageCount));
+
+	// Image count is 1 more than the minimum if allowed.
+	uint32_t imageCount = surfaceInfo.surfaceInfo.minImageCount + ((surfaceInfo.surfaceInfo.maxImageCount > surfaceInfo.surfaceInfo.minImageCount) ? 1 : 0);
+
+	VkSwapchainCreateInfoKHR createInfo = {};
+	createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
+	createInfo.surface = surface;
+	createInfo.minImageCount = imageCount;
+	createInfo.imageFormat = surfaceFormat.format;
+	createInfo.imageColorSpace = surfaceFormat.colorSpace;
+	createInfo.imageExtent = swapchainExtent;
+	createInfo.imageArrayLayers = 1;
+	createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+	createInfo.preTransform = surfaceInfo.surfaceInfo.currentTransform;
+	createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
+	createInfo.presentMode = presentMode;
+	createInfo.clipped = VK_TRUE;
+	createInfo.oldSwapchain = VK_NULL_HANDLE;
+
+	// If the images are shared between more than one queue we need to handle that.
+	VulkanPhysicalDevice* device = Renderer::GetVulkanPhysicalDevice();
+	if (!device)
+	{
+		Logger::Log(std::string("Could not get VulkanPhysicalDevice in Window::CreateSwapchain"), Logger::Category::Error);
+		return;
+	}
+
+	VulkanPhysicalDevice::QueueFamilies queueFamilies = device->GetQueueFamilies();
+
+	if (queueFamilies.graphicsIndex.has_value() && queueFamilies.presentationIndex.has_value())
+	{
+		if (queueFamilies.graphicsIndex.value() != queueFamilies.presentationIndex.value())
+		{
+			uint32_t queueFamilyIndices[] = { queueFamilies.graphicsIndex.value(), queueFamilies.presentationIndex.value() };
+			createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
+			createInfo.queueFamilyIndexCount = 2;
+			createInfo.pQueueFamilyIndices = queueFamilyIndices;
+			Logger::Log(std::string("Image sharing mode set to concurrent for swapchain"), Logger::Category::Warning);
+		}
+		else
+		{
+			createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
+			createInfo.queueFamilyIndexCount = 0;
+			createInfo.pQueueFamilyIndices = nullptr;
+			Logger::Log(std::string("Image sharing mode set to exclusive for swapchain"));
+		}
+	}
+	else
+	{
+		Logger::Log(std::string("Graphics queue or Present queue not set for chosen vulkan physical device"), Logger::Category::Error);
+		return;
+	}
+	
+	// Create the swapchain finally.
+	VkResult result = vkCreateSwapchainKHR(device->GetLogicalDevice(), &createInfo, nullptr, &swapchain);
+	if (result != VK_SUCCESS)
+	{
+		Logger::Log(std::string("Failed to create swapchain"), Logger::Category::Error);
+		return;
+	}
+
+	vkGetSwapchainImagesKHR(device->GetLogicalDevice(), swapchain, &imageCount, nullptr);
+	swapchainImages.resize(imageCount);
+	vkGetSwapchainImagesKHR(device->GetLogicalDevice(), swapchain, &imageCount, swapchainImages.data());
+
+	Logger::Log(std::string("Created swapchain with ") + std::to_string(imageCount) + std::string(" images"), Logger::Category::Success);
 }

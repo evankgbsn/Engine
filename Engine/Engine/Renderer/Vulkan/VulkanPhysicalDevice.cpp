@@ -139,6 +139,7 @@ void VulkanPhysicalDevice::FindQueueFamilies()
 
 	// Currently it will set the queue family index to the same index for each flag if it has more than one flag.
 	// TODO: Find out if this is optimal.
+	// EDIT: This should be optimal because VK_SHARING_MODE_EXCLUSIVE seems to be better performing than VK_SHARING_MODE_CONCURRENT
 
 	uint32_t i = 0;
 	for (const auto& queueFamily : queueFamilyProperties)

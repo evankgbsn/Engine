@@ -1862,4 +1862,8 @@ Info: General: Device Extension: VK_NVX_multiview_per_view_attributes (C:\Window
 Info: General: loader_add_implicit_layer: Disabling implicit layer VK_LAYER_OBS_HOOK for using an old API version 1.2 versus application requested 1.3
 Info: General: loader_add_implicit_layer: Disabling implicit layer VK_LAYER_OBS_HOOK for using an old API version 1.2 versus application requested 1.3
 Success: Created logical device using NVIDIA GeForce RTX 3090
+Info: Min sawpchain images: 2
+Info: Max swapchain images: 8
+Info: Image sharing mode set to exclusive for swapchain
+Success: Created swapchain with 3 images
 Success: NVIDIA GeForce RTX 3090 has been chosen as the rendering device.

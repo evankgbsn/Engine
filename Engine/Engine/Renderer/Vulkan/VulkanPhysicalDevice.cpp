@@ -100,7 +100,6 @@ void VulkanPhysicalDevice::FinalizeDevice()
 
 bool VulkanPhysicalDevice::SupportsSwapChain()
 {
-
 	static bool checkSwapchainSupport = true;
 
 	if (checkSwapchainSupport)
@@ -229,5 +228,4 @@ void VulkanPhysicalDevice::CreateLogicalDevice()
 	{
 		vkGetDeviceQueue(logicalDevice, queueFamilies.presentationIndex.value(), 0, &presentationQueue);
 	}
-
 }

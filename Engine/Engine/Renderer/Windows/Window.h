@@ -56,6 +56,15 @@ private:
 	// The vulkan surface for this window.
 	VkSurfaceKHR surface = VK_NULL_HANDLE;
 
+	// The vulkan swap chain for this surface.
+	VkSwapchainKHR swapchain = VK_NULL_HANDLE;
+
+	// The chosen present mode to use for the swapchain.
+	VkPresentModeKHR presentMode = {};
+
+	// The surface format to use for the swapchain.
+	VkSurfaceFormatKHR surfaceFormat = {};
+
 	// The info about the surface and the device using the surface.
 	SurfaceInfo surfaceInfo = {};
 

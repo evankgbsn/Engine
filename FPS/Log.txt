@@ -881,6 +881,12 @@ Info: General: Device Extension: VK_NVX_image_view_handle (C:\Windows\System32\D
 Info: General: Device Extension: VK_NVX_multiview_per_view_attributes (C:\Windows\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_c43eff7079c4c90c\.\nvoglv64.dll) version 0.0.1
 Info: General: loader_add_implicit_layer: Disabling implicit layer VK_LAYER_OBS_HOOK for using an old API version 1.2 versus application requested 1.3
 Info: General: loader_add_implicit_layer: Disabling implicit layer VK_LAYER_OBS_HOOK for using an old API version 1.2 versus application requested 1.3
+Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
+Info: Present Mode FIFO available
+Info: Present Mode FIFO Relaxed available
+Info: Present Mode Mailbox available
+Info: Present Mode Immediate available
+Success: Present Mode set to Mailbox
 Info: General: loader_add_implicit_layer: Disabling implicit layer VK_LAYER_OBS_HOOK for using an old API version 1.2 versus application requested 1.3
 Info: General: loader_add_implicit_layer: Disabling implicit layer VK_LAYER_OBS_HOOK for using an old API version 1.2 versus application requested 1.3
 Info: General: Device Extension: VK_KHR_16bit_storage (C:\Windows\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_c43eff7079c4c90c\.\nvoglv64.dll) version 0.0.1

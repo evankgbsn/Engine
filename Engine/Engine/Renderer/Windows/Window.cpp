@@ -1,5 +1,6 @@
 #include "Window.h"
 
+#include <unordered_set>
 #include <stdexcept>
 
 #include <GLFW/glfw3.h>
@@ -88,6 +89,66 @@ const Window::SurfaceInfo& Window::GetSurfaceInfo(const VulkanPhysicalDevice& de
 	if (result != VK_SUCCESS)
 	{
 		Logger::Log(std::string("Could not get surface present modes for window ") + name + std::string(" using device ") + std::string(device.GetProperties().deviceName), Logger::Category::Error);
+	}
+
+	bool foundDesiredFormat = false;
+	for (const auto& format : surfaceInfo.surfaceFormats)
+	{
+		if (format.format == VK_FORMAT_B8G8R8A8_SRGB && format.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
+		{
+			surfaceFormat = format;
+			Logger::Log(std::string("Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space."), Logger::Category::Success);
+			foundDesiredFormat = true;
+			break;
+		}
+	}
+
+	if (!foundDesiredFormat)
+	{
+		surfaceFormat = surfaceInfo.surfaceFormats.front();
+		Logger::Log(std::string("Defaulting to first found surface format because desired format was not found."), Logger::Category::Warning);
+	}
+
+	std::unordered_set<VkPresentModeKHR> modes(surfaceInfo.presentModes.begin(), surfaceInfo.presentModes.end());
+
+	// Print all of the available present modes.
+	for (const auto& mode : modes)
+	{
+		switch (mode)
+		{
+		case VK_PRESENT_MODE_MAILBOX_KHR:
+			Logger::Log(std::string("Present Mode Mailbox available"));
+			break;
+		case VK_PRESENT_MODE_FIFO_RELAXED_KHR:
+			Logger::Log(std::string("Present Mode FIFO Relaxed available"));
+			break;
+		case VK_PRESENT_MODE_IMMEDIATE_KHR:
+			Logger::Log(std::string("Present Mode Immediate available"));
+			break;
+		case VK_PRESENT_MODE_FIFO_KHR:
+			Logger::Log(std::string("Present Mode FIFO available"));
+			break;
+		default:
+			Logger::Log(std::string("Unknown Present Mode available"));
+			break;
+		}
+	}
+	
+	// Choose the desired present mode.
+	if (modes.find(VK_PRESENT_MODE_MAILBOX_KHR) != modes.end())
+	{
+		presentMode = VK_PRESENT_MODE_MAILBOX_KHR;
+		Logger::Log(std::string("Present Mode set to Mailbox"), Logger::Category::Success);
+	}
+	else if (modes.find(VK_PRESENT_MODE_FIFO_RELAXED_KHR) != modes.end())
+	{
+		presentMode = VK_PRESENT_MODE_FIFO_RELAXED_KHR;
+		Logger::Log(std::string("Present Mode set to FIFO Relaxed"), Logger::Category::Warning);
+	}
+	else
+	{
+		presentMode = VK_PRESENT_MODE_FIFO_KHR;
+		Logger::Log(std::string("Present Mode set to FIFO"), Logger::Category::Warning);
 	}
 
 	return surfaceInfo;

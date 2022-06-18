@@ -34,3 +34,9 @@
 # Allow
 !*glfw3.lib
 !*vulkan-1.lib
+
+#Ignore .vs folder and other generated folders
+*.vs
+*Engine/x64
+*FPS/x64
+*x64

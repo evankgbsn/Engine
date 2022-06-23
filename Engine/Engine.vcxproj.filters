@@ -28,6 +28,9 @@
     <Filter Include="Source Files\Engine\Renderer\Windows">
       <UniqueIdentifier>{b9861980-208e-4d36-9aed-78dcba846fb5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Renderer\Shaders">
+      <UniqueIdentifier>{5cbab846-3da3-4f0b-9aa9-8b5e51a444aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -47,6 +50,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Renderer\Windows\Window.h">
       <Filter>Source Files\Engine\Renderer\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Shaders\Shader.h">
+      <Filter>Source Files\Engine\Renderer\Shaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -68,5 +74,16 @@
     <ClCompile Include="Engine\Renderer\Vulkan\VulkanPhysicalDevice.cpp">
       <Filter>Source Files\Engine\Renderer\Vulkan</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Renderer\Shaders\Shader.cpp">
+      <Filter>Source Files\Engine\Renderer\Shaders</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Engine\Renderer\Shaders\TriangleFrag.frag">
+      <Filter>Source Files\Engine\Renderer\Shaders</Filter>
+    </None>
+    <None Include="Engine\Renderer\Shaders\TriangleVert.vert">
+      <Filter>Source Files\Engine\Renderer\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

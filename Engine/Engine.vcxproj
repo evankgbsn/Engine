@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Renderer\Renderer.h" />
+    <ClInclude Include="Engine\Renderer\Shaders\Shader.h" />
     <ClInclude Include="Engine\Renderer\Vulkan\VulkanPhysicalDevice.h" />
     <ClInclude Include="Engine\Renderer\Windows\Window.h" />
     <ClInclude Include="Engine\Renderer\Windows\WindowManager.h" />
@@ -153,10 +154,15 @@
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Renderer\Renderer.cpp" />
+    <ClCompile Include="Engine\Renderer\Shaders\Shader.cpp" />
     <ClCompile Include="Engine\Renderer\Vulkan\VulkanPhysicalDevice.cpp" />
     <ClCompile Include="Engine\Renderer\Windows\Window.cpp" />
     <ClCompile Include="Engine\Renderer\Windows\WindowManager.cpp" />
     <ClCompile Include="Engine\Utils\Logger.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Engine\Renderer\Shaders\TriangleFrag.frag" />
+    <None Include="Engine\Renderer\Shaders\TriangleVert.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

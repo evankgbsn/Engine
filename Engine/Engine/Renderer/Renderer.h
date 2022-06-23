@@ -59,6 +59,8 @@ private:
 
 	void DestroyVulkanDebugMessenger();
 
+	void CreateVulkanGraphicsPipeline();
+
 	void TerminateVulkan();
 
 	// Find all of the devices that support rendering on this machine.

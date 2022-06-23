@@ -318,6 +318,10 @@ void Renderer::DestroyVulkanDebugMessenger()
 #endif // NDEBUG
 }
 
+void Renderer::CreateVulkanGraphicsPipeline()
+{
+}
+
 void Renderer::TerminateVulkan()
 {
 	for (VulkanPhysicalDevice* device : vulkanPhysicalDevices)

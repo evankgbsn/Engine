@@ -3,8 +3,8 @@
 #include <fstream>
 #include <stdexcept>
 
-#include "../../Utils/Logger.h"
-#include "../Vulkan/VulkanPhysicalDevice.h"
+#include "../../../Utils/Logger.h"
+#include "../../Vulkan/VulkanPhysicalDevice.h"
 
 Shader::Shader(const std::string& fileName, VulkanPhysicalDevice* device) :
 	vulkanPhysicalDevice(device),

@@ -59,8 +59,6 @@ private:
 
 	void DestroyVulkanDebugMessenger();
 
-	void CreateVulkanGraphicsPipeline();
-
 	void TerminateVulkan();
 
 	// Find all of the devices that support rendering on this machine.
@@ -84,7 +82,7 @@ private:
 	VkInstance vulkanInstance = VK_NULL_HANDLE;
 
 	// Information about this application that is passed to vulkan.
-	VkApplicationInfo applicationInfo = {};
+	VkApplicationInfo applicationInfo{};
 
 #ifndef NDEBUG
 	// Used in debug to output vulkan messages.

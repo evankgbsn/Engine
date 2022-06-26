@@ -58,6 +58,8 @@ public:
 
 private:
 
+	void CreateVulkanGraphicsPipeline();
+
 	// The GLFW window handle.
 	GLFWwindow* window = nullptr;
 

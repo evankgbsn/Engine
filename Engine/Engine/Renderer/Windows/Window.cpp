@@ -10,6 +10,10 @@
 #include "../Renderer.h"
 #include "../Vulkan/VulkanPhysicalDevice.h"
 
+#include "../Pipeline/Shaders/Shader.h"
+#include "../Pipeline/Shaders/ShaderPipelineStage.h"
+#include "../Pipeline/VertexInput/VertexInputPipelineState.h"
+
 Window::Window(uint32_t w, uint32_t h, std::string&& windowName) :
 	name(windowName),
 	width(w),
@@ -47,6 +51,17 @@ Window::Window(uint32_t w, uint32_t h, std::string&& windowName) :
 
 	scissor.offset = { 0, 0 };
 	scissor.extent = swapchainExtent;
+
+	CreateVulkanGraphicsPipeline();
+}
+
+void Window::CreateVulkanGraphicsPipeline()
+{
+	static Shader vertShader(std::string("../Engine/Engine/Renderer/Pipeline/Shaders/TriangleVert.spv"), Renderer::GetVulkanPhysicalDevice());
+	static Shader fragShader(std::string("../Engine/Engine/Renderer/Pipeline/Shaders/TriangleFrag.spv"), Renderer::GetVulkanPhysicalDevice());
+	ShaderPipelineStage shaderPipelineStage(&vertShader, &fragShader);
+
+	VertexInputPipelineState vertexInputState;
 }
 
 Window::~Window()

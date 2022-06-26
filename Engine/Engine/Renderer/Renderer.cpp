@@ -8,6 +8,10 @@
 #include "Windows/WindowManager.h"
 #include "Windows/Window.h"
 
+#include "Pipeline/Shaders/Shader.h"
+#include "Pipeline/Shaders/ShaderPipelineStage.h"
+#include "Pipeline/VertexInput/VertexInputPipelineState.h"
+
 Renderer* Renderer::instance = nullptr;
 
 void Renderer::Initialize()
@@ -172,6 +176,7 @@ void Renderer::InitializeVulkan()
 	CreateVulkanInstance();
 	CreateVulkanDebugMessenger();
 	FindVulkanPhysicalDevices();
+	CreateVulkanGraphicsPipeline();
 }
 
 void Renderer::CreateVulkanInstance()
@@ -320,6 +325,13 @@ void Renderer::DestroyVulkanDebugMessenger()
 
 void Renderer::CreateVulkanGraphicsPipeline()
 {
+	static Shader vertShader(std::string("Renderer/Pipeline/Shaders/TriangleVert.spv"), chosenDevice);
+	static Shader fragShader(std::string("Renderer/Pipeline/Shaders/TriangleFrag.spv"), chosenDevice);
+	ShaderPipelineStage shaderPipelineStage(&vertShader, &fragShader);
+
+	VertexInputPipelineState vertexInputState;
+
+
 }
 
 void Renderer::TerminateVulkan()

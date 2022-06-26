@@ -36,6 +36,17 @@ Window::Window(uint32_t w, uint32_t h, std::string&& windowName) :
 	}
 
 	Renderer::ChooseDevice(*this);
+
+	// swapchainExtent isnt set until GetSurfaceInfo is called in ChooseDevice.
+	viewport.x = 0.0f;
+	viewport.y = 0.0f;
+	viewport.width = (float)swapchainExtent.width;
+	viewport.height = (float)swapchainExtent.height;
+	viewport.minDepth = 0.0f;
+	viewport.maxDepth = 1.0f;
+
+	scissor.offset = { 0, 0 };
+	scissor.extent = swapchainExtent;
 }
 
 Window::~Window()
@@ -190,7 +201,7 @@ void Window::CreateSwapchain()
 	// Image count is 1 more than the minimum if allowed.
 	uint32_t imageCount = surfaceInfo.surfaceInfo.minImageCount + ((surfaceInfo.surfaceInfo.maxImageCount > surfaceInfo.surfaceInfo.minImageCount) ? 1 : 0);
 
-	VkSwapchainCreateInfoKHR createInfo = {};
+	VkSwapchainCreateInfoKHR createInfo{};
 	createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
 	createInfo.surface = surface;
 	createInfo.minImageCount = imageCount;
@@ -258,7 +269,7 @@ void Window::CreateSwapchain()
 	swapchainImageViews.resize(imageCount);
 	for (const auto& image : swapchainImages)
 	{
-		VkImageViewCreateInfo imageViewCreateInfo = {};
+		VkImageViewCreateInfo imageViewCreateInfo{};
 		imageViewCreateInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
 		imageViewCreateInfo.image = image;
 		imageViewCreateInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;

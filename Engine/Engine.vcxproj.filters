@@ -54,6 +54,9 @@
     <ClInclude Include="Engine\Renderer\Shaders\Shader.h">
       <Filter>Source Files\Engine\Renderer\Shaders</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Renderer\Shaders\ShaderPipelineStage.h">
+      <Filter>Source Files\Engine\Renderer\Shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -75,6 +78,9 @@
       <Filter>Source Files\Engine\Renderer\Vulkan</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Renderer\Shaders\Shader.cpp">
+      <Filter>Source Files\Engine\Renderer\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Shaders\ShaderPipelineStage.cpp">
       <Filter>Source Files\Engine\Renderer\Shaders</Filter>
     </ClCompile>
   </ItemGroup>

@@ -38,10 +38,14 @@ public:
 
 	const VkSurfaceKHR& GetSurface() const { return surface; }
 
+	const VkViewport& GetViewport() const { return viewport; }
+
+	const VkRect2D& GetScissor() const { return scissor; };
+
 	// The struct of swapchain info.
 	struct SurfaceInfo
 	{
-		VkSurfaceCapabilitiesKHR surfaceInfo = {};
+		VkSurfaceCapabilitiesKHR surfaceInfo{};
 		std::vector<VkSurfaceFormatKHR> surfaceFormats = std::vector<VkSurfaceFormatKHR>();
 		std::vector<VkPresentModeKHR> presentModes = std::vector<VkPresentModeKHR>();
 	};
@@ -64,22 +68,28 @@ private:
 	VkSwapchainKHR swapchain = VK_NULL_HANDLE;
 
 	// The chosen present mode to use for the swapchain.
-	VkPresentModeKHR presentMode = {};
+	VkPresentModeKHR presentMode{};
 
 	// The surface format to use for the swapchain.
-	VkSurfaceFormatKHR surfaceFormat = {};
+	VkSurfaceFormatKHR surfaceFormat{};
 
 	// The extent of the swapchain. This is in pixels.
-	VkExtent2D swapchainExtent = {};
+	VkExtent2D swapchainExtent{};
 
 	// The info about the surface and the device using the surface.
-	SurfaceInfo surfaceInfo = {};
+	SurfaceInfo surfaceInfo{};
 
 	// The swapchain images.
 	std::vector<VkImage> swapchainImages;
 
 	// The swapchain image views that we can render to.
 	std::vector<VkImageView> swapchainImageViews;
+
+	// A viewport basically describes the region of the framebuffer that the output will be rendered to.This will almost always be (0, 0) to (width, height)
+	VkViewport viewport;
+
+	// The scissor.
+	VkRect2D scissor{};
 
 	std::string name = "";
 	uint32_t width = 0;

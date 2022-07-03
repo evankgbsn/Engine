@@ -146,15 +146,17 @@
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\ColorBlending\ColorBlendingPipelineState.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\DynamicState\DynamicPipelineState.h" />
+    <ClInclude Include="Engine\Renderer\Pipeline\GraphicsPipeline.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\InputAssembly\InputAssemblyPipelineState.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\Multisampling\MultisamplingPipelineState.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\PipelineLayout.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\Rasterizer\RasterizerPipelineState.h" />
+    <ClInclude Include="Engine\Renderer\Pipeline\RenderPass\RenderPass.h" />
+    <ClInclude Include="Engine\Renderer\Pipeline\Shaders\Shader.h" />
+    <ClInclude Include="Engine\Renderer\Pipeline\Shaders\ShaderPipelineStage.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\VertexInput\VertexInputPipelineState.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\Viewport\ViewportPipelineState.h" />
     <ClInclude Include="Engine\Renderer\Renderer.h" />
-    <ClInclude Include="Engine\Renderer\Shaders\Shader.h" />
-    <ClInclude Include="Engine\Renderer\Shaders\ShaderPipelineStage.h" />
     <ClInclude Include="Engine\Renderer\Vulkan\VulkanPhysicalDevice.h" />
     <ClInclude Include="Engine\Renderer\Windows\Window.h" />
     <ClInclude Include="Engine\Renderer\Windows\WindowManager.h" />
@@ -164,10 +166,12 @@
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\ColorBlending\ColorBlendingPipelineState.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\DynamicState\DynamicPipelineState.cpp" />
+    <ClCompile Include="Engine\Renderer\Pipeline\GraphicsPipeline.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\InputAssembly\InputAssemblyPipelineState.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\Multisampling\MultisamplingPipelineState.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\PipelineLayout.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\Rasterizer\RasterizerPipelineState.cpp" />
+    <ClCompile Include="Engine\Renderer\Pipeline\RenderPass\RenderPass.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\Shaders\Shader.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\Shaders\ShaderPipelineStage.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\VertexInput\VertexInputPipelineState.cpp" />
@@ -179,8 +183,8 @@
     <ClCompile Include="Engine\Utils\Logger.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Engine\Renderer\Shaders\TriangleFrag.frag" />
-    <None Include="Engine\Renderer\Shaders\TriangleVert.vert" />
+    <None Include="Engine\Renderer\Pipeline\Shaders\TriangleFrag.frag" />
+    <None Include="Engine\Renderer\Pipeline\Shaders\TriangleVert.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -12,7 +12,7 @@ public:
 
 	~RasterizerPipelineState();
 
-	const VkPipelineRasterizationStateCreateInfo& GetRasterizerState() const;
+	const VkPipelineRasterizationStateCreateInfo& operator*() const;
 
 private:
 

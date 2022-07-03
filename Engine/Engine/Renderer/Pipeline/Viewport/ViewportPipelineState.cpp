@@ -16,7 +16,7 @@ ViewportPipelineState::~ViewportPipelineState()
 {
 }
 
-const VkPipelineViewportStateCreateInfo& ViewportPipelineState::GetViewportState() const
+const VkPipelineViewportStateCreateInfo& ViewportPipelineState::operator*() const
 {
 	return createInfo;
 }

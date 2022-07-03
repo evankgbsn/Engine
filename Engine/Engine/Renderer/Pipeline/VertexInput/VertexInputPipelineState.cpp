@@ -13,7 +13,7 @@ VertexInputPipelineState::~VertexInputPipelineState()
 {
 }
 
-const VkPipelineVertexInputStateCreateInfo& VertexInputPipelineState::Get() const
+const VkPipelineVertexInputStateCreateInfo& VertexInputPipelineState::operator*() const
 {
 	return createInfo;
 }

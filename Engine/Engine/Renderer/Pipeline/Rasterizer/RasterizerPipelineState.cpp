@@ -27,7 +27,7 @@ RasterizerPipelineState::~RasterizerPipelineState()
 {
 }
 
-const VkPipelineRasterizationStateCreateInfo& RasterizerPipelineState::GetRasterizerState() const
+const VkPipelineRasterizationStateCreateInfo& RasterizerPipelineState::operator*() const
 {
 	return createInfo;
 }

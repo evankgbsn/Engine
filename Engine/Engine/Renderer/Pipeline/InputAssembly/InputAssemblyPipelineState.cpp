@@ -17,7 +17,7 @@ InputAssemblyPipelineState::~InputAssemblyPipelineState()
 {
 }
 
-const VkPipelineInputAssemblyStateCreateInfo& InputAssemblyPipelineState::GetInputAssemblyState() const
+const VkPipelineInputAssemblyStateCreateInfo& InputAssemblyPipelineState::operator*() const
 {
 	return createInfo;
 }

@@ -12,7 +12,7 @@ public:
 
 	~VertexInputPipelineState();
 
-	const VkPipelineVertexInputStateCreateInfo& Get() const;
+	const VkPipelineVertexInputStateCreateInfo& operator*() const;
 
 private:
 

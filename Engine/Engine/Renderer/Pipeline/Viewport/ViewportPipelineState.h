@@ -14,7 +14,7 @@ public:
 
 	~ViewportPipelineState();
 
-	const VkPipelineViewportStateCreateInfo& GetViewportState() const;
+	const VkPipelineViewportStateCreateInfo& operator*() const;
 
 private:
 

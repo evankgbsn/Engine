@@ -12,7 +12,7 @@ public:
 
 	~MultisamplingPipelineState();
 
-	const VkPipelineMultisampleStateCreateInfo& GetMultisamplingState() const;
+	const VkPipelineMultisampleStateCreateInfo& operator*() const;
 
 private:
 

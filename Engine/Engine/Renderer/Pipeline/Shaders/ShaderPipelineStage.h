@@ -16,7 +16,7 @@ public:
 
 	~ShaderPipelineStage();
 
-	std::vector<VkPipelineShaderStageCreateInfo>& GetShaderStages();
+	const std::vector<VkPipelineShaderStageCreateInfo>& operator*() const;
 
 private:
 

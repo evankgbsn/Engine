@@ -14,7 +14,7 @@ DynamicPipelineState::~DynamicPipelineState()
 {
 }
 
-const VkPipelineDynamicStateCreateInfo& DynamicPipelineState::GetDynamicState() const
+const VkPipelineDynamicStateCreateInfo& DynamicPipelineState::operator*() const
 {
 	return createInfo;
 }

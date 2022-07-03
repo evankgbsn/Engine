@@ -14,7 +14,7 @@ public:
 
 	~DynamicPipelineState();
 
-	const VkPipelineDynamicStateCreateInfo& GetDynamicState() const;
+	const VkPipelineDynamicStateCreateInfo& operator*() const;
 
 private:
 

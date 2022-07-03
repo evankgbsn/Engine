@@ -12,7 +12,7 @@ public:
 
 	~InputAssemblyPipelineState();
 
-	const VkPipelineInputAssemblyStateCreateInfo& GetInputAssemblyState() const;
+	const VkPipelineInputAssemblyStateCreateInfo& operator*() const;
 
 private:
 

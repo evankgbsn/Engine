@@ -15,7 +15,7 @@ MultisamplingPipelineState::~MultisamplingPipelineState()
 {
 }
 
-const VkPipelineMultisampleStateCreateInfo& MultisamplingPipelineState::GetMultisamplingState() const
+const VkPipelineMultisampleStateCreateInfo& MultisamplingPipelineState::operator*() const
 {
 	return createInfo;
 }

@@ -55,6 +55,9 @@
     <Filter Include="Source Files\Engine\Renderer\Pipeline\DynamicState">
       <UniqueIdentifier>{09c91908-f2e5-4874-88e5-b83beb2bef69}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Renderer\Pipeline\RenderPass">
+      <UniqueIdentifier>{d83853ef-a2f4-48e0-87c3-e8ba4e101a7a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -74,12 +77,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Renderer\Windows\Window.h">
       <Filter>Source Files\Engine\Renderer\Windows</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Renderer\Shaders\Shader.h">
-      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Renderer\Shaders\ShaderPipelineStage.h">
-      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Renderer\Pipeline\VertexInput\VertexInputPipelineState.h">
       <Filter>Source Files\Engine\Renderer\Pipeline\VertexInput</Filter>
@@ -103,6 +100,18 @@
       <Filter>Source Files\Engine\Renderer\Pipeline\DynamicState</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Renderer\Pipeline\PipelineLayout.h">
+      <Filter>Source Files\Engine\Renderer\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Pipeline\RenderPass\RenderPass.h">
+      <Filter>Source Files\Engine\Renderer\Pipeline\RenderPass</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Pipeline\Shaders\ShaderPipelineStage.h">
+      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Pipeline\Shaders\Shader.h">
+      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Pipeline\GraphicsPipeline.h">
       <Filter>Source Files\Engine\Renderer\Pipeline</Filter>
     </ClInclude>
   </ItemGroup>
@@ -155,12 +164,18 @@
     <ClCompile Include="Engine\Renderer\Pipeline\Shaders\ShaderPipelineStage.cpp">
       <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Renderer\Pipeline\RenderPass\RenderPass.cpp">
+      <Filter>Source Files\Engine\Renderer\Pipeline\RenderPass</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Pipeline\GraphicsPipeline.cpp">
+      <Filter>Source Files\Engine\Renderer\Pipeline</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Engine\Renderer\Shaders\TriangleFrag.frag">
+    <None Include="Engine\Renderer\Pipeline\Shaders\TriangleFrag.frag">
       <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
     </None>
-    <None Include="Engine\Renderer\Shaders\TriangleVert.vert">
+    <None Include="Engine\Renderer\Pipeline\Shaders\TriangleVert.vert">
       <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
     </None>
   </ItemGroup>

@@ -14,7 +14,7 @@ public:
 
 	Shader(const std::string& fileName, VulkanPhysicalDevice* device);
 
-	VkShaderModule& operator()() { return shaderModule; };
+	const VkShaderModule& operator*() const { return shaderModule; };
 
 	~Shader();
 

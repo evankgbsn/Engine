@@ -2,6 +2,18 @@
 
 #include <cstdio>
 
+
+class HeapProfiling
+{
+public:
+	~HeapProfiling()
+	{
+
+	};
+};
+
+static HeapProfiling heapProfiling;
+
 int main(int argc, const char** argv)
 {
 	const std::string gameName("FPS");

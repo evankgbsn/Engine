@@ -14,7 +14,7 @@ public:
 
 	~PipelineLayout();
 
-	const VkPipelineLayout& Get() const;
+	const VkPipelineLayout& operator*() const;
 
 private:
 

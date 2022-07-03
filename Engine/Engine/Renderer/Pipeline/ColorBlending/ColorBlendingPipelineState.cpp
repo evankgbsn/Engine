@@ -26,7 +26,7 @@ ColorBlendingPipelineState::~ColorBlendingPipelineState()
 {
 }
 
-const VkPipelineColorBlendStateCreateInfo& ColorBlendingPipelineState::GetColorBlendingState() const
+const VkPipelineColorBlendStateCreateInfo& ColorBlendingPipelineState::operator*() const
 {
 	return createInfo;
 }

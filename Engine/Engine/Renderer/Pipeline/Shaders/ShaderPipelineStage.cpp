@@ -14,13 +14,13 @@ ShaderPipelineStage::ShaderPipelineStage(Shader* vert, Shader* frag, Shader* geo
 	VkPipelineShaderStageCreateInfo& vertCreateInfo = shaderStages[0];
 	vertCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 	vertCreateInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
-	vertCreateInfo.module = (*vertex)();
+	vertCreateInfo.module = **vertex;
 	vertCreateInfo.pName = "main";
 
 	VkPipelineShaderStageCreateInfo& fragCreateInfo = shaderStages[1];
 	fragCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 	fragCreateInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-	fragCreateInfo.module = (*fragment)();
+	fragCreateInfo.module = **fragment;
 	fragCreateInfo.pName = "main";
 }
 
@@ -28,7 +28,7 @@ ShaderPipelineStage::~ShaderPipelineStage()
 {
 }
 
-std::vector<VkPipelineShaderStageCreateInfo>& ShaderPipelineStage::GetShaderStages()
+const std::vector<VkPipelineShaderStageCreateInfo>& ShaderPipelineStage::operator*() const
 {
 	return shaderStages;
 }

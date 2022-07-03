@@ -12,7 +12,7 @@ public:
 
 	~ColorBlendingPipelineState();
 
-	const VkPipelineColorBlendStateCreateInfo& GetColorBlendingState() const;
+	const VkPipelineColorBlendStateCreateInfo& operator*() const;
 
 private:
 

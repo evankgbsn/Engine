@@ -6,8 +6,9 @@
 
 #include <vulkan/vulkan.h>
 
-class VulkanPhysicalDevice;
 struct GLFWwindow;
+class GraphicsPipeline;
+class VulkanPhysicalDevice;
 
 class Window
 {
@@ -36,11 +37,13 @@ public:
 
 	const uint32_t& GetHeight() const { return height; };
 
-	const VkSurfaceKHR& GetSurface() const { return surface; }
+	const VkSurfaceKHR& GetSurface() const { return surface; };
 
-	const VkViewport& GetViewport() const { return viewport; }
+	const VkViewport& GetViewport() const { return viewport; };
 
 	const VkRect2D& GetScissor() const { return scissor; };
+
+	const VkSurfaceFormatKHR& GetSurfaceFormat() const { return surfaceFormat; };
 
 	// The struct of swapchain info.
 	struct SurfaceInfo
@@ -96,6 +99,8 @@ private:
 	std::string name = "";
 	uint32_t width = 0;
 	uint32_t height = 0;
+
+	GraphicsPipeline* graphicsPipeline;
 };
 
 #endif // WINDOW_H

@@ -30,7 +30,7 @@ PipelineLayout::~PipelineLayout()
 	vkDestroyPipelineLayout(device->GetLogicalDevice(), layout, nullptr);
 }
 
-const VkPipelineLayout& PipelineLayout::Get() const
+const VkPipelineLayout& PipelineLayout::operator*() const
 {
 	return layout;
 }

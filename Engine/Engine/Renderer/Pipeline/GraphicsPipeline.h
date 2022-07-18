@@ -26,6 +26,8 @@ public:
 
 	const VkPipeline& operator*() const { return graphicsPipeline; };
 
+	RenderPass* const GetRenderPass() const { return renderPass; };
+
 private:
 
 	GraphicsPipeline() = delete;

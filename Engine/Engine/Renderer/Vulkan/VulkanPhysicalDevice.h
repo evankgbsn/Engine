@@ -57,6 +57,8 @@ public:
 
 	VkDevice& GetLogicalDevice() { return logicalDevice; };
 
+	int GetGraphicsQueueFamilyIndex() const { return queueFamilies.graphicsIndex.value(); };
+
 private:
 
 	void FindQueueFamilies();

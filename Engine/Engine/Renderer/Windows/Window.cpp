@@ -10,11 +10,14 @@
 #include "../Renderer.h"
 #include "../Vulkan/VulkanPhysicalDevice.h"
 #include "../Pipeline/GraphicsPipeline.h"
+#include "../Pipeline/RenderPass/RenderPass.h"
+#include "../Commands/CommandManager.h"
 
 Window::Window(uint32_t w, uint32_t h, std::string&& windowName) :
 	name(windowName),
 	width(w),
-	height(h)
+	height(h),
+	framebuffers(std::vector<VkFramebuffer>())
 {
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
@@ -50,10 +53,16 @@ Window::Window(uint32_t w, uint32_t h, std::string&& windowName) :
 	scissor.extent = swapchainExtent;
 
 	graphicsPipeline = new GraphicsPipeline(*this);
+	CreateFramebuffers();
 }
 
 Window::~Window()
 {
+	for (VkFramebuffer framebuffer : framebuffers)
+	{
+		vkDestroyFramebuffer(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), framebuffer, nullptr);
+	}
+
 	delete graphicsPipeline;
 
 	for (const auto& imageView : swapchainImageViews)
@@ -302,4 +311,62 @@ void Window::CreateSwapchain()
 	}
 
 	Logger::Log(std::string("Created swapchain with ") + std::to_string(imageCount) + std::string(" images"), Logger::Category::Success);
+}
+
+void Window::CreateFramebuffers()
+{
+	framebuffers.resize(swapchainImageViews.size());
+
+	int i = 0;
+	for (VkImageView imageView : swapchainImageViews)
+	{
+		VkFramebufferCreateInfo createInfo = {};
+		createInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
+		createInfo.renderPass = **graphicsPipeline->GetRenderPass();
+		createInfo.attachmentCount = 1;
+		createInfo.pAttachments = &imageView;
+		createInfo.width = swapchainExtent.width;
+		createInfo.height = swapchainExtent.height;
+		createInfo.layers = 1;
+
+		VkResult result = vkCreateFramebuffer(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), &createInfo, nullptr, &framebuffers[i]);
+
+		if (result != VK_SUCCESS)
+		{
+			Logger::Log(std::string("Failed to create a framebuffer."), Logger::Category::Error);
+			throw std::runtime_error("Failed to create a framebuffer.");
+		}
+		
+		i++;
+	}
+}
+
+void Window::RecordCommands(int imageIndex)
+{
+	VkCommandBuffer& buffer = CommandManager::GetCommandBuffer();
+
+	VkRenderPassBeginInfo renderPassBeginInfo = {};
+	renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+	renderPassBeginInfo.renderPass = **graphicsPipeline->GetRenderPass();
+	renderPassBeginInfo.framebuffer = framebuffers[imageIndex];
+	renderPassBeginInfo.renderArea.offset = { 0,0 };
+	renderPassBeginInfo.renderArea.extent = swapchainExtent;
+	VkClearValue clearColor = { {{0.0f, 0.0f, 0.0f, 1.0f}} };
+	renderPassBeginInfo.pClearValues = &clearColor;
+	renderPassBeginInfo.clearValueCount = 1;
+
+	vkCmdBeginRenderPass(buffer, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
+	vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **graphicsPipeline);
+	vkCmdSetViewport(buffer, 0, 1, &viewport);
+	vkCmdSetScissor(buffer, 0, 1, &scissor);
+	vkCmdDraw(buffer, 3, 1, 0, 0);
+	vkCmdEndRenderPass(buffer);
+
+	VkResult result = vkEndCommandBuffer(buffer);
+
+	if (result != VK_SUCCESS)
+	{
+		Logger::Log(std::string("Failed to record command buffer."), Logger::Category::Error);
+		throw std::runtime_error("Failed to record command buffer.");
+	}
 }

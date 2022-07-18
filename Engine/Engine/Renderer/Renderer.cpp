@@ -7,6 +7,7 @@
 #include "Vulkan/VulkanPhysicalDevice.h"
 #include "Windows/WindowManager.h"
 #include "Windows/Window.h"
+#include "Commands/CommandManager.h"
 
 Renderer* Renderer::instance = nullptr;
 
@@ -26,6 +27,7 @@ void Renderer::Terminate()
 {
 	if (instance)
 	{
+		CommandManager::Terminate();
 		delete instance;
 		Logger::Log(std::string("Terminated Renderer"), Logger::Category::Success);
 		return;
@@ -81,6 +83,9 @@ void Renderer::ChooseDevice(Window& window)
 				window.CreateSwapchain();
 				Logger::Log(std::string(device->GetName()) + std::string(" has been chosen as the rendering device."), Logger::Category::Success);
 				chosen = true;
+
+				// We need to initialize the command manager after a device is chosen because the command manager needs to use the chosen device.
+				CommandManager::Initialize();
 				return;
 			}
 		}
@@ -200,15 +205,16 @@ void Renderer::CreateVulkanInstance()
 	};
 	createInfo.enabledExtensionCount = sizeof(extensions) / sizeof(extensions[0]);
 	createInfo.ppEnabledExtensionNames = &extensions[0];
-	static const char* layers[] = {
 #ifndef NDEBUG
+	static const char* layers[] = {
 		"VK_LAYER_KHRONOS_validation"
-#endif
 	};
 	createInfo.enabledLayerCount = sizeof(layers)/sizeof(layers[0]);
+#endif
 #ifndef NDEBUG
 	createInfo.ppEnabledLayerNames = &layers[0];
 #else
+	static const char** layers = nullptr;
 	createInfo.ppEnabledLayerNames = nullptr;
 #endif
 

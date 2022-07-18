@@ -59,9 +59,11 @@ public:
 	// GetSurfaceInfo needs to be called before CreateSwapchain.
 	void CreateSwapchain();
 
+	void CreateFramebuffers();
+
 private:
 
-	void CreateVulkanGraphicsPipeline();
+	void RecordCommands(int imageIndex);
 
 	// The GLFW window handle.
 	GLFWwindow* window = nullptr;
@@ -89,6 +91,9 @@ private:
 
 	// The swapchain image views that we can render to.
 	std::vector<VkImageView> swapchainImageViews;
+
+	// The frame buffers for the swap chain images.
+	std::vector<VkFramebuffer> framebuffers;
 
 	// A viewport basically describes the region of the framebuffer that the output will be rendered to.This will almost always be (0, 0) to (width, height)
 	VkViewport viewport;

@@ -58,6 +58,9 @@
     <Filter Include="Source Files\Engine\Renderer\Pipeline\RenderPass">
       <UniqueIdentifier>{d83853ef-a2f4-48e0-87c3-e8ba4e101a7a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Renderer\Commands">
+      <UniqueIdentifier>{1bbf084c-9d26-42d5-b6a2-13a186a6e60d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -114,6 +117,9 @@
     <ClInclude Include="Engine\Renderer\Pipeline\GraphicsPipeline.h">
       <Filter>Source Files\Engine\Renderer\Pipeline</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Renderer\Commands\CommandManager.h">
+      <Filter>Source Files\Engine\Renderer\Commands</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -169,6 +175,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Renderer\Pipeline\GraphicsPipeline.cpp">
       <Filter>Source Files\Engine\Renderer\Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Commands\CommandManager.cpp">
+      <Filter>Source Files\Engine\Renderer\Commands</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

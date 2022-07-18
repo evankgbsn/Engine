@@ -4,6 +4,7 @@ DynamicPipelineState::DynamicPipelineState()
 {
 	dynamicStates.push_back(VK_DYNAMIC_STATE_VIEWPORT);
 	dynamicStates.push_back(VK_DYNAMIC_STATE_LINE_WIDTH);
+	dynamicStates.push_back(VK_DYNAMIC_STATE_SCISSOR);
 	
 	createInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
 	createInfo.dynamicStateCount = static_cast<uint32_t>(dynamicStates.size());

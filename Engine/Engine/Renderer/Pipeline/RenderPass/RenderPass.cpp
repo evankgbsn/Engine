@@ -33,6 +33,17 @@ RenderPass::RenderPass(const Window& w) :
 	createInfo.subpassCount = 1;
 	createInfo.pSubpasses = &subpass;
 
+	VkSubpassDependency dependency{};
+	dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
+	dependency.dstSubpass = 0;
+	dependency.srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+	dependency.srcAccessMask = 0;
+	dependency.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+	dependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+
+	createInfo.dependencyCount = 1;
+	createInfo.pDependencies = &dependency;
+
 	VkResult result = vkCreateRenderPass(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), &createInfo, nullptr, &renderPass);
 	
 	if (result != VK_SUCCESS)

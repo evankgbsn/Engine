@@ -59,6 +59,10 @@ public:
 
 	int GetGraphicsQueueFamilyIndex() const { return queueFamilies.graphicsIndex.value(); };
 
+	VkQueue& GetGraphicsQueue() { return graphicsQueue; };
+
+	VkQueue& GetPresentationQueue() { return presentationQueue; };
+
 private:
 
 	void FindQueueFamilies();

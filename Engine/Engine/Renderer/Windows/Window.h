@@ -63,7 +63,11 @@ public:
 
 private:
 
+	void Draw();
+
 	void RecordCommands(int imageIndex);
+
+	void CreateSyncObjects();
 
 	// The GLFW window handle.
 	GLFWwindow* window = nullptr;
@@ -106,6 +110,11 @@ private:
 	uint32_t height = 0;
 
 	GraphicsPipeline* graphicsPipeline;
+
+	// Syncronization objects.
+	VkSemaphore imageAvailable = VK_NULL_HANDLE;
+	VkSemaphore renderFinished = VK_NULL_HANDLE;
+	VkFence inFlight = VK_NULL_HANDLE;
 };
 
 #endif // WINDOW_H

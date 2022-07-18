@@ -54,22 +54,31 @@ Window::Window(uint32_t w, uint32_t h, std::string&& windowName) :
 
 	graphicsPipeline = new GraphicsPipeline(*this);
 	CreateFramebuffers();
+	CreateSyncObjects();
 }
 
 Window::~Window()
 {
+	VkDevice& device = Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice();
+
+	vkDeviceWaitIdle(device);
+
+	vkDestroyFence(device, inFlight, nullptr);
+	vkDestroySemaphore(device, imageAvailable, nullptr);
+	vkDestroySemaphore(device, renderFinished, nullptr);
+
 	for (VkFramebuffer framebuffer : framebuffers)
 	{
-		vkDestroyFramebuffer(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), framebuffer, nullptr);
+		vkDestroyFramebuffer(device, framebuffer, nullptr);
 	}
 
 	delete graphicsPipeline;
 
 	for (const auto& imageView : swapchainImageViews)
 	{
-		vkDestroyImageView(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), imageView, nullptr);
+		vkDestroyImageView(device, imageView, nullptr);
 	}
-	vkDestroySwapchainKHR(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), swapchain, nullptr);
+	vkDestroySwapchainKHR(device, swapchain, nullptr);
 	vkDestroySurfaceKHR(Renderer::GetVulkanInstance(), surface, nullptr);
 }
 
@@ -81,6 +90,8 @@ bool Window::Update()
 	}
 
 	glfwPollEvents();
+
+	Draw();
 
 	return true;
 }
@@ -341,9 +352,84 @@ void Window::CreateFramebuffers()
 	}
 }
 
+void Window::Draw()
+{
+	VkDevice& device = Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice();
+
+	vkWaitForFences(device, 1, &inFlight, VK_TRUE, UINT64_MAX);
+	vkResetFences(device, 1, &inFlight);
+
+	uint32_t imageIndex = 0;
+	VkResult result = vkAcquireNextImageKHR(device, swapchain, UINT64_MAX, imageAvailable, VK_NULL_HANDLE, &imageIndex);
+
+	if (result != VK_SUCCESS)
+	{
+		//Logger::Log(std::string("Failed to aquire an image from the swapchain."), Logger::Category::Error);
+		//throw std::runtime_error("Failed to aquire an image from the swapchain.");
+		//return;
+	}
+
+	vkResetCommandBuffer(CommandManager::GetCommandBuffer(), 0);
+
+	RecordCommands(imageIndex);
+
+	VkSubmitInfo submitInfo{};
+	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+	submitInfo.waitSemaphoreCount = 1;
+	submitInfo.pWaitSemaphores = &imageAvailable;
+	VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+	submitInfo.pWaitDstStageMask = waitStages;
+	submitInfo.commandBufferCount = 1;
+	submitInfo.pCommandBuffers = &CommandManager::GetCommandBuffer();
+	submitInfo.signalSemaphoreCount = 1;
+	submitInfo.pSignalSemaphores = &renderFinished;
+
+	result = vkQueueSubmit(Renderer::GetVulkanPhysicalDevice()->GetGraphicsQueue(), 1, &submitInfo, inFlight);
+
+	if (result != VK_SUCCESS)
+	{
+		Logger::Log(std::string("Failed to submit command buffer to graphics queue."), Logger::Category::Error);
+		throw std::runtime_error("Failed to submit command buffer to graphics queue.");
+		return;
+	}
+
+	VkPresentInfoKHR presentInfo{};
+	presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+	presentInfo.swapchainCount = 1;
+	presentInfo.pSwapchains = &swapchain;
+	presentInfo.pImageIndices = &imageIndex;
+	presentInfo.pResults = nullptr;
+	presentInfo.waitSemaphoreCount = 1;
+	presentInfo.pWaitSemaphores = &renderFinished;
+
+	result = vkQueuePresentKHR(Renderer::GetVulkanPhysicalDevice()->GetPresentationQueue(), &presentInfo);
+
+	if (result != VK_SUCCESS)
+	{
+		//Logger::Log(std::string("Failed to present."), Logger::Category::Error);
+		//throw std::runtime_error("Failed to present.");
+		//return;
+	}
+
+}
+
 void Window::RecordCommands(int imageIndex)
 {
 	VkCommandBuffer& buffer = CommandManager::GetCommandBuffer();
+
+	VkCommandBufferBeginInfo beginInfo{};
+	beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+	beginInfo.flags = 0;
+	beginInfo.pInheritanceInfo = nullptr;
+
+	VkResult result = vkBeginCommandBuffer(buffer, &beginInfo);
+
+	if (result != VK_SUCCESS)
+	{
+		Logger::Log(std::string("Failed to begin command buffer."), Logger::Category::Error);
+		throw std::runtime_error("Failed to begin command buffer.");
+		return;
+	}
 
 	VkRenderPassBeginInfo renderPassBeginInfo = {};
 	renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
@@ -362,11 +448,50 @@ void Window::RecordCommands(int imageIndex)
 	vkCmdDraw(buffer, 3, 1, 0, 0);
 	vkCmdEndRenderPass(buffer);
 
-	VkResult result = vkEndCommandBuffer(buffer);
+	result = vkEndCommandBuffer(buffer);
 
 	if (result != VK_SUCCESS)
 	{
 		Logger::Log(std::string("Failed to record command buffer."), Logger::Category::Error);
 		throw std::runtime_error("Failed to record command buffer.");
+	}
+}
+
+void Window::CreateSyncObjects()
+{
+	VkDevice& device = Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice();
+
+	VkSemaphoreCreateInfo semaphoreCreateInfo = {};
+	semaphoreCreateInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+	
+	VkResult result = vkCreateSemaphore(device, &semaphoreCreateInfo, nullptr, &imageAvailable);
+
+	if (result != VK_SUCCESS)
+	{
+		Logger::Log(std::string("Failed to create image available semaphore."), Logger::Category::Error);
+		throw std::runtime_error("Failed to create image available semaphore.");
+		return;
+	}
+
+	result = vkCreateSemaphore(device, &semaphoreCreateInfo, nullptr, &renderFinished);
+
+	if (result != VK_SUCCESS)
+	{
+		Logger::Log(std::string("Failed to create render finished semaphore."), Logger::Category::Error);
+		throw std::runtime_error("Failed to create render finished semaphore.");
+		return;
+	}
+
+	VkFenceCreateInfo fenceCreateInfo = {};
+	fenceCreateInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+	fenceCreateInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
+
+	result = vkCreateFence(device, &fenceCreateInfo, nullptr, &inFlight);
+
+	if (result != VK_SUCCESS)
+	{
+		Logger::Log(std::string("Failed to create in flight fence."), Logger::Category::Error);
+		throw std::runtime_error("Failed to create in flight fence.");
+		return;
 	}
 }

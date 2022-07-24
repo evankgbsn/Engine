@@ -367,17 +367,24 @@ void Renderer::FindVulkanPhysicalDevices()
 		// TODO: Add better device picking. Currently it will prefer discrete GPUs and pick the first discrete GPU.
 		VkPhysicalDevice vulkanPhysicalDevice = VK_NULL_HANDLE;
 		static bool deviceFound = false;
+		
 		if (!deviceFound)
 		{
 			vulkanPhysicalDevice = vkPhysicalDevices[i];
-		}
-		if (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU)
-		{
-			deviceFound = true;
+
+			// Wrap the physical device.
+			vulkanPhysicalDevices.push_back(new VulkanPhysicalDevice(std::move(vulkanPhysicalDevice), std::move(deviceProperties), std::move(deviceFeatures)));
 		}
 
-		// Wrap the physical device.
-		vulkanPhysicalDevices.push_back(new VulkanPhysicalDevice(std::move(vulkanPhysicalDevice), std::move(deviceProperties), std::move(deviceFeatures)));
+		if (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU)
+		{
+			vulkanPhysicalDevice = vkPhysicalDevices[i];
+			deviceFound = true;
+
+			// Wrap the physical device.
+			vulkanPhysicalDevices.push_back(new VulkanPhysicalDevice(std::move(vulkanPhysicalDevice), std::move(deviceProperties), std::move(deviceFeatures)));
+		}
+
 	}
 
 	Logger::Log(move(vulkanPhysicalDeviceLog));

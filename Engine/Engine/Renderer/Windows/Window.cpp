@@ -41,7 +41,7 @@ Window::Window(uint32_t w, uint32_t h, std::string&& windowName) :
 	syncObjArray(std::vector<SyncObjects>(Renderer::GetMaxFramesInFlight()))
 {
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+	glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
 	window = glfwCreateWindow(static_cast<int>(width), static_cast<int>(height), name.c_str(), nullptr, nullptr);
 
@@ -388,6 +388,12 @@ void Window::RecreateSwapchain()
 	GetSurfaceInfo(*physicalDevice);
 
 	CreateSwapchain();
+
+	viewport.width = (float)swapchainExtent.width;
+	viewport.height = (float)swapchainExtent.height;
+
+	scissor.extent = swapchainExtent;
+
 	CreateFramebuffers();
 }
 

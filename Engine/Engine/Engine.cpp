@@ -37,7 +37,7 @@ void Engine::Terminate()
 
 void Engine::Start()
 {
-	Window& mainWindow = WindowManager::CreateWindow(1920, 1080, "MainWindow");
+	Window& mainWindow = WindowManager::CreateWindow(500, 500, "MainWindow");
 	while(Renderer::Update());
 }
 

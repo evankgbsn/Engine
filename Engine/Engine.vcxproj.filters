@@ -61,6 +61,9 @@
     <Filter Include="Source Files\Engine\Renderer\Commands">
       <UniqueIdentifier>{1bbf084c-9d26-42d5-b6a2-13a186a6e60d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Renderer\Models">
+      <UniqueIdentifier>{16f3c14f-6a99-46cf-bacd-509d15679ed2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -120,6 +123,9 @@
     <ClInclude Include="Engine\Renderer\Commands\CommandManager.h">
       <Filter>Source Files\Engine\Renderer\Commands</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Renderer\Models\Vertex.h">
+      <Filter>Source Files\Engine\Renderer\Models</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -178,6 +184,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Renderer\Commands\CommandManager.cpp">
       <Filter>Source Files\Engine\Renderer\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Models\Vertex.cpp">
+      <Filter>Source Files\Engine\Renderer\Models</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

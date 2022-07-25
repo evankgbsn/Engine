@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Renderer\Commands\CommandManager.h" />
+    <ClInclude Include="Engine\Renderer\Models\Vertex.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\ColorBlending\ColorBlendingPipelineState.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\DynamicState\DynamicPipelineState.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\GraphicsPipeline.h" />
@@ -166,6 +167,7 @@
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Renderer\Commands\CommandManager.cpp" />
+    <ClCompile Include="Engine\Renderer\Models\Vertex.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\ColorBlending\ColorBlendingPipelineState.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\DynamicState\DynamicPipelineState.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\GraphicsPipeline.cpp" />

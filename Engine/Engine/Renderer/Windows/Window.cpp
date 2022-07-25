@@ -13,11 +13,32 @@
 #include "../Pipeline/RenderPass/RenderPass.h"
 #include "../Commands/CommandManager.h"
 
+std::unordered_map<GLFWwindow*, Window*> Window::windows = std::unordered_map<GLFWwindow*, Window*>();
+
+// Called when the window is resized.
+void OnWindowResized(GLFWwindow* window, int width, int height)
+{ 
+	//const auto& windowRef = Window::windows.find(window);
+	//
+	//if (windowRef == Window::windows.end())
+	//{
+	//	static const char* failedToFindWindowError = "Failed to find window in OnWindowResized().";
+	//	Logger::Log(std::string(failedToFindWindowError));
+	//	throw std::runtime_error(failedToFindWindowError);
+	//	return;
+	//}
+	//
+	//Window* thisWindow = (*windowRef).second;
+	//
+	//thisWindow->RecreateSwapchain();
+}
+
 Window::Window(uint32_t w, uint32_t h, std::string&& windowName) :
 	name(windowName),
 	width(w),
 	height(h),
-	framebuffers(std::vector<VkFramebuffer>())
+	framebuffers(std::vector<VkFramebuffer>()),
+	syncObjArray(std::vector<SyncObjects>(Renderer::GetMaxFramesInFlight()))
 {
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
@@ -55,30 +76,29 @@ Window::Window(uint32_t w, uint32_t h, std::string&& windowName) :
 	graphicsPipeline = new GraphicsPipeline(*this);
 	CreateFramebuffers();
 	CreateSyncObjects();
+
+	windows[window] = this;
 }
 
 Window::~Window()
 {
+	windows.erase(window);
+
 	VkDevice& device = Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice();
 
 	vkDeviceWaitIdle(device);
 
-	vkDestroyFence(device, inFlight, nullptr);
-	vkDestroySemaphore(device, imageAvailable, nullptr);
-	vkDestroySemaphore(device, renderFinished, nullptr);
+	CleanupSwapchain();
 
-	for (VkFramebuffer framebuffer : framebuffers)
+	for (SyncObjects& objects : syncObjArray)
 	{
-		vkDestroyFramebuffer(device, framebuffer, nullptr);
+		vkDestroyFence(device, objects.inFlight, nullptr);
+		vkDestroySemaphore(device, objects.imageAvailable, nullptr);
+		vkDestroySemaphore(device, objects.renderFinished, nullptr);
 	}
-
+	
 	delete graphicsPipeline;
-
-	for (const auto& imageView : swapchainImageViews)
-	{
-		vkDestroyImageView(device, imageView, nullptr);
-	}
-	vkDestroySwapchainKHR(device, swapchain, nullptr);
+	
 	vkDestroySurfaceKHR(Renderer::GetVulkanInstance(), surface, nullptr);
 }
 
@@ -90,6 +110,23 @@ bool Window::Update()
 	}
 
 	glfwPollEvents();
+
+	static bool pressed = false;
+
+	const int keyState = glfwGetKey(window, GLFW_KEY_0);
+
+	if (keyState == GLFW_PRESS && !pressed)
+	{
+		pressed = true;
+
+		GLFWmonitor* const primaryMonitor = glfwGetPrimaryMonitor();
+
+		const GLFWvidmode* const mode = glfwGetVideoMode(primaryMonitor);
+
+		glfwSetWindowMonitor(window, primaryMonitor, 0, 0, mode->width, mode->height, 0);
+
+		Logger::Log(std::string("Pressed"));
+	}
 
 	Draw();
 
@@ -324,6 +361,53 @@ void Window::CreateSwapchain()
 	Logger::Log(std::string("Created swapchain with ") + std::to_string(imageCount) + std::string(" images"), Logger::Category::Success);
 }
 
+void Window::RecreateSwapchain()
+{
+	int width = 0, height = 0;
+	glfwGetFramebufferSize(window, &width, &height);
+	while (width == 0 || height == 0) {
+		glfwGetFramebufferSize(window, &width, &height);
+		glfwWaitEvents();
+	}
+
+	VulkanPhysicalDevice* physicalDevice = Renderer::GetVulkanPhysicalDevice();
+	VkDevice& device = physicalDevice->GetLogicalDevice();
+
+	if (!physicalDevice)
+	{
+		static const char* invalidPhysicalDeviceErrorMsg = "Failed to retrieve the Vulkan Physical Device in Window::RecreateSwapchain.";
+		Logger::Log(std::string(invalidPhysicalDeviceErrorMsg));
+		throw std::runtime_error(invalidPhysicalDeviceErrorMsg);
+		return;
+	}
+
+	vkDeviceWaitIdle(device);
+
+	CleanupSwapchain();
+
+	GetSurfaceInfo(*physicalDevice);
+
+	CreateSwapchain();
+	CreateFramebuffers();
+}
+
+void Window::CleanupSwapchain()
+{
+	VkDevice& device = Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice();
+
+	for (VkFramebuffer framebuffer : framebuffers)
+	{
+		vkDestroyFramebuffer(device, framebuffer, nullptr);
+	}
+
+
+	for (const auto& imageView : swapchainImageViews)
+	{
+		vkDestroyImageView(device, imageView, nullptr);
+	}
+	vkDestroySwapchainKHR(device, swapchain, nullptr);
+}
+
 void Window::CreateFramebuffers()
 {
 	framebuffers.resize(swapchainImageViews.size());
@@ -356,40 +440,49 @@ void Window::Draw()
 {
 	VkDevice& device = Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice();
 
-	vkWaitForFences(device, 1, &inFlight, VK_TRUE, UINT64_MAX);
-	vkResetFences(device, 1, &inFlight);
+	vkWaitForFences(device, 1, &syncObjArray[currentFrame].inFlight, VK_TRUE, UINT64_MAX);
 
 	uint32_t imageIndex = 0;
-	VkResult result = vkAcquireNextImageKHR(device, swapchain, UINT64_MAX, imageAvailable, VK_NULL_HANDLE, &imageIndex);
+	VkResult result = vkAcquireNextImageKHR(device, swapchain, UINT64_MAX, syncObjArray[currentFrame].imageAvailable, VK_NULL_HANDLE, &imageIndex);
 
-	if (result != VK_SUCCESS)
+	if (result == VK_ERROR_OUT_OF_DATE_KHR)
 	{
-		//Logger::Log(std::string("Failed to aquire an image from the swapchain."), Logger::Category::Error);
-		//throw std::runtime_error("Failed to aquire an image from the swapchain.");
-		//return;
+		Logger::Log(std::string("The window has been resized. Recreating swapchain..."), Logger::Category::Warning);
+		RecreateSwapchain();
+		return;
+	}
+	else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR)
+	{
+		static const char* failedError = "Failed to aquire next image for rendering in Window::Draw()";
+		Logger::Log(std::string(failedError), Logger::Category::Error);
+		throw std::runtime_error(failedError);
+		return;
 	}
 
-	vkResetCommandBuffer(CommandManager::GetCommandBuffer(), 0);
+	vkResetFences(device, 1, &syncObjArray[currentFrame].inFlight);
+	
+	vkResetCommandBuffer(CommandManager::GetCommandBuffer(currentFrame), 0);
 
 	RecordCommands(imageIndex);
 
 	VkSubmitInfo submitInfo{};
 	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
 	submitInfo.waitSemaphoreCount = 1;
-	submitInfo.pWaitSemaphores = &imageAvailable;
+	submitInfo.pWaitSemaphores = &syncObjArray[currentFrame].imageAvailable;
 	VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
 	submitInfo.pWaitDstStageMask = waitStages;
 	submitInfo.commandBufferCount = 1;
-	submitInfo.pCommandBuffers = &CommandManager::GetCommandBuffer();
+	submitInfo.pCommandBuffers = &CommandManager::GetCommandBuffer(currentFrame);
 	submitInfo.signalSemaphoreCount = 1;
-	submitInfo.pSignalSemaphores = &renderFinished;
+	submitInfo.pSignalSemaphores = &syncObjArray[currentFrame].renderFinished;
 
-	result = vkQueueSubmit(Renderer::GetVulkanPhysicalDevice()->GetGraphicsQueue(), 1, &submitInfo, inFlight);
+	result = vkQueueSubmit(Renderer::GetVulkanPhysicalDevice()->GetGraphicsQueue(), 1, &submitInfo, syncObjArray[currentFrame].inFlight);
 
 	if (result != VK_SUCCESS)
 	{
-		Logger::Log(std::string("Failed to submit command buffer to graphics queue."), Logger::Category::Error);
-		throw std::runtime_error("Failed to submit command buffer to graphics queue.");
+		static const char* failedSubmitErrorMsg = "Failed to submit command buffer to graphics queue.";
+		Logger::Log(std::string(failedSubmitErrorMsg), Logger::Category::Error);
+		throw std::runtime_error(failedSubmitErrorMsg);
 		return;
 	}
 
@@ -400,22 +493,26 @@ void Window::Draw()
 	presentInfo.pImageIndices = &imageIndex;
 	presentInfo.pResults = nullptr;
 	presentInfo.waitSemaphoreCount = 1;
-	presentInfo.pWaitSemaphores = &renderFinished;
+	presentInfo.pWaitSemaphores = &syncObjArray[currentFrame].renderFinished;
 
 	result = vkQueuePresentKHR(Renderer::GetVulkanPhysicalDevice()->GetPresentationQueue(), &presentInfo);
 
-	if (result != VK_SUCCESS)
-	{
-		//Logger::Log(std::string("Failed to present."), Logger::Category::Error);
-		//throw std::runtime_error("Failed to present.");
-		//return;
+	if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR) {
+		Logger::Log(std::string("The window has been resized. Recreating swapchain..."), Logger::Category::Warning);
+		RecreateSwapchain();
+	}
+	else if (result != VK_SUCCESS) {
+		static const char* failedPresentErrorMsg = "failed to present swap chain image!";
+		Logger::Log(std::string(failedPresentErrorMsg), Logger::Category::Error);
+		throw std::runtime_error(failedPresentErrorMsg);
 	}
 
+	currentFrame = (currentFrame + 1) % Renderer::GetMaxFramesInFlight();
 }
 
 void Window::RecordCommands(int imageIndex)
 {
-	VkCommandBuffer& buffer = CommandManager::GetCommandBuffer();
+	VkCommandBuffer& buffer = CommandManager::GetCommandBuffer(currentFrame);
 
 	VkCommandBufferBeginInfo beginInfo{};
 	beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -464,34 +561,38 @@ void Window::CreateSyncObjects()
 	VkSemaphoreCreateInfo semaphoreCreateInfo = {};
 	semaphoreCreateInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 	
-	VkResult result = vkCreateSemaphore(device, &semaphoreCreateInfo, nullptr, &imageAvailable);
-
-	if (result != VK_SUCCESS)
-	{
-		Logger::Log(std::string("Failed to create image available semaphore."), Logger::Category::Error);
-		throw std::runtime_error("Failed to create image available semaphore.");
-		return;
-	}
-
-	result = vkCreateSemaphore(device, &semaphoreCreateInfo, nullptr, &renderFinished);
-
-	if (result != VK_SUCCESS)
-	{
-		Logger::Log(std::string("Failed to create render finished semaphore."), Logger::Category::Error);
-		throw std::runtime_error("Failed to create render finished semaphore.");
-		return;
-	}
-
 	VkFenceCreateInfo fenceCreateInfo = {};
 	fenceCreateInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
 	fenceCreateInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
-
-	result = vkCreateFence(device, &fenceCreateInfo, nullptr, &inFlight);
-
-	if (result != VK_SUCCESS)
+	
+	for (SyncObjects& objects : syncObjArray)
 	{
-		Logger::Log(std::string("Failed to create in flight fence."), Logger::Category::Error);
-		throw std::runtime_error("Failed to create in flight fence.");
-		return;
+		VkResult result = vkCreateSemaphore(device, &semaphoreCreateInfo, nullptr, &objects.imageAvailable);
+
+		if (result != VK_SUCCESS)
+		{
+			Logger::Log(std::string("Failed to create image available semaphore."), Logger::Category::Error);
+			throw std::runtime_error("Failed to create image available semaphore.");
+			return;
+		}
+
+		result = vkCreateSemaphore(device, &semaphoreCreateInfo, nullptr, &objects.renderFinished);
+
+		if (result != VK_SUCCESS)
+		{
+			Logger::Log(std::string("Failed to create render finished semaphore."), Logger::Category::Error);
+			throw std::runtime_error("Failed to create render finished semaphore.");
+			return;
+		}
+
+
+		result = vkCreateFence(device, &fenceCreateInfo, nullptr, &objects.inFlight);
+
+		if (result != VK_SUCCESS)
+		{
+			Logger::Log(std::string("Failed to create in flight fence."), Logger::Category::Error);
+			throw std::runtime_error("Failed to create in flight fence.");
+			return;
+		}
 	}
 }

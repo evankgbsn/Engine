@@ -11,6 +11,8 @@
 
 Renderer* Renderer::instance = nullptr;
 
+const unsigned int Renderer::maxFramesInFlight = 2;
+
 void Renderer::Initialize()
 {
 	if (!instance)
@@ -103,6 +105,19 @@ VulkanPhysicalDevice* Renderer::GetVulkanPhysicalDevice()
 	}
 
 	return instance->chosenDevice;
+}
+
+const unsigned int Renderer::GetMaxFramesInFlight()
+{
+	if (!instance)
+	{
+		static const char* invalidInstanceError = "Calling Renderer::GetMaxFramesInFlight before Renderer::Initialize.";
+		Logger::Log(std::string(invalidInstanceError));
+		throw std::runtime_error(invalidInstanceError);
+		return 0;
+	}
+
+	return maxFramesInFlight;
 }
 
 Renderer::Renderer() :

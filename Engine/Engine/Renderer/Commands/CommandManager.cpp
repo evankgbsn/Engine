@@ -16,7 +16,9 @@ void CommandManager::Initialize()
 		return;
 	}
 
-	Logger::Log(std::string("Calling CommandManager::Initialize() before CommandManager::Terminate()"), Logger::Category::Warning);
+	static const char* invalidInstanceError = "Calling CommandManager::Initialize() before CommandManager::Terminate()";
+
+	Logger::Log(std::string(invalidInstanceError), Logger::Category::Warning);
 }
 
 void CommandManager::Terminate()
@@ -27,20 +29,33 @@ void CommandManager::Terminate()
 		return;
 	}
 
-	Logger::Log(std::string("Calling CommandManager::Terminate() before CommandManager::Initialize()"), Logger::Category::Warning);
+	static const char* invalidInstanceError = "Calling CommandManager::Terminate() before CommandManager::Initialize()";
+
+	Logger::Log(std::string(invalidInstanceError), Logger::Category::Warning);
 }
 
-VkCommandBuffer& CommandManager::GetCommandBuffer()
+VkCommandBuffer& CommandManager::GetCommandBuffer(const unsigned int id)
 {
 	static VkCommandBuffer invalidBuffer = VK_NULL_HANDLE;
 
 	if (instance)
 	{
-		return instance->buffer;
+		if (instance->buffers.size() > id)
+		{
+			return instance->buffers[id];
+		}
+		else
+		{
+			static const char* invalidIdErrorMsg = "Invalid id used in CommandManager::GetCommandBuffer";
+			Logger::Log(std::string(invalidIdErrorMsg), Logger::Category::Error);
+			throw std::runtime_error(invalidIdErrorMsg);
+		}
 	}
 
-	Logger::Log(std::string("Calling CommandManager::GetCommandBuffer() before CommandManager::Initialize()"), Logger::Category::Error);
-	throw std::runtime_error("Calling CommandManager::GetCommandBuffer() before CommandManager::Initialize()");
+	const char* invalidInstanceErrorMsg = "Calling CommandManager::GetCommandBuffer() before CommandManager::Initialize()";
+
+	Logger::Log(std::string(invalidInstanceErrorMsg), Logger::Category::Error);
+	throw std::runtime_error(invalidInstanceErrorMsg);
 
 	return invalidBuffer;
 }
@@ -58,11 +73,13 @@ CommandManager::CommandManager()
 
 	if (result != VK_SUCCESS)
 	{
-		Logger::Log(std::string("Failed to create a command pool."), Logger::Category::Error);
-		throw std::runtime_error("Failed to create a command pool.");
+		static const char* failedError = "Failed to create a command pool.";
+
+		Logger::Log(std::string(failedError), Logger::Category::Error);
+		throw std::runtime_error(failedError);
 	}
 
-	CreateCommandBuffer();
+	CreateCommandBuffers();
 }
 
 CommandManager::~CommandManager()
@@ -70,19 +87,35 @@ CommandManager::~CommandManager()
 	vkDestroyCommandPool(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), commandPool, nullptr);
 }
 
-void CommandManager::CreateCommandBuffer()
+void CommandManager::CreateCommandBuffers()
 {
+	VulkanPhysicalDevice* physicalDevice = Renderer::GetVulkanPhysicalDevice();
+
+	if (!physicalDevice)
+	{
+		static const char* physicalDeviceErrorMsg = "Failed to retrieve the vulkan physical device from renderer.";
+
+		Logger::Log(std::string(physicalDeviceErrorMsg), Logger::Category::Error);
+		throw std::runtime_error(physicalDeviceErrorMsg);
+	}
+
+	VkDevice device = physicalDevice->GetLogicalDevice();
+
 	VkCommandBufferAllocateInfo allocInfo = {};
 	allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
 	allocInfo.commandPool = commandPool;
 	allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-	allocInfo.commandBufferCount = 1;
+	allocInfo.commandBufferCount = Renderer::GetMaxFramesInFlight();
 
-	VkResult result = vkAllocateCommandBuffers(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), &allocInfo, &buffer);
+	buffers.resize(allocInfo.commandBufferCount);
+
+	VkResult result = vkAllocateCommandBuffers(device, &allocInfo, buffers.data());
 
 	if (result != VK_SUCCESS)
 	{
-		Logger::Log(std::string("Failed to allocate a command buffer."), Logger::Category::Error);
-		throw std::runtime_error("Failed to allocate a command buffer.");
+		static const char* failedError = "Failed to allocate a command buffer.";
+
+		Logger::Log(std::string(failedError), Logger::Category::Error);
+		throw std::runtime_error(failedError);
 	}
 }

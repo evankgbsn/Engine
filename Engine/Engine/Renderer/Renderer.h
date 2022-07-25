@@ -33,6 +33,8 @@ public:
 	// Get the chosen VulkanPhysicalDevice.
 	static VulkanPhysicalDevice* GetVulkanPhysicalDevice();
 
+	static const unsigned int GetMaxFramesInFlight();
+
 private:
 
 	Renderer();
@@ -77,6 +79,9 @@ private:
 
 	// The single instance of the Renderer class.
 	static Renderer* instance;
+
+	// The maximum number of frames allowed in flight.
+	static const unsigned int maxFramesInFlight;
 
 	// The Vulkan instance.
 	VkInstance vulkanInstance = VK_NULL_HANDLE;

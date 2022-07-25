@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 #include <vulkan/vulkan.h>
 
@@ -59,7 +60,15 @@ public:
 	// GetSurfaceInfo needs to be called before CreateSwapchain.
 	void CreateSwapchain();
 
+	// Recreate swapchain and other objects that are dependent on it because it my be invalid because of a window resize.
+	void RecreateSwapchain();
+
+	void CleanupSwapchain();
+
 	void CreateFramebuffers();
+
+	// A map containing the Window objects. This is so we can lookup a Window object using the GLFWwindow ptr.
+	static std::unordered_map<GLFWwindow*, Window*> windows;
 
 private:
 
@@ -112,9 +121,16 @@ private:
 	GraphicsPipeline* graphicsPipeline;
 
 	// Syncronization objects.
-	VkSemaphore imageAvailable = VK_NULL_HANDLE;
-	VkSemaphore renderFinished = VK_NULL_HANDLE;
-	VkFence inFlight = VK_NULL_HANDLE;
+	struct SyncObjects
+	{
+		VkSemaphore imageAvailable = VK_NULL_HANDLE;
+		VkSemaphore renderFinished = VK_NULL_HANDLE;
+		VkFence inFlight = VK_NULL_HANDLE;
+	};
+
+	std::vector<SyncObjects> syncObjArray;
+
+	unsigned int currentFrame = 0;
 };
 
 #endif // WINDOW_H

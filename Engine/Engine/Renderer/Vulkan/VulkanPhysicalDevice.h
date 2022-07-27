@@ -37,9 +37,11 @@ public:
 
 	VulkanPhysicalDevice& operator=(const VulkanPhysicalDevice&&) = delete;
 
-	const VkPhysicalDevice& operator()() const { return physicalDevice; };
+	const VkPhysicalDevice& operator*() const { return physicalDevice; };
 
 	const VkPhysicalDeviceProperties& GetProperties() const { return properties; };
+
+	const VkPhysicalDeviceMemoryProperties& GetMemoryProperties() const { return memoryProperties; };
 
 	void GetDisplayProperties();
 
@@ -95,6 +97,9 @@ private:
 
 	// If the device supports VK_KHR_swapchain extension.
 	bool supportsSwapchain = false;
+
+	// Memory properties for this device used when creating buffers.
+	VkPhysicalDeviceMemoryProperties memoryProperties = {};
 };
 
 #endif // VULKAN_PHYSICAL_DEVICE

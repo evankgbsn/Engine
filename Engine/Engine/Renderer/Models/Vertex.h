@@ -1,6 +1,10 @@
 #ifndef VERTEX_H
 #define VERTEX_H
 
+#include <vector>
+
+#include <vulkan/vulkan.h>
+
 #include <glm/glm.hpp>
 
 class Vertex
@@ -28,9 +32,13 @@ public:
 
 	Vertex& operator=(Vertex&&) noexcept;
 
-	glm::vec2 position;
+	static VkVertexInputBindingDescription& GetBindingDescription();
 
-	glm::vec4 color;
+	static std::vector<VkVertexInputAttributeDescription>& GetAttributeDescriptions();
+
+	glm::vec2 position = {0.0f, 0.0f};
+
+	glm::vec4 color = { 0.0f, 0.0f, 0.0f, 0.0f };
 
 private:
 

@@ -64,6 +64,9 @@
     <Filter Include="Source Files\Engine\Renderer\Models">
       <UniqueIdentifier>{16f3c14f-6a99-46cf-bacd-509d15679ed2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Renderer\Memory">
+      <UniqueIdentifier>{c5e3dbad-2236-45cc-9998-0329978dd5ba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -126,6 +129,12 @@
     <ClInclude Include="Engine\Renderer\Models\Vertex.h">
       <Filter>Source Files\Engine\Renderer\Models</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Renderer\Memory\Buffer.h">
+      <Filter>Source Files\Engine\Renderer\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Memory\VertexBuffer.h">
+      <Filter>Source Files\Engine\Renderer\Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -187,6 +196,12 @@
     </ClCompile>
     <ClCompile Include="Engine\Renderer\Models\Vertex.cpp">
       <Filter>Source Files\Engine\Renderer\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Memory\Buffer.cpp">
+      <Filter>Source Files\Engine\Renderer\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Memory\VertexBuffer.cpp">
+      <Filter>Source Files\Engine\Renderer\Memory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

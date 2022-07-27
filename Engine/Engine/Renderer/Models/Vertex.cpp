@@ -59,3 +59,36 @@ Vertex& Vertex::operator=(Vertex&& vert) noexcept
 	color = std::move(vert.color);
 	return *this;
 }
+
+VkVertexInputBindingDescription& Vertex::GetBindingDescription()
+{
+	static VkVertexInputBindingDescription bindingDescription{};
+
+	bindingDescription.binding = 0;
+	bindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+	bindingDescription.stride = sizeof(Vertex);
+
+	return bindingDescription;
+}
+
+std::vector<VkVertexInputAttributeDescription>& Vertex::GetAttributeDescriptions()
+{
+	static std::vector<VkVertexInputAttributeDescription> attributeDescriptions =
+	{
+		{
+			uint32_t(0), /* location */
+			uint32_t(0), /* binding */
+			VK_FORMAT_R32G32_SFLOAT, /* format */
+			offsetof(Vertex, position) /* offset */
+		},
+
+		{
+			uint32_t(1), /* location */
+			uint32_t(0), /* binding */
+			VK_FORMAT_R32G32B32A32_SFLOAT, /* format */
+			offsetof(Vertex, color) /* offset */
+		}
+	};
+
+	return attributeDescriptions;
+}

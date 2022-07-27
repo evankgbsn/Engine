@@ -12,6 +12,8 @@
 #include "../Pipeline/GraphicsPipeline.h"
 #include "../Pipeline/RenderPass/RenderPass.h"
 #include "../Commands/CommandManager.h"
+#include "../Models/Vertex.h"
+#include "../Memory/VertexBuffer.h"
 
 std::unordered_map<GLFWwindow*, Window*> Window::windows = std::unordered_map<GLFWwindow*, Window*>();
 
@@ -135,7 +137,7 @@ bool Window::Update()
 
 const Window::SurfaceInfo& Window::GetSurfaceInfo(const VulkanPhysicalDevice& device)
 {
-	VkResult result = vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device(), surface, &surfaceInfo.surfaceInfo);
+	VkResult result = vkGetPhysicalDeviceSurfaceCapabilitiesKHR(*device, surface, &surfaceInfo.surfaceInfo);
 
 	if (result != VK_SUCCESS)
 	{
@@ -143,12 +145,12 @@ const Window::SurfaceInfo& Window::GetSurfaceInfo(const VulkanPhysicalDevice& de
 	}
 
 	uint32_t formatCount = 0;
-	result = vkGetPhysicalDeviceSurfaceFormatsKHR(device(), surface, &formatCount, nullptr);
+	result = vkGetPhysicalDeviceSurfaceFormatsKHR(*device, surface, &formatCount, nullptr);
 
 	if (formatCount != 0)
 	{
 		surfaceInfo.surfaceFormats.resize(formatCount);
-		result = vkGetPhysicalDeviceSurfaceFormatsKHR(device(), surface, &formatCount, surfaceInfo.surfaceFormats.data());
+		result = vkGetPhysicalDeviceSurfaceFormatsKHR(*device, surface, &formatCount, surfaceInfo.surfaceFormats.data());
 	}
 
 	if (result != VK_SUCCESS)
@@ -157,12 +159,12 @@ const Window::SurfaceInfo& Window::GetSurfaceInfo(const VulkanPhysicalDevice& de
 	}
 
 	uint32_t presentModeCount = 0;
-	result = vkGetPhysicalDeviceSurfacePresentModesKHR(device(), surface, &presentModeCount, nullptr);
+	result = vkGetPhysicalDeviceSurfacePresentModesKHR(*device, surface, &presentModeCount, nullptr);
 
 	if (presentModeCount != 0)
 	{
 		surfaceInfo.presentModes.resize(presentModeCount);
-		result = vkGetPhysicalDeviceSurfacePresentModesKHR(device(), surface, &presentModeCount, surfaceInfo.presentModes.data());
+		result = vkGetPhysicalDeviceSurfacePresentModesKHR(*device, surface, &presentModeCount, surfaceInfo.presentModes.data());
 	}
 
 	if (result != VK_SUCCESS)
@@ -544,11 +546,31 @@ void Window::RecordCommands(int imageIndex)
 	renderPassBeginInfo.pClearValues = &clearColor;
 	renderPassBeginInfo.clearValueCount = 1;
 
+	static std::vector<Vertex> vertices =
+	{
+		Vertex(glm::vec2(0.0f, -0.5f), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)),
+		Vertex(glm::vec2(0.5f, 0.5f), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)),
+		Vertex(glm::vec2(-0.5f, 0.5f), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f))
+	};
+
+	static VertexBuffer vertexBuffer(static_cast<uint32_t>(vertices.size() * sizeof(Vertex)));
+
+	static bool set = false;
+	if (!set)
+	{
+		vertexBuffer.SetData(vertices.data());
+		set = true;
+	}
+	 
+	VkDeviceSize offsets[] = { 0 };
+
+	vkCmdBindVertexBuffers(buffer, 0, 1, &(*vertexBuffer), offsets);
+
 	vkCmdBeginRenderPass(buffer, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
 	vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **graphicsPipeline);
 	vkCmdSetViewport(buffer, 0, 1, &viewport);
 	vkCmdSetScissor(buffer, 0, 1, &scissor);
-	vkCmdDraw(buffer, 3, 1, 0, 0);
+	vkCmdDraw(buffer, static_cast<uint32_t>(vertices.size()), 1, 0, 0);
 	vkCmdEndRenderPass(buffer);
 
 	result = vkEndCommandBuffer(buffer);

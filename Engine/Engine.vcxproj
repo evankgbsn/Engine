@@ -144,6 +144,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Animation\Armature.h" />
     <ClInclude Include="Engine\Animation\Clip.h" />
     <ClInclude Include="Engine\Animation\Frame.h" />
     <ClInclude Include="Engine\Animation\Pose.h" />
@@ -192,6 +193,7 @@
     <ClInclude Include="Engine\Utils\Logger.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Animation\Armature.cpp" />
     <ClCompile Include="Engine\Animation\Clip.cpp" />
     <ClCompile Include="Engine\Animation\Pose.cpp" />
     <ClCompile Include="Engine\Animation\Track.cpp" />
@@ -199,6 +201,7 @@
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Math\BezierSpline.cpp" />
     <ClCompile Include="Engine\Math\HermiteSpline.cpp" />
+    <ClCompile Include="Engine\Math\Math.cpp" />
     <ClCompile Include="Engine\Math\Transform.cpp" />
     <ClCompile Include="Engine\Renderer\Commands\CommandManager.cpp" />
     <ClCompile Include="Engine\Renderer\GraphicsObjects\GraphicsObject.cpp" />

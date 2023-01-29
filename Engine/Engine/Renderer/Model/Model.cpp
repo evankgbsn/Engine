@@ -1,10 +1,9 @@
 #include "Model.h"
 
 #include "../../Utils/Logger.h"
-#include "../../Math/Transform.h"
+#include "../../Animation/Armature.h"
 #include "../../Animation/Pose.h"
-#include "../../Animation/Track.h"
-#include "../../Animation/Clip.h"
+//#include "../../Animation/Track.h"
 
 #pragma warning(disable : 4996)
 #define _CRT_SECURE_NO_WARNINGS
@@ -134,19 +133,21 @@ std::vector<std::string> GLTFHelpers::LoadJointNames(cgltf_data* data)
 			result[i] = data->nodes[i].name;
 		}
 	}
+
+	return result;
 }
 
 void Model::LoadAnimationClips(cgltf_data* data)
 {
-	unsigned int numClips = data->animations_count;
-	unsigned int numNodes = data->nodes_count;
+	unsigned int numClips = static_cast<unsigned int>(data->animations_count);
+	unsigned int numNodes = static_cast<unsigned int>(data->nodes_count);
 	animationClips.resize(numClips);
 
 	for (unsigned int i = 0; i < numClips; i++)
 	{
 		animationClips[i].SetName(data->animations[i].name);
 
-		unsigned int numChannels = data->animations->channels_count;
+		unsigned int numChannels = static_cast<unsigned int>(data->animations->channels_count);
 
 		for (unsigned int j = 0; j < numChannels; j++)
 		{
@@ -154,20 +155,20 @@ void Model::LoadAnimationClips(cgltf_data* data)
 			cgltf_node* target = channel.target_node;
 			int nodeId = GLTFHelpers::GetNodeIndex(target, data->nodes, numNodes);
 
-			switch (channel.target_path)
+			if (channel.target_path == cgltf_animation_path_type_translation)
 			{
-			case cgltf_animation_path_type_translation:
 				VectorTrack& transTrack = animationClips[i][nodeId].GetPositionTrack();
-				GLTFHelpers::TrackFromChannel<glm::vec3, 3>(transTrack, channel);
-				break;
-			case cgltf_animation_path_type_rotation:
+				GLTFHelpers::TrackFromChannel<glm::vec3, 3U>(transTrack, channel);
+			}
+			else if (channel.target_path == cgltf_animation_path_type_rotation)
+			{
 				QuaternionTrack& rotTrack = animationClips[i][nodeId].GetRotationTrack();
-				GLTFHelpers::TrackFromChannel<glm::quat, 4>(rotTrack, channel);
-				break;
-			case cgltf_animation_path_type_scale:
+				GLTFHelpers::TrackFromChannel<glm::quat, 4U>(rotTrack, channel);
+			}
+			else if(channel.target_path == cgltf_animation_path_type_scale)
+			{
 				VectorTrack& scaleTrack = animationClips[i][nodeId].GetScaleTrack();
-				GLTFHelpers::TrackFromChannel<glm::vec3, 3>(scaleTrack, channel);
-				break;
+				GLTFHelpers::TrackFromChannel<glm::vec3, 3U>(scaleTrack, channel);
 			}
 		}
 
@@ -271,21 +272,21 @@ void GLTFHelpers::TrackFromChannel(Track<T, N>& result, const cgltf_animation_ch
 		int baseIndex = i * compCount;
 		Frame<N>& frame = result[i];
 		int offset = 0;
-		frame.time = time[i];
+		frame.SetTime(time[i]);
 
 		for (int comp = 0; comp < N; ++comp)
 		{
-			frame.inTangent[comp] = (isSamplerCubic) ? val[baseIndex + offset++] : 0.0f;
+			frame.GetInTangent()[comp] = (isSamplerCubic) ? val[baseIndex + offset++] : 0.0f;
 		}
 
 		for (int comp = 0; comp < N; ++comp)
 		{
-			frame.value[comp] = val[baseIndex + offset++];
+			frame.GetValue()[comp] = val[baseIndex + offset++];
 		}
 
 		for (int comp = 0; comp < N; ++comp)
 		{
-			frame.outTangent[comp] = (isSamplerCubic) ? val[baseIndex + offset++] : 0.0f;
+			frame.GetOutTangent()[comp] = (isSamplerCubic) ? val[baseIndex + offset++] : 0.0f;
 		}
 	}
 }
@@ -301,14 +302,14 @@ Pose GLTFHelpers::LoadBindPose(cgltf_data* const data)
 		worldBindPose[i] = restPose.GetGlobalTransform(i);
 	}
 
-	unsigned int numSkins = data->skins_count;
+	unsigned int numSkins = static_cast<unsigned int>(data->skins_count);
 	for (unsigned int i = 0; i < numSkins; ++i)
 	{
 		cgltf_skin* skin = &(data->skins[i]);
 		std::vector<float> invBindAccessor;
 		GLTFHelpers::GetScalarValues(invBindAccessor, 16, *skin->inverse_bind_matrices);
 
-		unsigned int numJoints = skin->joints_count;
+		unsigned int numJoints = static_cast<unsigned int>(skin->joints_count);
 		for (unsigned int j = 0; j < numJoints; ++j)
 		{
 			// Read the inverse bind matrix of the joint.

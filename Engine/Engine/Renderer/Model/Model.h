@@ -2,13 +2,13 @@
 #define MODEL_H
 
 #include "Vertex.h"
-#include "../../Animation/Armature.h"
+
+#include "../../Animation/Clip.h"
 
 #include <string>
 #include <vector>
 
 class Pose;
-class Clip;
 struct cgltf_data;
 
 class Model
@@ -46,7 +46,7 @@ private:
 
 	std::vector<unsigned int> indices;
 
-	Armature armature;
+	class Armature* armature;
 
 	std::vector<Clip> animationClips;
 

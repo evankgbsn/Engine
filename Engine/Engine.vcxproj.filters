@@ -225,6 +225,9 @@
     <ClInclude Include="Engine\Animation\Pose.h">
       <Filter>Source Files\Engine\Animation</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Animation\Armature.h">
+      <Filter>Source Files\Engine\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -358,6 +361,12 @@
     </ClCompile>
     <ClCompile Include="Engine\Animation\Pose.cpp">
       <Filter>Source Files\Engine\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Animation\Armature.cpp">
+      <Filter>Source Files\Engine\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Math.cpp">
+      <Filter>Source Files\Engine\Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

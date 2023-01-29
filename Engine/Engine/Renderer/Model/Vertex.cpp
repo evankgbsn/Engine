@@ -1,16 +1,20 @@
 #include "Vertex.h"
 
 Vertex::Vertex() :
-	position(vec3(0)),
-	color(vec3(0)),
-	uv(vec2(0))
+	weights(vec4(0.0f)),
+	influences(ivec4(0)),
+	position(vec3(0.0f)),
+	normal(vec3(0.0f)),
+	uv(vec2(0.0f))
 {
 
 }
 
-Vertex::Vertex(const vec3& p, const vec3& c, const vec2& uvCoord) :
+Vertex::Vertex(const vec3& p, const vec3& n, const vec2& uvCoord) :
+	weights(vec4(0.0f)),
+	influences(ivec4(0)),
 	position(p),
-	color(c),
+	normal(n),
 	uv(uvCoord)
 {
 
@@ -48,7 +52,7 @@ std::vector<VkVertexInputAttributeDescription>& Vertex::GetVertexInputAttributeD
 			1,
 			0, 
 			VK_FORMAT_R32G32B32_SFLOAT,
-			offsetof(Vertex, color)
+			offsetof(Vertex, normal)
 		},
 
 		{
@@ -56,6 +60,20 @@ std::vector<VkVertexInputAttributeDescription>& Vertex::GetVertexInputAttributeD
 			0,
 			VK_FORMAT_R32G32_SFLOAT,
 			offsetof(Vertex, uv)
+		},
+
+		{
+			3,
+			0,
+			VK_FORMAT_R32G32B32A32_SFLOAT,
+			offsetof(Vertex, weights)
+		},
+
+		{
+			4,
+			0,
+			VK_FORMAT_R32G32B32A32_SINT,
+			offsetof(Vertex, influences)
 		}
 
 	};

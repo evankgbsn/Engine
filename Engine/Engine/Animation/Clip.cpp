@@ -1,5 +1,7 @@
 #include "Clip.h"
 
+#include "Pose.h"
+
 Clip::Clip() :
     name("No name given"),
     startTime(0.0f),

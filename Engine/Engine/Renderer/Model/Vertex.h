@@ -32,8 +32,10 @@ public:
 
 private:
 
+	vec4 weights;
+	ivec4 influences;
 	vec3 position;
-	vec3 color;
+	vec3 normal;
 	vec2 uv;
 };
 

@@ -2,10 +2,11 @@
 #define CLIP_H
 
 #include "TransformTrack.h"
-#include "Pose.h"
 
 #include <vector>
 #include <string>
+
+class Pose;
 
 class Clip
 {

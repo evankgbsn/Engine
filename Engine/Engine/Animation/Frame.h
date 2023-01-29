@@ -26,6 +26,8 @@ public:
 
 	Frame& operator=(Frame&&) = default;
 
+	void SetTime(const float& newTime);
+
 	const float& GetTime() const;
 
 	float* const GetValue();
@@ -56,6 +58,12 @@ inline Frame<N>::Frame()
 template<unsigned int N>
 inline Frame<N>::~Frame()
 {
+}
+
+template<unsigned int N>
+inline void Frame<N>::SetTime(const float& newTime)
+{
+	time = newTime;
 }
 
 template<unsigned int N>

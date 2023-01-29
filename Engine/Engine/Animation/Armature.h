@@ -6,8 +6,6 @@
 #include <vector>
 #include <string>
 
-#include <glm/glm.hpp>
-
 class Armature
 {
 public:

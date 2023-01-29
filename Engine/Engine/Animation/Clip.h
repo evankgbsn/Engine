@@ -16,13 +16,13 @@ public:
 
 	~Clip();
 
-	Clip(const Clip&) = delete;
+	Clip(const Clip&) = default;
 
-	Clip& operator=(const Clip&) = delete;
+	Clip& operator=(const Clip&) = default;
 
 	Clip(Clip&&) = delete;
 
-	Clip& operator=(Clip&&) = delete;
+	Clip& operator=(Clip&&) = default;
 
 	TransformTrack& operator[](unsigned int joint);
 

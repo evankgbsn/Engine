@@ -44,6 +44,8 @@ Pose& Pose::operator=(const Pose& other)
 	{
 		memcpy(joints.data(), other.joints.data(), sizeof(Math::Transform) * joints.size());
 	}
+
+	return *this;
 }
 
 bool Pose::operator==(const Pose& other)
@@ -99,7 +101,7 @@ void Pose::Resize(unsigned int size)
 
 unsigned int Pose::Size() const
 {
-	return joints.size();
+	return static_cast<unsigned int>(joints.size());
 }
 
 unsigned int Pose::GetParent(unsigned int index) const

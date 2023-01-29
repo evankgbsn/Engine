@@ -59,7 +59,7 @@ Buffer::~Buffer()
 unsigned int Buffer::FindMemoryType(unsigned int typeFilter, VkMemoryPropertyFlags properties)
 {
     VkPhysicalDeviceMemoryProperties physicalDeviceMemoryProperties;
-    vkGetPhysicalDeviceMemoryProperties((*Renderer::GetVulkanPhysicalDevice())(), &physicalDeviceMemoryProperties);
+    vkGetPhysicalDeviceMemoryProperties((*(*Renderer::GetVulkanPhysicalDevice())), &physicalDeviceMemoryProperties);
 
     for (unsigned int i = 0; i < physicalDeviceMemoryProperties.memoryTypeCount; i++)
     {

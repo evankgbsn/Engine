@@ -3,6 +3,8 @@
 #include "../../Utils/Logger.h"
 #include "../../Math/Transform.h"
 #include "../../Animation/Pose.h"
+#include "../../Animation/Track.h"
+#include "../../Animation/Clip.h"
 
 #pragma warning(disable : 4996)
 #define _CRT_SECURE_NO_WARNINGS
@@ -12,11 +14,22 @@
 namespace GLTFHelpers
 {
 	Math::Transform GetLocalTransform(cgltf_node& n);
+	
 	int GetNodeIndex(cgltf_node* const target, cgltf_node* const allNodes, unsigned int numNodes);
+	
+	void GetScalarValues(std::vector<float>& out, unsigned int compCount, const cgltf_accessor& inAccessor);
+
+	template<typename T, unsigned int N>
+	void TrackFromChannel(Track<T, N>& result, const cgltf_animation_channel& channel);
 };
 
 Model::Model() :
-	vertices(std::vector<Vertex>())
+	vertices(std::vector<Vertex>()),
+	indices(std::vector<unsigned int>()),
+	restPose(nullptr),
+	jointNames(std::vector<std::string>()),
+	animationClips(std::vector<Clip*>())
+
 {
 	// Default rectangle.
 	vertices = {
@@ -31,11 +44,19 @@ Model::Model() :
 
 Model::Model(const std::vector<Vertex>& v, const std::vector<unsigned int>& i) :
 	vertices(v),
-	indices(i)
+	indices(i),
+	restPose(nullptr),
+	jointNames(std::vector<std::string>()),
+	animationClips(std::vector<Clip*>())
 {
 }
 
-Model::Model(const std::string& path)
+Model::Model(const std::string& path) :
+	vertices(std::vector<Vertex>()),
+	indices(std::vector<unsigned int>()),
+	restPose(nullptr),
+	jointNames(std::vector<std::string>()),
+	animationClips(std::vector<Clip*>())
 {
 	cgltf_options options = {};
 	cgltf_data* data = NULL;
@@ -83,7 +104,7 @@ const std::vector<unsigned int>& Model::GetIndices() const
 
 void Model::LoadRestPose(cgltf_data* data)
 {
-	unsigned int boneCount = data->nodes_count;
+	unsigned int boneCount = static_cast<unsigned int>(data->nodes_count);
 	restPose = new Pose(boneCount);
 
 	for (unsigned int i = 0; i < boneCount; i++)
@@ -95,7 +116,7 @@ void Model::LoadRestPose(cgltf_data* data)
 
 void Model::LoadJointNames(cgltf_data* data)
 {
-	unsigned int boneCount = data->nodes_count;
+	unsigned int boneCount = static_cast<unsigned int>(data->nodes_count);
 	jointNames.resize(boneCount);
 
 	for (unsigned int i = 0; i < boneCount; i++)
@@ -109,6 +130,46 @@ void Model::LoadJointNames(cgltf_data* data)
 			jointNames[i] = data->nodes[i].name;
 		}
 	}
+}
+
+void Model::LoadAnimationClips(cgltf_data* data)
+{
+	unsigned int numClips = data->animations_count;
+	unsigned int numNodes = data->nodes_count;
+	animationClips.resize(numClips);
+
+	for (unsigned int i = 0; i < numClips; i++)
+	{
+		animationClips[i].SetName(data->animations[i].name);
+
+		unsigned int numChannels = data->animations->channels_count;
+
+		for (unsigned int j = 0; j < numChannels; j++)
+		{
+			cgltf_animation_channel& channel = data->animations[i].channels[j];
+			cgltf_node* target = channel.target_node;
+			int nodeId = GLTFHelpers::GetNodeIndex(target, data->nodes, numNodes);
+
+			switch (channel.target_path)
+			{
+			case cgltf_animation_path_type_translation:
+				VectorTrack& transTrack = animationClips[i][nodeId].GetPositionTrack();
+				GLTFHelpers::TrackFromChannel<glm::vec3, 3>(transTrack, channel);
+				break;
+			case cgltf_animation_path_type_rotation:
+				QuaternionTrack& rotTrack = animationClips[i][nodeId].GetRotationTrack();
+				GLTFHelpers::TrackFromChannel<glm::quat, 4>(rotTrack, channel);
+				break;
+			case cgltf_animation_path_type_scale:
+				VectorTrack& scaleTrack = animationClips[i][nodeId].GetScaleTrack();
+				GLTFHelpers::TrackFromChannel<glm::vec3, 3>(scaleTrack, channel);
+				break;
+			}
+		}
+
+		animationClips[i].RecalculateDuration();
+	}
+
 }
 
 
@@ -158,4 +219,69 @@ int GLTFHelpers::GetNodeIndex(cgltf_node* const target, cgltf_node* const allNod
 	}
 
 	return -1;
+}
+
+void GLTFHelpers::GetScalarValues(std::vector<float>& out, unsigned int compCount, const cgltf_accessor& inAccessor)
+{
+	out.resize(inAccessor.count * compCount);
+	for (cgltf_size i = 0; i < inAccessor.count; i++)
+	{
+		cgltf_accessor_read_float(&inAccessor, i, &out[i * compCount], compCount);
+	}
+}
+
+template<typename T, unsigned int N>
+void GLTFHelpers::TrackFromChannel(Track<T, N>& result, const cgltf_animation_channel& channel)
+{
+	cgltf_animation_sampler& sampler = *channel.sampler;
+	Interpolation interpolation = Interpolation::Constant;
+	
+	switch(sampler.interpolation)
+	{
+		case cgltf_interpolation_type_linear:
+			interpolation = Interpolation::Linear;
+			break;
+		case cgltf_interpolation_type_cubic_spline:
+			interpolation = Interpolation::Cubic;
+			break;
+		default:
+			break;
+	}
+
+	bool isSamplerCubic = interpolation == Interpolation::Cubic;
+
+	result.SetInterpolation(interpolation);
+
+	std::vector<float> time; // times
+	GetScalarValues(time, 1, *sampler.input);
+
+	std::vector<float> val; // values
+	GetScalarValues(val, N, *sampler.output);
+
+	unsigned int numFrames = sampler.input->count;
+	unsigned int compCount = val.size() / time.size();
+	result.SetSize(numFrames);
+
+	for (unsigned int i = 0; i < numFrames; ++i)
+	{
+		int baseIndex = i * compCount;
+		Frame<N>& frame = result[i];
+		int offset = 0;
+		frame.time = time[i];
+
+		for (int comp = 0; comp < N; ++comp)
+		{
+			frame.inTangent[comp] = (isSamplerCubic) ? val[baseIndex + offset++] : 0.0f;
+		}
+
+		for (int comp = 0; comp < N; ++comp)
+		{
+			frame.value[comp] = val[baseIndex + offset++];
+		}
+
+		for (int comp = 0; comp < N; ++comp)
+		{
+			frame.outTangent[comp] = (isSamplerCubic) ? val[baseIndex + offset++] : 0.0f;
+		}
+	}
 }

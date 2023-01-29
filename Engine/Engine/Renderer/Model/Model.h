@@ -7,6 +7,7 @@
 #include <vector>
 
 class Pose;
+class Clip;
 struct cgltf_data;
 
 class Model
@@ -42,6 +43,8 @@ private:
 
 	void LoadJointNames(cgltf_data* data);
 
+	void LoadAnimationClips(cgltf_data* data);
+
 	std::vector<Vertex> vertices;
 
 	std::vector<unsigned int> indices;
@@ -49,6 +52,8 @@ private:
 	Pose* restPose;
 
 	std::vector<std::string> jointNames;
+
+	std::vector<Clip> animationClips;
 
 };
 

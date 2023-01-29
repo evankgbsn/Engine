@@ -18,13 +18,13 @@ public:
 
 	~Track();
 
-	Track(const Track&) = delete;
+	Track(const Track&) = default;
 
-	Track& operator=(const Track&) = delete;
+	Track& operator=(const Track&) = default;
 
-	Track(Track&&) = delete;
+	Track(Track&&) = default;
 
-	Track& operator=(Track&&) = delete;
+	Track& operator=(Track&&) = default;
 
 	Frame<N>& operator[](unsigned int index);
 

@@ -13,13 +13,13 @@ public:
 
 	~TransformTrack();
 
-	TransformTrack(const TransformTrack&) = delete;
+	TransformTrack(const TransformTrack&) = default;
 
-	TransformTrack& operator=(const TransformTrack&) = delete;
+	TransformTrack& operator=(const TransformTrack&) = default;
 
-	TransformTrack(TransformTrack&&) = delete;
+	TransformTrack(TransformTrack&&) = default;
 
-	TransformTrack& operator=(TransformTrack&&) = delete;
+	TransformTrack& operator=(TransformTrack&&) = default;
 
 	unsigned int GetId() const;
 

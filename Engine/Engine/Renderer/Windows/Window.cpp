@@ -137,7 +137,7 @@ bool Window::Update()
 
 const Window::SurfaceInfo& Window::GetSurfaceInfo(const VulkanPhysicalDevice& device)
 {
-	VkResult result = vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device(), surface, &surfaceInfo.surfaceInfo);
+	VkResult result = vkGetPhysicalDeviceSurfaceCapabilitiesKHR(*device, surface, &surfaceInfo.surfaceInfo);
 
 	if (result != VK_SUCCESS)
 	{
@@ -145,12 +145,12 @@ const Window::SurfaceInfo& Window::GetSurfaceInfo(const VulkanPhysicalDevice& de
 	}
 
 	uint32_t formatCount = 0;
-	result = vkGetPhysicalDeviceSurfaceFormatsKHR(device(), surface, &formatCount, nullptr);
+	result = vkGetPhysicalDeviceSurfaceFormatsKHR(*device, surface, &formatCount, nullptr);
 
 	if (formatCount != 0)
 	{
 		surfaceInfo.surfaceFormats.resize(formatCount);
-		result = vkGetPhysicalDeviceSurfaceFormatsKHR(device(), surface, &formatCount, surfaceInfo.surfaceFormats.data());
+		result = vkGetPhysicalDeviceSurfaceFormatsKHR(*device, surface, &formatCount, surfaceInfo.surfaceFormats.data());
 	}
 
 	if (result != VK_SUCCESS)
@@ -159,12 +159,12 @@ const Window::SurfaceInfo& Window::GetSurfaceInfo(const VulkanPhysicalDevice& de
 	}
 
 	uint32_t presentModeCount = 0;
-	result = vkGetPhysicalDeviceSurfacePresentModesKHR(device(), surface, &presentModeCount, nullptr);
+	result = vkGetPhysicalDeviceSurfacePresentModesKHR(*device, surface, &presentModeCount, nullptr);
 
 	if (presentModeCount != 0)
 	{
 		surfaceInfo.presentModes.resize(presentModeCount);
-		result = vkGetPhysicalDeviceSurfacePresentModesKHR(device(), surface, &presentModeCount, surfaceInfo.presentModes.data());
+		result = vkGetPhysicalDeviceSurfacePresentModesKHR(*device, surface, &presentModeCount, surfaceInfo.presentModes.data());
 	}
 
 	if (result != VK_SUCCESS)
@@ -676,7 +676,7 @@ VkFormat Window::FindSupportedFormat(const std::vector<VkFormat>& candidates, Vk
 {
 	for (VkFormat format : candidates) {
 		VkFormatProperties props;
-		vkGetPhysicalDeviceFormatProperties((*Renderer::GetVulkanPhysicalDevice())(), format, &props);
+		vkGetPhysicalDeviceFormatProperties(*(*Renderer::GetVulkanPhysicalDevice()), format, &props);
 		if (tiling == VK_IMAGE_TILING_LINEAR && (props.linearTilingFeatures & features) == features) {
 			return format;
 		}

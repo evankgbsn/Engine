@@ -51,7 +51,7 @@ float Clip::Sample(Pose& outPose, float time)
 
     time = AdjustTimeToFitRange(time);
 
-    unsigned int size = tracks.size();
+    unsigned int size = static_cast<unsigned int>(tracks.size());
     for (unsigned int i = 0; i < size; i++)
     {
         unsigned int j = tracks[i].GetId(); // Joint
@@ -69,7 +69,7 @@ void Clip::RecalculateDuration()
     bool startSet = false;
     bool endSet = false;
 
-    unsigned int tracksSize = tracks.size();
+    unsigned int tracksSize = static_cast<unsigned int>(tracks.size());
     for (unsigned int i = 0; i < tracksSize; i++)
     {
         if (tracks[i].IsValid())

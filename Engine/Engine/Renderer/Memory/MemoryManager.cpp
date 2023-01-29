@@ -38,7 +38,7 @@ void MemoryManager::InitializeVMAAllocator()
 {
 	VmaAllocatorCreateInfo createInfo = {};
 	createInfo.flags = 0;
-	createInfo.physicalDevice = (*Renderer::GetVulkanPhysicalDevice())();
+	createInfo.physicalDevice = (*(*Renderer::GetVulkanPhysicalDevice()));
 	createInfo.device = Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice();
 	createInfo.preferredLargeHeapBlockSize; // optional.
 	createInfo.pAllocationCallbacks; // optional.

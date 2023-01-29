@@ -12,6 +12,8 @@ VulkanPhysicalDevice::VulkanPhysicalDevice(VkPhysicalDevice&& device, VkPhysical
 {
 	FindQueueFamilies();
 	//GetDisplayProperties();
+
+	vkGetPhysicalDeviceMemoryProperties(physicalDevice, &memoryProperties);
 }
 
 VulkanPhysicalDevice::~VulkanPhysicalDevice()

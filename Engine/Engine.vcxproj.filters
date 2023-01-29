@@ -61,6 +61,30 @@
     <Filter Include="Source Files\Engine\Renderer\Commands">
       <UniqueIdentifier>{1bbf084c-9d26-42d5-b6a2-13a186a6e60d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Renderer\Model">
+      <UniqueIdentifier>{1e10ff5b-2d03-4260-b421-6e89303f276f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Renderer\Memory">
+      <UniqueIdentifier>{e2e57934-f443-4b44-a324-406b2d506163}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Renderer\Vulkan\Utils">
+      <UniqueIdentifier>{4ce6e827-8e02-4dbb-a777-7e7cbaa0714f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Renderer\GraphicsObjects">
+      <UniqueIdentifier>{3ff63419-98c9-4e7f-83e6-e89097b6ff51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Renderer\Images">
+      <UniqueIdentifier>{883dac05-fc33-444e-b35b-a395541bcc3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Renderer\Pipeline\DepthStencilTest">
+      <UniqueIdentifier>{4c7c21c0-d642-4a66-a139-17afff82a0b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Math">
+      <UniqueIdentifier>{49857bf3-2f9e-46e5-8a13-231f7bf219a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Animation">
+      <UniqueIdentifier>{e2737cc7-a834-4b64-8527-bac2ad3a21ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -120,6 +144,81 @@
     <ClInclude Include="Engine\Renderer\Commands\CommandManager.h">
       <Filter>Source Files\Engine\Renderer\Commands</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Renderer\Model\Vertex.h">
+      <Filter>Source Files\Engine\Renderer\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Memory\Buffer.h">
+      <Filter>Source Files\Engine\Renderer\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Memory\VertexBuffer.h">
+      <Filter>Source Files\Engine\Renderer\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Memory\StagingBuffer.h">
+      <Filter>Source Files\Engine\Renderer\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Vulkan\Utils\VulkanUtils.h">
+      <Filter>Source Files\Engine\Renderer\Vulkan\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Memory\IndexBuffer.h">
+      <Filter>Source Files\Engine\Renderer\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Pipeline\Shaders\DescriptorSet.h">
+      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Pipeline\Shaders\DescriptorSetLayout.h">
+      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Pipeline\Shaders\DescriptorSetManager.h">
+      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Memory\UniformBuffer.h">
+      <Filter>Source Files\Engine\Renderer\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\GraphicsObjects\GraphicsObject.h">
+      <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Model\Model.h">
+      <Filter>Source Files\Engine\Renderer\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Model\ModelManager.h">
+      <Filter>Source Files\Engine\Renderer\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\GraphicsObjects\GraphicsObjectManager.h">
+      <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Images\Texture.h">
+      <Filter>Source Files\Engine\Renderer\Images</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Memory\MemoryManager.h">
+      <Filter>Source Files\Engine\Renderer\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Memory\Image.h">
+      <Filter>Source Files\Engine\Renderer\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Pipeline\DepthStencilTest\DepthStencilPipelineState.h">
+      <Filter>Source Files\Engine\Renderer\Pipeline\DepthStencilTest</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\BezierSpline.h">
+      <Filter>Source Files\Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Math.h">
+      <Filter>Source Files\Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\HermiteSpline.h">
+      <Filter>Source Files\Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Animation\Frame.h">
+      <Filter>Source Files\Engine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Animation\Track.h">
+      <Filter>Source Files\Engine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Animation\TransformTrack.h">
+      <Filter>Source Files\Engine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Transform.h">
+      <Filter>Source Files\Engine\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -178,6 +277,75 @@
     </ClCompile>
     <ClCompile Include="Engine\Renderer\Commands\CommandManager.cpp">
       <Filter>Source Files\Engine\Renderer\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Model\Vertex.cpp">
+      <Filter>Source Files\Engine\Renderer\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Memory\Buffer.cpp">
+      <Filter>Source Files\Engine\Renderer\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Memory\VertexBuffer.cpp">
+      <Filter>Source Files\Engine\Renderer\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Memory\StagingBuffer.cpp">
+      <Filter>Source Files\Engine\Renderer\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Vulkan\Utils\VulkanUtils.cpp">
+      <Filter>Source Files\Engine\Renderer\Vulkan\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Memory\IndexBuffer.cpp">
+      <Filter>Source Files\Engine\Renderer\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Pipeline\Shaders\DescriptorSet.cpp">
+      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Pipeline\Shaders\DescriptorSetLayout.cpp">
+      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Pipeline\Shaders\DescriptorSetManager.cpp">
+      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Memory\UniformBuffer.cpp">
+      <Filter>Source Files\Engine\Renderer\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Model\Model.cpp">
+      <Filter>Source Files\Engine\Renderer\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\GraphicsObjects\GraphicsObject.cpp">
+      <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Model\ModelManager.cpp">
+      <Filter>Source Files\Engine\Renderer\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\GraphicsObjects\GraphicsObjectManager.cpp">
+      <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Images\Texture.cpp">
+      <Filter>Source Files\Engine\Renderer\Images</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Memory\MemoryManager.cpp">
+      <Filter>Source Files\Engine\Renderer\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Memory\Image.cpp">
+      <Filter>Source Files\Engine\Renderer\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Pipeline\DepthStencilTest\DepthStencilPipelineState.cpp">
+      <Filter>Source Files\Engine\Renderer\Pipeline\DepthStencilTest</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\BezierSpline.cpp">
+      <Filter>Source Files\Engine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\HermiteSpline.cpp">
+      <Filter>Source Files\Engine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Animation\Track.cpp">
+      <Filter>Source Files\Engine\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Animation\TransformTrack.cpp">
+      <Filter>Source Files\Engine\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Transform.cpp">
+      <Filter>Source Files\Engine\Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

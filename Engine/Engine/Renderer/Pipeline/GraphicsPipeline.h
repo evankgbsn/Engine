@@ -14,6 +14,7 @@ class DynamicPipelineState;
 class RenderPass;
 class PipelineLayout;
 class ShaderPipelineStage;
+class DepthStencilPipelineState;
 
 class GraphicsPipeline
 {
@@ -27,6 +28,8 @@ public:
 	const VkPipeline& operator*() const { return graphicsPipeline; };
 
 	RenderPass* const GetRenderPass() const { return renderPass; };
+
+	const PipelineLayout* const GetPipelineLayout() const;
 
 private:
 
@@ -57,6 +60,7 @@ private:
 	ColorBlendingPipelineState* const colorBlending;
 	DynamicPipelineState* const dynamic;
 	ShaderPipelineStage* shaders;
+	DepthStencilPipelineState* const depthStencil;
 
 	PipelineLayout* const layout;
 

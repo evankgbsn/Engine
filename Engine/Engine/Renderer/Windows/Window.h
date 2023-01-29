@@ -5,10 +5,13 @@
 #include <vector>
 
 #include <vulkan/vulkan.h>
+#include <vulkan/vk_mem_alloc.h>
+#include <glm/glm.hpp>
 
 struct GLFWwindow;
 class GraphicsPipeline;
 class VulkanPhysicalDevice;
+class GraphicsObject;
 
 class Window
 {
@@ -29,6 +32,8 @@ public:
 
 	Window& operator=(const Window&&) = delete;
 
+	void Initialize();
+
 	bool Update();
 
 	const std::string& GetName() const { return name; };
@@ -45,6 +50,8 @@ public:
 
 	const VkSurfaceFormatKHR& GetSurfaceFormat() const { return surfaceFormat; };
 
+	unsigned int GetSwapChainImageCount() const { return static_cast<unsigned int>(swapchainImageViews.size()); }
+
 	// The struct of swapchain info.
 	struct SurfaceInfo
 	{
@@ -59,15 +66,28 @@ public:
 	// GetSurfaceInfo needs to be called before CreateSwapchain.
 	void CreateSwapchain();
 
-	void CreateFramebuffers();
+	// Recreate the swapchain and everything that depends on it.
+	void RecreateSwapchain();
+
+	void CleanupSwapchain();
+
+	const VkFormat& GetDepthFormat() const;
+
+	bool framebufferResized;
 
 private:
+
+	void CreateFramebuffers();
 
 	void Draw();
 
 	void RecordCommands(int imageIndex);
 
 	void CreateSyncObjects();
+
+	void CreateDepthBuffer();
+
+	VkFormat FindSupportedFormat(const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
 
 	// The GLFW window handle.
 	GLFWwindow* window = nullptr;
@@ -115,6 +135,17 @@ private:
 	VkSemaphore imageAvailable = VK_NULL_HANDLE;
 	VkSemaphore renderFinished = VK_NULL_HANDLE;
 	VkFence inFlight = VK_NULL_HANDLE;
+
+	// Depth buffer.
+	VkImage depthImage;
+	VkImageView depthImageView;
+	VkImageCreateInfo depthImageCreateInfo;
+	VmaAllocation depthImageAllocation;
+	VmaAllocationCreateInfo depthImageAllocInfo;
+	VkFormat depthFormat;
+
+	GraphicsObject* gObj0;
+	GraphicsObject* gObj1;
 };
 
 #endif // WINDOW_H

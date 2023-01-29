@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <stdexcept>
 
 #ifdef _WIN32
 #include "Windows.h"
@@ -94,4 +95,10 @@ void Logger::SetLogFilePath(const std::string path)
 std::string Logger::GetLogFilePath()
 {
 	return logFilePath;
+}
+
+void Logger::LogAndThrow(std::string&& log)
+{
+	Logger::Log(std::string(log), Logger::Category::Error);
+	throw std::runtime_error(log.c_str());
 }

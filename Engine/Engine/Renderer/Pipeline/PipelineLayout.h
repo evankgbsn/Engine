@@ -4,13 +4,14 @@
 #include <vulkan/vulkan.h>
 
 class VulkanPhysicalDevice;
+class DescriptorSetLayout;
 
 class PipelineLayout
 {
 
 public:
 
-	PipelineLayout(VulkanPhysicalDevice* device);
+	PipelineLayout(VulkanPhysicalDevice* device, const DescriptorSetLayout* const descriptorSetLayout);
 
 	~PipelineLayout();
 

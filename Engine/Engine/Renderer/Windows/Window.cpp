@@ -3,24 +3,71 @@
 #include <algorithm>
 #include <unordered_set>
 #include <stdexcept>
+#include <chrono>
 
 #include <GLFW/glfw3.h>
 
 #include "../../Utils/Logger.h"
 #include "../Renderer.h"
 #include "../Vulkan/VulkanPhysicalDevice.h"
+#include "../Vulkan/Utils/VulkanUtils.h"
 #include "../Pipeline/GraphicsPipeline.h"
+#include "../Pipeline/PipelineLayout.h"
 #include "../Pipeline/RenderPass/RenderPass.h"
 #include "../Commands/CommandManager.h"
+#include "../Memory/VertexBuffer.h"
+#include "../Memory/StagingBuffer.h"
+#include "../Memory/IndexBuffer.h"
+#include "../Memory/UniformBuffer.h"
+#include "../Memory/MemoryManager.h"
+#include "../Pipeline/Shaders/DescriptorSet.h"
+#include "../GraphicsObjects/GraphicsObjectManager.h"
+#include "../GraphicsObjects/GraphicsObject.h"
+#include "../Model/Model.h"
+#include "../Model/ModelManager.h"
+
+#include "../Pipeline/Shaders/DescriptorSetManager.h"
+
+#include "glm/gtc/matrix_transform.hpp"
+
+static void FramebufferResizeCallback(GLFWwindow* window, int width, int height);
 
 Window::Window(uint32_t w, uint32_t h, std::string&& windowName) :
 	name(windowName),
 	width(w),
 	height(h),
-	framebuffers(std::vector<VkFramebuffer>())
+	framebuffers(std::vector<VkFramebuffer>()),
+	framebufferResized(false)
+{
+	
+}
+
+Window::~Window()
+{
+	VkDevice& device = Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice();
+
+	vkDeviceWaitIdle(device);
+
+	vkDestroyImageView(device, depthImageView, nullptr);
+	vmaDestroyImage(MemoryManager::GetAllocator(), depthImage, depthImageAllocation);
+
+	GraphicsObjectManager::Terminate();
+
+	vkDestroyFence(device, inFlight, nullptr);
+	vkDestroySemaphore(device, imageAvailable, nullptr);
+	vkDestroySemaphore(device, renderFinished, nullptr);
+
+	CleanupSwapchain();
+
+	delete graphicsPipeline;
+	
+	vkDestroySurfaceKHR(Renderer::GetVulkanInstance(), surface, nullptr);
+}
+
+void Window::Initialize()
 {
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+	glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
 	window = glfwCreateWindow(static_cast<int>(width), static_cast<int>(height), name.c_str(), nullptr, nullptr);
 
@@ -29,6 +76,9 @@ Window::Window(uint32_t w, uint32_t h, std::string&& windowName) :
 		Logger::Log(std::string("Could not create GLFW window"), Logger::Category::Error);
 		throw std::runtime_error("Could not create GLFW window");
 	}
+
+	glfwSetWindowUserPointer(window, this);
+	glfwSetFramebufferSizeCallback(window, FramebufferResizeCallback);
 
 	// Create the Vulkan Surface.
 	VkResult result = glfwCreateWindowSurface(Renderer::GetVulkanInstance(), window, nullptr, &surface);
@@ -39,7 +89,19 @@ Window::Window(uint32_t w, uint32_t h, std::string&& windowName) :
 		throw std::runtime_error(errorStr.c_str());
 	}
 
-	Renderer::ChooseDevice(*this);
+	static bool firstWindow = true;
+	if (firstWindow)
+	{
+		// Choose a device that supports this window.
+		Renderer::ChooseDevice(*this);
+		GraphicsObjectManager::Initialize(); // maybe here too.
+
+		// Needs to be called before we create the RenderPass in the pipeline for a reference to the depth format.
+		CreateDepthBuffer();
+
+		graphicsPipeline = new GraphicsPipeline(*this);
+		firstWindow = false;
+	}
 
 	// swapchainExtent isnt set until GetSurfaceInfo is called in ChooseDevice.
 	viewport.x = 0.0f;
@@ -52,34 +114,11 @@ Window::Window(uint32_t w, uint32_t h, std::string&& windowName) :
 	scissor.offset = { 0, 0 };
 	scissor.extent = swapchainExtent;
 
-	graphicsPipeline = new GraphicsPipeline(*this);
 	CreateFramebuffers();
 	CreateSyncObjects();
-}
 
-Window::~Window()
-{
-	VkDevice& device = Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice();
-
-	vkDeviceWaitIdle(device);
-
-	vkDestroyFence(device, inFlight, nullptr);
-	vkDestroySemaphore(device, imageAvailable, nullptr);
-	vkDestroySemaphore(device, renderFinished, nullptr);
-
-	for (VkFramebuffer framebuffer : framebuffers)
-	{
-		vkDestroyFramebuffer(device, framebuffer, nullptr);
-	}
-
-	delete graphicsPipeline;
-
-	for (const auto& imageView : swapchainImageViews)
-	{
-		vkDestroyImageView(device, imageView, nullptr);
-	}
-	vkDestroySwapchainKHR(device, swapchain, nullptr);
-	vkDestroySurfaceKHR(Renderer::GetVulkanInstance(), surface, nullptr);
+	gObj0 = GraphicsObjectManager::CreateGraphicsObject(nullptr);
+	gObj1 = GraphicsObjectManager::CreateGraphicsObject(ModelManager::GetModel("DefaultRectangleWithDepth"));
 }
 
 bool Window::Update()
@@ -331,11 +370,13 @@ void Window::CreateFramebuffers()
 	int i = 0;
 	for (VkImageView imageView : swapchainImageViews)
 	{
+		std::vector<VkImageView> attachments = { imageView, depthImageView };
+
 		VkFramebufferCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
 		createInfo.renderPass = **graphicsPipeline->GetRenderPass();
-		createInfo.attachmentCount = 1;
-		createInfo.pAttachments = &imageView;
+		createInfo.attachmentCount = static_cast<unsigned int>(attachments.size());
+		createInfo.pAttachments = attachments.data();
 		createInfo.width = swapchainExtent.width;
 		createInfo.height = swapchainExtent.height;
 		createInfo.layers = 1;
@@ -352,24 +393,97 @@ void Window::CreateFramebuffers()
 	}
 }
 
+void Window::RecreateSwapchain()
+{
+	// Minimization.
+	int width = 0, height = 0;
+	glfwGetFramebufferSize(window, &width, &height);
+	while (width == 0 || height == 0) {
+		glfwGetFramebufferSize(window, &width, &height);
+		glfwWaitEvents();
+	}
+	//
+
+	CleanupSwapchain();
+
+	int w, h;
+	glfwGetWindowSize(window, &w, &h);
+	width = static_cast<unsigned int>(w);
+	height = static_cast<unsigned int>(h);
+
+	GetSurfaceInfo(*Renderer::GetVulkanPhysicalDevice());
+	
+	// swapchainExtent isnt set until GetSurfaceInfo is called in ChooseDevice.
+	viewport.x = 0.0f;
+	viewport.y = 0.0f;
+	viewport.width = (float)swapchainExtent.width;
+	viewport.height = (float)swapchainExtent.height;
+	viewport.minDepth = 0.0f;
+	viewport.maxDepth = 1.0f;
+
+	scissor.offset = { 0, 0 };
+	scissor.extent = swapchainExtent;
+
+	CreateSwapchain();
+
+	vkDestroyImageView(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), depthImageView, nullptr);
+	vmaDestroyImage(MemoryManager::GetAllocator(), depthImage, depthImageAllocation);
+	CreateDepthBuffer();
+	CreateFramebuffers();
+
+
+	framebufferResized = false;
+
+}
+
+void Window::CleanupSwapchain()
+{
+	const VkDevice& device = Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice();
+	vkDeviceWaitIdle(device);
+
+	for (VkFramebuffer framebuffer : framebuffers)
+	{
+		vkDestroyFramebuffer(device, framebuffer, nullptr);
+	}
+
+	for (const auto& imageView : swapchainImageViews)
+	{
+		vkDestroyImageView(device, imageView, nullptr);
+	}
+
+	vkDestroySwapchainKHR(device, swapchain, nullptr);
+}
+
+const VkFormat& Window::GetDepthFormat() const
+{
+	return depthFormat;
+}
+
 void Window::Draw()
 {
 	VkDevice& device = Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice();
 
 	vkWaitForFences(device, 1, &inFlight, VK_TRUE, UINT64_MAX);
-	vkResetFences(device, 1, &inFlight);
 
 	uint32_t imageIndex = 0;
 	VkResult result = vkAcquireNextImageKHR(device, swapchain, UINT64_MAX, imageAvailable, VK_NULL_HANDLE, &imageIndex);
 
-	if (result != VK_SUCCESS)
-	{
-		//Logger::Log(std::string("Failed to aquire an image from the swapchain."), Logger::Category::Error);
-		//throw std::runtime_error("Failed to aquire an image from the swapchain.");
-		//return;
+	if (result == VK_ERROR_OUT_OF_DATE_KHR) {
+		RecreateSwapchain();
+		return;
 	}
+	else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
+		Logger::Log(std::string("Failed to aquire an image from the swapchain."), Logger::Category::Error);
+		throw std::runtime_error("Failed to aquire an image from the swapchain.");
+		return;
+	}
+	
+	vkResetFences(device, 1, &inFlight);
 
-	vkResetCommandBuffer(CommandManager::GetCommandBuffer(), 0);
+	gObj0->Update(imageIndex);
+	gObj1->SlowUpdate(imageIndex);
+
+	vkResetCommandBuffer(CommandManager::GetRenderCommandBuffer(), 0);
 
 	RecordCommands(imageIndex);
 
@@ -380,7 +494,7 @@ void Window::Draw()
 	VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
 	submitInfo.pWaitDstStageMask = waitStages;
 	submitInfo.commandBufferCount = 1;
-	submitInfo.pCommandBuffers = &CommandManager::GetCommandBuffer();
+	submitInfo.pCommandBuffers = &CommandManager::GetRenderCommandBuffer();
 	submitInfo.signalSemaphoreCount = 1;
 	submitInfo.pSignalSemaphores = &renderFinished;
 
@@ -404,18 +518,19 @@ void Window::Draw()
 
 	result = vkQueuePresentKHR(Renderer::GetVulkanPhysicalDevice()->GetPresentationQueue(), &presentInfo);
 
-	if (result != VK_SUCCESS)
-	{
-		//Logger::Log(std::string("Failed to present."), Logger::Category::Error);
-		//throw std::runtime_error("Failed to present.");
-		//return;
+	if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || framebufferResized) {
+		RecreateSwapchain();
 	}
-
+	else if (result != VK_SUCCESS) {
+		Logger::Log(std::string("Failed to present."), Logger::Category::Error);
+		throw std::runtime_error("Failed to present.");
+		return;
+	}
 }
 
 void Window::RecordCommands(int imageIndex)
 {
-	VkCommandBuffer& buffer = CommandManager::GetCommandBuffer();
+	VkCommandBuffer& buffer = CommandManager::GetRenderCommandBuffer();
 
 	VkCommandBufferBeginInfo beginInfo{};
 	beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -437,15 +552,31 @@ void Window::RecordCommands(int imageIndex)
 	renderPassBeginInfo.framebuffer = framebuffers[imageIndex];
 	renderPassBeginInfo.renderArea.offset = { 0,0 };
 	renderPassBeginInfo.renderArea.extent = swapchainExtent;
-	VkClearValue clearColor = { {{0.0f, 0.0f, 0.0f, 1.0f}} };
-	renderPassBeginInfo.pClearValues = &clearColor;
-	renderPassBeginInfo.clearValueCount = 1;
+	VkClearValue clearColor{};
+	clearColor.color = { {0.0f, 0.0f, 0.0f, 1.0f} };
+	VkClearValue clearDepth{};
+	clearDepth.depthStencil = { 1.0f, 0 };
+	std::vector<VkClearValue> clearValues = { clearColor, clearDepth };
+	renderPassBeginInfo.clearValueCount = static_cast<unsigned int>(clearValues.size());
+	renderPassBeginInfo.pClearValues = clearValues.data();
 
 	vkCmdBeginRenderPass(buffer, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
 	vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **graphicsPipeline);
+
 	vkCmdSetViewport(buffer, 0, 1, &viewport);
 	vkCmdSetScissor(buffer, 0, 1, &scissor);
-	vkCmdDraw(buffer, 3, 1, 0, 0);
+
+	const std::vector<GraphicsObject*>& objects = GraphicsObjectManager::GetGraphicsObjets();
+	VkDeviceSize offsets[] = { 0 };
+
+	for (GraphicsObject* obj : objects)
+	{
+		vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(graphicsPipeline->GetPipelineLayout()), 0, 1, &obj->GetDescriptorSet(imageIndex)(), 0, nullptr);
+		vkCmdBindVertexBuffers(buffer, 0, 1, &obj->GetVertexBuffer()(), offsets);
+		vkCmdBindIndexBuffer(buffer, obj->GetIndexBuffer()(), 0, VK_INDEX_TYPE_UINT32);
+		vkCmdDrawIndexed(buffer, static_cast<unsigned int>(obj->GetModel()->GetIndices().size()), 1, 0, 0, 0);
+	}
+
 	vkCmdEndRenderPass(buffer);
 
 	result = vkEndCommandBuffer(buffer);
@@ -494,4 +625,73 @@ void Window::CreateSyncObjects()
 		throw std::runtime_error("Failed to create in flight fence.");
 		return;
 	}
+}
+
+void Window::CreateDepthBuffer()
+{
+	depthFormat = FindSupportedFormat(
+		{ VK_FORMAT_D32_SFLOAT, VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT },
+		VK_IMAGE_TILING_OPTIMAL,
+		VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT
+	);
+
+	depthImageCreateInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+	depthImageCreateInfo.imageType = VK_IMAGE_TYPE_2D;
+	depthImageCreateInfo.extent.width = static_cast<uint32_t>(width);
+	depthImageCreateInfo.extent.height = static_cast<uint32_t>(height);
+	depthImageCreateInfo.extent.depth = 1;
+	depthImageCreateInfo.mipLevels = 1;
+	depthImageCreateInfo.arrayLayers = 1;
+	depthImageCreateInfo.format = depthFormat;
+	depthImageCreateInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
+	depthImageCreateInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+	depthImageCreateInfo.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
+	depthImageCreateInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+	depthImageCreateInfo.samples = VK_SAMPLE_COUNT_1_BIT;
+	depthImageCreateInfo.flags = 0;
+
+	depthImageAllocInfo.usage = VMA_MEMORY_USAGE_AUTO;
+	depthImageAllocInfo.flags = 0;
+
+	VkResult result = vmaCreateImage(MemoryManager::GetAllocator(), &depthImageCreateInfo, &depthImageAllocInfo, &depthImage, &depthImageAllocation, nullptr);
+	VulkanUtils::CheckResult(result, true, true, "Failed to create Depth Buffer image.");
+
+	VkImageViewCreateInfo imageViewCreateInfo{};
+	imageViewCreateInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+	imageViewCreateInfo.image = depthImage;
+	imageViewCreateInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+	imageViewCreateInfo.format = depthFormat;
+	imageViewCreateInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT;
+	imageViewCreateInfo.subresourceRange.baseMipLevel = 0;
+	imageViewCreateInfo.subresourceRange.levelCount = 1;
+	imageViewCreateInfo.subresourceRange.baseArrayLayer = 0;
+	imageViewCreateInfo.subresourceRange.layerCount = 1;
+
+	result = vkCreateImageView(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), &imageViewCreateInfo, nullptr, &depthImageView);
+	VulkanUtils::CheckResult(result, true, true, "Failed to create image view in Window::CreateDepthBuffer().");
+
+}
+
+VkFormat Window::FindSupportedFormat(const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features)
+{
+	for (VkFormat format : candidates) {
+		VkFormatProperties props;
+		vkGetPhysicalDeviceFormatProperties((*Renderer::GetVulkanPhysicalDevice())(), format, &props);
+		if (tiling == VK_IMAGE_TILING_LINEAR && (props.linearTilingFeatures & features) == features) {
+			return format;
+		}
+		else if (tiling == VK_IMAGE_TILING_OPTIMAL && (props.optimalTilingFeatures & features) == features) {
+			return format;
+		}
+	}
+
+	Logger::LogAndThrow("Could not find supported format Window::FindSupportedFormat().");
+
+	return VkFormat();
+}
+
+static void FramebufferResizeCallback(GLFWwindow* window, int width, int height)
+{
+	auto app = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
+	app->framebufferResized = true;
 }

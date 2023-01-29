@@ -37,6 +37,10 @@ private:
 	// Describes the layout for the color attachment subpass.
 	VkAttachmentReference colorAttachmentRef{};
 
+	// The depth buffer attatchment.
+	VkAttachmentDescription depthAttachment{};
+	VkAttachmentReference depthAttachmentRef{};
+
 	VkSubpassDescription subpass{};
 
 	// The information used to create the render pass.

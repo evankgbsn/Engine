@@ -13,7 +13,9 @@ public:
 
 	static void Terminate();
 
-	static VkCommandBuffer& GetCommandBuffer();
+	static VkCommandBuffer& GetRenderCommandBuffer();
+
+	static VkCommandBuffer& GetTransferCommandBuffer();
 
 private:
 
@@ -29,13 +31,19 @@ private:
 
 	CommandManager& operator=(const CommandManager&&) = delete;
 
-	void CreateCommandBuffer();
+	void CreateCommandPools();
+
+	void CreateCommandBuffers();
 
 	static CommandManager* instance;
 
-	VkCommandPool commandPool = VK_NULL_HANDLE;
+	VkCommandPool renderCommandPool;
 
-	VkCommandBuffer buffer = VK_NULL_HANDLE;
+	VkCommandBuffer renderBuffer;
+
+	VkCommandPool transferCommandPool;
+
+	VkCommandBuffer transferBuffer;
 };
 
 #endif // COMMAND_MANAGER_H

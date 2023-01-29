@@ -6,6 +6,7 @@
 #include <optional>
 
 #include <vulkan/vulkan.h>
+#include <vulkan/vk_mem_alloc.h>
 
 class VulkanPhysicalDevice;
 class Window;
@@ -94,7 +95,6 @@ private:
 
 	// The physical device chosen for rendering.
 	VulkanPhysicalDevice* chosenDevice;
-
 };
 
 #endif //RENDERER_H

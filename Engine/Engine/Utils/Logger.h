@@ -31,6 +31,9 @@ public:
 
 	static std::string GetLogFilePath();
 
+	// Log and then throw a runtime error with the same message.
+	static void LogAndThrow(std::string&& log);
+
 private:
 
 	static std::string logFilePath;

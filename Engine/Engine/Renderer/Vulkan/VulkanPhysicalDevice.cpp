@@ -196,6 +196,7 @@ void VulkanPhysicalDevice::CreateLogicalDevice()
 	
 
 	VkPhysicalDeviceFeatures deviceFeatures{};
+	deviceFeatures.samplerAnisotropy = VK_TRUE;
 
 	const char* extensions[] = {"VK_KHR_swapchain"};
 

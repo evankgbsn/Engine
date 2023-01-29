@@ -1,3 +1,4 @@
+#define VMA_IMPLEMENTATION
 #include "Renderer.h"
 
 #include <stdexcept>
@@ -8,6 +9,7 @@
 #include "Windows/WindowManager.h"
 #include "Windows/Window.h"
 #include "Commands/CommandManager.h"
+#include "Model/ModelManager.h"
 
 Renderer* Renderer::instance = nullptr;
 
@@ -110,6 +112,7 @@ Renderer::Renderer() :
 	applicationInfo(),
 	vulkanPhysicalDevices(std::vector<VulkanPhysicalDevice*>())
 {
+	ModelManager::Initialize();
 	WindowManager::Initialize();
 	InitializeVulkan();
 }
@@ -118,6 +121,7 @@ Renderer::~Renderer()
 {
 	TerminateVulkan();
 	WindowManager::Terminate();
+	ModelManager::Terminate();
 }
 
 const std::vector<std::string>& Renderer::GetSupportedInstanceExtensions()

@@ -4,14 +4,15 @@
 
 #include "../../Utils/Logger.h"
 #include "../Vulkan/VulkanPhysicalDevice.h"
+#include "Shaders/DescriptorSetLayout.h"
 
-PipelineLayout::PipelineLayout(VulkanPhysicalDevice* d) :
+PipelineLayout::PipelineLayout(VulkanPhysicalDevice* d, const DescriptorSetLayout* const descriptorSetLayout) :
 	device(d)
 {
 	VkPipelineLayoutCreateInfo createInfo{};
 	createInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-	createInfo.setLayoutCount = 0;
-	createInfo.pSetLayouts = nullptr;
+	createInfo.setLayoutCount = 1;
+	createInfo.pSetLayouts = &(*descriptorSetLayout)();
 	createInfo.pushConstantRangeCount = 0;
 	createInfo.pPushConstantRanges = nullptr;
 

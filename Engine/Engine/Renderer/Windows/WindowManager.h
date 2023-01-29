@@ -19,6 +19,10 @@ public:
 
 	static bool Update();
 
+	static unsigned int WindowCount();
+
+	static Window* const GetWindow(std::string name);
+
 private:
 
 	WindowManager();

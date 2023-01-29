@@ -3,7 +3,7 @@
 #include <stdexcept>
 
 #include "../Renderer.h"
-#include "../../Utils/Logger.h"
+#include "../Vulkan/Utils/VulkanUtils.h"
 #include "../Vulkan/VulkanPhysicalDevice.h"
 
 CommandManager* CommandManager::instance = nullptr;
@@ -30,22 +30,53 @@ void CommandManager::Terminate()
 	Logger::Log(std::string("Calling CommandManager::Terminate() before CommandManager::Initialize()"), Logger::Category::Warning);
 }
 
-VkCommandBuffer& CommandManager::GetCommandBuffer()
+VkCommandBuffer& CommandManager::GetRenderCommandBuffer()
 {
 	static VkCommandBuffer invalidBuffer = VK_NULL_HANDLE;
 
 	if (instance)
 	{
-		return instance->buffer;
+		return instance->renderBuffer;
 	}
 
-	Logger::Log(std::string("Calling CommandManager::GetCommandBuffer() before CommandManager::Initialize()"), Logger::Category::Error);
-	throw std::runtime_error("Calling CommandManager::GetCommandBuffer() before CommandManager::Initialize()");
+	VulkanUtils::CheckResult(static_cast<VkResult>(1), true, true, "Calling CommandManager::GetRenderCommandBuffer() before CommandManager::Initialize()", Logger::Category::Error);
 
 	return invalidBuffer;
 }
 
-CommandManager::CommandManager()
+VkCommandBuffer& CommandManager::GetTransferCommandBuffer()
+{
+	static VkCommandBuffer invalidBuffer = VK_NULL_HANDLE;
+
+	if (instance)
+	{
+		return instance->transferBuffer;
+	}
+
+	VulkanUtils::CheckResult(static_cast<VkResult>(1), true, true, "Calling CommandManager::GetRenderCommandBuffer() before CommandManager::Initialize()", Logger::Category::Error);
+
+	return invalidBuffer;
+}
+
+CommandManager::CommandManager() :
+	renderCommandPool(VK_NULL_HANDLE),
+	renderBuffer(VK_NULL_HANDLE),
+	transferCommandPool(VK_NULL_HANDLE),
+	transferBuffer(VK_NULL_HANDLE)
+{
+	CreateCommandPools();
+	CreateCommandBuffers();
+}
+
+CommandManager::~CommandManager()
+{
+	VkDevice& device = Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice();
+
+	vkDestroyCommandPool(device, renderCommandPool, nullptr);
+	vkDestroyCommandPool(device, transferCommandPool, nullptr);
+}
+
+void CommandManager::CreateCommandPools()
 {
 	VulkanPhysicalDevice* const device = Renderer::GetVulkanPhysicalDevice();
 
@@ -54,35 +85,34 @@ CommandManager::CommandManager()
 	createInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
 	createInfo.queueFamilyIndex = device->GetGraphicsQueueFamilyIndex();
 
-	VkResult result = vkCreateCommandPool(device->GetLogicalDevice(), &createInfo, nullptr, &commandPool);
+	VkResult result = vkCreateCommandPool(device->GetLogicalDevice(), &createInfo, nullptr, &renderCommandPool);
 
-	if (result != VK_SUCCESS)
-	{
-		Logger::Log(std::string("Failed to create a command pool."), Logger::Category::Error);
-		throw std::runtime_error("Failed to create a command pool.");
-	}
+	static const char* logMessage = "Failed to create a command pool.";
+	VulkanUtils::CheckResult(result, true, true, logMessage, Logger::Category::Error);
 
-	CreateCommandBuffer();
+	createInfo.flags = createInfo.flags | VK_COMMAND_POOL_CREATE_TRANSIENT_BIT;
+
+	result = vkCreateCommandPool(device->GetLogicalDevice(), &createInfo, nullptr, &transferCommandPool);
+
+	VulkanUtils::CheckResult(result, true, true, logMessage, Logger::Category::Error);
 }
 
-CommandManager::~CommandManager()
-{
-	vkDestroyCommandPool(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), commandPool, nullptr);
-}
-
-void CommandManager::CreateCommandBuffer()
+void CommandManager::CreateCommandBuffers()
 {
 	VkCommandBufferAllocateInfo allocInfo = {};
 	allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-	allocInfo.commandPool = commandPool;
+	allocInfo.commandPool = renderCommandPool;
 	allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 	allocInfo.commandBufferCount = 1;
 
-	VkResult result = vkAllocateCommandBuffers(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), &allocInfo, &buffer);
+	VkResult result = vkAllocateCommandBuffers(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), &allocInfo, &renderBuffer);
 
-	if (result != VK_SUCCESS)
-	{
-		Logger::Log(std::string("Failed to allocate a command buffer."), Logger::Category::Error);
-		throw std::runtime_error("Failed to allocate a command buffer.");
-	}
+	static const char* logMessage = "Failed to allocate a command buffer.";
+	VulkanUtils::CheckResult(result, true, true, logMessage, Logger::Category::Error);
+
+	allocInfo.commandPool = transferCommandPool;
+
+	result = vkAllocateCommandBuffers(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), &allocInfo, &transferBuffer);
+
+	VulkanUtils::CheckResult(result, true, true, logMessage, Logger::Category::Error);
 }

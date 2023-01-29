@@ -14,7 +14,7 @@ RasterizerPipelineState::RasterizerPipelineState()
 
 	createInfo.lineWidth = 1.0f;
 	createInfo.cullMode = VK_CULL_MODE_BACK_BIT;
-	createInfo.frontFace = VK_FRONT_FACE_CLOCKWISE;
+	createInfo.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
 
 	// The rasterizer can alter the depth values by adding a constant value or biasing them based on a fragment's slope. This is sometimes used for shadow mapping, but we won't be using it
 	createInfo.depthBiasEnable = VK_FALSE;

@@ -2,7 +2,6 @@
 
 #include <cstdio>
 
-
 class HeapProfiling
 {
 public:

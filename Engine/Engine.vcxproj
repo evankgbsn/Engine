@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -74,7 +74,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);GLM_FORCE_DEPTH_ZERO_TO_ONE;GLM_FORCE_RADIANS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -88,7 +88,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);GLM_FORCE_DEPTH_ZERO_TO_ONE;GLM_FORCE_RADIANS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -106,16 +106,17 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)Dependencies/Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>vulkan-1.lib;glfw3.lib</AdditionalDependencies>
+      <AdditionalDependencies>vulkan-1.lib;glfw3.lib;VulkanMemoryAllocatord.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(ProjectDir)Dependencies/Lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Engine/Dependencies/Lib</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -124,7 +125,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);GLM_FORCE_DEPTH_ZERO_TO_ONE;GLM_FORCE_RADIANS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)Dependencies/Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -136,16 +137,39 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>vulkan-1.lib;glfw3.lib</AdditionalDependencies>
+      <AdditionalDependencies>vulkan-1.lib;glfw3.lib;VulkanMemoryAllocator.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(ProjectDir)Dependencies/Lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies/Lib</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Animation\Clip.h" />
+    <ClInclude Include="Engine\Animation\Frame.h" />
+    <ClInclude Include="Engine\Animation\Pose.h" />
+    <ClInclude Include="Engine\Animation\Track.h" />
+    <ClInclude Include="Engine\Animation\TransformTrack.h" />
     <ClInclude Include="Engine\Engine.h" />
+    <ClInclude Include="Engine\Math\BezierSpline.h" />
+    <ClInclude Include="Engine\Math\HermiteSpline.h" />
+    <ClInclude Include="Engine\Math\Math.h" />
+    <ClInclude Include="Engine\Math\Transform.h" />
     <ClInclude Include="Engine\Renderer\Commands\CommandManager.h" />
+    <ClInclude Include="Engine\Renderer\GraphicsObjects\GraphicsObject.h" />
+    <ClInclude Include="Engine\Renderer\GraphicsObjects\GraphicsObjectManager.h" />
+    <ClInclude Include="Engine\Renderer\Images\Texture.h" />
+    <ClInclude Include="Engine\Renderer\Memory\Buffer.h" />
+    <ClInclude Include="Engine\Renderer\Memory\Image.h" />
+    <ClInclude Include="Engine\Renderer\Memory\IndexBuffer.h" />
+    <ClInclude Include="Engine\Renderer\Memory\MemoryManager.h" />
+    <ClInclude Include="Engine\Renderer\Memory\StagingBuffer.h" />
+    <ClInclude Include="Engine\Renderer\Memory\UniformBuffer.h" />
+    <ClInclude Include="Engine\Renderer\Memory\VertexBuffer.h" />
+    <ClInclude Include="Engine\Renderer\Model\Model.h" />
+    <ClInclude Include="Engine\Renderer\Model\ModelManager.h" />
+    <ClInclude Include="Engine\Renderer\Model\Vertex.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\ColorBlending\ColorBlendingPipelineState.h" />
+    <ClInclude Include="Engine\Renderer\Pipeline\DepthStencilTest\DepthStencilPipelineState.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\DynamicState\DynamicPipelineState.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\GraphicsPipeline.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\InputAssembly\InputAssemblyPipelineState.h" />
@@ -153,20 +177,45 @@
     <ClInclude Include="Engine\Renderer\Pipeline\PipelineLayout.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\Rasterizer\RasterizerPipelineState.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\RenderPass\RenderPass.h" />
+    <ClInclude Include="Engine\Renderer\Pipeline\Shaders\DescriptorSet.h" />
+    <ClInclude Include="Engine\Renderer\Pipeline\Shaders\DescriptorSetLayout.h" />
+    <ClInclude Include="Engine\Renderer\Pipeline\Shaders\DescriptorSetManager.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\Shaders\Shader.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\Shaders\ShaderPipelineStage.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\VertexInput\VertexInputPipelineState.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\Viewport\ViewportPipelineState.h" />
     <ClInclude Include="Engine\Renderer\Renderer.h" />
+    <ClInclude Include="Engine\Renderer\Vulkan\Utils\VulkanUtils.h" />
     <ClInclude Include="Engine\Renderer\Vulkan\VulkanPhysicalDevice.h" />
     <ClInclude Include="Engine\Renderer\Windows\Window.h" />
     <ClInclude Include="Engine\Renderer\Windows\WindowManager.h" />
     <ClInclude Include="Engine\Utils\Logger.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Animation\Clip.cpp" />
+    <ClCompile Include="Engine\Animation\Pose.cpp" />
+    <ClCompile Include="Engine\Animation\Track.cpp" />
+    <ClCompile Include="Engine\Animation\TransformTrack.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
+    <ClCompile Include="Engine\Math\BezierSpline.cpp" />
+    <ClCompile Include="Engine\Math\HermiteSpline.cpp" />
+    <ClCompile Include="Engine\Math\Transform.cpp" />
     <ClCompile Include="Engine\Renderer\Commands\CommandManager.cpp" />
+    <ClCompile Include="Engine\Renderer\GraphicsObjects\GraphicsObject.cpp" />
+    <ClCompile Include="Engine\Renderer\GraphicsObjects\GraphicsObjectManager.cpp" />
+    <ClCompile Include="Engine\Renderer\Images\Texture.cpp" />
+    <ClCompile Include="Engine\Renderer\Memory\Buffer.cpp" />
+    <ClCompile Include="Engine\Renderer\Memory\Image.cpp" />
+    <ClCompile Include="Engine\Renderer\Memory\IndexBuffer.cpp" />
+    <ClCompile Include="Engine\Renderer\Memory\MemoryManager.cpp" />
+    <ClCompile Include="Engine\Renderer\Memory\StagingBuffer.cpp" />
+    <ClCompile Include="Engine\Renderer\Memory\UniformBuffer.cpp" />
+    <ClCompile Include="Engine\Renderer\Memory\VertexBuffer.cpp" />
+    <ClCompile Include="Engine\Renderer\Model\Model.cpp" />
+    <ClCompile Include="Engine\Renderer\Model\ModelManager.cpp" />
+    <ClCompile Include="Engine\Renderer\Model\Vertex.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\ColorBlending\ColorBlendingPipelineState.cpp" />
+    <ClCompile Include="Engine\Renderer\Pipeline\DepthStencilTest\DepthStencilPipelineState.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\DynamicState\DynamicPipelineState.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\GraphicsPipeline.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\InputAssembly\InputAssemblyPipelineState.cpp" />
@@ -174,11 +223,15 @@
     <ClCompile Include="Engine\Renderer\Pipeline\PipelineLayout.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\Rasterizer\RasterizerPipelineState.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\RenderPass\RenderPass.cpp" />
+    <ClCompile Include="Engine\Renderer\Pipeline\Shaders\DescriptorSet.cpp" />
+    <ClCompile Include="Engine\Renderer\Pipeline\Shaders\DescriptorSetLayout.cpp" />
+    <ClCompile Include="Engine\Renderer\Pipeline\Shaders\DescriptorSetManager.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\Shaders\Shader.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\Shaders\ShaderPipelineStage.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\VertexInput\VertexInputPipelineState.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\Viewport\ViewportPipelineState.cpp" />
     <ClCompile Include="Engine\Renderer\Renderer.cpp" />
+    <ClCompile Include="Engine\Renderer\Vulkan\Utils\VulkanUtils.cpp" />
     <ClCompile Include="Engine\Renderer\Vulkan\VulkanPhysicalDevice.cpp" />
     <ClCompile Include="Engine\Renderer\Windows\Window.cpp" />
     <ClCompile Include="Engine\Renderer\Windows\WindowManager.cpp" />

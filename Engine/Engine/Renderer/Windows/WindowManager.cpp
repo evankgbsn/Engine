@@ -89,6 +89,28 @@ bool WindowManager::Update()
 	return false;
 }
 
+unsigned int WindowManager::WindowCount()
+{
+	return static_cast<unsigned int>(instance->windows.size());
+}
+
+Window* const WindowManager::GetWindow(std::string name)
+{
+	if (instance == nullptr)
+	{
+		Logger::LogAndThrow(std::string("Calling WindowManager::GetWindow() before WindowManager::Initialize()."));
+		return nullptr;
+	}
+
+	if (instance->windows.find(name) == instance->windows.end())
+	{
+		Logger::Log(std::string("Could not find window ") + name, Logger::Category::Warning);
+		return nullptr;
+	}
+
+	return instance->windows[name];
+}
+
 WindowManager::WindowManager() :
 	windows(std::unordered_map<std::string, Window*>())
 {

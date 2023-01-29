@@ -2,6 +2,7 @@
 #define MODEL_H
 
 #include "Vertex.h"
+#include "../../Animation/Armature.h"
 
 #include <string>
 #include <vector>
@@ -39,19 +40,13 @@ protected:
 
 private:
 
-	void LoadRestPose(cgltf_data* data);
-
-	void LoadJointNames(cgltf_data* data);
-
 	void LoadAnimationClips(cgltf_data* data);
 
 	std::vector<Vertex> vertices;
 
 	std::vector<unsigned int> indices;
 
-	Pose* restPose;
-
-	std::vector<std::string> jointNames;
+	Armature armature;
 
 	std::vector<Clip> animationClips;
 

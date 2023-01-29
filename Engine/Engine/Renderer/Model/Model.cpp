@@ -21,14 +21,20 @@ namespace GLTFHelpers
 
 	template<typename T, unsigned int N>
 	void TrackFromChannel(Track<T, N>& result, const cgltf_animation_channel& channel);
+
+	Pose LoadRestPose(cgltf_data* data);
+
+	Pose LoadBindPose(cgltf_data* const data);
+
+	std::vector<std::string> LoadJointNames(cgltf_data* data);
+
+	Armature LoadArmature(cgltf_data* const data);
 };
 
 Model::Model() :
 	vertices(std::vector<Vertex>()),
 	indices(std::vector<unsigned int>()),
-	restPose(nullptr),
-	jointNames(std::vector<std::string>()),
-	animationClips(std::vector<Clip*>())
+	animationClips(std::vector<Clip>())
 
 {
 	// Default rectangle.
@@ -45,18 +51,14 @@ Model::Model() :
 Model::Model(const std::vector<Vertex>& v, const std::vector<unsigned int>& i) :
 	vertices(v),
 	indices(i),
-	restPose(nullptr),
-	jointNames(std::vector<std::string>()),
-	animationClips(std::vector<Clip*>())
+	animationClips(std::vector<Clip>())
 {
 }
 
 Model::Model(const std::string& path) :
 	vertices(std::vector<Vertex>()),
 	indices(std::vector<unsigned int>()),
-	restPose(nullptr),
-	jointNames(std::vector<std::string>()),
-	animationClips(std::vector<Clip*>())
+	animationClips(std::vector<Clip>())
 {
 	cgltf_options options = {};
 	cgltf_data* data = NULL;
@@ -102,32 +104,34 @@ const std::vector<unsigned int>& Model::GetIndices() const
 	return indices;
 }
 
-void Model::LoadRestPose(cgltf_data* data)
+Pose GLTFHelpers::LoadRestPose(cgltf_data* data)
 {
 	unsigned int boneCount = static_cast<unsigned int>(data->nodes_count);
-	restPose = new Pose(boneCount);
+	Pose result(boneCount);
 
 	for (unsigned int i = 0; i < boneCount; i++)
 	{
-		restPose->SetLocalTransform(i, GLTFHelpers::GetLocalTransform(data->nodes[i]));
-		restPose->SetParent(i, GLTFHelpers::GetNodeIndex(&(data->nodes[i]), data->nodes, boneCount));
+		result.SetLocalTransform(i, GLTFHelpers::GetLocalTransform(data->nodes[i]));
+		result.SetParent(i, GLTFHelpers::GetNodeIndex(&(data->nodes[i]), data->nodes, boneCount));
 	}
+
+	return result;
 }
 
-void Model::LoadJointNames(cgltf_data* data)
+std::vector<std::string> GLTFHelpers::LoadJointNames(cgltf_data* data)
 {
 	unsigned int boneCount = static_cast<unsigned int>(data->nodes_count);
-	jointNames.resize(boneCount);
+	std::vector<std::string> result(boneCount);
 
 	for (unsigned int i = 0; i < boneCount; i++)
 	{
 		if (data->nodes[i].name == nullptr)
 		{
-			jointNames[i] = "No name";
+			result[i] = "No name";
 		}
 		else
 		{
-			jointNames[i] = data->nodes[i].name;
+			result[i] = data->nodes[i].name;
 		}
 	}
 }
@@ -284,4 +288,69 @@ void GLTFHelpers::TrackFromChannel(Track<T, N>& result, const cgltf_animation_ch
 			frame.outTangent[comp] = (isSamplerCubic) ? val[baseIndex + offset++] : 0.0f;
 		}
 	}
+}
+
+Pose GLTFHelpers::LoadBindPose(cgltf_data* const data)
+{
+	Pose restPose = GLTFHelpers::LoadRestPose(data);
+	unsigned int numBones = restPose.Size();
+	std::vector<Math::Transform> worldBindPose(numBones);
+
+	for (unsigned int i = 0; i < numBones; ++i)
+	{
+		worldBindPose[i] = restPose.GetGlobalTransform(i);
+	}
+
+	unsigned int numSkins = data->skins_count;
+	for (unsigned int i = 0; i < numSkins; ++i)
+	{
+		cgltf_skin* skin = &(data->skins[i]);
+		std::vector<float> invBindAccessor;
+		GLTFHelpers::GetScalarValues(invBindAccessor, 16, *skin->inverse_bind_matrices);
+
+		unsigned int numJoints = skin->joints_count;
+		for (unsigned int j = 0; j < numJoints; ++j)
+		{
+			// Read the inverse bind matrix of the joint.
+			float* matrix = &(invBindAccessor[j * 16]);
+			glm::mat4 invBindMatrix(
+				matrix[0], matrix[1], matrix[2], matrix[3],
+				matrix[4], matrix[5], matrix[6], matrix[7],
+				matrix[8], matrix[9], matrix[10], matrix[11],
+				matrix[12], matrix[13], matrix[14], matrix[15]
+			);
+
+			// Invert and convert to transform.
+			glm::mat4 bindMatrix = glm::inverse(invBindMatrix);
+			Math::Transform bindTransform = Math::Transform::FromMat4(bindMatrix);
+
+			// Set that transform in the world bind pose.
+			cgltf_node* jointNode = skin->joints[j];
+			int jointIndex = GLTFHelpers::GetNodeIndex(jointNode, data->nodes, numBones);
+
+			worldBindPose[jointIndex] = bindTransform;
+		}
+	}
+
+	// Convert the world bind pose to a regular bind pose.
+	Pose bindPose = restPose;
+	for (unsigned int i = 0; i < numBones; ++i)
+	{
+		Math::Transform current = worldBindPose[i];
+		int p = bindPose.GetParent(i);
+		if (p >= 0)
+		{
+			// Bring into parent space.
+			Math::Transform parent = worldBindPose[p];
+			current = Math::Transform::Combine(Math::Transform::Inverse(parent), current);
+		}
+		bindPose.SetLocalTransform(i, current);
+	}
+
+	return bindPose;
+}
+
+Armature GLTFHelpers::LoadArmature(cgltf_data* const data)
+{
+	return Armature(LoadRestPose(data), LoadBindPose(data), LoadJointNames(data));
 }

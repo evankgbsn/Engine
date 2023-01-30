@@ -3,7 +3,6 @@
 #include "../../Utils/Logger.h"
 #include "../../Animation/Armature.h"
 #include "../../Animation/Pose.h"
-//#include "../../Animation/Track.h"
 
 #pragma warning(disable : 4996)
 #define _CRT_SECURE_NO_WARNINGS
@@ -33,8 +32,8 @@ namespace GLTFHelpers
 Model::Model() :
 	vertices(std::vector<Vertex>()),
 	indices(std::vector<unsigned int>()),
-	animationClips(std::vector<Clip>())
-
+	animationClips(std::vector<Clip>()),
+	armature(new Armature())
 {
 	// Default rectangle.
 	vertices = {
@@ -50,14 +49,16 @@ Model::Model() :
 Model::Model(const std::vector<Vertex>& v, const std::vector<unsigned int>& i) :
 	vertices(v),
 	indices(i),
-	animationClips(std::vector<Clip>())
+	animationClips(std::vector<Clip>()),
+	armature(new Armature())
 {
 }
 
 Model::Model(const std::string& path) :
 	vertices(std::vector<Vertex>()),
 	indices(std::vector<unsigned int>()),
-	animationClips(std::vector<Clip>())
+	animationClips(std::vector<Clip>()),
+	armature(new Armature())
 {
 	cgltf_options options = {};
 	cgltf_data* data = NULL;
@@ -91,6 +92,7 @@ Model::Model(const std::string& path) :
 
 Model::~Model()
 {
+	delete armature;
 }
 
 const std::vector<Vertex>& Model::GetVertices() const
@@ -137,6 +139,76 @@ std::vector<std::string> GLTFHelpers::LoadJointNames(cgltf_data* data)
 	return result;
 }
 
+void Model::CPUSkin(Armature& armature, Pose& pose)
+{
+	unsigned int numVerts = vertices.size();
+	if (numVerts == 0)
+	{
+		return;
+	}
+
+	skinnedPosition.resize(numVerts);
+	skinnedNormal.resize(numVerts);
+
+	Pose& bindPose = const_cast<Pose&>(armature.GetBindPose());
+
+	for (unsigned int i = 0; i < numVerts; ++i)
+	{
+		glm::ivec4& joint = vertices[i].GetInfluences();
+		glm::vec4& weight = vertices[i].GetWeights();
+
+		Math::Transform skin0 = Math::Transform::Combine(pose[joint.x], Math::Transform::Inverse(bindPose[joint.x]));
+		glm::vec3 p0 = Math::Transform::TransformPoint(skin0, vertices[i].GetPosition());
+		glm::vec3 n0 = Math::Transform::TransformVector(skin0, vertices[i].GetNormal());
+
+		Math::Transform skin1 = Math::Transform::Combine(pose[joint.y], Math::Transform::Inverse(bindPose[joint.y]));
+		glm::vec3 p1 = Math::Transform::TransformPoint(skin1, vertices[i].GetPosition());
+		glm::vec3 n1 = Math::Transform::TransformVector(skin1, vertices[i].GetNormal());
+
+		Math::Transform skin2 = Math::Transform::Combine(pose[joint.z], Math::Transform::Inverse(bindPose[joint.z]));
+		glm::vec3 p2 = Math::Transform::TransformPoint(skin2, vertices[i].GetPosition());
+		glm::vec3 n2 = Math::Transform::TransformVector(skin2, vertices[i].GetNormal());
+
+		Math::Transform skin3 = Math::Transform::Combine(pose[joint.w], Math::Transform::Inverse(bindPose[joint.w]));
+		glm::vec3 p3 = Math::Transform::TransformPoint(skin3, vertices[i].GetPosition());
+		glm::vec3 n3 = Math::Transform::TransformVector(skin3, vertices[i].GetNormal());
+
+		skinnedPosition[i] = p0 * weight.x + p1 * weight.y + p2 * weight.z + p3 * weight.w;
+		skinnedNormal[i] = n0 * weight.x + n1 * weight.y + n2 * weight.z + n3 * weight.w;
+	}
+}
+
+void Model::CPUSkinMatrices(Armature& armature, Pose& pose)
+{
+	unsigned int numVerts = vertices.size();
+	if (numVerts == 0)
+	{
+		return;
+	}
+
+	skinnedPosition.resize(numVerts);
+	skinnedNormal.resize(numVerts);
+
+	pose.GetJointMatrices(posePalette);
+	std::vector<glm::mat4> invPosePalette = armature.GetInvBindPose();
+
+	for (unsigned int i = 0; i < numVerts; ++i)
+	{
+		glm::ivec4& j = vertices[i].GetInfluences();
+		glm::vec4& w = vertices[i].GetWeights();
+
+		glm::mat4 m0 = (posePalette[j.x] * invPosePalette[j.x]) * w.x;
+		glm::mat4 m1 = (posePalette[j.y] * invPosePalette[j.y]) * w.y;
+		glm::mat4 m2 = (posePalette[j.z] * invPosePalette[j.z]) * w.z;
+		glm::mat4 m3 = (posePalette[j.w] * invPosePalette[j.w]) * w.w;
+
+		glm::mat4 skin = m0 + m1 + m2 + m3;
+
+		skinnedPosition[i] = Math::Transform::TransformPoint(Math::Transform::FromMat4(skin), vertices[i].GetPosition());
+		skinnedNormal[i] = Math::Transform::TransformVector(Math::Transform::FromMat4(skin), vertices[i].GetNormal());
+	}
+}
+
 void Model::LoadAnimationClips(cgltf_data* data)
 {
 	unsigned int numClips = static_cast<unsigned int>(data->animations_count);
@@ -176,7 +248,6 @@ void Model::LoadAnimationClips(cgltf_data* data)
 	}
 
 }
-
 
 Math::Transform GLTFHelpers::GetLocalTransform(cgltf_node& n)
 {

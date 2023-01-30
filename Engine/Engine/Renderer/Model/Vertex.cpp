@@ -80,3 +80,28 @@ std::vector<VkVertexInputAttributeDescription>& Vertex::GetVertexInputAttributeD
 
 	return attributeDescriptions;
 }
+
+vec4& Vertex::GetWeights()
+{
+	return weights;
+}
+
+ivec4& Vertex::GetInfluences()
+{
+	return influences;
+}
+
+vec3& Vertex::GetPosition()
+{
+	return position;
+}
+
+vec3& Vertex::GetNormal()
+{
+	return normal;
+}
+
+vec2& Vertex::GetUV()
+{
+	return uv;
+}

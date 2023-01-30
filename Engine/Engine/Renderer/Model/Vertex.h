@@ -30,6 +30,16 @@ public:
 
 	static std::vector<VkVertexInputAttributeDescription>& GetVertexInputAttributeDescriptions();
 
+	vec4& GetWeights();
+
+	ivec4& GetInfluences();
+
+	vec3& GetPosition();
+
+	vec3& GetNormal();
+
+	vec2& GetUV();
+
 private:
 
 	vec4 weights;

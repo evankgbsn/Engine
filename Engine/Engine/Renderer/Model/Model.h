@@ -9,6 +9,8 @@
 #include <vector>
 
 class Pose;
+class Armature;
+
 struct cgltf_data;
 
 class Model
@@ -40,6 +42,10 @@ protected:
 
 private:
 
+	void CPUSkin(Armature& armature, Pose& pose);
+
+	void CPUSkinMatrices(Armature& armature, Pose& pose);
+
 	void LoadAnimationClips(cgltf_data* data);
 
 	std::vector<Vertex> vertices;
@@ -49,6 +55,12 @@ private:
 	class Armature* armature;
 
 	std::vector<Clip> animationClips;
+
+	std::vector<glm::vec3> skinnedPosition;
+
+	std::vector<glm::vec3> skinnedNormal;
+
+	std::vector<glm::mat4> posePalette;
 
 };
 

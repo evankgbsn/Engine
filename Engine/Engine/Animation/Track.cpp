@@ -61,66 +61,66 @@ namespace TrackHelpers
 
 };
 
-template<typename T, unsigned int N>
+template<typename T, size_t N>
 inline Track<T, N>::Track() :
 	interpolation(Interpolation::Linear)
 {
 }
 
-template<typename T, unsigned int N>
+template<typename T, size_t N>
 inline Track<T, N>::Track(const Interpolation& interpolationType) :
 	interpolation(interpolationType)
 {
 }
 
-template<typename T, unsigned int N>
+template<typename T, size_t N>
 inline Track<T, N>::~Track()
 {
 }
 
-template<typename T, unsigned int N>
+template<typename T, size_t N>
 inline Frame<N>& Track<T, N>::operator[](unsigned int index)
 {
 	return frames[index];
 }
 
-template<typename T, unsigned int N>
+template<typename T, size_t N>
 inline void Track<T, N>::SetInterpolation(Interpolation newInterpolation)
 {
 	interpolation = newInterpolation;
 }
 
-template<typename T, unsigned int N>
+template<typename T, size_t N>
 inline Interpolation Track<T, N>::GetInterpolation() const
 {
 	return interpolation;
 }
 
-template<typename T, unsigned int N>
+template<typename T, size_t N>
 inline unsigned int Track<T, N>::Size() const
 {
 	return static_cast<unsigned int>(frames.size());
 }
 
-template<typename T, unsigned int N>
+template<typename T, size_t N>
 inline void Track<T, N>::SetSize(unsigned int newSize)
 {
 	frames.resize(newSize);
 }
 
-template<typename T, unsigned int N>
+template<typename T, size_t N>
 inline const float& Track<T, N>::GetStartTime() const
 {
 	return frames[0].GetTime();
 }
 
-template<typename T, unsigned int N>
+template<typename T, size_t N>
 inline const float& Track<T, N>::GetEndTime() const
 {
 	return frames[frames.size() - 1].GetTime();
 }
 
-template<typename T, unsigned int N>
+template<typename T, size_t N>
 inline float Track<T, N>::AdjustTimeToFitTrack(float time, float isLooping) const
 {
 	if (frames.size() <= 1U)
@@ -180,7 +180,7 @@ template<> glm::quat Track<glm::quat, 4>::Cast(float* value) const
 	return glm::normalize(tmp);
 }
 
-template<typename T, unsigned int N>
+template<typename T, size_t N>
 inline T Track<T, N>::SampleConstant(float time, bool isLooping)
 {
 	unsigned int frame = FrameIndex(time, isLooping);
@@ -193,7 +193,7 @@ inline T Track<T, N>::SampleConstant(float time, bool isLooping)
 	return Cast(&frames[frame].GetValue()[0]);
 }
 
-template<typename T, unsigned int N>
+template<typename T, size_t N>
 inline T Track<T, N>::SampleLinear(float time, bool isLooping)
 {
 	unsigned int thisFrame = FrameIndex(time, isLooping);
@@ -222,7 +222,7 @@ inline T Track<T, N>::SampleLinear(float time, bool isLooping)
 	return TrackHelpers::Interpolate(start, end, t);
 }
 
-template<typename T, unsigned int N>
+template<typename T, size_t N>
 inline T Track<T, N>::SampleCubic(float time, bool isLooping)
 {
 	unsigned int thisFrame = FrameIndex(time, isLooping);
@@ -258,7 +258,7 @@ inline T Track<T, N>::SampleCubic(float time, bool isLooping)
 	return Hermite(time, point1, point2, tangent1, tangent2);
 }
 
-template<typename T, unsigned int N>
+template<typename T, size_t N>
 inline T Track<T, N>::Sample(float time, bool isLooping)
 {
 	switch (interpolation)
@@ -276,7 +276,7 @@ inline T Track<T, N>::Sample(float time, bool isLooping)
 	return T();
 }
 
-template<typename T, unsigned int N>
+template<typename T, size_t N>
 inline T Track<T, N>::Hermite(float time, const T& p0, const T& p1, const T& t0, const T& t1) const
 {
 	float time2 = time * time;
@@ -295,7 +295,7 @@ inline T Track<T, N>::Hermite(float time, const T& p0, const T& p1, const T& t0,
 	return TrackHelpers::AdjustHermiteResult(result);
 }
 
-template<typename T, unsigned int N>
+template<typename T, size_t N>
 inline unsigned int Track<T, N>::FrameIndex(float time, bool isLooping) const
 {
 	if (frames.size() < 2)

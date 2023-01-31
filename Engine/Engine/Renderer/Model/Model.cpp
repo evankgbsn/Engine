@@ -17,7 +17,7 @@ namespace GLTFHelpers
 	
 	void GetScalarValues(std::vector<float>& out, unsigned int compCount, const cgltf_accessor& inAccessor);
 
-	template<typename T, unsigned int N>
+	template<typename T, size_t N>
 	void TrackFromChannel(Track<T, N>& result, const cgltf_animation_channel& channel);
 
 	Pose LoadRestPose(cgltf_data* data);
@@ -87,6 +87,8 @@ Model::Model(const std::string& path) :
 		return;
 	}
 
+	LoadMeshFromGLTF(data);
+
 	cgltf_free(data);
 }
 
@@ -141,7 +143,7 @@ std::vector<std::string> GLTFHelpers::LoadJointNames(cgltf_data* data)
 
 void Model::CPUSkin(Armature& armature, Pose& pose)
 {
-	unsigned int numVerts = vertices.size();
+	unsigned int numVerts = static_cast<unsigned int>(vertices.size());
 	if (numVerts == 0)
 	{
 		return;
@@ -180,7 +182,7 @@ void Model::CPUSkin(Armature& armature, Pose& pose)
 
 void Model::CPUSkinMatrices(Armature& armature, Pose& pose)
 {
-	unsigned int numVerts = vertices.size();
+	unsigned int numVerts = static_cast<unsigned int>(vertices.size());
 	if (numVerts == 0)
 	{
 		return;
@@ -249,6 +251,123 @@ void Model::LoadAnimationClips(cgltf_data* data)
 
 }
 
+void Model::ModelFromAttribute(cgltf_attribute& attribute, cgltf_skin* skin, cgltf_node* nodes, unsigned int nodeCount)
+{
+	cgltf_attribute_type attribType = attribute.type;
+	cgltf_accessor& accessor = *attribute.data;
+
+	unsigned int componentCount = 0;
+	if (accessor.type == cgltf_type_vec2)
+	{
+		componentCount = 2;
+	}
+	else if (accessor.type == cgltf_type_vec3)
+	{
+		componentCount = 3;
+	}
+	else if (accessor.type == cgltf_type_vec4)
+	{
+		componentCount = 4;
+	}
+
+	std::vector<float> values;
+	GLTFHelpers::GetScalarValues(values, componentCount, accessor);
+	unsigned int accessorCount = accessor.count;
+
+	if (vertices.size() == 0)
+	{
+		vertices.resize(accessorCount);
+	}
+
+	for (unsigned int i = 0; i < accessorCount; ++i)
+	{
+		unsigned int index = i * componentCount;
+
+		switch (attribType)
+		{
+		case cgltf_attribute_type_position:
+			vertices[i].GetPosition() = glm::vec3(values[index + 0], values[index + 1], values[index + 2]);
+			break;
+		case cgltf_attribute_type_texcoord:
+			vertices[i].GetUV() = glm::vec2(values[index + 0], values[index + 1]);
+			break;
+		case cgltf_attribute_type_weights:
+			vertices[i].GetWeights() = glm::vec4(values[index + 0], values[index + 1], values[index + 2], values[index + 3]);
+			break;
+		case cgltf_attribute_type_normal:
+			vertices[i].GetNormal() = glm::vec3(values[index + 0], values[index + 1], values[index + 2]);
+			if (glm::length2(vertices[i].GetNormal()) < 0.000001f)
+			{
+				vertices[i].GetNormal() = glm::vec3(0, 1, 0);
+			}
+			break;
+		case cgltf_attribute_type_joints:
+			/*
+				These indices are skin relative. This function has no information about
+				the skin that is being parsed. Add +0.5f to round since we can't read integers.
+			*/
+
+			glm::ivec4& influences = vertices[i].GetInfluences();
+			influences.x = (int)(values[index + 0] + 0.5f);
+			influences.y = (int)(values[index + 1] + 0.5f);
+			influences.z = (int)(values[index + 2] + 0.5f);
+			influences.w = (int)(values[index + 3] + 0.5f);
+
+			// Use the GetNodeIndex helper function to convert the joint indices so that they go from being relative to the joints array to being relative to the armature heirarchy.
+			influences.x = GLTFHelpers::GetNodeIndex(skin->joints[influences.x], nodes, nodeCount);
+			influences.y = GLTFHelpers::GetNodeIndex(skin->joints[influences.y], nodes, nodeCount);
+			influences.z = GLTFHelpers::GetNodeIndex(skin->joints[influences.z], nodes, nodeCount);
+			influences.w = GLTFHelpers::GetNodeIndex(skin->joints[influences.w], nodes, nodeCount);
+
+			// Make sure that even the invalid nodes have a value of 0. Any negative joint indices will break the skinning implementation.
+			influences.x = std::max(0, influences.x);
+			influences.y = std::max(0, influences.y);
+			influences.z = std::max(0, influences.z);
+			influences.w = std::max(0, influences.w);
+
+			break;
+		}
+	}
+}
+
+void Model::LoadMeshFromGLTF(cgltf_data* data)
+{
+	cgltf_node* nodes = data->nodes;
+	unsigned int nodeCount = data->nodes_count;
+
+	for (unsigned int i = 0; i < nodeCount; ++i)
+	{
+		cgltf_node* node = &nodes[i];
+		if (node->mesh == nullptr)
+		{
+			continue;
+		}
+
+		unsigned int numPrims = node->mesh->primitives_count;
+		for (unsigned int j = 0; j < numPrims; ++j)
+		{
+			cgltf_primitive* primitive = &node->mesh->primitives[j];
+			
+			unsigned int attributeCount = primitive->attributes_count;
+			for (unsigned int k = 0; k < attributeCount; ++k)
+			{
+				cgltf_attribute* attribute = &primitive->attributes[k];
+				ModelFromAttribute(*attribute, node->skin, nodes, nodeCount);
+			}
+
+			if (primitive->indices != nullptr)
+			{
+				unsigned int indicesCount = primitive->indices->count;
+				indices.resize(indicesCount);
+				for (unsigned int k = 0; k < indicesCount; ++k)
+				{
+					indices[k] = cgltf_accessor_read_index(primitive->indices, k);
+				}
+			}
+		}
+	}
+}
+
 Math::Transform GLTFHelpers::GetLocalTransform(cgltf_node& n)
 {
 	Math::Transform result;
@@ -306,7 +425,7 @@ void GLTFHelpers::GetScalarValues(std::vector<float>& out, unsigned int compCoun
 	}
 }
 
-template<typename T, unsigned int N>
+template<typename T, size_t N>
 void GLTFHelpers::TrackFromChannel(Track<T, N>& result, const cgltf_animation_channel& channel)
 {
 	cgltf_animation_sampler& sampler = *channel.sampler;

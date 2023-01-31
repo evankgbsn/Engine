@@ -117,8 +117,8 @@ void Window::Initialize()
 	CreateFramebuffers();
 	CreateSyncObjects();
 
-	gObj0 = GraphicsObjectManager::CreateGraphicsObject(nullptr);
-	gObj1 = GraphicsObjectManager::CreateGraphicsObject(ModelManager::GetModel("DefaultRectangleWithDepth"));
+	gObj0 = GraphicsObjectManager::CreateGraphicsObject(ModelManager::GetModel("DefaultCube"));
+	gObj1 = GraphicsObjectManager::CreateGraphicsObject(ModelManager::GetModel("DefaultCube"));
 }
 
 bool Window::Update()

@@ -12,6 +12,9 @@ class Pose;
 class Armature;
 
 struct cgltf_data;
+struct cgltf_attribute;
+struct cgltf_skin;
+struct cgltf_node;
 
 class Model
 {
@@ -47,6 +50,10 @@ private:
 	void CPUSkinMatrices(Armature& armature, Pose& pose);
 
 	void LoadAnimationClips(cgltf_data* data);
+
+	void ModelFromAttribute(cgltf_attribute& attribute, cgltf_skin* skin, cgltf_node* nodes, unsigned int nodeCount);
+
+	void LoadMeshFromGLTF(cgltf_data* data);
 
 	std::vector<Vertex> vertices;
 

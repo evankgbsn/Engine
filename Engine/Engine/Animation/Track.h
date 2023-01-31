@@ -6,7 +6,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 
-template<typename T, unsigned int N>
+template<typename T, size_t N>
 class Track
 {
 

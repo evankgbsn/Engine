@@ -8,7 +8,7 @@ enum class Interpolation
 	Cubic
 };
 
-template<unsigned int N>
+template<size_t N>
 class Frame
 {
 
@@ -50,41 +50,41 @@ typedef Frame<4> QuaternionFrame;
 
 #endif // FRAME_H
 
-template<unsigned int N>
+template<size_t N>
 inline Frame<N>::Frame()
 {
 }
 
-template<unsigned int N>
+template<size_t N>
 inline Frame<N>::~Frame()
 {
 }
 
-template<unsigned int N>
+template<size_t N>
 inline void Frame<N>::SetTime(const float& newTime)
 {
 	time = newTime;
 }
 
-template<unsigned int N>
+template<size_t N>
 inline const float& Frame<N>::GetTime() const
 {
 	return time;
 }
 
-template<unsigned int N>
+template<size_t N>
 inline float* const Frame<N>::GetValue()
 {
 	return nullptr;
 }
 
-template<unsigned int N>
+template<size_t N>
 inline float* const Frame<N>::GetOutTangent()
 {
 	return outTangent;
 }
 
-template<unsigned int N>
+template<size_t N>
 inline float* const Frame<N>::GetInTangent()
 {
 	return inTangent;

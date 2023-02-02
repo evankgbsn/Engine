@@ -85,6 +85,9 @@
     <Filter Include="Source Files\Engine\Animation">
       <UniqueIdentifier>{e2737cc7-a834-4b64-8527-bac2ad3a21ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Renderer\Cameras">
+      <UniqueIdentifier>{f11eecb7-fd8b-419c-9b49-ac02f9d437a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -228,6 +231,9 @@
     <ClInclude Include="Engine\Animation\Armature.h">
       <Filter>Source Files\Engine\Animation</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Renderer\Cameras\Camera.h">
+      <Filter>Source Files\Engine\Renderer\Cameras</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -367,6 +373,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Math\Math.cpp">
       <Filter>Source Files\Engine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Cameras\Camera.cpp">
+      <Filter>Source Files\Engine\Renderer\Cameras</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

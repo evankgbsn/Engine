@@ -11,6 +11,7 @@
 #include "../Memory/IndexBuffer.h"
 #include "../Memory/StagingBuffer.h"
 #include "../Images/Texture.h"
+#include "../Cameras//Camera.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <chrono>
@@ -99,10 +100,11 @@ void GraphicsObject::Update(unsigned int index)
 	GraphicsObject::MVPUniformBuffer ubo{};
 	ubo.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(30.0f), glm::vec3(0.0f, 0.0f, .2f));
 
-	ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	Camera cam(Camera::Type::PERSPECTIVE, WindowManager::GetWindow("MainWindow"));
+	cam.SetPosition(glm::vec3(0.0f, 5.0f, 25.0f));
 
-	ubo.projection = glm::perspective(glm::radians(45.0f), static_cast<float>(WindowManager::GetWindow("MainWindow")->GetWidth()) / WindowManager::GetWindow("MainWindow")->GetHeight(), 0.1f, 10.0f);
-
+	ubo.view = cam.GetView();
+	ubo.projection = cam.GetProjection();
 	ubo.projection[1][1] *= -1;
 
 	mvpUniformBuffers[index]->SetData(&ubo);
@@ -118,12 +120,12 @@ void GraphicsObject::SlowUpdate(unsigned int index)
 	GraphicsObject::MVPUniformBuffer ubo{};
 	ubo.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(0.0f), glm::vec3(0.0f, 0.0f, .2f));
 
-	ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	Camera cam(Camera::Type::PERSPECTIVE, WindowManager::GetWindow("MainWindow"));
+	cam.SetPosition(glm::vec3(0.0f, 5.0f, 25.0f));
 
-	ubo.projection = glm::perspective(glm::radians(45.0f), static_cast<float>(1920) / 1080, 0.1f, 10.0f);
-
+	ubo.view = cam.GetView(); 
+	ubo.projection = cam.GetProjection(); 
 	ubo.projection[1][1] *= -1;
-
 	mvpUniformBuffers[index]->SetData(&ubo);
 }
 

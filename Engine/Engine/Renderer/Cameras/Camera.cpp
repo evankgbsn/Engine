@@ -3,9 +3,38 @@
 #include "../Windows/Window.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/rotate_vector.hpp >
 
 Camera::~Camera()
 {
+}
+
+void Camera::Rotate(const glm::vec3& axis, const float& angle)
+{	
+	target = position + glm::rotate(GetForwardVector(), angle, axis);
+	UpdateView();
+}
+
+void Camera::Translate(const glm::vec3& translation)
+{
+	target += translation;
+	position += translation;
+	UpdateView();
+}
+
+glm::vec3 Camera::GetForwardVector() const
+{
+	return glm::normalize(target - position);
+}
+
+glm::vec3 Camera::GetRightVector() const
+{
+	return -glm::normalize(glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), GetForwardVector()));
+}
+
+glm::vec3 Camera::GetUpVector() const
+{
+	return glm::normalize(glm::cross(GetForwardVector(), -GetRightVector()));
 }
 
 const float& Camera::GetFOV() const
@@ -25,7 +54,7 @@ const float& Camera::GetFar() const
 
 const glm::vec3& Camera::GetPosition() const
 {
-	return view[3];
+	return position;
 }
 
 const glm::mat4& Camera::GetView() const
@@ -43,9 +72,15 @@ const Camera::Type& Camera::GetType() const
 	return type;
 }
 
-void Camera::SetPosition(const glm::vec3& position)
+void Camera::SetPosition(const glm::vec3& p)
 {
-	view[3] = glm::vec4(position, view[3].w);
+	position = p;
+	UpdateView();
+}
+
+void Camera::SetTarget(const glm::vec3& newTarget)
+{
+	target = newTarget;
 	UpdateView();
 }
 
@@ -116,20 +151,13 @@ void Camera::SetWindow(Window* const newWindow)
 {
 	window = newWindow;
 
-	float windowWidth = 0;
-	float windowHeight = 0;
-
 	if (window != nullptr)
 	{
-		windowWidth = static_cast<float>(window->GetWidth());
-		windowHeight = static_cast<float>(window->GetHeight());
+		right = static_cast<float>(window->GetWidth());
+		top = static_cast<float>(window->GetHeight());
+		aspect = right / top;
+		UpdateProjection();
 	}
-
-	right = windowWidth;
-	top = windowHeight;
-	aspect = windowWidth / windowHeight;
-
-	UpdateProjection();
 }
 
 void Camera::UpdateProjection()
@@ -149,10 +177,7 @@ void Camera::UpdateProjection()
 
 void Camera::UpdateView()
 {
-	glm::vec3 position = view[3];
-	glm::vec3 forward = view[2];
-	glm::vec3 up = view[1];
-	view = glm::lookAt(position, position + ((position + forward) - position), up);
+	view = glm::lookAt(position, target, GetUpVector());
 }
 
 Camera::Camera(const Camera::Type& t, Window* const w) :
@@ -166,7 +191,9 @@ Camera::Camera(const Camera::Type& t, Window* const w) :
 	left(0.0f),
 	right(0.0f),
 	top(0.0f),
-	bottom(0.0f)
+	bottom(0.0f),
+	position(glm::vec3(0.0f,0.0f,0.0f)),
+	target(glm::vec3(0.0f, 0.0f, 1.0f))
 {
 	SetWindow(w);
 	UpdateProjection();

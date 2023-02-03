@@ -234,6 +234,9 @@
     <ClInclude Include="Engine\Renderer\Cameras\Camera.h">
       <Filter>Source Files\Engine\Renderer\Cameras</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Renderer\Cameras\CameraManager.h">
+      <Filter>Source Files\Engine\Renderer\Cameras</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -376,6 +379,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Renderer\Cameras\Camera.cpp">
       <Filter>Source Files\Engine\Renderer\Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Cameras\CameraManager.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

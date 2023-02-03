@@ -11,7 +11,7 @@
 #include "../Memory/IndexBuffer.h"
 #include "../Memory/StagingBuffer.h"
 #include "../Images/Texture.h"
-#include "../Cameras//Camera.h"
+#include "../Cameras/CameraManager.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <chrono>
@@ -100,8 +100,7 @@ void GraphicsObject::Update(unsigned int index)
 	GraphicsObject::MVPUniformBuffer ubo{};
 	ubo.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(30.0f), glm::vec3(0.0f, 0.0f, .2f));
 
-	Camera cam(Camera::Type::PERSPECTIVE, WindowManager::GetWindow("MainWindow"));
-	cam.SetPosition(glm::vec3(0.0f, 5.0f, 25.0f));
+	const Camera& cam = CameraManager::GetCamera("MainCamera");
 
 	ubo.view = cam.GetView();
 	ubo.projection = cam.GetProjection();
@@ -120,8 +119,7 @@ void GraphicsObject::SlowUpdate(unsigned int index)
 	GraphicsObject::MVPUniformBuffer ubo{};
 	ubo.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(0.0f), glm::vec3(0.0f, 0.0f, .2f));
 
-	Camera cam(Camera::Type::PERSPECTIVE, WindowManager::GetWindow("MainWindow"));
-	cam.SetPosition(glm::vec3(0.0f, 5.0f, 25.0f));
+	const Camera & cam = CameraManager::GetCamera("MainCamera");
 
 	ubo.view = cam.GetView(); 
 	ubo.projection = cam.GetProjection(); 

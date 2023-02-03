@@ -25,8 +25,8 @@
 #include "../GraphicsObjects/GraphicsObject.h"
 #include "../Model/Model.h"
 #include "../Model/ModelManager.h"
-
 #include "../Pipeline/Shaders/DescriptorSetManager.h"
+#include "../Cameras/CameraManager.h"
 
 #include "glm/gtc/matrix_transform.hpp"
 
@@ -39,11 +39,16 @@ Window::Window(uint32_t w, uint32_t h, std::string&& windowName) :
 	framebuffers(std::vector<VkFramebuffer>()),
 	framebufferResized(false)
 {
-	
+	CameraManager::Initialize();
+	Camera& cam = CameraManager::CreateCamera(Camera::Type::PERSPECTIVE, std::string("MainCamera"), this);
+	cam.SetPosition(glm::vec3(0.0f, 5.0f, 25.0f));
+	cam.SetTarget(glm::vec3(0.0f, 5.0f, 24.0f));
 }
 
 Window::~Window()
 {
+	CameraManager::Terminate();
+
 	VkDevice& device = Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice();
 
 	vkDeviceWaitIdle(device);
@@ -127,6 +132,8 @@ bool Window::Update()
 	{
 		return false;
 	}
+
+	CheckInput();
 
 	glfwPollEvents();
 
@@ -526,6 +533,52 @@ void Window::Draw()
 		throw std::runtime_error("Failed to present.");
 		return;
 	}
+}
+
+void Window::CheckInput()
+{
+	Camera& cam = CameraManager::GetCamera("MainCamera");
+	
+	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_W))
+	{
+		cam.Translate(cam.GetForwardVector() * 0.001f);
+	}
+	
+	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_A))
+	{
+		cam.Translate(cam.GetRightVector() * -0.001f);
+	}
+	
+	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_S))
+	{
+		cam.Translate(cam.GetForwardVector() * -0.001f);
+	}
+	
+	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_D))
+	{
+		cam.Translate(cam.GetRightVector() * 0.001f);
+	}
+	
+	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_LEFT_CONTROL))
+	{
+		cam.Translate(glm::vec3(0.0f, -0.001f, 0.0f));
+	}
+
+	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_SPACE))
+	{
+		cam.Translate(glm::vec3(0.0f, 0.001f, 0.0f));
+	}
+
+	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_Q))
+	{
+		cam.Rotate(cam.GetUpVector(), 0.0001f);
+	}
+
+	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_E))
+	{
+		cam.Rotate(cam.GetUpVector(), -0.0001f);
+	}
+
 }
 
 void Window::RecordCommands(int imageIndex)

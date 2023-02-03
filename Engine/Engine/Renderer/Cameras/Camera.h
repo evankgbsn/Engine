@@ -19,6 +19,16 @@ public:
 
 	~Camera();
 
+	void Rotate(const glm::vec3& axis, const float& angle);
+
+	void Translate(const glm::vec3& translation);
+
+	glm::vec3 GetForwardVector() const;
+
+	glm::vec3 GetRightVector() const;
+
+	glm::vec3 GetUpVector() const;
+
 	const float& GetFOV() const;
 
 	const float& GetNear() const;
@@ -34,6 +44,8 @@ public:
 	const Camera::Type& GetType() const;
 
 	void SetPosition(const glm::vec3& position);
+
+	void SetTarget(const glm::vec3& newTarget);
 
 	void SetView(const glm::mat4& newView);
 
@@ -62,7 +74,7 @@ public:
 	void SetType(const Camera::Type& newType);
 
 	void SetWindow(Window* const newWindow);
-
+	
 private:
 
 	void UpdateProjection();
@@ -108,6 +120,10 @@ protected:
 	glm::mat4 view;
 
 	glm::mat4 projection;
+
+	glm::vec3 position;
+
+	glm::vec3 target;
 
 };
 

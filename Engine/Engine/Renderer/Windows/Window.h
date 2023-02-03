@@ -81,6 +81,8 @@ private:
 
 	void Draw();
 
+	void CheckInput();
+
 	void RecordCommands(int imageIndex);
 
 	void CreateSyncObjects();

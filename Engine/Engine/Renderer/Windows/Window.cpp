@@ -41,8 +41,8 @@ Window::Window(uint32_t w, uint32_t h, std::string&& windowName) :
 {
 	CameraManager::Initialize();
 	Camera& cam = CameraManager::CreateCamera(Camera::Type::PERSPECTIVE, std::string("MainCamera"), this);
-	cam.SetPosition(glm::vec3(0.0f, 5.0f, 25.0f));
-	cam.SetTarget(glm::vec3(0.0f, 5.0f, 24.0f));
+	cam.SetPosition(glm::vec3(0.0f, 0.0f, 25.0f));
+	cam.SetTarget(glm::vec3(0.0f, 0.0f, 24.0f));
 }
 
 Window::~Window()
@@ -538,35 +538,37 @@ void Window::Draw()
 void Window::CheckInput()
 {
 	Camera& cam = CameraManager::GetCamera("MainCamera");
-	
+
+	float speed = 0.001f;
+
 	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_W))
 	{
-		cam.Translate(cam.GetForwardVector() * 0.001f);
+		cam.Translate(cam.GetForwardVector() * speed);
 	}
 	
 	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_A))
 	{
-		cam.Translate(cam.GetRightVector() * -0.001f);
+		cam.Translate(cam.GetRightVector() * -speed);
 	}
 	
 	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_S))
 	{
-		cam.Translate(cam.GetForwardVector() * -0.001f);
+		cam.Translate(cam.GetForwardVector() * -speed);
 	}
 	
 	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_D))
 	{
-		cam.Translate(cam.GetRightVector() * 0.001f);
+		cam.Translate(cam.GetRightVector() * speed);
 	}
 	
 	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_LEFT_CONTROL))
 	{
-		cam.Translate(glm::vec3(0.0f, -0.001f, 0.0f));
+		cam.Translate(glm::vec3(0.0f, -speed, 0.0f));
 	}
 
 	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_SPACE))
 	{
-		cam.Translate(glm::vec3(0.0f, 0.001f, 0.0f));
+		cam.Translate(glm::vec3(0.0f, speed, 0.0f));
 	}
 
 	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_Q))

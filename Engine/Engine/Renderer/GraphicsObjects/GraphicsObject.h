@@ -50,6 +50,9 @@ public:
 		glm::mat4 model;
 		glm::mat4 view;
 		glm::mat4 projection;
+		glm::mat4 pose[120];
+		glm::mat4 invBindPose[120];
+		bool isSkinned;
 	};
 
 protected:

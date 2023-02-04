@@ -39,7 +39,7 @@ public:
 
 	unsigned int GetParent(unsigned int index) const;
 
-	void SetParent(unsigned int index, unsigned int parent);
+	void SetParent(unsigned int index, int parent);
 
 	const Math::Transform& GetLocalTransform(unsigned int index) const;
 
@@ -51,7 +51,7 @@ private:
 
 	std::vector<Math::Transform> joints;
 
-	std::vector<unsigned int> parents;
+	std::vector<int> parents;
 
 };
 

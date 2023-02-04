@@ -22,7 +22,7 @@ namespace GLTFHelpers
 
 	Pose LoadRestPose(cgltf_data* data);
 
-	Pose LoadBindPose(cgltf_data* const data);
+	Pose LoadBindPose(cgltf_data* const data, const Pose& restPose);
 
 	std::vector<std::string> LoadJointNames(cgltf_data* data);
 
@@ -88,6 +88,8 @@ Model::Model(const std::string& path) :
 	}
 
 	LoadMeshFromGLTF(data);
+	*armature = GLTFHelpers::LoadArmature(data);
+	LoadAnimationClips(data);
 
 	cgltf_free(data);
 }
@@ -107,15 +109,30 @@ const std::vector<unsigned int>& Model::GetIndices() const
 	return indices;
 }
 
+Armature* const Model::GetArmature() const
+{
+	return armature;
+}
+
+std::vector<Clip>& Model::GetAnimationClips()
+{
+	return animationClips;
+}
+
 Pose GLTFHelpers::LoadRestPose(cgltf_data* data)
 {
 	unsigned int boneCount = static_cast<unsigned int>(data->nodes_count);
 	Pose result(boneCount);
 
-	for (unsigned int i = 0; i < boneCount; i++)
+	for (unsigned int i = 0; i < boneCount; ++i)
 	{
-		result.SetLocalTransform(i, GLTFHelpers::GetLocalTransform(data->nodes[i]));
-		result.SetParent(i, GLTFHelpers::GetNodeIndex(&(data->nodes[i]), data->nodes, boneCount));
+		cgltf_node* node = &(data->nodes[i]);
+
+		Math::Transform transform = GetLocalTransform(data->nodes[i]);
+		result.SetLocalTransform(i, transform);
+
+		int parent = GetNodeIndex(node->parent, data->nodes, boneCount);
+		result.SetParent(i, parent);
 	}
 
 	return result;
@@ -175,7 +192,7 @@ void Model::CPUSkin(Armature& armature, Pose& pose)
 		glm::vec3 p3 = Math::Transform::TransformPoint(skin3, vertices[i].GetPosition());
 		glm::vec3 n3 = Math::Transform::TransformVector(skin3, vertices[i].GetNormal());
 
-		skinnedPosition[i] = p0 * weight.x + p1 * weight.y + p2 * weight.z + p3 * weight.w;
+		vertices[i].GetPosition() = p0 * weight.x + p1 * weight.y + p2 * weight.z + p3 * weight.w;
 		skinnedNormal[i] = n0 * weight.x + n1 * weight.y + n2 * weight.z + n3 * weight.w;
 	}
 }
@@ -272,7 +289,7 @@ void Model::ModelFromAttribute(cgltf_attribute& attribute, cgltf_skin* skin, cgl
 
 	std::vector<float> values;
 	GLTFHelpers::GetScalarValues(values, componentCount, accessor);
-	unsigned int accessorCount = accessor.count;
+	unsigned int accessorCount = static_cast<unsigned int>(accessor.count);
 
 	if (vertices.size() == 0)
 	{
@@ -333,7 +350,7 @@ void Model::ModelFromAttribute(cgltf_attribute& attribute, cgltf_skin* skin, cgl
 void Model::LoadMeshFromGLTF(cgltf_data* data)
 {
 	cgltf_node* nodes = data->nodes;
-	unsigned int nodeCount = data->nodes_count;
+	unsigned int nodeCount = static_cast<unsigned int>(data->nodes_count);
 
 	for (unsigned int i = 0; i < nodeCount; ++i)
 	{
@@ -343,12 +360,12 @@ void Model::LoadMeshFromGLTF(cgltf_data* data)
 			continue;
 		}
 
-		unsigned int numPrims = node->mesh->primitives_count;
+		unsigned int numPrims = static_cast<unsigned int>(node->mesh->primitives_count);
 		for (unsigned int j = 0; j < numPrims; ++j)
 		{
 			cgltf_primitive* primitive = &node->mesh->primitives[j];
 			
-			unsigned int attributeCount = primitive->attributes_count;
+			unsigned int attributeCount = static_cast<unsigned int>(primitive->attributes_count);
 			for (unsigned int k = 0; k < attributeCount; ++k)
 			{
 				cgltf_attribute* attribute = &primitive->attributes[k];
@@ -357,11 +374,11 @@ void Model::LoadMeshFromGLTF(cgltf_data* data)
 
 			if (primitive->indices != nullptr)
 			{
-				unsigned int indicesCount = primitive->indices->count;
+				unsigned int indicesCount = static_cast<unsigned int>(primitive->indices->count);
 				indices.resize(indicesCount);
 				for (unsigned int k = 0; k < indicesCount; ++k)
 				{
-					indices[k] = cgltf_accessor_read_index(primitive->indices, k);
+					indices[k] = static_cast<unsigned int>(cgltf_accessor_read_index(primitive->indices, k));
 				}
 			}
 		}
@@ -387,7 +404,7 @@ Math::Transform GLTFHelpers::GetLocalTransform(cgltf_node& n)
 
 	if (n.has_rotation)
 	{
-		result.Rotation() = glm::quat(n.rotation[0], n.rotation[1], n.rotation[2], n.rotation[3]);
+		result.Rotation() = glm::quat(n.rotation[3], n.rotation[0], n.rotation[1], n.rotation[2]);
 	}
 
 	if (n.has_scale)
@@ -481,24 +498,23 @@ void GLTFHelpers::TrackFromChannel(Track<T, N>& result, const cgltf_animation_ch
 	}
 }
 
-Pose GLTFHelpers::LoadBindPose(cgltf_data* const data)
+Pose GLTFHelpers::LoadBindPose(cgltf_data* const data, const Pose& restPose)
 {
-	Pose restPose = GLTFHelpers::LoadRestPose(data);
 	unsigned int numBones = restPose.Size();
 	std::vector<Math::Transform> worldBindPose(numBones);
-
+	
 	for (unsigned int i = 0; i < numBones; ++i)
 	{
 		worldBindPose[i] = restPose.GetGlobalTransform(i);
 	}
-
+	
 	unsigned int numSkins = static_cast<unsigned int>(data->skins_count);
 	for (unsigned int i = 0; i < numSkins; ++i)
 	{
 		cgltf_skin* skin = &(data->skins[i]);
 		std::vector<float> invBindAccessor;
 		GLTFHelpers::GetScalarValues(invBindAccessor, 16, *skin->inverse_bind_matrices);
-
+	
 		unsigned int numJoints = static_cast<unsigned int>(skin->joints_count);
 		for (unsigned int j = 0; j < numJoints; ++j)
 		{
@@ -510,15 +526,15 @@ Pose GLTFHelpers::LoadBindPose(cgltf_data* const data)
 				matrix[8], matrix[9], matrix[10], matrix[11],
 				matrix[12], matrix[13], matrix[14], matrix[15]
 			);
-
+	
 			// Invert and convert to transform.
 			glm::mat4 bindMatrix = glm::inverse(invBindMatrix);
 			Math::Transform bindTransform = Math::Transform::FromMat4(bindMatrix);
-
+	
 			// Set that transform in the world bind pose.
 			cgltf_node* jointNode = skin->joints[j];
 			int jointIndex = GLTFHelpers::GetNodeIndex(jointNode, data->nodes, numBones);
-
+	
 			worldBindPose[jointIndex] = bindTransform;
 		}
 	}
@@ -543,5 +559,6 @@ Pose GLTFHelpers::LoadBindPose(cgltf_data* const data)
 
 Armature GLTFHelpers::LoadArmature(cgltf_data* const data)
 {
-	return Armature(LoadRestPose(data), LoadBindPose(data), LoadJointNames(data));
+	Pose restPose = LoadRestPose(data);
+	return Armature(restPose, LoadBindPose(data, restPose), LoadJointNames(data));
 }

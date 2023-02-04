@@ -75,7 +75,7 @@ inline const float& Frame<N>::GetTime() const
 template<size_t N>
 inline float* const Frame<N>::GetValue()
 {
-	return nullptr;
+	return value;
 }
 
 template<size_t N>

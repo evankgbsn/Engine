@@ -41,11 +41,15 @@ public:
 
 	const std::vector<unsigned int>& GetIndices() const;
 
+	Armature* const GetArmature() const;
+
+	std::vector<Clip>& GetAnimationClips();
+
+	void CPUSkin(Armature& armature, Pose& pose);
+
 protected:
 
 private:
-
-	void CPUSkin(Armature& armature, Pose& pose);
 
 	void CPUSkinMatrices(Armature& armature, Pose& pose);
 
@@ -59,7 +63,7 @@ private:
 
 	std::vector<unsigned int> indices;
 
-	class Armature* armature;
+	Armature* armature;
 
 	std::vector<Clip> animationClips;
 

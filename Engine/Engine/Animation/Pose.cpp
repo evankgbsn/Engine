@@ -85,9 +85,9 @@ Math::Transform Pose::GetGlobalTransform(unsigned int index) const
 {
 	Math::Transform result = joints[index];
 
-	for (unsigned int i = parents[index]; i >= 0; i = parents[i])
+	for (int parent = parents[index]; parent >= 0; parent = parents[parent])
 	{
-		result = Math::Transform::Combine(joints[i], result);
+		result = Math::Transform::Combine(joints[parent], result);
 	}
 
 	return result;
@@ -109,7 +109,7 @@ unsigned int Pose::GetParent(unsigned int index) const
 	return parents[index];
 }
 
-void Pose::SetParent(unsigned int index, unsigned int parent)
+void Pose::SetParent(unsigned int index, int parent)
 {
 	parents[index] = parent;
 }

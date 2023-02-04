@@ -12,6 +12,8 @@
 #include "../Memory/StagingBuffer.h"
 #include "../Images/Texture.h"
 #include "../Cameras/CameraManager.h"
+#include "../../Animation/Armature.h"
+#include "../../Animation/Clip.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <chrono>
@@ -98,7 +100,7 @@ void GraphicsObject::Update(unsigned int index)
 	float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
 
 	GraphicsObject::MVPUniformBuffer ubo{};
-	ubo.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(30.0f), glm::vec3(0.0f, 0.0f, .2f));
+	ubo.model = glm::mat4(1.0f);
 
 	const Camera& cam = CameraManager::GetCamera("MainCamera");
 
@@ -106,25 +108,50 @@ void GraphicsObject::Update(unsigned int index)
 	ubo.projection = cam.GetProjection();
 	ubo.projection[1][1] *= -1;
 
+	ubo.isSkinned = true;
+
+	// Animation data
+	static float playback = 0.0f;
+	static Pose animatedPose = model->GetArmature()->GetRestPose();
+
+	const std::vector<glm::mat4>& invBindPose = model->GetArmature()->GetInvBindPose();
+	for (unsigned int i = 0; i < invBindPose.size(); ++i)
+	{
+		ubo.invBindPose[i] = invBindPose[i];
+	}
+	
+	std::vector<glm::mat4> posePalette(model->GetArmature()->GetRestPose().Size());
+	
+	playback = model->GetAnimationClips()[0].Sample(animatedPose, playback + 0.0001f);
+	
+	animatedPose.GetJointMatrices(posePalette);
+	
+	for (unsigned int i = 0; i < posePalette.size(); ++i)
+	{
+		ubo.pose[i] = posePalette[i];
+	}
+
 	mvpUniformBuffers[index]->SetData(&ubo);
 }
 
 void GraphicsObject::SlowUpdate(unsigned int index)
 {
-	static auto startTime = std::chrono::high_resolution_clock::now();
-
-	auto currentTime = std::chrono::high_resolution_clock::now();
-	float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
-
-	GraphicsObject::MVPUniformBuffer ubo{};
-	ubo.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(0.0f), glm::vec3(0.0f, 0.0f, .2f));
-
-	const Camera & cam = CameraManager::GetCamera("MainCamera");
-
-	ubo.view = cam.GetView(); 
-	ubo.projection = cam.GetProjection(); 
-	ubo.projection[1][1] *= -1;
-	mvpUniformBuffers[index]->SetData(&ubo);
+	//static auto startTime = std::chrono::high_resolution_clock::now();
+	//
+	//auto currentTime = std::chrono::high_resolution_clock::now();
+	//float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
+	//
+	//GraphicsObject::MVPUniformBuffer ubo{};
+	//ubo.model = glm::mat4(1.0f);
+	//
+	//const Camera & cam = CameraManager::GetCamera("MainCamera");
+	//
+	//ubo.view = cam.GetView(); 
+	//ubo.projection = cam.GetProjection(); 
+	//ubo.projection[1][1] *= -1;
+	//
+	//ubo.isSkinned = false;
+	//mvpUniformBuffers[index]->SetData(&ubo);
 }
 
 void GraphicsObject::CreateUniformBuffers()

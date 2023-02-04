@@ -176,7 +176,7 @@ template<> glm::vec3 Track<glm::vec3, 3>::Cast(float* value) const
 
 template<> glm::quat Track<glm::quat, 4>::Cast(float* value) const
 {
-	glm::quat tmp(value[0], value[1], value[2], value[3]);
+	glm::quat tmp(value[3], value[0], value[1], value[2]);
 	return glm::normalize(tmp);
 }
 
@@ -330,9 +330,9 @@ inline unsigned int Track<T, N>::FrameIndex(float time, bool isLooping) const
 		}
 	}
 
-	for (unsigned int i = Size() - 1; i > 0; i++)
+	for (unsigned int i = Size() - 1; i >= 0; --i)
 	{
-		if (frames[i].GetTime() <= time)
+		if (time >= frames[i].GetTime())
 		{
 			return i;
 		}

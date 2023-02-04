@@ -57,11 +57,11 @@ float Clip::Sample(Pose& outPose, float time)
     for (unsigned int i = 0; i < size; i++)
     {
         unsigned int j = tracks[i].GetId(); // Joint
-        const Math::Transform& local = outPose.GetLocalTransform(j);
+        Math::Transform local = outPose.GetLocalTransform(j);
         Math::Transform animated = tracks[i].Sample(local, time, isLooping);
         outPose.SetLocalTransform(j,animated);
     }
-    return 0.0f;
+    return time;
 }
 
 void Clip::RecalculateDuration()

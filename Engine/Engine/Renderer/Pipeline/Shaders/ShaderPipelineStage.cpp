@@ -1,31 +1,37 @@
 #include "ShaderPipelineStage.h"
 
+#include "../../../Utils/Logger.h"
 #include "Shader.h"
 
-ShaderPipelineStage::ShaderPipelineStage(Shader* vert, Shader* frag, Shader* geo, Shader* tessE, Shader* tessC) :
-	vertex(vert),
-	fragment(frag),
-	geometry(geo),
-	tesselationEvaluation(tessE),
-	tesselationControl(tessC)
+ShaderPipelineStage::ShaderPipelineStage()
 {
-	shaderStages.resize(2);
-
-	VkPipelineShaderStageCreateInfo& vertCreateInfo = shaderStages[0];
-	vertCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-	vertCreateInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
-	vertCreateInfo.module = **vertex;
-	vertCreateInfo.pName = "main";
-
-	VkPipelineShaderStageCreateInfo& fragCreateInfo = shaderStages[1];
-	fragCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-	fragCreateInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-	fragCreateInfo.module = **fragment;
-	fragCreateInfo.pName = "main";
 }
 
 ShaderPipelineStage::~ShaderPipelineStage()
 {
+}
+
+void ShaderPipelineStage::AddShader(const VkShaderStageFlagBits& shaderStageFlag, const Shader* const shader)
+{
+	unsigned int i = 0;
+	for (unsigned int i = 0; i < shaderStages.size(); ++i)
+	{
+		if (shaderStages[i].stage == shaderStageFlag)
+		{
+			Logger::Log(std::string("Replacing an existing shader in shader stage: ") + std::to_string(shaderStageFlag) + std::string(" with ") + shader->GetFileName(), Logger::Category::Warning);
+			shaderStages[i].module = **shader;
+			return;
+		}
+	}
+
+	VkPipelineShaderStageCreateInfo createInfo = {};
+	createInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+	createInfo.stage = shaderStageFlag;
+	createInfo.module = **shader;
+	createInfo.pName = "main";
+
+	shaderStages.push_back(createInfo);
+
 }
 
 const std::vector<VkPipelineShaderStageCreateInfo>& ShaderPipelineStage::operator*() const

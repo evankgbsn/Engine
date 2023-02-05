@@ -2,19 +2,24 @@
 #define GRAPHICSOBJECTMANAGER_H
 
 #include <vector>
+#include <unordered_map>
+#include <string>
 #include <vulkan/vulkan.h>
 
 class GraphicsObject;
 class Model;
 class DescriptorSetLayout;
 class GraphicsPipeline;
+class ShaderPipelineStage;
+class Window;
+class Shader;
 
 class GraphicsObjectManager
 {
 
 public:
 
-	static void Initialize();
+	static void Initialize(const Window& window);
 
 	static void Terminate();
 
@@ -26,11 +31,13 @@ public:
 
 	static const std::vector<GraphicsObject*>& GetGraphicsObjets();
 
-	static void DrawObjects(VkCommandBuffer& buffer, GraphicsPipeline* graphicsPipeline, unsigned int imageIndex);
+	static void DrawObjects(VkCommandBuffer& buffer, unsigned int imageIndex);
 
 private:
 
-	GraphicsObjectManager();
+	GraphicsObjectManager() = delete;
+
+	GraphicsObjectManager(const Window& window);
 
 	~GraphicsObjectManager();
 
@@ -44,9 +51,21 @@ private:
 	
 	void CreateDescriptorPools();
 
+	void CreateGraphicsPipelines();
+
+	void LoadShaders();
+
 	static GraphicsObjectManager* instance;
 
 	std::vector<GraphicsObject*> graphicsObjects;
+
+	const Window& window;
+
+	std::unordered_map<std::string, std::pair<ShaderPipelineStage*, GraphicsPipeline*>> graphicsPipelines;
+
+	std::vector<Shader*> shaders;
+
+	static const std::string shaderDirectoryName;
 };
 
 #endif // GRAPHICSOBJECTMANAGER_H

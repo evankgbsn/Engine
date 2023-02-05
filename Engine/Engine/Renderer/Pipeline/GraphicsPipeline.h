@@ -21,7 +21,7 @@ class GraphicsPipeline
 
 public:
 
-	GraphicsPipeline(const ViewportPipelineState& viewportPipelineState, const RenderPass& renderPass);
+	GraphicsPipeline(const ViewportPipelineState& viewportPipelineState, const RenderPass& renderPass, const ShaderPipelineStage& shaderPipelineStage);
 
 	~GraphicsPipeline();
 
@@ -49,16 +49,15 @@ private:
 
 	InputAssemblyPipelineState* const inputAssembly;
 	VertexInputPipelineState* const vertexInput;
-	const ViewportPipelineState& viewport;
 	RasterizerPipelineState* const rasterizer;
 	MultisamplingPipelineState* const multisampling;
 	ColorBlendingPipelineState* const colorBlending;
 	DynamicPipelineState* const dynamic;
-	ShaderPipelineStage* shaders;
 	DepthStencilPipelineState* const depthStencil;
-
 	PipelineLayout* const layout;
 
+	const ViewportPipelineState& viewportPipelineState;
+	const ShaderPipelineStage& shaderPipelineStage;
 	const RenderPass& renderPass;
 };
 

@@ -15,6 +15,7 @@
 #include "../Pipeline/PipelineLayout.h"
 #include "../Pipeline/RenderPass/RenderPass.h"
 #include "../Pipeline/Viewport/ViewportPipelineState.h"
+#include "../Pipeline/Shaders/ShaderPipelineStage.h"
 #include "../Commands/CommandManager.h"
 #include "../Memory/VertexBuffer.h"
 #include "../Memory/StagingBuffer.h"
@@ -28,6 +29,7 @@
 #include "../Model/ModelManager.h"
 #include "../Pipeline/Shaders/DescriptorSetManager.h"
 #include "../Cameras/CameraManager.h"
+#include "../Memory/MemoryManager.h"
 
 #include "glm/gtc/matrix_transform.hpp"
 
@@ -59,6 +61,7 @@ Window::~Window()
 	vmaDestroyImage(MemoryManager::GetAllocator(), depthImage, depthImageAllocation);
 
 	GraphicsObjectManager::Terminate();
+	MemoryManager::Terminate();
 
 	vkDestroyFence(device, inFlight, nullptr);
 	vkDestroySemaphore(device, imageAvailable, nullptr);
@@ -66,7 +69,6 @@ Window::~Window()
 
 	CleanupSwapchain();
 
-	delete graphicsPipeline;
 	delete viewportPipelineState;
 	delete renderPass;
 	
@@ -103,16 +105,16 @@ void Window::Initialize()
 	{
 		// Choose a device that supports this window.
 		Renderer::ChooseDevice(*this);
-		GraphicsObjectManager::Initialize(); // maybe here too.
+
+		MemoryManager::Initialize();
+
+		// Needs to be called before we create the RenderPass in the pipeline for a reference to the depth format.
+		CreateDepthBuffer();
+		renderPass = new RenderPass(*this);
+		viewportPipelineState = new ViewportPipelineState(*this);
+		GraphicsObjectManager::Initialize(*this); // maybe here too.
 		firstWindow = false;
 	}
-
-	// Needs to be called before we create the RenderPass in the pipeline for a reference to the depth format.
-	CreateDepthBuffer();
-
-	renderPass = new RenderPass(*this);
-	viewportPipelineState = new ViewportPipelineState(*this);
-	graphicsPipeline = new GraphicsPipeline(*viewportPipelineState, *renderPass);
 
 	// swapchainExtent isnt set until GetSurfaceInfo is called in ChooseDevice.
 	viewport.x = 0.0f;
@@ -625,9 +627,9 @@ void Window::RecordCommands(int imageIndex)
 	vkCmdSetScissor(buffer, 0, 1, &scissor);
 
 	vkCmdBeginRenderPass(buffer, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
-	vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **graphicsPipeline);
+	
 
-	GraphicsObjectManager::DrawObjects(buffer, graphicsPipeline, imageIndex);
+	GraphicsObjectManager::DrawObjects(buffer, imageIndex);
 	
 	vkCmdEndRenderPass(buffer);
 

@@ -20,13 +20,11 @@
 #include "../Pipeline/Shaders/DescriptorSet.h"
 #include "../GraphicsObjects/GraphicsObjectManager.h"
 
-static Shader* vertShader = nullptr;
-static Shader* fragShader = nullptr;
-
-GraphicsPipeline::GraphicsPipeline(const ViewportPipelineState& viewportPipelineState, const RenderPass& rp) :
+GraphicsPipeline::GraphicsPipeline(const ViewportPipelineState& vps, const RenderPass& rp, const ShaderPipelineStage& sps) :
 	inputAssembly(new InputAssemblyPipelineState()),
 	vertexInput(new VertexInputPipelineState()),
-	viewport(viewportPipelineState),
+	viewportPipelineState(vps),
+	shaderPipelineStage(sps),
 	rasterizer(new RasterizerPipelineState()),
 	multisampling(new MultisamplingPipelineState()),
 	colorBlending(new ColorBlendingPipelineState()),
@@ -35,16 +33,12 @@ GraphicsPipeline::GraphicsPipeline(const ViewportPipelineState& viewportPipeline
 	layout(new PipelineLayout(Renderer::GetVulkanPhysicalDevice(), GraphicsObjectManager::GetDescriptorSetLayout())),
 	depthStencil(new DepthStencilPipelineState())
 {
-	vertShader = new Shader(std::string("../Engine/Engine/Renderer/Pipeline/Shaders/Vert.spv"), Renderer::GetVulkanPhysicalDevice());
-	fragShader = new Shader(std::string("../Engine/Engine/Renderer/Pipeline/Shaders/Frag.spv"), Renderer::GetVulkanPhysicalDevice());
-	shaders = new ShaderPipelineStage(&*vertShader, &*fragShader);
-
 	createInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
 	createInfo.stageCount = 2;
-	createInfo.pStages = (**shaders).data();
+	createInfo.pStages = (*shaderPipelineStage).data();
 	createInfo.pInputAssemblyState = &**inputAssembly;
 	createInfo.pVertexInputState = &**vertexInput;
-	createInfo.pViewportState = &*viewport;
+	createInfo.pViewportState = &*viewportPipelineState;
 	createInfo.pRasterizationState = &**rasterizer;
 	createInfo.pMultisampleState = &**multisampling;
 	createInfo.pDepthStencilState = nullptr;
@@ -57,7 +51,8 @@ GraphicsPipeline::GraphicsPipeline(const ViewportPipelineState& viewportPipeline
 	createInfo.basePipelineHandle = VK_NULL_HANDLE;
 	createInfo.basePipelineIndex = -1;
 
-	VkResult result = vkCreateGraphicsPipelines(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), VK_NULL_HANDLE, 1, &createInfo, nullptr, &graphicsPipeline);
+	VkDevice device = Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice();
+	VkResult result = vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &createInfo, nullptr, &graphicsPipeline);
 
 	if (result != VK_SUCCESS)
 	{
@@ -72,10 +67,6 @@ GraphicsPipeline::~GraphicsPipeline()
 {
 	vkDestroyPipeline(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), graphicsPipeline, nullptr);
 
-	delete vertShader;
-	delete fragShader;
-
-	delete shaders;
 	delete layout;
 	delete dynamic;
 	delete colorBlending;

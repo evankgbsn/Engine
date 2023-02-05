@@ -54,6 +54,10 @@ public:
 
 	unsigned int GetSwapChainImageCount() const { return static_cast<unsigned int>(swapchainImageViews.size()); }
 
+	const ViewportPipelineState& GetViewportPipelineState() const { return *viewportPipelineState; }
+
+	const RenderPass& GetRenderPass() const { return *renderPass; }
+
 	// The struct of swapchain info.
 	struct SurfaceInfo
 	{
@@ -138,8 +142,6 @@ private:
 
 	// The viewport pipeline state.
 	ViewportPipelineState* viewportPipelineState;
-
-	GraphicsPipeline* graphicsPipeline;
 
 	// Syncronization objects.
 	VkSemaphore imageAvailable = VK_NULL_HANDLE;

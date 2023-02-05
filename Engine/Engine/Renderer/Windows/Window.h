@@ -12,6 +12,8 @@ struct GLFWwindow;
 class GraphicsPipeline;
 class VulkanPhysicalDevice;
 class GraphicsObject;
+class RenderPass;
+class ViewportPipelineState;
 
 class Window
 {
@@ -130,6 +132,12 @@ private:
 	std::string name = "";
 	uint32_t width = 0;
 	uint32_t height = 0;
+
+	// The render pass.
+	RenderPass* renderPass;
+
+	// The viewport pipeline state.
+	ViewportPipelineState* viewportPipelineState;
 
 	GraphicsPipeline* graphicsPipeline;
 

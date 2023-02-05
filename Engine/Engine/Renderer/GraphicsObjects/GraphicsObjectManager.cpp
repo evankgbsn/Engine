@@ -7,6 +7,11 @@
 #include "../Windows/Window.h"
 #include "../Windows/WindowManager.h"
 #include "../Memory/MemoryManager.h"
+#include "../Pipeline/GraphicsPipeline.h"
+#include "../Memory/VertexBuffer.h"
+#include "../Memory/IndexBuffer.h"
+#include "../Model/Model.h"
+#include "../Pipeline/PipelineLayout.h"
 
 GraphicsObjectManager* GraphicsObjectManager::instance = nullptr;
 
@@ -87,6 +92,19 @@ const std::vector<GraphicsObject*>& GraphicsObjectManager::GetGraphicsObjets()
 	}
 
 	return instance->graphicsObjects;
+}
+
+void GraphicsObjectManager::DrawObjects(VkCommandBuffer& buffer, GraphicsPipeline* graphicsPipeline, unsigned int imageIndex)
+{
+	VkDeviceSize offsets[] = { 0 };
+
+	for (GraphicsObject* obj : instance->graphicsObjects)
+	{
+		vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(graphicsPipeline->GetPipelineLayout()), 0, 1, &obj->GetDescriptorSet(imageIndex)(), 0, nullptr);
+		vkCmdBindVertexBuffers(buffer, 0, 1, &obj->GetVertexBuffer()(), offsets);
+		vkCmdBindIndexBuffer(buffer, obj->GetIndexBuffer()(), 0, VK_INDEX_TYPE_UINT32);
+		vkCmdDrawIndexed(buffer, static_cast<unsigned int>(obj->GetModel()->GetIndices().size()), 1, 0, 0, 0);
+	}
 }
 
 GraphicsObjectManager::GraphicsObjectManager() :

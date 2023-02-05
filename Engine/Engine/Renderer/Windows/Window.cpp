@@ -14,6 +14,7 @@
 #include "../Pipeline/GraphicsPipeline.h"
 #include "../Pipeline/PipelineLayout.h"
 #include "../Pipeline/RenderPass/RenderPass.h"
+#include "../Pipeline/Viewport/ViewportPipelineState.h"
 #include "../Commands/CommandManager.h"
 #include "../Memory/VertexBuffer.h"
 #include "../Memory/StagingBuffer.h"
@@ -37,7 +38,8 @@ Window::Window(uint32_t w, uint32_t h, std::string&& windowName) :
 	width(w),
 	height(h),
 	framebuffers(std::vector<VkFramebuffer>()),
-	framebufferResized(false)
+	framebufferResized(false),
+	renderPass(nullptr)
 {
 	CameraManager::Initialize();
 	Camera& cam = CameraManager::CreateCamera(Camera::Type::PERSPECTIVE, std::string("MainCamera"), this);
@@ -65,6 +67,8 @@ Window::~Window()
 	CleanupSwapchain();
 
 	delete graphicsPipeline;
+	delete viewportPipelineState;
+	delete renderPass;
 	
 	vkDestroySurfaceKHR(Renderer::GetVulkanInstance(), surface, nullptr);
 }
@@ -100,13 +104,15 @@ void Window::Initialize()
 		// Choose a device that supports this window.
 		Renderer::ChooseDevice(*this);
 		GraphicsObjectManager::Initialize(); // maybe here too.
-
-		// Needs to be called before we create the RenderPass in the pipeline for a reference to the depth format.
-		CreateDepthBuffer();
-
-		graphicsPipeline = new GraphicsPipeline(*this);
 		firstWindow = false;
 	}
+
+	// Needs to be called before we create the RenderPass in the pipeline for a reference to the depth format.
+	CreateDepthBuffer();
+
+	renderPass = new RenderPass(*this);
+	viewportPipelineState = new ViewportPipelineState(*this);
+	graphicsPipeline = new GraphicsPipeline(*viewportPipelineState, *renderPass);
 
 	// swapchainExtent isnt set until GetSurfaceInfo is called in ChooseDevice.
 	viewport.x = 0.0f;
@@ -381,7 +387,7 @@ void Window::CreateFramebuffers()
 
 		VkFramebufferCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-		createInfo.renderPass = **graphicsPipeline->GetRenderPass();
+		createInfo.renderPass = **renderPass;
 		createInfo.attachmentCount = static_cast<unsigned int>(attachments.size());
 		createInfo.pAttachments = attachments.data();
 		createInfo.width = swapchainExtent.width;
@@ -603,7 +609,7 @@ void Window::RecordCommands(int imageIndex)
 
 	VkRenderPassBeginInfo renderPassBeginInfo = {};
 	renderPassBeginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-	renderPassBeginInfo.renderPass = **graphicsPipeline->GetRenderPass();
+	renderPassBeginInfo.renderPass = **renderPass;
 	renderPassBeginInfo.framebuffer = framebuffers[imageIndex];
 	renderPassBeginInfo.renderArea.offset = { 0,0 };
 	renderPassBeginInfo.renderArea.extent = swapchainExtent;
@@ -615,23 +621,14 @@ void Window::RecordCommands(int imageIndex)
 	renderPassBeginInfo.clearValueCount = static_cast<unsigned int>(clearValues.size());
 	renderPassBeginInfo.pClearValues = clearValues.data();
 
-	vkCmdBeginRenderPass(buffer, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
-	vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **graphicsPipeline);
-
 	vkCmdSetViewport(buffer, 0, 1, &viewport);
 	vkCmdSetScissor(buffer, 0, 1, &scissor);
 
-	const std::vector<GraphicsObject*>& objects = GraphicsObjectManager::GetGraphicsObjets();
-	VkDeviceSize offsets[] = { 0 };
+	vkCmdBeginRenderPass(buffer, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
+	vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **graphicsPipeline);
 
-	for (GraphicsObject* obj : objects)
-	{
-		vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(graphicsPipeline->GetPipelineLayout()), 0, 1, &obj->GetDescriptorSet(imageIndex)(), 0, nullptr);
-		vkCmdBindVertexBuffers(buffer, 0, 1, &obj->GetVertexBuffer()(), offsets);
-		vkCmdBindIndexBuffer(buffer, obj->GetIndexBuffer()(), 0, VK_INDEX_TYPE_UINT32);
-		vkCmdDrawIndexed(buffer, static_cast<unsigned int>(obj->GetModel()->GetIndices().size()), 1, 0, 0, 0);
-	}
-
+	GraphicsObjectManager::DrawObjects(buffer, graphicsPipeline, imageIndex);
+	
 	vkCmdEndRenderPass(buffer);
 
 	result = vkEndCommandBuffer(buffer);

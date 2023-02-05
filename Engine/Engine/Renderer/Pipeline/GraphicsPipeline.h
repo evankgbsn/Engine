@@ -21,13 +21,11 @@ class GraphicsPipeline
 
 public:
 
-	GraphicsPipeline(const Window& window);
+	GraphicsPipeline(const ViewportPipelineState& viewportPipelineState, const RenderPass& renderPass);
 
 	~GraphicsPipeline();
 
 	const VkPipeline& operator*() const { return graphicsPipeline; };
-
-	RenderPass* const GetRenderPass() const { return renderPass; };
 
 	const PipelineLayout* const GetPipelineLayout() const;
 
@@ -49,12 +47,9 @@ private:
 	// The info used to create this graphics pipeline.
 	VkGraphicsPipelineCreateInfo createInfo{};
 
-	// The window that was used when creating this pipeline.
-	const Window& window;
-
 	InputAssemblyPipelineState* const inputAssembly;
 	VertexInputPipelineState* const vertexInput;
-	ViewportPipelineState* const viewport;
+	const ViewportPipelineState& viewport;
 	RasterizerPipelineState* const rasterizer;
 	MultisamplingPipelineState* const multisampling;
 	ColorBlendingPipelineState* const colorBlending;
@@ -64,7 +59,7 @@ private:
 
 	PipelineLayout* const layout;
 
-	RenderPass* const renderPass;
+	const RenderPass& renderPass;
 };
 
 #endif // GRAPHICS_PIPELINE_H

@@ -23,16 +23,15 @@
 static Shader* vertShader = nullptr;
 static Shader* fragShader = nullptr;
 
-GraphicsPipeline::GraphicsPipeline(const Window& w) :
-	window(w),
+GraphicsPipeline::GraphicsPipeline(const ViewportPipelineState& viewportPipelineState, const RenderPass& rp) :
 	inputAssembly(new InputAssemblyPipelineState()),
 	vertexInput(new VertexInputPipelineState()),
-	viewport(new ViewportPipelineState(window)),
+	viewport(viewportPipelineState),
 	rasterizer(new RasterizerPipelineState()),
 	multisampling(new MultisamplingPipelineState()),
 	colorBlending(new ColorBlendingPipelineState()),
 	dynamic(new DynamicPipelineState()),
-	renderPass(new RenderPass(window)),
+	renderPass(rp),
 	layout(new PipelineLayout(Renderer::GetVulkanPhysicalDevice(), GraphicsObjectManager::GetDescriptorSetLayout())),
 	depthStencil(new DepthStencilPipelineState())
 {
@@ -45,7 +44,7 @@ GraphicsPipeline::GraphicsPipeline(const Window& w) :
 	createInfo.pStages = (**shaders).data();
 	createInfo.pInputAssemblyState = &**inputAssembly;
 	createInfo.pVertexInputState = &**vertexInput;
-	createInfo.pViewportState = &**viewport;
+	createInfo.pViewportState = &*viewport;
 	createInfo.pRasterizationState = &**rasterizer;
 	createInfo.pMultisampleState = &**multisampling;
 	createInfo.pDepthStencilState = nullptr;
@@ -53,7 +52,7 @@ GraphicsPipeline::GraphicsPipeline(const Window& w) :
 	createInfo.pDynamicState = &**dynamic;
 	createInfo.pDepthStencilState = &**depthStencil;
 	createInfo.layout = **layout;
-	createInfo.renderPass = **renderPass;
+	createInfo.renderPass = *renderPass;
 	createInfo.subpass = 0;
 	createInfo.basePipelineHandle = VK_NULL_HANDLE;
 	createInfo.basePipelineIndex = -1;
@@ -78,12 +77,10 @@ GraphicsPipeline::~GraphicsPipeline()
 
 	delete shaders;
 	delete layout;
-	delete renderPass;
 	delete dynamic;
 	delete colorBlending;
 	delete multisampling;
 	delete rasterizer;
-	delete viewport;
 	delete vertexInput;
 	delete inputAssembly;
 	delete depthStencil;

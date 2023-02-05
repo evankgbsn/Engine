@@ -385,10 +385,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Engine\Renderer\Pipeline\Shaders\TriangleFrag.frag">
+    <None Include="Engine\Renderer\Pipeline\Shaders\Animated.frag">
       <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
     </None>
-    <None Include="Engine\Renderer\Pipeline\Shaders\TriangleVert.vert">
+    <None Include="Engine\Renderer\Pipeline\Shaders\Animated.vert">
       <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
     </None>
   </ItemGroup>

@@ -2,10 +2,12 @@
 #define GRAPHICSOBJECTMANAGER_H
 
 #include <vector>
+#include <vulkan/vulkan.h>
 
 class GraphicsObject;
 class Model;
 class DescriptorSetLayout;
+class GraphicsPipeline;
 
 class GraphicsObjectManager
 {
@@ -23,6 +25,8 @@ public:
 	static GraphicsObject* const CreateGraphicsObject(Model* const model);
 
 	static const std::vector<GraphicsObject*>& GetGraphicsObjets();
+
+	static void DrawObjects(VkCommandBuffer& buffer, GraphicsPipeline* graphicsPipeline, unsigned int imageIndex);
 
 private:
 

@@ -14,7 +14,7 @@ public:
 
 	~RenderPass();
 
-	const VkRenderPass& operator*() { return renderPass; };
+	const VkRenderPass& operator*() const { return renderPass; };
 
 private:
 

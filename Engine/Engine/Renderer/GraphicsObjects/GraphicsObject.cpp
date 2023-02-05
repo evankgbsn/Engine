@@ -122,8 +122,8 @@ void GraphicsObject::Update(unsigned int index)
 	
 	std::vector<glm::mat4> posePalette(model->GetArmature()->GetRestPose().Size());
 	
-	playback = model->GetAnimationClips()[0].Sample(animatedPose, playback + 0.0001f);
-	
+	playback = model->GetAnimationClips()[5].Sample(animatedPose, playback + 0.0003f);
+
 	animatedPose.GetJointMatrices(posePalette);
 	
 	for (unsigned int i = 0; i < posePalette.size(); ++i)

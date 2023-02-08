@@ -10,7 +10,7 @@ RasterizerPipelineState::RasterizerPipelineState()
 	// VK_POLYGON_MODE_FILL: fill the area of the polygon with fragments
 	// VK_POLYGON_MODE_LINE : polygon edges are drawn as lines
 	// VK_POLYGON_MODE_POINT : polygon vertices are drawn as points
-	createInfo.polygonMode = VK_POLYGON_MODE_FILL;
+	createInfo.polygonMode = VK_POLYGON_MODE_LINE;
 
 	createInfo.lineWidth = 1.0f;
 	createInfo.cullMode = VK_CULL_MODE_BACK_BIT;

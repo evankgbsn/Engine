@@ -197,6 +197,7 @@ void GraphicsObjectManager::DrawObjects(VkCommandBuffer& buffer, unsigned int im
 
 	for (GraphicsObject* obj : instance->graphicsObjects)
 	{
+		obj->Update(imageIndex);
 		vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(instance->graphicsPipelines.find("Animated")->second.second->GetPipelineLayout()), 0, 1, &obj->GetDescriptorSet(imageIndex)(), 0, nullptr);
 		vkCmdBindVertexBuffers(buffer, 0, 1, &obj->GetVertexBuffer()(), offsets);
 		vkCmdBindIndexBuffer(buffer, obj->GetIndexBuffer()(), 0, VK_INDEX_TYPE_UINT32);

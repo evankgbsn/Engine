@@ -11,6 +11,7 @@ class DescriptorSetLayout;
 class VertexBuffer;
 class IndexBuffer;
 class Texture;
+class Pose;
 
 class GraphicsObject
 {
@@ -43,8 +44,6 @@ public:
 
 	virtual void Update(unsigned int index);
 
-	void SlowUpdate(unsigned int index);
-
 	struct MVPUniformBuffer
 	{
 		glm::mat4 model;
@@ -70,6 +69,10 @@ protected:
 	std::vector<UniformBuffer*> mvpUniformBuffers;
 
 	std::vector<DescriptorSet*> descriptorSets;
+
+	Pose* animatedPose;
+
+	float playback;
 
 private:
 

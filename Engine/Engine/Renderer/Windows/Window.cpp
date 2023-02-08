@@ -30,6 +30,7 @@
 #include "../Pipeline/Shaders/DescriptorSetManager.h"
 #include "../Cameras/CameraManager.h"
 #include "../Memory/MemoryManager.h"
+#include "../../Time/TimeManager.h"
 
 #include "glm/gtc/matrix_transform.hpp"
 
@@ -495,9 +496,6 @@ void Window::Draw()
 	
 	vkResetFences(device, 1, &inFlight);
 
-	gObj0->Update(imageIndex);
-	gObj1->SlowUpdate(imageIndex);
-
 	vkResetCommandBuffer(CommandManager::GetRenderCommandBuffer(), 0);
 
 	RecordCommands(imageIndex);
@@ -547,7 +545,8 @@ void Window::CheckInput()
 {
 	Camera& cam = CameraManager::GetCamera("MainCamera");
 
-	float speed = 0.001f;
+	float speed = 4.0f * TimeManager::DeltaTime();
+	float rotSpeed = 2.0f * TimeManager::DeltaTime();
 
 	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_W))
 	{
@@ -581,12 +580,12 @@ void Window::CheckInput()
 
 	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_Q))
 	{
-		cam.Rotate(cam.GetUpVector(), 0.0001f);
+		cam.Rotate(cam.GetUpVector(), rotSpeed);
 	}
 
 	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_E))
 	{
-		cam.Rotate(cam.GetUpVector(), -0.0001f);
+		cam.Rotate(cam.GetUpVector(), -rotSpeed);
 	}
 
 }
@@ -627,7 +626,6 @@ void Window::RecordCommands(int imageIndex)
 	vkCmdSetScissor(buffer, 0, 1, &scissor);
 
 	vkCmdBeginRenderPass(buffer, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
-	
 
 	GraphicsObjectManager::DrawObjects(buffer, imageIndex);
 	

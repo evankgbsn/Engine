@@ -21,7 +21,7 @@
 
 GraphicsObjectManager* GraphicsObjectManager::instance = nullptr;
 
-const std::string GraphicsObjectManager::shaderDirectoryName = std::string("../Engine/Engine/Renderer/Pipeline/Shaders/");
+const std::string GraphicsObjectManager::shaderDirectoryName = std::string("../Engine/Engine/Renderer/Pipeline/Shaders/spv/");
 
 void GraphicsObjectManager::Initialize(const Window& window)
 {

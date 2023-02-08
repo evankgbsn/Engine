@@ -391,5 +391,11 @@
     <None Include="Engine\Renderer\Pipeline\Shaders\Animated.vert">
       <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
     </None>
+    <None Include="Static.vert">
+      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
+    </None>
+    <None Include="Static.frag">
+      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

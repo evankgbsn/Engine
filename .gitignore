@@ -34,6 +34,8 @@
 # Allow
 !*glfw3.lib
 !*vulkan-1.lib
+!*VulkanMemoryAllocator.lib
+!*VulkanMemoryAllocatord.lib
 
 #Ignore .vs folder and other generated folders
 *.vs

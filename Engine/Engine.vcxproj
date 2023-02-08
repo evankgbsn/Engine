@@ -247,6 +247,14 @@
   <ItemGroup>
     <None Include="Engine\Renderer\Pipeline\Shaders\Animated.frag" />
     <None Include="Engine\Renderer\Pipeline\Shaders\Animated.vert" />
+    <None Include="Static.frag">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="Static.vert">
+      <SubType>
+      </SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

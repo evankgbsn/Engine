@@ -192,6 +192,7 @@
     <ClInclude Include="Engine\Renderer\Vulkan\VulkanPhysicalDevice.h" />
     <ClInclude Include="Engine\Renderer\Windows\Window.h" />
     <ClInclude Include="Engine\Renderer\Windows\WindowManager.h" />
+    <ClInclude Include="Engine\Time\TimeManager.h" />
     <ClInclude Include="Engine\Utils\Logger.h" />
   </ItemGroup>
   <ItemGroup>
@@ -242,6 +243,7 @@
     <ClCompile Include="Engine\Renderer\Vulkan\VulkanPhysicalDevice.cpp" />
     <ClCompile Include="Engine\Renderer\Windows\Window.cpp" />
     <ClCompile Include="Engine\Renderer\Windows\WindowManager.cpp" />
+    <ClCompile Include="Engine\Time\TimeManager.cpp" />
     <ClCompile Include="Engine\Utils\Logger.cpp" />
   </ItemGroup>
   <ItemGroup>

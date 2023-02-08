@@ -88,6 +88,9 @@
     <Filter Include="Source Files\Engine\Renderer\Cameras">
       <UniqueIdentifier>{f11eecb7-fd8b-419c-9b49-ac02f9d437a9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Time">
+      <UniqueIdentifier>{e16c3bb3-83b9-42e7-85c7-0de4ece0cbd7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -237,6 +240,9 @@
     <ClInclude Include="Engine\Renderer\Cameras\CameraManager.h">
       <Filter>Source Files\Engine\Renderer\Cameras</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Time\TimeManager.h">
+      <Filter>Source Files\Engine\Time</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -381,7 +387,10 @@
       <Filter>Source Files\Engine\Renderer\Cameras</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Renderer\Cameras\CameraManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Engine\Renderer\Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Time\TimeManager.cpp">
+      <Filter>Source Files\Engine\Time</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -14,6 +14,7 @@
 #include "../Cameras/CameraManager.h"
 #include "../../Animation/Armature.h"
 #include "../../Animation/Clip.h"
+#include "../../Time/TimeManager.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <chrono>
@@ -96,8 +97,7 @@ void GraphicsObject::Update(unsigned int index)
 {
 	static auto startTime = std::chrono::high_resolution_clock::now();
 
-	auto currentTime = std::chrono::high_resolution_clock::now();
-	float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
+	float time = TimeManager::DeltaTime();
 
 	GraphicsObject::MVPUniformBuffer ubo{};
 	ubo.model = glm::mat4(1.0f);
@@ -122,7 +122,7 @@ void GraphicsObject::Update(unsigned int index)
 	
 	std::vector<glm::mat4> posePalette(model->GetArmature()->GetRestPose().Size());
 	
-	playback = model->GetAnimationClips()[5].Sample(animatedPose, playback + 0.0003f);
+	playback = model->GetAnimationClips()[5].Sample(animatedPose, playback + 1.0f * time);
 
 	animatedPose.GetJointMatrices(posePalette);
 	

@@ -131,7 +131,7 @@ void GraphicsObject::CreateDescriptorSets()
 {
 	Window* const mainWindow = WindowManager::GetWindow("MainWindow");
 
-	const ShaderPipelineStage* const shaderPipelineStage = GraphicsObjectManager::GetShaderPipelineStage("TexturedAnimated");
+	const ShaderPipelineStage* const shaderPipelineStage = GraphicsObjectManager::GetShaderPipelineStage(shaderName);
 	if (shaderPipelineStage != nullptr)
 	{
 		descriptorSet = DescriptorSetManager::CreateDescriptorSetFromShader("Descriptors", *shaderPipelineStage, this);

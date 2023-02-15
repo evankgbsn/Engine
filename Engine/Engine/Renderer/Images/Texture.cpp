@@ -8,13 +8,15 @@
 #include <stb_image/stb-master/stb_image.h>
 
 Texture::Texture() :
-	path("../Engine/Engine/Renderer/Images/Woman.png")
+	path("../Engine/Engine/Renderer/Images/Woman.png"),
+	binding(1)
 {
 	LoadTexture();
 }
 
-Texture::Texture(const std::string& p) :
-	path(p)
+Texture::Texture(const std::string& p, unsigned int imageBinding) :
+	path(p),
+	binding(imageBinding)
 {
 	LoadTexture();
 }
@@ -42,5 +44,5 @@ void Texture::LoadTexture()
 	StagingBuffer stagingBuffer(width * height * 4);
 	stagingBuffer.Map(pixels, stagingBuffer.Size());
 
-	image = new Image(width, height, stagingBuffer, 1);
+	image = new Image(width, height, stagingBuffer, binding);
 }

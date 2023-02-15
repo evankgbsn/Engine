@@ -52,6 +52,7 @@ TexturedAnimatedGraphicsObject::TexturedAnimatedGraphicsObject() :
 	GraphicsObject(),
 	animationInstance((model->GetAnimationClips().size() > 0) ? &model->GetAnimationClips()[0] : nullptr, model->GetArmature()->GetRestPose())
 {
+	shaderName = "TexturedAnimated";
 	InitializeDescriptorSets();
 }
 
@@ -59,6 +60,7 @@ TexturedAnimatedGraphicsObject::TexturedAnimatedGraphicsObject(Model* const m) :
 	GraphicsObject(m),
 	animationInstance((model->GetAnimationClips().size() > 0) ? &model->GetAnimationClips()[0] : nullptr, model->GetArmature()->GetRestPose())
 {
+	shaderName = "TexturedAnimated";
 	InitializeDescriptorSets();
 }
 
@@ -80,20 +82,15 @@ void TexturedAnimatedGraphicsObject::CreateUniformBuffers()
 
 void TexturedAnimatedGraphicsObject::Update()
 {
-	static auto startTime = std::chrono::high_resolution_clock::now();
-
-	float time = TimeManager::DeltaTime();
-
-	MVPUniformBuffer ubo{};
-	ubo.model = glm::mat4(1.0f);
+	mvp.model = glm::mat4(1.0f);
 
 	const Camera& cam = CameraManager::GetCamera("MainCamera");
 
-	ubo.view = cam.GetView();
-	ubo.projection = cam.GetProjection();
-	ubo.projection[1][1] *= -1;
+	mvp.view = cam.GetView();
+	mvp.projection = cam.GetProjection();
+	mvp.projection[1][1] *= -1;
 
-	animationInstance.Update(model->GetArmature(), ubo);
+	animationInstance.Update(model->GetArmature(), mvp);
 
-	uniformBuffers[0]->SetData(&ubo);
+	uniformBuffers[0]->SetData(&mvp);
 }

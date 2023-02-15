@@ -12,7 +12,7 @@ public:
 
 	Texture();
 
-	Texture(const std::string& path);
+	Texture(const std::string& path, unsigned int imageBinding);
 
 	~Texture();
 
@@ -40,6 +40,7 @@ private:
 
 	Image* image;
 
+	unsigned int binding;
 };
 
 

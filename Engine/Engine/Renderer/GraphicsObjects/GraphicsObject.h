@@ -3,6 +3,7 @@
 
 #include <glm/glm.hpp>
 #include <vector>
+#include <string>
 
 class Model;
 class UniformBuffer;
@@ -65,6 +66,8 @@ protected:
 	std::vector<UniformBuffer*> uniformBuffers;
 
 	DescriptorSet* descriptorSet;
+
+	std::string shaderName;
 
 private:
 	

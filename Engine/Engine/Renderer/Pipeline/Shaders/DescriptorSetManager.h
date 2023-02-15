@@ -3,6 +3,7 @@
 
 #include <vulkan/vulkan.h>
 #include <unordered_map>
+#include <string>
 
 class DescriptorSet;
 class UniformBuffer;

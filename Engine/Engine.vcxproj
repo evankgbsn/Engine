@@ -144,6 +144,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Dependencies\Include\SPIRV-Reflect\spirv_reflect.h" />
     <ClInclude Include="Engine\Animation\Armature.h" />
     <ClInclude Include="Engine\Animation\Clip.h" />
     <ClInclude Include="Engine\Animation\Frame.h" />
@@ -196,6 +197,8 @@
     <ClInclude Include="Engine\Utils\Logger.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Dependencies\Include\SPIRV-Reflect\spirv_reflect.c" />
+    <ClCompile Include="Dependencies\Include\SPIRV-Reflect\spirv_reflect.cpp" />
     <ClCompile Include="Engine\Animation\Armature.cpp" />
     <ClCompile Include="Engine\Animation\Clip.cpp" />
     <ClCompile Include="Engine\Animation\Pose.cpp" />
@@ -247,8 +250,7 @@
     <ClCompile Include="Engine\Utils\Logger.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Engine\Renderer\Pipeline\Shaders\Animated.frag" />
-    <None Include="Engine\Renderer\Pipeline\Shaders\Animated.vert" />
+    <None Include="Engine\Renderer\Pipeline\Shaders\glsl\Animated.vert" />
     <None Include="Static.frag">
       <SubType>
       </SubType>

@@ -6,6 +6,7 @@
 #include <vulkan/vulkan.h>
 
 class Shader;
+class DescriptorSetLayout;
 
 class ShaderPipelineStage
 {
@@ -16,9 +17,15 @@ public:
 
 	~ShaderPipelineStage();
 
-	void AddShader(const VkShaderStageFlagBits& shaderStage, const Shader* const);
+	void AddShader(const VkShaderStageFlagBits& shaderStage, Shader* const);
+
+	Shader* const GetShader(const VkShaderStageFlagBits& shaderStage) const;
 
 	const std::vector<VkPipelineShaderStageCreateInfo>& operator*() const;
+
+	void CreateDescriptorSetLayout();
+
+	const DescriptorSetLayout& GetDescriptorSetLayout() const;
 
 private:
 
@@ -31,6 +38,18 @@ private:
 	ShaderPipelineStage& operator=(const ShaderPipelineStage&&) = delete;
 
 	std::vector<VkPipelineShaderStageCreateInfo> shaderStages = std::vector<VkPipelineShaderStageCreateInfo>();
+
+	Shader* vertexShader;
+
+	Shader* fragmentShader;
+
+	Shader* tesselationControlShader;
+
+	Shader* tesselationEvalShader;
+
+	Shader* geometryShader;
+
+	DescriptorSetLayout* layout;
 };
 
 #endif // SHADER_MODULE_H

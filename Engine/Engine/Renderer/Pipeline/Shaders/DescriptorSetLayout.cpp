@@ -26,14 +26,9 @@ const VkDescriptorSetLayout& DescriptorSetLayout::operator()() const
 	return layout;
 }
 
-void DescriptorSetLayout::AddUniformBufferLayout(const UniformBuffer& buffer)
+void DescriptorSetLayout::AddLayoutBinding(const VkDescriptorSetLayoutBinding& layoutBinding)
 {
-	layoutBindings.push_back(buffer.GetLayoutBinding());
-}
-
-void DescriptorSetLayout::AddImageLayout(const Image& image)
-{
-	layoutBindings.push_back(image.GetLayoutBinding());
+	layoutBindings.push_back(layoutBinding);
 }
 
 void DescriptorSetLayout::Finalize()
@@ -45,4 +40,9 @@ void DescriptorSetLayout::Finalize()
 	VkResult result = vkCreateDescriptorSetLayout(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), &createInfo, nullptr, &layout);
 
 	VulkanUtils::CheckResult(result, true, true, "Failed to create DescriptorSetLayout DescriptorSetLayout::Finalize().");
+}
+
+const std::vector<VkDescriptorSetLayoutBinding>& DescriptorSetLayout::GetLayoutBindings() const
+{
+	return layoutBindings;
 }

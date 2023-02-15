@@ -30,7 +30,7 @@ GraphicsPipeline::GraphicsPipeline(const ViewportPipelineState& vps, const Rende
 	colorBlending(new ColorBlendingPipelineState()),
 	dynamic(new DynamicPipelineState()),
 	renderPass(rp),
-	layout(new PipelineLayout(Renderer::GetVulkanPhysicalDevice(), GraphicsObjectManager::GetDescriptorSetLayout())),
+	layout(new PipelineLayout(Renderer::GetVulkanPhysicalDevice(), &sps.GetDescriptorSetLayout())),
 	depthStencil(new DepthStencilPipelineState())
 {
 	createInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;

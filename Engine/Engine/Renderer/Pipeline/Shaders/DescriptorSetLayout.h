@@ -27,11 +27,11 @@ public:
 
 	const VkDescriptorSetLayout& operator()() const;
 
-	void AddUniformBufferLayout(const UniformBuffer& uniformBuffer);
-
-	void AddImageLayout(const Image& image);
+	void AddLayoutBinding(const VkDescriptorSetLayoutBinding& layoutBinding);
 
 	void Finalize();
+
+	const std::vector<VkDescriptorSetLayoutBinding>& GetLayoutBindings() const;
 
 private:
 

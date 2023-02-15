@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <filesystem>
 
 #include <vulkan/vulkan.h>
 
@@ -12,13 +13,15 @@ class Shader
 {
 public:
 
-	Shader(const std::string& fileName, VulkanPhysicalDevice* device);
+	Shader(const std::filesystem::directory_entry& dirEntry, VulkanPhysicalDevice* device);
 
 	const VkShaderModule& operator*() const { return shaderModule; };
 
 	~Shader();
 
-	const std::string& GetFileName() const { return shaderFileName; };
+	const std::string GetName() const { return shaderFileDirEntry.path().stem().string(); };
+
+	const std::string GetFileName() const { return shaderFileDirEntry.path().filename().string(); };
 
 	VulkanPhysicalDevice* const GetOwnerVulkanPhysicalDevice() const { return vulkanPhysicalDevice; };
 
@@ -48,7 +51,7 @@ private:
 	VulkanPhysicalDevice* const vulkanPhysicalDevice;
 
 	// The name of the shader file.
-	const std::string shaderFileName;
+	const std::filesystem::directory_entry shaderFileDirEntry;
 };
 
 #endif // SHADER_H

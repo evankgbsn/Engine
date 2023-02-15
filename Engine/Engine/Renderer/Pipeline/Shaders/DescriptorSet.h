@@ -6,6 +6,8 @@
 class UniformBuffer;
 class DescriptorSetLayout;
 class Image;
+class ShaderPipelineStage;
+class GraphicsObject;
 
 class DescriptorSet
 {
@@ -14,7 +16,7 @@ public:
 
 	DescriptorSet() = delete;
 
-	DescriptorSet(const VkDescriptorPool& descriptorPool, const UniformBuffer& uniformBuffer, const Image& image);
+	DescriptorSet(const VkDescriptorPool& descriptorPool, const ShaderPipelineStage& shader, GraphicsObject* const graphicsObject);
 
 	~DescriptorSet();
 
@@ -28,11 +30,7 @@ public:
 
 	const VkDescriptorSet& operator()() const;
 
-	const DescriptorSetLayout* const GetLayout() const;
-
 private:
-
-	DescriptorSetLayout* layout;
 
 	VkDescriptorSetAllocateInfo allocInfo;
 

@@ -157,7 +157,6 @@ private:
 	VkFormat depthFormat;
 
 	GraphicsObject* gObj0;
-	GraphicsObject* gObj1;
 };
 
 #endif // WINDOW_H

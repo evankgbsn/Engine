@@ -3,6 +3,8 @@
 #include "../../Vulkan/Utils/VulkanUtils.h"
 #include "../../Renderer.h"
 #include "../../Vulkan/VulkanPhysicalDevice.h"
+#include "ShaderPipelineStage.h"
+#include "Shader.h"
 
 #include "DescriptorSet.h"
 
@@ -68,11 +70,16 @@ void DescriptorSetManager::CreateDescriptorSetPool(unsigned int poolSize, const 
 	instance->descriptorSetPools[poolName] = std::make_pair(pool, sizes);
 }
 
-void DescriptorSetManager::CreateDescriptorSets(const std::string& poolName, const std::vector<UniformBuffer*>& uniformBuffers, const Image& image, std::vector<DescriptorSet*>& outDescriptorSets)
+DescriptorSet* DescriptorSetManager::CreateDescriptorSetFromShader(const std::string& poolName, const ShaderPipelineStage& shader, GraphicsObject* const graphicsObject)
 {
-	for (unsigned int i = 0; i < uniformBuffers.size(); i++)
+	if (instance != nullptr)
 	{
-		outDescriptorSets.push_back(new DescriptorSet(*(instance->descriptorSetPools[poolName].first), *(uniformBuffers[i]), image));
+		return new DescriptorSet(*(instance->descriptorSetPools[poolName].first), shader, graphicsObject);
+	}
+	else
+	{
+		Logger::Log(std::string("Calling DescriptorSetManager::CreateDescriptorSetFromShader() before DescriptorSetManager::Initialize()"), Logger::Category::Warning);
+		return nullptr;
 	}
 }
 
@@ -84,7 +91,6 @@ DescriptorSetManager::DescriptorSetManager() :
 
 DescriptorSetManager::~DescriptorSetManager()
 {
-
 	VkDevice& device = Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice();
 
 	for (auto& pool : descriptorSetPools)

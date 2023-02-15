@@ -3,6 +3,7 @@
 
 #include <vulkan/vulkan.h>
 #include <glm/glm.hpp>
+#include <glm/gtx/hash.hpp>
 
 #include <vector>
 
@@ -26,6 +27,10 @@ public:
 
 	Vertex& operator=(Vertex&&) = default;
 
+	bool operator==(const Vertex&) const;
+
+	bool operator!=(const Vertex&) const;
+
 	static VkVertexInputBindingDescription& GetVertexInputBindingDescription();
 
 	static std::vector<VkVertexInputAttributeDescription>& GetVertexInputAttributeDescriptions();
@@ -40,6 +45,16 @@ public:
 
 	vec2& GetUV();
 
+	const vec4& GetWeights() const;
+
+	const ivec4& GetInfluences() const;
+
+	const vec3& GetPosition() const;
+
+	const vec3& GetNormal() const;
+
+	const vec2& GetUV() const;
+
 private:
 
 	vec4 weights;
@@ -47,6 +62,20 @@ private:
 	vec3 position;
 	vec3 normal;
 	vec2 uv;
+};
+
+namespace std {
+	template<>
+	struct hash<Vertex> {
+		size_t operator()(const Vertex& vertex) const
+		{
+			return	(hash<glm::vec3>()(vertex.GetPosition()) ^ 
+					(hash<glm::vec3>()(vertex.GetNormal()) << 1) ^ 
+					(hash<glm::vec2>()(vertex.GetUV()) << 1) ^
+					(hash<glm::vec2>()(vertex.GetWeights()) << 1) ^
+					(hash<glm::vec2>()(vertex.GetInfluences()) << 1));
+		}
+	};
 };
 
 #endif // VERTEX_H

@@ -10,11 +10,13 @@
 #include "../Memory/VertexBuffer.h"
 #include "../Memory/IndexBuffer.h"
 #include "../Memory/StagingBuffer.h"
+#include "../Memory/Image.h"
 #include "../Images/Texture.h"
 #include "../Cameras/CameraManager.h"
 #include "../../Animation/Armature.h"
 #include "../../Animation/Clip.h"
 #include "../../Time/TimeManager.h"
+#include "GraphicsObjectManager.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <chrono>
@@ -24,13 +26,14 @@ GraphicsObject::GraphicsObject() :
 	model(ModelManager::GetModel("DefaultRectangle")),
 	modelVertexBuffer(new VertexBuffer(static_cast<unsigned int>(sizeof(Vertex) * model->GetVertices().size()))),
 	modelIndexBuffer(new IndexBuffer(static_cast<unsigned int>(sizeof(unsigned int) * model->GetIndices().size()))),
-	mvpUniformBuffers(std::vector<UniformBuffer*>()),
-	descriptorSets(std::vector<DescriptorSet*>()),
-	texture(new Texture()),
+	uniformBuffers(std::vector<UniformBuffer*>()),
+	descriptorSet(nullptr),
+	textures(std::vector<Texture*>()),
 	animatedPose(new Pose(model->GetArmature()->GetRestPose())),
 	playback(0.0f)
 {
 	CreateUniformBuffers();
+	CreateTextures();
 	InitializeBuffers();
 	CreateDescriptorSets();
 }
@@ -40,13 +43,14 @@ GraphicsObject::GraphicsObject(Model* const m) :
 	model(m),
 	modelVertexBuffer(new VertexBuffer(static_cast<unsigned int>(sizeof(Vertex) * model->GetVertices().size()))),
 	modelIndexBuffer(new IndexBuffer(static_cast<unsigned int>(sizeof(unsigned int) * model->GetIndices().size()))),
-	mvpUniformBuffers(std::vector<UniformBuffer*>()),
-	descriptorSets(std::vector<DescriptorSet*>()),
-	texture(new Texture()),
+	uniformBuffers(std::vector<UniformBuffer*>()),
+	descriptorSet(nullptr),
+	textures(std::vector<Texture*>()),
 	animatedPose(new Pose(model->GetArmature()->GetRestPose())),
 	playback(0.0f)
 {
 	CreateUniformBuffers();
+	CreateTextures();
 	InitializeBuffers();
 	CreateDescriptorSets();
 }
@@ -56,30 +60,25 @@ GraphicsObject::~GraphicsObject()
 	delete modelIndexBuffer;
 	delete modelVertexBuffer;
 
-	for (unsigned int i = 0; i < descriptorSets.size(); i++)
+	delete descriptorSet;
+
+	for (unsigned int i = 0; i < uniformBuffers.size(); i++)
 	{
-		delete descriptorSets[i];
+		uniformBuffers[i]->Unmap();
+		delete uniformBuffers[i];
 	}
 
-	for (unsigned int i = 0; i < mvpUniformBuffers.size(); i++)
+	uniformBuffers.clear();
+
+	for (unsigned int i = 0; i < textures.size(); i++)
 	{
-		mvpUniformBuffers[i]->Unmap();
-		delete mvpUniformBuffers[i];
+		delete textures[i];
 	}
-
-	mvpUniformBuffers.clear();
-
-	delete texture;
 }
 
-const DescriptorSet& GraphicsObject::GetDescriptorSet(unsigned int index) const
+const DescriptorSet& GraphicsObject::GetDescriptorSet() const
 {
-	return *descriptorSets[index];
-}
-
-const UniformBuffer& GraphicsObject::GetMVPUniformBuffer(unsigned int index) const
-{
-	return *mvpUniformBuffers[index];
+	return *descriptorSet;
 }
 
 const VertexBuffer& GraphicsObject::GetVertexBuffer() const
@@ -112,7 +111,7 @@ void GraphicsObject::Update(unsigned int index)
 	ubo.projection = cam.GetProjection();
 	ubo.projection[1][1] *= -1;
 
-	ubo.isSkinned = true;
+	ubo.isSkinned = false;
 
 	// Animation data
 	const std::vector<glm::mat4>& invBindPose = model->GetArmature()->GetInvBindPose();
@@ -126,7 +125,7 @@ void GraphicsObject::Update(unsigned int index)
 	std::vector<Clip>& clips = model->GetAnimationClips();
 	if (clips.size() > 0)
 	{
-		playback = clips[5].Sample(*animatedPose, playback + 1.0f * time);
+		playback = clips[1].Sample(*animatedPose, playback + 1.0f * time);
 	}
 
 	animatedPose->GetJointMatrices(posePalette);
@@ -136,19 +135,44 @@ void GraphicsObject::Update(unsigned int index)
 		ubo.pose[i] = posePalette[i];
 	}
 
-	mvpUniformBuffers[index]->SetData(&ubo);
+	uniformBuffers[0]->SetData(&ubo);
+}
+
+const UniformBuffer* const GraphicsObject::GetUniformBuffer(unsigned int binding) const
+{
+	for (UniformBuffer* const buffer : uniformBuffers)
+	{
+		if (buffer->Binding() == binding)
+		{
+			return buffer;
+		}
+	}
+
+	return nullptr;
+}
+
+const Image* const GraphicsObject::GetImage(unsigned int binding) const
+{
+	for (Texture* texture : textures)
+	{
+		if (texture->GetImage().Binding() == binding)
+		{
+			return &texture->GetImage();
+		}
+	}
+	return nullptr;
+}
+
+void GraphicsObject::CreateTextures()
+{
+	textures.push_back(new Texture());
 }
 
 void GraphicsObject::CreateUniformBuffers()
 {
-	Window* const mainWindow = WindowManager::GetWindow("MainWindow");
-
-	for (unsigned int i = 0; i < mainWindow->GetSwapChainImageCount(); i++)
-	{
-		UniformBuffer* const newUniformBuffer = new UniformBuffer(sizeof(mvp), 0);
-		newUniformBuffer->PersistentMap();
-		mvpUniformBuffers.push_back(newUniformBuffer);
-	}
+	UniformBuffer* mvpUniformBuffer = new UniformBuffer(sizeof(mvp), 0);
+	mvpUniformBuffer->PersistentMap();
+	uniformBuffers.push_back(mvpUniformBuffer);
 }
 
 void GraphicsObject::InitializeBuffers()
@@ -166,5 +190,9 @@ void GraphicsObject::CreateDescriptorSets()
 {
 	Window* const mainWindow = WindowManager::GetWindow("MainWindow");
 
-	DescriptorSetManager::CreateDescriptorSets("Descriptors", mvpUniformBuffers, texture->GetImage(), descriptorSets);
+	const ShaderPipelineStage* const shaderPipelineStage = GraphicsObjectManager::GetShaderPipelineStage("Animated");
+	if (shaderPipelineStage != nullptr)
+	{
+		descriptorSet = DescriptorSetManager::CreateDescriptorSetFromShader("Descriptors", *shaderPipelineStage, this);
+	}
 }

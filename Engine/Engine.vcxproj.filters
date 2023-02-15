@@ -243,6 +243,9 @@
     <ClInclude Include="Engine\Time\TimeManager.h">
       <Filter>Source Files\Engine\Time</Filter>
     </ClInclude>
+    <ClInclude Include="Dependencies\Include\SPIRV-Reflect\spirv_reflect.h">
+      <Filter>Source Files\Engine\Renderer\Vulkan\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -392,18 +395,21 @@
     <ClCompile Include="Engine\Time\TimeManager.cpp">
       <Filter>Source Files\Engine\Time</Filter>
     </ClCompile>
+    <ClCompile Include="Dependencies\Include\SPIRV-Reflect\spirv_reflect.cpp">
+      <Filter>Source Files\Engine\Renderer\Vulkan\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\Include\SPIRV-Reflect\spirv_reflect.c">
+      <Filter>Source Files\Engine\Renderer\Vulkan\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Engine\Renderer\Pipeline\Shaders\Animated.frag">
-      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
-    </None>
-    <None Include="Engine\Renderer\Pipeline\Shaders\Animated.vert">
-      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
-    </None>
     <None Include="Static.vert">
       <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
     </None>
     <None Include="Static.frag">
+      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
+    </None>
+    <None Include="Engine\Renderer\Pipeline\Shaders\glsl\Animated.vert">
       <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
     </None>
   </ItemGroup>

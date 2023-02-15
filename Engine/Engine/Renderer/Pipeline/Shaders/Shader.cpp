@@ -6,16 +6,16 @@
 #include "../../../Utils/Logger.h"
 #include "../../Vulkan/VulkanPhysicalDevice.h"
 
-Shader::Shader(const std::string& fileName, VulkanPhysicalDevice* device) :
+Shader::Shader(const std::filesystem::directory_entry& dirEntry, VulkanPhysicalDevice* device) :
 	vulkanPhysicalDevice(device),
-	shaderFileName(fileName)
+	shaderFileDirEntry(dirEntry)
 {
-	std::ifstream file(fileName, std::ios::ate | std::ios::binary);
+	std::ifstream file(dirEntry.path().string(), std::ios::ate | std::ios::binary);
 	
 	if (!file.is_open())
 	{
-		Logger::Log(std::string("Could not read shader file ") + fileName, Logger::Category::Error);
-		throw std::runtime_error((std::string("Could not read shader file ") + fileName).c_str());
+		Logger::Log(std::string("Could not read shader file ") + dirEntry.path().string(), Logger::Category::Error);
+		throw std::runtime_error((std::string("Could not read shader file ") + dirEntry.path().string()).c_str());
 		return;
 	}
 
@@ -34,13 +34,13 @@ Shader::Shader(const std::string& fileName, VulkanPhysicalDevice* device) :
 
 	if (result != VK_SUCCESS)
 	{
-		std::string error = std::string("Could not create vulkan shader module for ") + fileName;
+		std::string error = std::string("Could not create vulkan shader module for ") + GetFileName();
 		Logger::Log(std::string(error), Logger::Category::Error);
 		throw std::runtime_error(error.c_str());
 		return;
 	}
 
-	Logger::Log(std::string("Loaded shader ") + fileName, Logger::Category::Success);
+	Logger::Log(std::string("Loaded shader ") + GetFileName(), Logger::Category::Success);
 }
 
 Shader::~Shader()

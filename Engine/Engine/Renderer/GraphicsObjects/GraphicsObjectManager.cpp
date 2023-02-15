@@ -16,6 +16,7 @@
 #include "../Pipeline/Shaders/Shader.h"
 #include "../Renderer.h"
 #include "../Vulkan/VulkanPhysicalDevice.h"
+#include "SPIRV-Reflect/spirv_reflect.h"
 
 #include <filesystem>
 
@@ -48,15 +49,18 @@ void GraphicsObjectManager::Terminate()
 	}
 }
 
-const DescriptorSetLayout* const GraphicsObjectManager::GetDescriptorSetLayout()
+GraphicsObject* const GraphicsObjectManager::CreateStaticGraphicsObject(Model* const model)
 {
 	if (instance == nullptr)
 	{
-		Logger::LogAndThrow("Calling GraphicsObjectManager::GetDescriptorSetLayout() before GraphicsObject::Initialize().");
+		Logger::Log(std::string("Calling GraphicsObjectManager::CreateStaticGraphicsObject() before GraphicsObjectManager::Initialize()."), Logger::Category::Warning);
 		return nullptr;
 	}
 
-	return instance->graphicsObjects[0]->GetDescriptorSet(0).GetLayout();
+	GraphicsObject* const newGraphicsObject = (model != nullptr) ? new GraphicsObject(model) : new GraphicsObject();
+	instance->staticGraphicsObjects.push_back(newGraphicsObject);
+
+	return newGraphicsObject;
 }
 
 void GraphicsObjectManager::CreateDescriptorPools()
@@ -75,6 +79,7 @@ void GraphicsObjectManager::CreateGraphicsPipelines()
 	{
 		const ViewportPipelineState& viewportState = window.GetViewportPipelineState();
 		const RenderPass& renderPass = window.GetRenderPass();
+		graphicsPipeline.second.first->CreateDescriptorSetLayout();
 		graphicsPipeline.second.second = new GraphicsPipeline(viewportState, renderPass, *graphicsPipeline.second.first);
 	}
 }
@@ -142,7 +147,8 @@ void GraphicsObjectManager::LoadShaders()
 						}
 
 						// Create and add the shader to the ShaderPipelineStage.
-						Shader* shader = new Shader(dirEntry.path().string(), Renderer::GetVulkanPhysicalDevice());
+						Shader* shader = new Shader(dirEntry, Renderer::GetVulkanPhysicalDevice());
+
 						shaderPipelineStage->AddShader(shaderStage, shader);
 						shaders.push_back(shader);
 					}
@@ -152,41 +158,42 @@ void GraphicsObjectManager::LoadShaders()
 	}
 }
 
-const GraphicsObject* const GraphicsObjectManager::GetDefault()
+GraphicsObject* const GraphicsObjectManager::CreateAnimatedGraphicsObject(Model* const model)
 {
 	if (instance == nullptr)
 	{
-		Logger::Log(std::string("Calling GraphicsObjectManager::GetDefault() before GraphicsObjectManager::Initialize()."), Logger::Category::Warning);
-		return nullptr;
-	}
-
-	return instance->graphicsObjects[0];
-}
-
-GraphicsObject* const GraphicsObjectManager::CreateGraphicsObject(Model* const model)
-{
-	if (instance == nullptr)
-	{
-		Logger::Log(std::string("Calling GraphicsObjectManager::CreateGraphicsObject() before GraphicsObjectManager::Initialize()."), Logger::Category::Warning);
+		Logger::Log(std::string("Calling GraphicsObjectManager::CreateAnimatedGraphicsObject() before GraphicsObjectManager::Initialize()."), Logger::Category::Warning);
 		return nullptr;
 	}
 
 	GraphicsObject* const newGraphicsObject = (model != nullptr) ? new GraphicsObject(model) : new GraphicsObject();
-	instance->graphicsObjects.push_back(newGraphicsObject);
+	instance->animatedGraphicsObjects.push_back(newGraphicsObject);
 
 	return newGraphicsObject;
 }
 
-const std::vector<GraphicsObject*>& GraphicsObjectManager::GetGraphicsObjets()
+const std::vector<GraphicsObject*>& GraphicsObjectManager::GetStaticGraphicsObjets()
 {
 	if (instance == nullptr)
 	{
-		Logger::Log(std::string("Calling GraphicsObjectManager::GetGraphicsObjects() before GraphicsObjectManager::Initialize()."), Logger::Category::Warning);
+		Logger::Log(std::string("Calling GraphicsObjectManager::GetStaticGraphicsObjects() before GraphicsObjectManager::Initialize()."), Logger::Category::Warning);
 		static std::vector<GraphicsObject*> defaultReturn;
 		return defaultReturn;
 	}
 
-	return instance->graphicsObjects;
+	return instance->staticGraphicsObjects;
+}
+
+const std::vector<GraphicsObject*>& GraphicsObjectManager::GetAnimatedGraphicsObjects()
+{
+	if (instance == nullptr)
+	{
+		Logger::Log(std::string("Calling GraphicsObjectManager::GetAnimatedGraphicsObjects() before GraphicsObjectManager::Initialize()."), Logger::Category::Warning);
+		static std::vector<GraphicsObject*> defaultReturn;
+		return defaultReturn;
+	}
+
+	return instance->animatedGraphicsObjects;
 }
 
 void GraphicsObjectManager::DrawObjects(VkCommandBuffer& buffer, unsigned int imageIndex)
@@ -195,28 +202,53 @@ void GraphicsObjectManager::DrawObjects(VkCommandBuffer& buffer, unsigned int im
 
 	VkDeviceSize offsets[] = { 0 };
 
-	for (GraphicsObject* obj : instance->graphicsObjects)
+	for (GraphicsObject* obj : instance->staticGraphicsObjects)
 	{
 		obj->Update(imageIndex);
-		vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(instance->graphicsPipelines.find("Animated")->second.second->GetPipelineLayout()), 0, 1, &obj->GetDescriptorSet(imageIndex)(), 0, nullptr);
+		vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(instance->graphicsPipelines.find("Animated")->second.second->GetPipelineLayout()), 0, 1, &obj->GetDescriptorSet()(), 0, nullptr);
 		vkCmdBindVertexBuffers(buffer, 0, 1, &obj->GetVertexBuffer()(), offsets);
 		vkCmdBindIndexBuffer(buffer, obj->GetIndexBuffer()(), 0, VK_INDEX_TYPE_UINT32);
 		vkCmdDrawIndexed(buffer, static_cast<unsigned int>(obj->GetModel()->GetIndices().size()), 1, 0, 0, 0);
 	}
 }
 
+const ShaderPipelineStage* const GraphicsObjectManager::GetShaderPipelineStage(const std::string& shaderName)
+{
+	if (instance != nullptr)
+	{
+		if (instance->graphicsPipelines.find(shaderName) != instance->graphicsPipelines.end())
+		{
+			return instance->graphicsPipelines[shaderName].first;
+		}
+		else
+		{
+			Logger::Log(std::string("Could not find shader name: ") + shaderName + std::string(" GraphicsObjectManager::GetShaderPipelineStage()"), Logger::Category::Warning);
+			return nullptr;
+		}
+	}
+	else
+	{
+		Logger::Log(std::string("Calling GraphicsObjectManager::GetShaderPipelineStage() before GraphicsObjectManager::Initialize()."), Logger::Category::Warning);
+		return nullptr;
+	}
+}
+
 GraphicsObjectManager::GraphicsObjectManager(const Window& w) :
-	graphicsObjects(std::vector<GraphicsObject*>()),
+	staticGraphicsObjects(std::vector<GraphicsObject*>()),
 	window(w)
 {
 	DescriptorSetManager::Initialize();
 	CreateDescriptorPools();
-	graphicsObjects.push_back(new GraphicsObject());
 }
 
 GraphicsObjectManager::~GraphicsObjectManager()
 {
-	for (GraphicsObject* graphicsObject : graphicsObjects)
+	for (GraphicsObject* graphicsObject : staticGraphicsObjects)
+	{
+		delete graphicsObject;
+	}
+
+	for (GraphicsObject* graphicsObject : animatedGraphicsObjects)
 	{
 		delete graphicsObject;
 	}
@@ -225,11 +257,6 @@ GraphicsObjectManager::~GraphicsObjectManager()
 	{
 		delete graphicsPipeline.second.first;
 		delete graphicsPipeline.second.second;
-	}
-
-	for (Shader* shader : shaders)
-	{
-		delete shader;
 	}
 
 	DescriptorSetManager::Terminate();

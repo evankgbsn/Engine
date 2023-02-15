@@ -23,15 +23,17 @@ public:
 
 	static void Terminate();
 
-	static const DescriptorSetLayout* const GetDescriptorSetLayout();
-	
-	static const GraphicsObject* const GetDefault();
+	static GraphicsObject* const CreateStaticGraphicsObject(Model* const model);
 
-	static GraphicsObject* const CreateGraphicsObject(Model* const model);
+	static GraphicsObject* const CreateAnimatedGraphicsObject(Model* const model);
 
-	static const std::vector<GraphicsObject*>& GetGraphicsObjets();
+	static const std::vector<GraphicsObject*>& GetStaticGraphicsObjets();
+
+	static const std::vector<GraphicsObject*>& GetAnimatedGraphicsObjects();
 
 	static void DrawObjects(VkCommandBuffer& buffer, unsigned int imageIndex);
+
+	static const ShaderPipelineStage* const GetShaderPipelineStage(const std::string& shaderName);
 
 private:
 
@@ -57,7 +59,9 @@ private:
 
 	static GraphicsObjectManager* instance;
 
-	std::vector<GraphicsObject*> graphicsObjects;
+	std::vector<GraphicsObject*> staticGraphicsObjects;
+
+	std::vector<GraphicsObject*> animatedGraphicsObjects;
 
 	const Window& window;
 

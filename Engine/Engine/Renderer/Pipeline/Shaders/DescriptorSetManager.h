@@ -7,6 +7,8 @@
 class DescriptorSet;
 class UniformBuffer;
 class Image;
+class ShaderPipelineStage;
+class GraphicsObject;
 
 class DescriptorSetManager
 {
@@ -19,7 +21,7 @@ public:
 
 	static void CreateDescriptorSetPool(unsigned int poolSize, const std::string& poolName);
 
-	static void CreateDescriptorSets(const std::string& poolName, const std::vector<UniformBuffer*>& uniformBuffers, const Image& image, std::vector<DescriptorSet*>& outDescriptorSets);
+	static DescriptorSet* CreateDescriptorSetFromShader(const std::string& poolName, const ShaderPipelineStage& shader, GraphicsObject* const);
 
 private:
 
@@ -38,7 +40,6 @@ private:
 	static DescriptorSetManager* instance;
 	
 	std::unordered_map<std::string, std::pair<VkDescriptorPool*, std::vector<VkDescriptorPoolSize>>> descriptorSetPools;
-
 };
 
 #endif // DESCRIPTORSETMANAGER_H

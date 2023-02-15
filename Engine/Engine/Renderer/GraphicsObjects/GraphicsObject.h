@@ -11,6 +11,7 @@ class DescriptorSetLayout;
 class VertexBuffer;
 class IndexBuffer;
 class Texture;
+class Image;
 class Pose;
 
 class GraphicsObject
@@ -32,9 +33,7 @@ public:
 
 	GraphicsObject& operator=(GraphicsObject&&) = delete;
 
-	const DescriptorSet& GetDescriptorSet(unsigned int index) const;
-
-	const UniformBuffer& GetMVPUniformBuffer(unsigned int index) const;
+	const DescriptorSet& GetDescriptorSet() const;
 
 	const VertexBuffer& GetVertexBuffer() const;
 
@@ -54,6 +53,10 @@ public:
 		bool isSkinned;
 	};
 
+	virtual const UniformBuffer* const GetUniformBuffer(unsigned int binding) const;
+
+	virtual const Image* const GetImage(unsigned int binding) const;
+
 protected:
 
 	MVPUniformBuffer mvp;
@@ -64,17 +67,19 @@ protected:
 	
 	IndexBuffer* modelIndexBuffer;
 
-	Texture* texture;
+	std::vector<Texture*> textures;
 
-	std::vector<UniformBuffer*> mvpUniformBuffers;
+	std::vector<UniformBuffer*> uniformBuffers;
 
-	std::vector<DescriptorSet*> descriptorSets;
+	DescriptorSet* descriptorSet;
 
 	Pose* animatedPose;
 
 	float playback;
 
 private:
+
+	void CreateTextures();
 
 	void CreateUniformBuffers();
 

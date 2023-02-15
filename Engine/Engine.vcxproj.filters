@@ -91,6 +91,9 @@
     <Filter Include="Source Files\Engine\Time">
       <UniqueIdentifier>{e16c3bb3-83b9-42e7-85c7-0de4ece0cbd7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Renderer\Pipeline\Shaders\glsl">
+      <UniqueIdentifier>{06959aa5-431a-43e0-9bcd-dbfdd3ba2b86}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -245,6 +248,9 @@
     </ClInclude>
     <ClInclude Include="Dependencies\Include\SPIRV-Reflect\spirv_reflect.h">
       <Filter>Source Files\Engine\Renderer\Vulkan\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\GraphicsObjects\TexturedAnimatedGraphicsObject.h">
+      <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -401,16 +407,22 @@
     <ClCompile Include="Dependencies\Include\SPIRV-Reflect\spirv_reflect.c">
       <Filter>Source Files\Engine\Renderer\Vulkan\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Renderer\GraphicsObjects\TexturedAnimatedGraphicsObject.cpp">
+      <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Static.vert">
-      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
+    <None Include="Engine\Renderer\Pipeline\Shaders\glsl\TexturedAnimated.frag">
+      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders\glsl</Filter>
     </None>
-    <None Include="Static.frag">
-      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
+    <None Include="Engine\Renderer\Pipeline\Shaders\glsl\TexturedAnimated.vert">
+      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders\glsl</Filter>
     </None>
-    <None Include="Engine\Renderer\Pipeline\Shaders\glsl\Animated.vert">
-      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders</Filter>
+    <None Include="Engine\Renderer\Pipeline\Shaders\glsl\TexturedStatic.frag">
+      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders\glsl</Filter>
+    </None>
+    <None Include="Engine\Renderer\Pipeline\Shaders\glsl\TexturedStatic.vert">
+      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders\glsl</Filter>
     </None>
   </ItemGroup>
 </Project>

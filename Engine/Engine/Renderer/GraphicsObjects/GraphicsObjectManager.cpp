@@ -1,7 +1,7 @@
 #include "GraphicsObjectManager.h"
 
 #include "../../Utils/Logger.h"
-#include "GraphicsObject.h"
+#include "TexturedAnimatedGraphicsObject.h"
 #include "../Pipeline/Shaders/DescriptorSet.h"
 #include "../Pipeline/Shaders/DescriptorSetManager.h"
 #include "../Windows/Window.h"
@@ -49,7 +49,7 @@ void GraphicsObjectManager::Terminate()
 	}
 }
 
-GraphicsObject* const GraphicsObjectManager::CreateStaticGraphicsObject(Model* const model)
+GraphicsObject* const GraphicsObjectManager::CreateTexturedStaticGraphicsObject(Model* const model)
 {
 	if (instance == nullptr)
 	{
@@ -57,7 +57,7 @@ GraphicsObject* const GraphicsObjectManager::CreateStaticGraphicsObject(Model* c
 		return nullptr;
 	}
 
-	GraphicsObject* const newGraphicsObject = (model != nullptr) ? new GraphicsObject(model) : new GraphicsObject();
+	GraphicsObject* const newGraphicsObject = (model != nullptr) ? new TexturedAnimatedGraphicsObject(model) : new TexturedAnimatedGraphicsObject();
 	instance->staticGraphicsObjects.push_back(newGraphicsObject);
 
 	return newGraphicsObject;
@@ -158,7 +158,7 @@ void GraphicsObjectManager::LoadShaders()
 	}
 }
 
-GraphicsObject* const GraphicsObjectManager::CreateAnimatedGraphicsObject(Model* const model)
+GraphicsObject* const GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(Model* const model)
 {
 	if (instance == nullptr)
 	{
@@ -166,13 +166,13 @@ GraphicsObject* const GraphicsObjectManager::CreateAnimatedGraphicsObject(Model*
 		return nullptr;
 	}
 
-	GraphicsObject* const newGraphicsObject = (model != nullptr) ? new GraphicsObject(model) : new GraphicsObject();
+	GraphicsObject* const newGraphicsObject = (model != nullptr) ? new TexturedAnimatedGraphicsObject(model) : new TexturedAnimatedGraphicsObject();
 	instance->animatedGraphicsObjects.push_back(newGraphicsObject);
 
 	return newGraphicsObject;
 }
 
-const std::vector<GraphicsObject*>& GraphicsObjectManager::GetStaticGraphicsObjets()
+const std::vector<GraphicsObject*>& GraphicsObjectManager::GetTexturedStaticGraphicsObjets()
 {
 	if (instance == nullptr)
 	{
@@ -184,7 +184,7 @@ const std::vector<GraphicsObject*>& GraphicsObjectManager::GetStaticGraphicsObje
 	return instance->staticGraphicsObjects;
 }
 
-const std::vector<GraphicsObject*>& GraphicsObjectManager::GetAnimatedGraphicsObjects()
+const std::vector<GraphicsObject*>& GraphicsObjectManager::GetTexturedAnimatedGraphicsObjects()
 {
 	if (instance == nullptr)
 	{
@@ -198,14 +198,14 @@ const std::vector<GraphicsObject*>& GraphicsObjectManager::GetAnimatedGraphicsOb
 
 void GraphicsObjectManager::DrawObjects(VkCommandBuffer& buffer, unsigned int imageIndex)
 {
-	vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **instance->graphicsPipelines.find("Animated")->second.second);
+	vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **instance->graphicsPipelines.find("TexturedAnimated")->second.second);
 
 	VkDeviceSize offsets[] = { 0 };
 
-	for (GraphicsObject* obj : instance->staticGraphicsObjects)
+	for (GraphicsObject* obj : instance->animatedGraphicsObjects)
 	{
-		obj->Update(imageIndex);
-		vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(instance->graphicsPipelines.find("Animated")->second.second->GetPipelineLayout()), 0, 1, &obj->GetDescriptorSet()(), 0, nullptr);
+		obj->Update();
+		vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(instance->graphicsPipelines.find("TexturedAnimated")->second.second->GetPipelineLayout()), 0, 1, &obj->GetDescriptorSet()(), 0, nullptr);
 		vkCmdBindVertexBuffers(buffer, 0, 1, &obj->GetVertexBuffer()(), offsets);
 		vkCmdBindIndexBuffer(buffer, obj->GetIndexBuffer()(), 0, VK_INDEX_TYPE_UINT32);
 		vkCmdDrawIndexed(buffer, static_cast<unsigned int>(obj->GetModel()->GetIndices().size()), 1, 0, 0, 0);

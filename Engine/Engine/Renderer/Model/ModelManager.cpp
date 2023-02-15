@@ -106,5 +106,5 @@ void ModelManager::LoadDefaultModels()
 
 	models.insert(std::make_pair(std::string("DefaultRectangleWithDepth"), new Model(vertices, indices)));
 
-	models.insert(std::make_pair(std::string("DefaultCube"), new Model("../Engine/Engine/Renderer/Model/VikingRoom.gltf")));
+	models.insert(std::make_pair(std::string("DefaultCube"), new Model("../Engine/Engine/Renderer/Model/Woman.gltf")));
 }

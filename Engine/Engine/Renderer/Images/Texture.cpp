@@ -8,7 +8,7 @@
 #include <stb_image/stb-master/stb_image.h>
 
 Texture::Texture() :
-	path("../Engine/Engine/Renderer/Images/VikingRoom.png")
+	path("../Engine/Engine/Renderer/Images/Woman.png")
 {
 	LoadTexture();
 }

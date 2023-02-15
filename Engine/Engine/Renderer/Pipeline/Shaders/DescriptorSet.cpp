@@ -10,8 +10,6 @@
 #include "ShaderPipelineStage.h"
 #include "Shader.h"
 
-
-
 #include <vector>
 
 DescriptorSet::DescriptorSet(const VkDescriptorPool& descriptorPool, const ShaderPipelineStage& shader, GraphicsObject* const graphicsObject) :

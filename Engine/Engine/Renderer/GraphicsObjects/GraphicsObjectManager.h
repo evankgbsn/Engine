@@ -23,13 +23,13 @@ public:
 
 	static void Terminate();
 
-	static GraphicsObject* const CreateStaticGraphicsObject(Model* const model);
+	static GraphicsObject* const CreateTexturedStaticGraphicsObject(Model* const model);
 
-	static GraphicsObject* const CreateAnimatedGraphicsObject(Model* const model);
+	static GraphicsObject* const CreateTexturedAnimatedGraphicsObject(Model* const model);
 
-	static const std::vector<GraphicsObject*>& GetStaticGraphicsObjets();
+	static const std::vector<GraphicsObject*>& GetTexturedStaticGraphicsObjets();
 
-	static const std::vector<GraphicsObject*>& GetAnimatedGraphicsObjects();
+	static const std::vector<GraphicsObject*>& GetTexturedAnimatedGraphicsObjects();
 
 	static void DrawObjects(VkCommandBuffer& buffer, unsigned int imageIndex);
 

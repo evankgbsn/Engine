@@ -131,7 +131,7 @@ void Window::Initialize()
 	CreateFramebuffers();
 	CreateSyncObjects();
 
-	gObj0 = GraphicsObjectManager::CreateStaticGraphicsObject(ModelManager::GetModel("DefaultCube"));
+	gObj0 = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("DefaultCube"));
 }
 
 bool Window::Update()

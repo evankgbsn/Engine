@@ -16,7 +16,6 @@ class Pose;
 
 class GraphicsObject
 {
-
 public:
 
 	GraphicsObject();
@@ -41,17 +40,7 @@ public:
 
 	const Model* const GetModel() const;
 
-	virtual void Update(unsigned int index);
-
-	struct MVPUniformBuffer
-	{
-		glm::mat4 model;
-		glm::mat4 view;
-		glm::mat4 projection;
-		glm::mat4 pose[120];
-		glm::mat4 invBindPose[120];
-		bool isSkinned;
-	};
+	virtual void Update() = 0;
 
 	virtual const UniformBuffer* const GetUniformBuffer(unsigned int binding) const;
 
@@ -59,7 +48,11 @@ public:
 
 protected:
 
-	MVPUniformBuffer mvp;
+	void InitializeDescriptorSets();
+
+	virtual void CreateTextures() = 0;
+
+	virtual void CreateUniformBuffers() = 0;
 
 	Model* const model;
 
@@ -73,20 +66,11 @@ protected:
 
 	DescriptorSet* descriptorSet;
 
-	Pose* animatedPose;
-
-	float playback;
-
 private:
-
-	void CreateTextures();
-
-	void CreateUniformBuffers();
-
-	void InitializeBuffers();
-
+	
 	void CreateDescriptorSets();
 
+	void InitializeBuffers();
 };
 
 #endif // GRAPHICSOBJECT_H

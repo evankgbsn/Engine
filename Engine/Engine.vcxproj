@@ -161,6 +161,7 @@
     <ClInclude Include="Engine\Renderer\Commands\CommandManager.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\GraphicsObject.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\GraphicsObjectManager.h" />
+    <ClInclude Include="Engine\Renderer\GraphicsObjects\TexturedAnimatedGraphicsObject.h" />
     <ClInclude Include="Engine\Renderer\Images\Texture.h" />
     <ClInclude Include="Engine\Renderer\Memory\Buffer.h" />
     <ClInclude Include="Engine\Renderer\Memory\Image.h" />
@@ -214,6 +215,7 @@
     <ClCompile Include="Engine\Renderer\Commands\CommandManager.cpp" />
     <ClCompile Include="Engine\Renderer\GraphicsObjects\GraphicsObject.cpp" />
     <ClCompile Include="Engine\Renderer\GraphicsObjects\GraphicsObjectManager.cpp" />
+    <ClCompile Include="Engine\Renderer\GraphicsObjects\TexturedAnimatedGraphicsObject.cpp" />
     <ClCompile Include="Engine\Renderer\Images\Texture.cpp" />
     <ClCompile Include="Engine\Renderer\Memory\Buffer.cpp" />
     <ClCompile Include="Engine\Renderer\Memory\Image.cpp" />
@@ -250,15 +252,10 @@
     <ClCompile Include="Engine\Utils\Logger.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Engine\Renderer\Pipeline\Shaders\glsl\Animated.vert" />
-    <None Include="Static.frag">
-      <SubType>
-      </SubType>
-    </None>
-    <None Include="Static.vert">
-      <SubType>
-      </SubType>
-    </None>
+    <None Include="Engine\Renderer\Pipeline\Shaders\glsl\TexturedAnimated.frag" />
+    <None Include="Engine\Renderer\Pipeline\Shaders\glsl\TexturedAnimated.vert" />
+    <None Include="Engine\Renderer\Pipeline\Shaders\glsl\TexturedStatic.frag" />
+    <None Include="Engine\Renderer\Pipeline\Shaders\glsl\TexturedStatic.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

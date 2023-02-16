@@ -2,6 +2,7 @@
 
 #include "../../Utils/Logger.h"
 #include "TexturedAnimatedGraphicsObject.h"
+#include "TexturedStaticGraphicsObject.h"
 #include "../Pipeline/Shaders/DescriptorSet.h"
 #include "../Pipeline/Shaders/DescriptorSetManager.h"
 #include "../Windows/Window.h"
@@ -61,7 +62,7 @@ GraphicsObject* const GraphicsObjectManager::CreateTexturedStaticGraphicsObject(
 
 	if (model != nullptr && texture != nullptr)
 	{
-		newGraphicsObject = new TexturedAnimatedGraphicsObject(model, texture);
+		newGraphicsObject = new TexturedStaticGraphicsObject(model, texture);
 		instance->staticGraphicsObjects.push_back(newGraphicsObject);
 	}
 
@@ -216,6 +217,16 @@ void GraphicsObjectManager::DrawObjects(VkCommandBuffer& buffer, unsigned int im
 	{
 		obj->Update();
 		vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(instance->graphicsPipelines.find("TexturedAnimated")->second.second->GetPipelineLayout()), 0, 1, &obj->GetDescriptorSet()(), 0, nullptr);
+		vkCmdBindVertexBuffers(buffer, 0, 1, &obj->GetVertexBuffer()(), offsets);
+		vkCmdBindIndexBuffer(buffer, obj->GetIndexBuffer()(), 0, VK_INDEX_TYPE_UINT32);
+		vkCmdDrawIndexed(buffer, static_cast<unsigned int>(obj->GetModel()->GetIndices().size()), 1, 0, 0, 0);
+	}
+
+	vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **instance->graphicsPipelines.find("TexturedStatic")->second.second);
+	for (GraphicsObject* obj : instance->staticGraphicsObjects)
+	{
+		obj->Update();
+		vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(instance->graphicsPipelines.find("TexturedStatic")->second.second->GetPipelineLayout()), 0, 1, &obj->GetDescriptorSet()(), 0, nullptr);
 		vkCmdBindVertexBuffers(buffer, 0, 1, &obj->GetVertexBuffer()(), offsets);
 		vkCmdBindIndexBuffer(buffer, obj->GetIndexBuffer()(), 0, VK_INDEX_TYPE_UINT32);
 		vkCmdDrawIndexed(buffer, static_cast<unsigned int>(obj->GetModel()->GetIndices().size()), 1, 0, 0, 0);

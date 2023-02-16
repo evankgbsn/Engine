@@ -32,7 +32,7 @@ Model* const ModelManager::LoadModel(const std::string& name, const std::string&
 		return nullptr;
 	}
 
-	if (instance->models.find(name) == instance->models.end())
+	if (instance->models.find(name) != instance->models.end())
 	{
 		Logger::Log(std::string("Cannot load model with name ") + name + std::string(". This name is already being used."), Logger::Category::Warning);
 		return nullptr;
@@ -105,6 +105,4 @@ void ModelManager::LoadDefaultModels()
 	std::vector<unsigned int> indices = { 0,1,2,2,3,0 };
 
 	models.insert(std::make_pair(std::string("DefaultRectangleWithDepth"), new Model(vertices, indices)));
-
-	models.insert(std::make_pair(std::string("DefaultCube"), new Model("../Engine/Engine/Renderer/Model/Woman.gltf")));
 }

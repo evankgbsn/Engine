@@ -25,6 +25,7 @@
 #include "../Pipeline/Shaders/DescriptorSet.h"
 #include "../GraphicsObjects/GraphicsObjectManager.h"
 #include "../GraphicsObjects/GraphicsObject.h"
+#include "../GraphicsObjects/TexturedAnimatedGraphicsObject.h"
 #include "../Model/Model.h"
 #include "../Model/ModelManager.h"
 #include "../Pipeline/Shaders/DescriptorSetManager.h"
@@ -595,6 +596,26 @@ void Window::CheckInput()
 	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_E))
 	{
 		cam.Rotate(cam.GetUpVector(), -rotSpeed);
+	}
+
+	static bool toggle = false;
+	if (GLFW_RELEASE == glfwGetKey(window, GLFW_KEY_1))
+	{
+		if (toggle == true)
+		{
+			static unsigned int index = 1U;
+			gObj0->SetClip(index++);
+			if (index >= 10)
+			{
+				index = 0;
+			}
+		}
+		toggle = false;
+	}
+
+	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_1))
+	{
+		toggle = true;
 	}
 
 }

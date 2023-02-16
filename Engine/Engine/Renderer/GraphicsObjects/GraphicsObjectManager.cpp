@@ -50,9 +50,9 @@ void GraphicsObjectManager::Terminate()
 	}
 }
 
-GraphicsObject* const GraphicsObjectManager::CreateTexturedStaticGraphicsObject(Model* const model, Texture* const texture)
+TexturedStaticGraphicsObject* const GraphicsObjectManager::CreateTexturedStaticGraphicsObject(Model* const model, Texture* const texture)
 {
-	GraphicsObject* newGraphicsObject = nullptr;
+	TexturedStaticGraphicsObject* newGraphicsObject = nullptr;
 
 	if (instance == nullptr)
 	{
@@ -164,9 +164,9 @@ void GraphicsObjectManager::LoadShaders()
 	}
 }
 
-GraphicsObject* const GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(Model* const model, Texture* const texture)
+TexturedAnimatedGraphicsObject* const GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(Model* const model, Texture* const texture)
 {
-	GraphicsObject* newGraphicsObject = nullptr;
+	TexturedAnimatedGraphicsObject* newGraphicsObject = nullptr;
 
 	if (instance == nullptr)
 	{

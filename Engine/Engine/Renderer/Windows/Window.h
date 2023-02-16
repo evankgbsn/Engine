@@ -14,6 +14,7 @@ class VulkanPhysicalDevice;
 class GraphicsObject;
 class RenderPass;
 class ViewportPipelineState;
+class TexturedAnimatedGraphicsObject;
 
 class Window
 {
@@ -156,7 +157,7 @@ private:
 	VmaAllocationCreateInfo depthImageAllocInfo;
 	VkFormat depthFormat;
 
-	GraphicsObject* gObj0;
+	TexturedAnimatedGraphicsObject* gObj0;
 };
 
 #endif // WINDOW_H

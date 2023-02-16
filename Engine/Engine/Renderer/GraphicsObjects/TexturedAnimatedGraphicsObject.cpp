@@ -88,3 +88,29 @@ void TexturedAnimatedGraphicsObject::Update()
 
 	uniformBuffers[0]->SetData(&mvp);
 }
+
+bool TexturedAnimatedGraphicsObject::ToggleLoopAnimation()
+{
+	bool isLooping;
+	animationInstance.clip->SetIsLooping(isLooping);
+	animationInstance.clip->SetIsLooping(!isLooping);
+	return isLooping;
+}
+
+void TexturedAnimatedGraphicsObject::SetAnimationSpeed(float animationSpeed)
+{
+	animationInstance.speed = animationSpeed;
+}
+
+void TexturedAnimatedGraphicsObject::SetClip(unsigned int clipIndex)
+{
+	std::vector<Clip>& clips = model->GetAnimationClips();
+
+	if (clipIndex >= clips.size())
+	{
+		Logger::Log(std::string("Calling TexturedAnimatedGraphicsObject::SetClip with an invalid clip index."));
+		return;
+	}
+
+	animationInstance.clip = &clips[clipIndex];
+}

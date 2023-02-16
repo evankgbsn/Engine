@@ -27,6 +27,12 @@ public:
 
 	TexturedAnimatedGraphicsObject& operator=(TexturedAnimatedGraphicsObject&&) = delete;
 
+	bool ToggleLoopAnimation();
+
+	void SetAnimationSpeed(float animationSpeed);
+
+	void SetClip(unsigned int clipIndex);
+
 protected:
 
 	struct MVPUniformBuffer

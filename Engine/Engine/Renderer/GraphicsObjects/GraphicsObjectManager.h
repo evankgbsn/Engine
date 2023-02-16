@@ -7,6 +7,8 @@
 #include <vulkan/vulkan.h>
 
 class GraphicsObject;
+class TexturedStaticGraphicsObject;
+class TexturedAnimatedGraphicsObject;
 class Model;
 class DescriptorSetLayout;
 class GraphicsPipeline;
@@ -24,9 +26,9 @@ public:
 
 	static void Terminate();
 
-	static GraphicsObject* const CreateTexturedStaticGraphicsObject(Model* const model, Texture* const texture);
+	static TexturedStaticGraphicsObject* const CreateTexturedStaticGraphicsObject(Model* const model, Texture* const texture);
 
-	static GraphicsObject* const CreateTexturedAnimatedGraphicsObject(Model* const model, Texture* const texture);
+	static TexturedAnimatedGraphicsObject* const CreateTexturedAnimatedGraphicsObject(Model* const model, Texture* const texture);
 
 	static const std::vector<GraphicsObject*>& GetTexturedStaticGraphicsObjets();
 

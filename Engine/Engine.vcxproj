@@ -164,6 +164,7 @@
     <ClInclude Include="Engine\Renderer\GraphicsObjects\TexturedAnimatedGraphicsObject.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\TexturedStaticGraphicsObject.h" />
     <ClInclude Include="Engine\Renderer\Images\Texture.h" />
+    <ClInclude Include="Engine\Renderer\Images\TextureManager.h" />
     <ClInclude Include="Engine\Renderer\Memory\Buffer.h" />
     <ClInclude Include="Engine\Renderer\Memory\Image.h" />
     <ClInclude Include="Engine\Renderer\Memory\IndexBuffer.h" />
@@ -219,6 +220,7 @@
     <ClCompile Include="Engine\Renderer\GraphicsObjects\TexturedAnimatedGraphicsObject.cpp" />
     <ClCompile Include="Engine\Renderer\GraphicsObjects\TexturedStaticGraphicsObject.cpp" />
     <ClCompile Include="Engine\Renderer\Images\Texture.cpp" />
+    <ClCompile Include="Engine\Renderer\Images\TextureManager.cpp" />
     <ClCompile Include="Engine\Renderer\Memory\Buffer.cpp" />
     <ClCompile Include="Engine\Renderer\Memory\Image.cpp" />
     <ClCompile Include="Engine\Renderer\Memory\IndexBuffer.cpp" />

@@ -31,6 +31,7 @@
 #include "../Cameras/CameraManager.h"
 #include "../Memory/MemoryManager.h"
 #include "../../Time/TimeManager.h"
+#include "../Images/TextureManager.h"
 
 #include "glm/gtc/matrix_transform.hpp"
 
@@ -62,6 +63,7 @@ Window::~Window()
 	vmaDestroyImage(MemoryManager::GetAllocator(), depthImage, depthImageAllocation);
 
 	GraphicsObjectManager::Terminate();
+	TextureManager::Terminate();
 	MemoryManager::Terminate();
 
 	vkDestroyFence(device, inFlight, nullptr);
@@ -113,7 +115,8 @@ void Window::Initialize()
 		CreateDepthBuffer();
 		renderPass = new RenderPass(*this);
 		viewportPipelineState = new ViewportPipelineState(*this);
-		GraphicsObjectManager::Initialize(*this); // maybe here too.
+		TextureManager::Initialize();
+		GraphicsObjectManager::Initialize(*this);
 		firstWindow = false;
 	}
 
@@ -131,7 +134,9 @@ void Window::Initialize()
 	CreateFramebuffers();
 	CreateSyncObjects();
 
-	gObj0 = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("DefaultCube"));
+	Texture* womanTexture = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Woman.png", "Woman");
+	Texture* vikingRoomTexture = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/VikingRoom.png", "VikingRoom");
+	gObj0 = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("DefaultCube"), vikingRoomTexture);
 }
 
 bool Window::Update()

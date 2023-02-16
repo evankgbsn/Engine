@@ -31,6 +31,16 @@ const Image& Texture::GetImage() const
 	return *image;
 }
 
+void Texture::SetBinding(unsigned int binding)
+{
+	image->SetBinding(binding);
+}
+
+unsigned int Texture::GetBinding() const
+{
+	return image->Binding();
+}
+
 void Texture::LoadTexture()
 {
 	stbi_uc* pixels = stbi_load(path.c_str(), &width, &height, &channels, STBI_rgb_alpha);

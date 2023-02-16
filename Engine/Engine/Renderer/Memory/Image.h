@@ -26,13 +26,13 @@ public:
 
 	Image& operator=(Image&&) = delete;
 
-	const VkDescriptorSetLayoutBinding& GetLayoutBinding() const;
-
 	const VkImageView& GetImageView() const;
 
 	const VkSampler& GetSampler() const;
 
 	unsigned int Binding() const;
+
+	void SetBinding(unsigned int newBinding);
 
 private:
 
@@ -54,7 +54,7 @@ private:
 
 	VmaAllocationCreateInfo imageAllocInfo;
 
-	VkDescriptorSetLayoutBinding layoutBinding;
+	unsigned int binding;
 
 };
 

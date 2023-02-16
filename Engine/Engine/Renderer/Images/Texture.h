@@ -26,6 +26,10 @@ public:
 
 	const Image& GetImage() const;
 
+	void SetBinding(unsigned int binding);
+
+	unsigned int GetBinding() const;
+
 private:
 
 	void LoadTexture();

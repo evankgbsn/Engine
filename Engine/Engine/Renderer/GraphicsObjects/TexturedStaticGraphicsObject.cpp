@@ -19,14 +19,8 @@ void TexturedStaticGraphicsObject::Update()
 
 void TexturedStaticGraphicsObject::CreateTextures()
 {
-	if (texture == nullptr)
-	{
-		texture = new Texture();
-	}
-	else
-	{
-		textures.push_back(texture);
-	}
+	textures.push_back(texture);
+	texture->SetBinding(1U);
 }
 
 void TexturedStaticGraphicsObject::CreateUniformBuffers()
@@ -34,15 +28,6 @@ void TexturedStaticGraphicsObject::CreateUniformBuffers()
 	UniformBuffer* mvpUniformBuffer = new UniformBuffer(sizeof(mvp), 0);
 	mvpUniformBuffer->PersistentMap();
 	uniformBuffers.push_back(mvpUniformBuffer);
-}
-
-TexturedStaticGraphicsObject::TexturedStaticGraphicsObject() :
-	GraphicsObject(),
-	texture(nullptr),
-	mvp()
-{
-	shaderName = "TexturedStatic";
-	InitializeDescriptorSets();
 }
 
 TexturedStaticGraphicsObject::TexturedStaticGraphicsObject(Model* const m, Texture* const tex) :

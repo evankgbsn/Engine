@@ -255,6 +255,9 @@
     <ClInclude Include="Engine\Renderer\GraphicsObjects\TexturedStaticGraphicsObject.h">
       <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Renderer\Images\TextureManager.h">
+      <Filter>Source Files\Engine\Renderer\Images</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -415,6 +418,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Renderer\GraphicsObjects\TexturedStaticGraphicsObject.cpp">
       <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Images\TextureManager.cpp">
+      <Filter>Source Files\Engine\Renderer\Images</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

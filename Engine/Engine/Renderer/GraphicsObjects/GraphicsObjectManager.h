@@ -13,6 +13,7 @@ class GraphicsPipeline;
 class ShaderPipelineStage;
 class Window;
 class Shader;
+class Texture;
 
 class GraphicsObjectManager
 {
@@ -23,9 +24,9 @@ public:
 
 	static void Terminate();
 
-	static GraphicsObject* const CreateTexturedStaticGraphicsObject(Model* const model);
+	static GraphicsObject* const CreateTexturedStaticGraphicsObject(Model* const model, Texture* const texture);
 
-	static GraphicsObject* const CreateTexturedAnimatedGraphicsObject(Model* const model);
+	static GraphicsObject* const CreateTexturedAnimatedGraphicsObject(Model* const model, Texture* const texture);
 
 	static const std::vector<GraphicsObject*>& GetTexturedStaticGraphicsObjets();
 

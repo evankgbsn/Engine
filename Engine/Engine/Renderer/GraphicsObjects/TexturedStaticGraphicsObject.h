@@ -10,7 +10,7 @@ class TexturedStaticGraphicsObject : public GraphicsObject
 {
 public:
 
-	TexturedStaticGraphicsObject();
+	TexturedStaticGraphicsObject() = delete;
 
 	TexturedStaticGraphicsObject(Model* const model, Texture* const texture);
 

@@ -7,14 +7,15 @@ class Pose;
 class Clip;
 class Armature;
 class Model;
+class Texture;
 
 class TexturedAnimatedGraphicsObject : public GraphicsObject
 {
 public:
 
-	TexturedAnimatedGraphicsObject();
+	TexturedAnimatedGraphicsObject() = delete;
 
-	TexturedAnimatedGraphicsObject(Model* const model);
+	TexturedAnimatedGraphicsObject(Model* const model, Texture* const texture);
 
 	~TexturedAnimatedGraphicsObject();
 
@@ -63,6 +64,8 @@ protected:
 	MVPUniformBuffer mvp;
 
 	AnimationInstance animationInstance;
+
+	Texture* texture;
 
 private:
 

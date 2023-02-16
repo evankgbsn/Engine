@@ -49,16 +49,21 @@ void GraphicsObjectManager::Terminate()
 	}
 }
 
-GraphicsObject* const GraphicsObjectManager::CreateTexturedStaticGraphicsObject(Model* const model)
+GraphicsObject* const GraphicsObjectManager::CreateTexturedStaticGraphicsObject(Model* const model, Texture* const texture)
 {
+	GraphicsObject* newGraphicsObject = nullptr;
+
 	if (instance == nullptr)
 	{
 		Logger::Log(std::string("Calling GraphicsObjectManager::CreateStaticGraphicsObject() before GraphicsObjectManager::Initialize()."), Logger::Category::Warning);
 		return nullptr;
 	}
 
-	GraphicsObject* const newGraphicsObject = (model != nullptr) ? new TexturedAnimatedGraphicsObject(model) : new TexturedAnimatedGraphicsObject();
-	instance->staticGraphicsObjects.push_back(newGraphicsObject);
+	if (model != nullptr && texture != nullptr)
+	{
+		newGraphicsObject = new TexturedAnimatedGraphicsObject(model, texture);
+		instance->staticGraphicsObjects.push_back(newGraphicsObject);
+	}
 
 	return newGraphicsObject;
 }
@@ -158,16 +163,21 @@ void GraphicsObjectManager::LoadShaders()
 	}
 }
 
-GraphicsObject* const GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(Model* const model)
+GraphicsObject* const GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(Model* const model, Texture* const texture)
 {
+	GraphicsObject* newGraphicsObject = nullptr;
+
 	if (instance == nullptr)
 	{
 		Logger::Log(std::string("Calling GraphicsObjectManager::CreateAnimatedGraphicsObject() before GraphicsObjectManager::Initialize()."), Logger::Category::Warning);
 		return nullptr;
 	}
 
-	GraphicsObject* const newGraphicsObject = (model != nullptr) ? new TexturedAnimatedGraphicsObject(model) : new TexturedAnimatedGraphicsObject();
-	instance->animatedGraphicsObjects.push_back(newGraphicsObject);
+	if (model != nullptr && texture != nullptr)
+	{
+		newGraphicsObject = new TexturedAnimatedGraphicsObject(model, texture);
+		instance->animatedGraphicsObjects.push_back(newGraphicsObject);
+	}
 
 	return newGraphicsObject;
 }

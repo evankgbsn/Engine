@@ -48,17 +48,10 @@ void TexturedAnimatedGraphicsObject::AnimationInstance::Update(Armature* const a
 	}
 }
 
-TexturedAnimatedGraphicsObject::TexturedAnimatedGraphicsObject() :
-	GraphicsObject(),
-	animationInstance((model->GetAnimationClips().size() > 0) ? &model->GetAnimationClips()[0] : nullptr, model->GetArmature()->GetRestPose())
-{
-	shaderName = "TexturedAnimated";
-	InitializeDescriptorSets();
-}
-
-TexturedAnimatedGraphicsObject::TexturedAnimatedGraphicsObject(Model* const m) :
+TexturedAnimatedGraphicsObject::TexturedAnimatedGraphicsObject(Model* const m, Texture* const tex) :
 	GraphicsObject(m),
-	animationInstance((model->GetAnimationClips().size() > 0) ? &model->GetAnimationClips()[0] : nullptr, model->GetArmature()->GetRestPose())
+	animationInstance((model->GetAnimationClips().size() > 0) ? &model->GetAnimationClips()[0] : nullptr, model->GetArmature()->GetRestPose()),
+	texture(tex)
 {
 	shaderName = "TexturedAnimated";
 	InitializeDescriptorSets();
@@ -70,7 +63,8 @@ TexturedAnimatedGraphicsObject::~TexturedAnimatedGraphicsObject()
 
 void TexturedAnimatedGraphicsObject::CreateTextures()
 {
-	textures.push_back(new Texture());
+	textures.push_back(texture);
+	texture->SetBinding(1U);
 }
 
 void TexturedAnimatedGraphicsObject::CreateUniformBuffers()

@@ -57,11 +57,6 @@ GraphicsObject::~GraphicsObject()
 	}
 
 	uniformBuffers.clear();
-
-	for (unsigned int i = 0; i < textures.size(); i++)
-	{
-		delete textures[i];
-	}
 }
 
 const DescriptorSet& GraphicsObject::GetDescriptorSet() const
@@ -101,7 +96,7 @@ const Image* const GraphicsObject::GetImage(unsigned int binding) const
 {
 	for (Texture* texture : textures)
 	{
-		if (texture->GetImage().Binding() == binding)
+		if (texture->GetBinding() == binding)
 		{
 			return &texture->GetImage();
 		}

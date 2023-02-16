@@ -6,17 +6,11 @@
 #include "../Vulkan/VulkanPhysicalDevice.h"
 #include "StagingBuffer.h"
 
-Image::Image(int width, int height, const StagingBuffer& stagingBuffer, unsigned int binding) :
+Image::Image(int width, int height, const StagingBuffer& stagingBuffer, unsigned int b) :
 	image(VK_NULL_HANDLE),
 	createInfo({}),
-	layoutBinding({})
+	binding(b)
 {
-	layoutBinding.binding = binding;
-	layoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-	layoutBinding.descriptorCount = 1;
-	layoutBinding.pImmutableSamplers = nullptr;
-	layoutBinding.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT;
-
 	CreateImage(width, height, stagingBuffer);
 	CreateImageView();
 	CreateSampler();
@@ -27,11 +21,6 @@ Image::~Image()
 	vkDestroySampler(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), sampler, nullptr);
 	vkDestroyImageView(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), imageView, nullptr);
 	vmaDestroyImage(MemoryManager::GetAllocator(), image, imageAllocation);
-}
-
-const VkDescriptorSetLayoutBinding& Image::GetLayoutBinding() const
-{
-	return layoutBinding;
 }
 
 const VkImageView& Image::GetImageView() const
@@ -46,7 +35,12 @@ const VkSampler& Image::GetSampler() const
 
 unsigned int Image::Binding() const
 {
-	return layoutBinding.binding;
+	return binding;
+}
+
+void Image::SetBinding(unsigned int newBinding)
+{
+	binding = newBinding;
 }
 
 void Image::CreateImage(int width, int height, const StagingBuffer& stagingBuffer)

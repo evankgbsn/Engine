@@ -431,15 +431,9 @@ void Window::RecreateSwapchain()
 	//
 
 	CleanupSwapchain();
-
-	int w, h;
-	glfwGetWindowSize(window, &w, &h);
-	width = static_cast<unsigned int>(w);
-	height = static_cast<unsigned int>(h);
-
 	GetSurfaceInfo(*Renderer::GetVulkanPhysicalDevice());
 	
-	// swapchainExtent isnt set until GetSurfaceInfo is called in ChooseDevice.
+	// swapchainExtent isnt set until GetSurfaceInfo is called.
 	viewport.x = 0.0f;
 	viewport.y = 0.0f;
 	viewport.width = (float)swapchainExtent.width;
@@ -455,6 +449,7 @@ void Window::RecreateSwapchain()
 	vkDestroyImageView(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), depthImageView, nullptr);
 	vmaDestroyImage(MemoryManager::GetAllocator(), depthImage, depthImageAllocation);
 	CreateDepthBuffer();
+	
 	CreateFramebuffers();
 
 
@@ -719,8 +714,8 @@ void Window::CreateDepthBuffer()
 
 	depthImageCreateInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
 	depthImageCreateInfo.imageType = VK_IMAGE_TYPE_2D;
-	depthImageCreateInfo.extent.width = static_cast<uint32_t>(width);
-	depthImageCreateInfo.extent.height = static_cast<uint32_t>(height);
+	depthImageCreateInfo.extent.width = swapchainExtent.width;
+	depthImageCreateInfo.extent.height = swapchainExtent.height;
 	depthImageCreateInfo.extent.depth = 1;
 	depthImageCreateInfo.mipLevels = 1;
 	depthImageCreateInfo.arrayLayers = 1;

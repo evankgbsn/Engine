@@ -452,7 +452,8 @@ void Window::RecreateSwapchain()
 	
 	CreateFramebuffers();
 
-
+	width = swapchainExtent.width;
+	height = swapchainExtent.height;
 	framebufferResized = false;
 
 }

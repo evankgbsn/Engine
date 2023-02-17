@@ -42,6 +42,8 @@ private:
 
 	void CreateSampler();
 
+	void GenerateMipmaps(int width, int height);
+
 	VkImage image;
 
 	VkImageView imageView;
@@ -55,6 +57,8 @@ private:
 	VmaAllocationCreateInfo imageAllocInfo;
 
 	unsigned int binding;
+
+	unsigned int mipLevels;
 
 };
 

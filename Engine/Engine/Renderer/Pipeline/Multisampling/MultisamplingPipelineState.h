@@ -8,7 +8,9 @@ class MultisamplingPipelineState
 
 public:
 
-	MultisamplingPipelineState();
+	MultisamplingPipelineState() = delete;
+
+	MultisamplingPipelineState(const VkSampleCountFlagBits& samples);
 
 	~MultisamplingPipelineState();
 

@@ -19,17 +19,18 @@
 #include "../Vulkan/VulkanPhysicalDevice.h"
 #include "../Pipeline/Shaders/DescriptorSet.h"
 #include "../GraphicsObjects/GraphicsObjectManager.h"
+#include "../Windows/Window.h"
 
-GraphicsPipeline::GraphicsPipeline(const ViewportPipelineState& vps, const RenderPass& rp, const ShaderPipelineStage& sps) :
+GraphicsPipeline::GraphicsPipeline(const ShaderPipelineStage& sps, const Window& window) :
 	inputAssembly(new InputAssemblyPipelineState()),
 	vertexInput(new VertexInputPipelineState()),
-	viewportPipelineState(vps),
+	viewportPipelineState(window.GetViewportPipelineState()),
 	shaderPipelineStage(sps),
 	rasterizer(new RasterizerPipelineState()),
-	multisampling(new MultisamplingPipelineState()),
+	multisampling(new MultisamplingPipelineState(window.GetMSAASampleCount())),
 	colorBlending(new ColorBlendingPipelineState()),
 	dynamic(new DynamicPipelineState()),
-	renderPass(rp),
+	renderPass(window.GetRenderPass()),
 	layout(new PipelineLayout(Renderer::GetVulkanPhysicalDevice(), &sps.GetDescriptorSetLayout())),
 	depthStencil(new DepthStencilPipelineState())
 {

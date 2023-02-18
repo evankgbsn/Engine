@@ -21,7 +21,7 @@ class GraphicsPipeline
 
 public:
 
-	GraphicsPipeline(const ViewportPipelineState& viewportPipelineState, const RenderPass& renderPass, const ShaderPipelineStage& shaderPipelineStage);
+	GraphicsPipeline(const ShaderPipelineStage& shaderPipelineStage, const Window& window);
 
 	~GraphicsPipeline();
 

@@ -58,11 +58,8 @@ Window::~Window()
 
 	VkDevice& device = Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice();
 
-	vkDeviceWaitIdle(device);
-
-	vkDestroyImageView(device, depthImageView, nullptr);
-	vmaDestroyImage(MemoryManager::GetAllocator(), depthImage, depthImageAllocation);
-
+	CleanupSwapchain();
+	
 	GraphicsObjectManager::Terminate();
 	TextureManager::Terminate();
 	MemoryManager::Terminate();
@@ -70,8 +67,6 @@ Window::~Window()
 	vkDestroyFence(device, inFlight, nullptr);
 	vkDestroySemaphore(device, imageAvailable, nullptr);
 	vkDestroySemaphore(device, renderFinished, nullptr);
-
-	CleanupSwapchain();
 
 	delete viewportPipelineState;
 	delete renderPass;
@@ -113,6 +108,7 @@ void Window::Initialize()
 		MemoryManager::Initialize();
 
 		// Needs to be called before we create the RenderPass in the pipeline for a reference to the depth format.
+		CreateMSAARenderTarget();
 		CreateDepthBuffer();
 		renderPass = new RenderPass(*this);
 		viewportPipelineState = new ViewportPipelineState(*this);
@@ -394,9 +390,9 @@ void Window::CreateFramebuffers()
 	framebuffers.resize(swapchainImageViews.size());
 
 	int i = 0;
-	for (VkImageView imageView : swapchainImageViews)
+	for (const VkImageView& imageView : swapchainImageViews)
 	{
-		std::vector<VkImageView> attachments = { imageView, depthImageView };
+		std::vector<VkImageView> attachments = { msaaImageView, depthImageView, imageView};
 
 		VkFramebufferCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
@@ -446,8 +442,8 @@ void Window::RecreateSwapchain()
 
 	CreateSwapchain();
 
-	vkDestroyImageView(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), depthImageView, nullptr);
-	vmaDestroyImage(MemoryManager::GetAllocator(), depthImage, depthImageAllocation);
+	CreateMSAARenderTarget();
+
 	CreateDepthBuffer();
 	
 	CreateFramebuffers();
@@ -467,6 +463,12 @@ void Window::CleanupSwapchain()
 	{
 		vkDestroyFramebuffer(device, framebuffer, nullptr);
 	}
+
+	vkDestroyImageView(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), depthImageView, nullptr);
+	vmaDestroyImage(MemoryManager::GetAllocator(), depthImage, depthImageAllocation);
+
+	vkDestroyImageView(device, msaaImageView, nullptr);
+	vmaDestroyImage(MemoryManager::GetAllocator(), msaaImage, msaaImageAllocation);
 
 	for (const auto& imageView : swapchainImageViews)
 	{
@@ -725,7 +727,7 @@ void Window::CreateDepthBuffer()
 	depthImageCreateInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 	depthImageCreateInfo.usage = VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT;
 	depthImageCreateInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
-	depthImageCreateInfo.samples = VK_SAMPLE_COUNT_1_BIT;
+	depthImageCreateInfo.samples = msaaSamples;
 	depthImageCreateInfo.flags = 0;
 
 	depthImageAllocInfo.usage = VMA_MEMORY_USAGE_AUTO;
@@ -750,6 +752,44 @@ void Window::CreateDepthBuffer()
 
 }
 
+void Window::CreateMSAARenderTarget()
+{
+	msaaImageCreateInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+	msaaImageCreateInfo.imageType = VK_IMAGE_TYPE_2D;
+	msaaImageCreateInfo.extent.width = swapchainExtent.width;
+	msaaImageCreateInfo.extent.height = swapchainExtent.height;
+	msaaImageCreateInfo.extent.depth = 1;
+	msaaImageCreateInfo.mipLevels = 1;
+	msaaImageCreateInfo.arrayLayers = 1;
+	msaaImageCreateInfo.format = surfaceFormat.format;
+	msaaImageCreateInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
+	msaaImageCreateInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+	msaaImageCreateInfo.usage = VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT | VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT;
+	msaaImageCreateInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+	msaaImageCreateInfo.samples = msaaSamples = GetMaxUsableSampleCount();
+	msaaImageCreateInfo.flags = 0;
+
+	msaaImageAllocInfo.usage = VMA_MEMORY_USAGE_AUTO;
+	msaaImageAllocInfo.flags = 0;
+
+	VkResult result = vmaCreateImage(MemoryManager::GetAllocator(), &msaaImageCreateInfo, &msaaImageAllocInfo, &msaaImage, &msaaImageAllocation, nullptr);
+	VulkanUtils::CheckResult(result, true, true, "Failed to create Depth Buffer image.");
+
+	VkImageViewCreateInfo imageViewCreateInfo{};
+	imageViewCreateInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+	imageViewCreateInfo.image = msaaImage;
+	imageViewCreateInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+	imageViewCreateInfo.format = surfaceFormat.format;
+	imageViewCreateInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+	imageViewCreateInfo.subresourceRange.baseMipLevel = 0;
+	imageViewCreateInfo.subresourceRange.levelCount = 1;
+	imageViewCreateInfo.subresourceRange.baseArrayLayer = 0;
+	imageViewCreateInfo.subresourceRange.layerCount = 1;
+
+	result = vkCreateImageView(Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice(), &imageViewCreateInfo, nullptr, &msaaImageView);
+	VulkanUtils::CheckResult(result, true, true, "Failed to create image view in Window::CreateDepthBuffer().");
+}
+
 VkFormat Window::FindSupportedFormat(const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features)
 {
 	for (VkFormat format : candidates) {
@@ -766,6 +806,21 @@ VkFormat Window::FindSupportedFormat(const std::vector<VkFormat>& candidates, Vk
 	Logger::LogAndThrow("Could not find supported format Window::FindSupportedFormat().");
 
 	return VkFormat();
+}
+
+VkSampleCountFlagBits Window::GetMaxUsableSampleCount()
+{
+	const VkPhysicalDeviceProperties& physicalDeviceProperties = Renderer::GetVulkanPhysicalDevice()->GetProperties();
+
+	VkSampleCountFlags counts = physicalDeviceProperties.limits.framebufferColorSampleCounts & physicalDeviceProperties.limits.framebufferDepthSampleCounts;
+	if (counts & VK_SAMPLE_COUNT_64_BIT) { return VK_SAMPLE_COUNT_64_BIT; }
+	if (counts & VK_SAMPLE_COUNT_32_BIT) { return VK_SAMPLE_COUNT_32_BIT; }
+	if (counts & VK_SAMPLE_COUNT_16_BIT) { return VK_SAMPLE_COUNT_16_BIT; }
+	if (counts & VK_SAMPLE_COUNT_8_BIT) { return VK_SAMPLE_COUNT_8_BIT; }
+	if (counts & VK_SAMPLE_COUNT_4_BIT) { return VK_SAMPLE_COUNT_4_BIT; }
+	if (counts & VK_SAMPLE_COUNT_2_BIT) { return VK_SAMPLE_COUNT_2_BIT; }
+
+	return VK_SAMPLE_COUNT_1_BIT;
 }
 
 static void FramebufferResizeCallback(GLFWwindow* window, int width, int height)

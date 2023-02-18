@@ -53,11 +53,13 @@ public:
 
 	const VkSurfaceFormatKHR& GetSurfaceFormat() const { return surfaceFormat; };
 
-	unsigned int GetSwapChainImageCount() const { return static_cast<unsigned int>(swapchainImageViews.size()); }
+	unsigned int GetSwapChainImageCount() const { return static_cast<unsigned int>(swapchainImageViews.size()); };
 
-	const ViewportPipelineState& GetViewportPipelineState() const { return *viewportPipelineState; }
+	const ViewportPipelineState& GetViewportPipelineState() const { return *viewportPipelineState; };
 
-	const RenderPass& GetRenderPass() const { return *renderPass; }
+	const RenderPass& GetRenderPass() const { return *renderPass; };
+
+	const VkSampleCountFlagBits& GetMSAASampleCount() const { return msaaSamples; };
 
 	// The struct of swapchain info.
 	struct SurfaceInfo
@@ -96,7 +98,11 @@ private:
 
 	void CreateDepthBuffer();
 
+	void CreateMSAARenderTarget();
+
 	VkFormat FindSupportedFormat(const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
+
+	VkSampleCountFlagBits GetMaxUsableSampleCount();
 
 	// The GLFW window handle.
 	GLFWwindow* window = nullptr;
@@ -140,6 +146,16 @@ private:
 
 	// The render pass.
 	RenderPass* renderPass;
+
+	// Multisample count.
+	VkSampleCountFlagBits msaaSamples = VK_SAMPLE_COUNT_1_BIT;
+
+	// MSAA render target
+	VkImage msaaImage;
+	VkImageView msaaImageView;
+	VkImageCreateInfo msaaImageCreateInfo;
+	VmaAllocation msaaImageAllocation;
+	VmaAllocationCreateInfo msaaImageAllocInfo;
 
 	// The viewport pipeline state.
 	ViewportPipelineState* viewportPipelineState;

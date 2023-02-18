@@ -83,10 +83,8 @@ void GraphicsObjectManager::CreateGraphicsPipelines()
 	// After loading the shaders there should now be an entry for each shader file name.
 	for (auto& graphicsPipeline : graphicsPipelines)
 	{
-		const ViewportPipelineState& viewportState = window.GetViewportPipelineState();
-		const RenderPass& renderPass = window.GetRenderPass();
 		graphicsPipeline.second.first->CreateDescriptorSetLayout();
-		graphicsPipeline.second.second = new GraphicsPipeline(viewportState, renderPass, *graphicsPipeline.second.first);
+		graphicsPipeline.second.second = new GraphicsPipeline(*graphicsPipeline.second.first, window);
 	}
 }
 

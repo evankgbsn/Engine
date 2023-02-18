@@ -258,6 +258,9 @@
     <ClInclude Include="Engine\Renderer\Images\TextureManager.h">
       <Filter>Source Files\Engine\Renderer\Images</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Renderer\GraphicsObjects\GoochGraphicsObject.h">
+      <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -422,6 +425,9 @@
     <ClCompile Include="Engine\Renderer\Images\TextureManager.cpp">
       <Filter>Source Files\Engine\Renderer\Images</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Renderer\GraphicsObjects\GoochGraphicsObject.cpp">
+      <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Renderer\Pipeline\Shaders\glsl\TexturedAnimated.frag">
@@ -434,6 +440,12 @@
       <Filter>Source Files\Engine\Renderer\Pipeline\Shaders\glsl</Filter>
     </None>
     <None Include="Engine\Renderer\Pipeline\Shaders\glsl\TexturedStatic.vert">
+      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders\glsl</Filter>
+    </None>
+    <None Include="Engine\Renderer\Pipeline\Shaders\glsl\Gooch.frag">
+      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders\glsl</Filter>
+    </None>
+    <None Include="Engine\Renderer\Pipeline\Shaders\glsl\Gooch.vert">
       <Filter>Source Files\Engine\Renderer\Pipeline\Shaders\glsl</Filter>
     </None>
   </ItemGroup>

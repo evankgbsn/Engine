@@ -3,6 +3,7 @@
 #include "../../Utils/Logger.h"
 #include "TexturedAnimatedGraphicsObject.h"
 #include "TexturedStaticGraphicsObject.h"
+#include "GoochGraphicsObject.h"
 #include "../Pipeline/Shaders/DescriptorSet.h"
 #include "../Pipeline/Shaders/DescriptorSetManager.h"
 #include "../Windows/Window.h"
@@ -181,6 +182,25 @@ TexturedAnimatedGraphicsObject* const GraphicsObjectManager::CreateTexturedAnima
 	return newGraphicsObject;
 }
 
+GoochGraphicsObject* const GraphicsObjectManager::CreateGoochGraphicsObject(Model* const model, Texture* const texture)
+{
+	GoochGraphicsObject* newGraphicsObject = nullptr;
+
+	if (instance == nullptr)
+	{
+		Logger::Log(std::string("Calling GraphicsObjectManager::CreateStaticGraphicsObject() before GraphicsObjectManager::Initialize()."), Logger::Category::Warning);
+		return nullptr;
+	}
+
+	if (model != nullptr)
+	{
+		newGraphicsObject = new GoochGraphicsObject(model, texture);
+		instance->goochGraphicsObjects.push_back(newGraphicsObject);
+	}
+
+	return newGraphicsObject;
+}
+
 const std::vector<GraphicsObject*>& GraphicsObjectManager::GetTexturedStaticGraphicsObjets()
 {
 	if (instance == nullptr)
@@ -229,6 +249,16 @@ void GraphicsObjectManager::DrawObjects(VkCommandBuffer& buffer, unsigned int im
 		vkCmdBindIndexBuffer(buffer, obj->GetIndexBuffer()(), 0, VK_INDEX_TYPE_UINT32);
 		vkCmdDrawIndexed(buffer, static_cast<unsigned int>(obj->GetModel()->GetIndices().size()), 1, 0, 0, 0);
 	}
+
+	vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **instance->graphicsPipelines.find("Gooch")->second.second);
+	for (GraphicsObject* obj : instance->goochGraphicsObjects)
+	{
+		obj->Update();
+		vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(instance->graphicsPipelines.find("Gooch")->second.second->GetPipelineLayout()), 0, 1, &obj->GetDescriptorSet()(), 0, nullptr);
+		vkCmdBindVertexBuffers(buffer, 0, 1, &obj->GetVertexBuffer()(), offsets);
+		vkCmdBindIndexBuffer(buffer, obj->GetIndexBuffer()(), 0, VK_INDEX_TYPE_UINT32);
+		vkCmdDrawIndexed(buffer, static_cast<unsigned int>(obj->GetModel()->GetIndices().size()), 1, 0, 0, 0);
+	}
 }
 
 const ShaderPipelineStage* const GraphicsObjectManager::GetShaderPipelineStage(const std::string& shaderName)
@@ -254,6 +284,8 @@ const ShaderPipelineStage* const GraphicsObjectManager::GetShaderPipelineStage(c
 
 GraphicsObjectManager::GraphicsObjectManager(const Window& w) :
 	staticGraphicsObjects(std::vector<GraphicsObject*>()),
+	animatedGraphicsObjects(std::vector<GraphicsObject*>()),
+	goochGraphicsObjects(std::vector<GraphicsObject*>()),
 	window(w)
 {
 	DescriptorSetManager::Initialize();
@@ -268,6 +300,11 @@ GraphicsObjectManager::~GraphicsObjectManager()
 	}
 
 	for (GraphicsObject* graphicsObject : animatedGraphicsObjects)
+	{
+		delete graphicsObject;
+	}
+
+	for (GraphicsObject* graphicsObject : goochGraphicsObjects)
 	{
 		delete graphicsObject;
 	}

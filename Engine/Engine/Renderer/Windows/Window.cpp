@@ -26,6 +26,7 @@
 #include "../GraphicsObjects/GraphicsObjectManager.h"
 #include "../GraphicsObjects/GraphicsObject.h"
 #include "../GraphicsObjects/TexturedAnimatedGraphicsObject.h"
+#include "../GraphicsObjects/GoochGraphicsObject.h"
 #include "../Model/Model.h"
 #include "../Model/ModelManager.h"
 #include "../Pipeline/Shaders/DescriptorSetManager.h"
@@ -137,8 +138,9 @@ void Window::Initialize()
 	Model* womanModel = ModelManager::LoadModel("Woman", "../Engine/Engine/Renderer/Model/Woman.gltf");
 	Model* vikingRoom = ModelManager::LoadModel("VikingRoom", "../Engine/Engine/Renderer/Model/VikingRoom.gltf");
 
-	gObj0 = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), womanTexture);
-	GraphicsObjectManager::CreateTexturedStaticGraphicsObject(vikingRoom, vikingRoomTexture);
+	//gObj0 = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), womanTexture);
+	//GraphicsObjectManager::CreateTexturedStaticGraphicsObject(vikingRoom, vikingRoomTexture);
+	GraphicsObjectManager::CreateGoochGraphicsObject(vikingRoom, vikingRoomTexture);
 }
 
 bool Window::Update()

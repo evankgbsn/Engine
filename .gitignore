@@ -36,6 +36,7 @@
 !*vulkan-1.lib
 !*VulkanMemoryAllocator.lib
 !*VulkanMemoryAllocatord.lib
+!*glslc.exe
 
 #Ignore .vs folder and other generated folders
 *.vs

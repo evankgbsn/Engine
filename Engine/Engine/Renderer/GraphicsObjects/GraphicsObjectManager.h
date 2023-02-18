@@ -5,10 +5,12 @@
 #include <unordered_map>
 #include <string>
 #include <vulkan/vulkan.h>
+#include <glm/glm.hpp>
 
 class GraphicsObject;
 class TexturedStaticGraphicsObject;
 class TexturedAnimatedGraphicsObject;
+class GoochGraphicsObject;
 class Model;
 class DescriptorSetLayout;
 class GraphicsPipeline;
@@ -29,6 +31,8 @@ public:
 	static TexturedStaticGraphicsObject* const CreateTexturedStaticGraphicsObject(Model* const model, Texture* const texture);
 
 	static TexturedAnimatedGraphicsObject* const CreateTexturedAnimatedGraphicsObject(Model* const model, Texture* const texture);
+
+	static GoochGraphicsObject* const CreateGoochGraphicsObject(Model* const model, Texture* const texture);
 
 	static const std::vector<GraphicsObject*>& GetTexturedStaticGraphicsObjets();
 
@@ -65,6 +69,8 @@ private:
 	std::vector<GraphicsObject*> staticGraphicsObjects;
 
 	std::vector<GraphicsObject*> animatedGraphicsObjects;
+
+	std::vector<GraphicsObject*> goochGraphicsObjects;
 
 	const Window& window;
 

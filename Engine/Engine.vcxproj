@@ -159,6 +159,7 @@
     <ClInclude Include="Engine\Renderer\Cameras\Camera.h" />
     <ClInclude Include="Engine\Renderer\Cameras\CameraManager.h" />
     <ClInclude Include="Engine\Renderer\Commands\CommandManager.h" />
+    <ClInclude Include="Engine\Renderer\GraphicsObjects\GoochGraphicsObject.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\GraphicsObject.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\GraphicsObjectManager.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\TexturedAnimatedGraphicsObject.h" />
@@ -215,6 +216,7 @@
     <ClCompile Include="Engine\Renderer\Cameras\Camera.cpp" />
     <ClCompile Include="Engine\Renderer\Cameras\CameraManager.cpp" />
     <ClCompile Include="Engine\Renderer\Commands\CommandManager.cpp" />
+    <ClCompile Include="Engine\Renderer\GraphicsObjects\GoochGraphicsObject.cpp" />
     <ClCompile Include="Engine\Renderer\GraphicsObjects\GraphicsObject.cpp" />
     <ClCompile Include="Engine\Renderer\GraphicsObjects\GraphicsObjectManager.cpp" />
     <ClCompile Include="Engine\Renderer\GraphicsObjects\TexturedAnimatedGraphicsObject.cpp" />
@@ -256,6 +258,8 @@
     <ClCompile Include="Engine\Utils\Logger.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Engine\Renderer\Pipeline\Shaders\glsl\Gooch.frag" />
+    <None Include="Engine\Renderer\Pipeline\Shaders\glsl\Gooch.vert" />
     <None Include="Engine\Renderer\Pipeline\Shaders\glsl\TexturedAnimated.frag" />
     <None Include="Engine\Renderer\Pipeline\Shaders\glsl\TexturedAnimated.vert" />
     <None Include="Engine\Renderer\Pipeline\Shaders\glsl\TexturedStatic.frag" />

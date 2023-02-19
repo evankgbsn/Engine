@@ -21,6 +21,8 @@
 #include "SPIRV-Reflect/spirv_reflect.h"
 
 #include <filesystem>
+#include <algorithm>
+#include <execution>
 
 GraphicsObjectManager* GraphicsObjectManager::instance = nullptr;
 
@@ -227,13 +229,28 @@ const std::vector<GraphicsObject*>& GraphicsObjectManager::GetTexturedAnimatedGr
 
 void GraphicsObjectManager::DrawObjects(VkCommandBuffer& buffer, unsigned int imageIndex)
 {
-	vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **instance->graphicsPipelines.find("TexturedAnimated")->second.second);
+	std::for_each(std::execution::par, instance->animatedGraphicsObjects.begin(), instance->animatedGraphicsObjects.end(),
+		[](GraphicsObject* obj)
+		{
+			obj->Update();
+		});
+
+	std::for_each(std::execution::par, instance->staticGraphicsObjects.begin(), instance->staticGraphicsObjects.end(),
+		[](GraphicsObject* obj)
+		{
+			obj->Update();
+		});
+
+	std::for_each(std::execution::par, instance->goochGraphicsObjects.begin(), instance->goochGraphicsObjects.end(),
+		[](GraphicsObject* obj)
+		{
+			obj->Update();
+		});
 
 	VkDeviceSize offsets[] = { 0 };
-
+	vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **instance->graphicsPipelines.find("TexturedAnimated")->second.second);
 	for (GraphicsObject* obj : instance->animatedGraphicsObjects)
 	{
-		obj->Update();
 		vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(instance->graphicsPipelines.find("TexturedAnimated")->second.second->GetPipelineLayout()), 0, 1, &obj->GetDescriptorSet()(), 0, nullptr);
 		vkCmdBindVertexBuffers(buffer, 0, 1, &obj->GetVertexBuffer()(), offsets);
 		vkCmdBindIndexBuffer(buffer, obj->GetIndexBuffer()(), 0, VK_INDEX_TYPE_UINT32);
@@ -243,7 +260,6 @@ void GraphicsObjectManager::DrawObjects(VkCommandBuffer& buffer, unsigned int im
 	vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **instance->graphicsPipelines.find("TexturedStatic")->second.second);
 	for (GraphicsObject* obj : instance->staticGraphicsObjects)
 	{
-		obj->Update();
 		vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(instance->graphicsPipelines.find("TexturedStatic")->second.second->GetPipelineLayout()), 0, 1, &obj->GetDescriptorSet()(), 0, nullptr);
 		vkCmdBindVertexBuffers(buffer, 0, 1, &obj->GetVertexBuffer()(), offsets);
 		vkCmdBindIndexBuffer(buffer, obj->GetIndexBuffer()(), 0, VK_INDEX_TYPE_UINT32);
@@ -253,7 +269,6 @@ void GraphicsObjectManager::DrawObjects(VkCommandBuffer& buffer, unsigned int im
 	vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **instance->graphicsPipelines.find("Gooch")->second.second);
 	for (GraphicsObject* obj : instance->goochGraphicsObjects)
 	{
-		obj->Update();
 		vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(instance->graphicsPipelines.find("Gooch")->second.second->GetPipelineLayout()), 0, 1, &obj->GetDescriptorSet()(), 0, nullptr);
 		vkCmdBindVertexBuffers(buffer, 0, 1, &obj->GetVertexBuffer()(), offsets);
 		vkCmdBindIndexBuffer(buffer, obj->GetIndexBuffer()(), 0, VK_INDEX_TYPE_UINT32);

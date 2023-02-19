@@ -53,8 +53,10 @@ protected:
 		AnimationInstance(AnimationInstance&&) = default;
 		AnimationInstance& operator=(AnimationInstance&&) = default;
 
+		std::vector<std::vector<glm::mat4>> bakedPoses;
 		float speed;
 		float playback;
+		unsigned int index = 0;
 		Pose* animatedPose;
 		Clip* clip;
 
@@ -72,6 +74,8 @@ protected:
 	AnimationInstance animationInstance;
 
 	Texture* texture;
+
+	float shouldUpdateAnim = 0;
 
 private:
 

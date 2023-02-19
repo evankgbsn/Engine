@@ -138,9 +138,13 @@ void Window::Initialize()
 	Model* womanModel = ModelManager::LoadModel("Woman", "../Engine/Engine/Renderer/Model/Woman.gltf");
 	Model* vikingRoom = ModelManager::LoadModel("VikingRoom", "../Engine/Engine/Renderer/Model/VikingRoom.gltf");
 
-	//gObj0 = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), womanTexture);
+	for (unsigned int i = 0; i < 50; i++)
+	{
+		gObj0 = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), womanTexture);
+	}
+	
 	//GraphicsObjectManager::CreateTexturedStaticGraphicsObject(vikingRoom, vikingRoomTexture);
-	GraphicsObjectManager::CreateGoochGraphicsObject(vikingRoom, vikingRoomTexture);
+	//GraphicsObjectManager::CreateGoochGraphicsObject(vikingRoom, vikingRoomTexture);
 }
 
 bool Window::Update()

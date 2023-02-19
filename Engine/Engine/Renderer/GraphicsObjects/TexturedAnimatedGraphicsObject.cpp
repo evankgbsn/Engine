@@ -16,7 +16,20 @@ TexturedAnimatedGraphicsObject::AnimationInstance::AnimationInstance(Clip* c, co
 	playback(0.0f),
 	animatedPose(new Pose(p)),
 	clip(c)
-{};
+{
+	unsigned int bakedPoseCount = clip->GetDuration() / 0.0041666;
+	bakedPoses.resize(bakedPoseCount);
+	for (std::vector<glm::mat4>& posePalette : bakedPoses)
+	{
+		posePalette.resize(animatedPose->Size());
+	}
+
+	for (unsigned int i = 0; i < bakedPoseCount; i++)
+	{
+		clip->Sample(*animatedPose, i * 0.004166f);
+		animatedPose->GetJointMatrices(bakedPoses[i]);
+	}
+};
 
 TexturedAnimatedGraphicsObject::AnimationInstance::~AnimationInstance()
 {
@@ -31,20 +44,27 @@ void TexturedAnimatedGraphicsObject::AnimationInstance::Update(Armature* const a
 		return;
 	}
 
+	playback += TimeManager::DeltaTime();
+	if (playback >= 0.004166)
+	{
+		for (unsigned int i = 0; i < bakedPoses[index].size(); ++i)
+		{
+			ubo.pose[i] = bakedPoses[index][i];
+		}
+
+		index++;
+		if (index >= bakedPoses.size())
+		{
+			index = 0;
+		}
+
+		playback = 0;
+	}
+
 	const std::vector<glm::mat4>& invBindPose = armature->GetInvBindPose();
 	for (unsigned int i = 0; i < invBindPose.size(); ++i)
 	{
 		ubo.invBindPose[i] = invBindPose[i];
-	}
-
-	playback = clip->Sample(*animatedPose, playback + 1.0f * TimeManager::DeltaTime());
-
-	std::vector<glm::mat4> posePalette(armature->GetRestPose().Size());
-	animatedPose->GetJointMatrices(posePalette);
-
-	for (unsigned int i = 0; i < posePalette.size(); ++i)
-	{
-		ubo.pose[i] = posePalette[i];
 	}
 }
 
@@ -83,6 +103,8 @@ void TexturedAnimatedGraphicsObject::Update()
 	mvp.view = cam.GetView();
 	mvp.projection = cam.GetProjection();
 	mvp.projection[1][1] *= -1;
+
+	shouldUpdateAnim += TimeManager::DeltaTime();
 
 	animationInstance.Update(model->GetArmature(), mvp);
 

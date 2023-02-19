@@ -145,6 +145,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Dependencies\Include\SPIRV-Reflect\spirv_reflect.h" />
+    <ClInclude Include="Engine\Animation\Animation.h" />
+    <ClInclude Include="Engine\Animation\BakedAnimation.h" />
     <ClInclude Include="Engine\Animation\Armature.h" />
     <ClInclude Include="Engine\Animation\Clip.h" />
     <ClInclude Include="Engine\Animation\Frame.h" />
@@ -203,6 +205,8 @@
   <ItemGroup>
     <ClCompile Include="Dependencies\Include\SPIRV-Reflect\spirv_reflect.c" />
     <ClCompile Include="Dependencies\Include\SPIRV-Reflect\spirv_reflect.cpp" />
+    <ClCompile Include="Engine\Animation\Animation.cpp" />
+    <ClCompile Include="Engine\Animation\BakedAnimation.cpp" />
     <ClCompile Include="Engine\Animation\Armature.cpp" />
     <ClCompile Include="Engine\Animation\Clip.cpp" />
     <ClCompile Include="Engine\Animation\Pose.cpp" />

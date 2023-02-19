@@ -8,6 +8,7 @@ class Clip;
 class Armature;
 class Model;
 class Texture;
+class Animation;
 
 class TexturedAnimatedGraphicsObject : public GraphicsObject
 {
@@ -44,25 +45,6 @@ protected:
 		glm::mat4 invBindPose[120];
 	};
 
-	struct AnimationInstance
-	{
-		AnimationInstance(Clip* c, const Pose& p);
-		~AnimationInstance();
-		AnimationInstance(const AnimationInstance&) = default;
-		AnimationInstance& operator=(const AnimationInstance&) = default;
-		AnimationInstance(AnimationInstance&&) = default;
-		AnimationInstance& operator=(AnimationInstance&&) = default;
-
-		std::vector<std::vector<glm::mat4>> bakedPoses;
-		float speed;
-		float playback;
-		unsigned int index = 0;
-		Pose* animatedPose;
-		Clip* clip;
-
-		void Update(Armature* const armature, MVPUniformBuffer& ubo);
-	};
-
 	virtual void CreateTextures() override;
 
 	virtual void CreateUniformBuffers() override;
@@ -71,7 +53,7 @@ protected:
 
 	MVPUniformBuffer mvp;
 
-	AnimationInstance animationInstance;
+	Animation* animation;
 
 	Texture* texture;
 

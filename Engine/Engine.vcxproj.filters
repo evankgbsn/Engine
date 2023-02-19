@@ -261,6 +261,12 @@
     <ClInclude Include="Engine\Renderer\GraphicsObjects\GoochGraphicsObject.h">
       <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Animation\BakedAnimation.h">
+      <Filter>Source Files\Engine\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Animation\Animation.h">
+      <Filter>Source Files\Engine\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -427,6 +433,12 @@
     </ClCompile>
     <ClCompile Include="Engine\Renderer\GraphicsObjects\GoochGraphicsObject.cpp">
       <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Animation\BakedAnimation.cpp">
+      <Filter>Source Files\Engine\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Animation\Animation.cpp">
+      <Filter>Source Files\Engine\Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

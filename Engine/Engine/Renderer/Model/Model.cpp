@@ -3,6 +3,7 @@
 #include "../../Utils/Logger.h"
 #include "../../Animation/Armature.h"
 #include "../../Animation/Pose.h"
+#include "../../Animation/BakedAnimation.h"
 
 #pragma warning(disable : 4996)
 #define _CRT_SECURE_NO_WARNINGS
@@ -90,8 +91,9 @@ Model::Model(const std::string& path) :
 	LoadMeshFromGLTF(data);
 	*armature = GLTFHelpers::LoadArmature(data);
 	LoadAnimationClips(data);
-
 	cgltf_free(data);
+
+	BakeAnimations();
 }
 
 Model::~Model()
@@ -114,7 +116,7 @@ Armature* const Model::GetArmature() const
 	return armature;
 }
 
-std::vector<Clip>& Model::GetAnimationClips()
+const std::vector<Clip>& Model::GetAnimationClips() const
 {
 	return animationClips;
 }
@@ -156,6 +158,11 @@ std::vector<std::string> GLTFHelpers::LoadJointNames(cgltf_data* data)
 	}
 
 	return result;
+}
+
+const BakedAnimation& Model::GetBakedAnimation(unsigned int index) const
+{
+	return bakedAnimations[index];
 }
 
 void Model::CPUSkin(Armature& armature, Pose& pose)
@@ -266,6 +273,15 @@ void Model::LoadAnimationClips(cgltf_data* data)
 		animationClips[i].RecalculateDuration();
 	}
 
+}
+
+void Model::BakeAnimations()
+{
+	bakedAnimations.reserve(animationClips.size());
+	for (unsigned int i = 0; i < animationClips.size(); i++)
+	{
+		bakedAnimations.push_back(BakedAnimation(&animationClips[i], GetArmature()));
+	}
 }
 
 void Model::ModelFromAttribute(cgltf_attribute& attribute, cgltf_skin* skin, cgltf_node* nodes, unsigned int nodeCount)

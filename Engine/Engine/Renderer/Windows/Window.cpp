@@ -138,7 +138,7 @@ void Window::Initialize()
 	Model* womanModel = ModelManager::LoadModel("Woman", "../Engine/Engine/Renderer/Model/Woman.gltf");
 	Model* vikingRoom = ModelManager::LoadModel("VikingRoom", "../Engine/Engine/Renderer/Model/VikingRoom.gltf");
 
-	for (unsigned int i = 0; i < 50; i++)
+	for (unsigned int i = 0; i < 100; i++)
 	{
 		gObj0 = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), womanTexture);
 	}

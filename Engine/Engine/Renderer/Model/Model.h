@@ -10,6 +10,7 @@
 
 class Pose;
 class Armature;
+class BakedAnimation;
 
 struct cgltf_data;
 struct cgltf_attribute;
@@ -43,7 +44,9 @@ public:
 
 	Armature* const GetArmature() const;
 
-	std::vector<Clip>& GetAnimationClips();
+	const std::vector<Clip>& GetAnimationClips() const;
+
+	const BakedAnimation& GetBakedAnimation(unsigned int index) const;
 
 	void CPUSkin(Armature& armature, Pose& pose);
 
@@ -54,6 +57,8 @@ private:
 	void CPUSkinMatrices(Armature& armature, Pose& pose);
 
 	void LoadAnimationClips(cgltf_data* data);
+
+	void BakeAnimations();
 
 	void ModelFromAttribute(cgltf_attribute& attribute, cgltf_skin* skin, cgltf_node* nodes, unsigned int nodeCount);
 
@@ -66,6 +71,8 @@ private:
 	Armature* armature;
 
 	std::vector<Clip> animationClips;
+
+	std::vector<BakedAnimation> bakedAnimations;
 
 	std::vector<glm::vec3> skinnedPosition;
 

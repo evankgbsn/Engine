@@ -5,7 +5,6 @@
 #include <string>
 #include <optional>
 
-#include <vulkan/vulkan.h>
 #include <vulkan/vk_mem_alloc.h>
 
 class VulkanPhysicalDevice;

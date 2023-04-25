@@ -4,8 +4,7 @@
 #include <string>
 #include <vector>
 
-#include <vulkan/vulkan.h>
-#include <vulkan/vk_mem_alloc.h>
+#include "../Renderer.h"
 #include <glm/glm.hpp>
 
 struct GLFWwindow;

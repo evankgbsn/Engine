@@ -1,7 +1,7 @@
 #ifndef MEMORYMANAGER_H
 #define MEMORYMANAGER_H
 
-#include <vulkan/vk_mem_alloc.h>
+#include "../Renderer.h"
 
 class MemoryManager
 {
@@ -36,6 +36,5 @@ private:
 	VmaAllocator allocator;
 
 };
-
 
 #endif // MEMORYMANAGER_H

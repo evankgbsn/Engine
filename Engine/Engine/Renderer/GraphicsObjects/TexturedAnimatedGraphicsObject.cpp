@@ -9,13 +9,15 @@
 #include "../Memory/UniformBuffer.h"
 #include "../Images/Texture.h"
 #include "../../Animation/Animation.h"
+#include "../Lights/LightManager.h"
+#include "../Lights/DirectionalLight.h"
 
 #include <vector>
 
 TexturedAnimatedGraphicsObject::TexturedAnimatedGraphicsObject(Model* const m, Texture* const tex) :
 	GraphicsObject(m),
 	texture(tex),
-	animation(new Animation(model->GetBakedAnimation(0)))
+	animation(new Animation(model->GetBakedAnimation(1)))
 {
 	shaderName = "TexturedAnimated";
 	InitializeDescriptorSets();
@@ -33,9 +35,19 @@ void TexturedAnimatedGraphicsObject::CreateTextures()
 
 void TexturedAnimatedGraphicsObject::CreateUniformBuffers()
 {
+	// The binding for the texture sampler is 1.
+
 	UniformBuffer* mvpUniformBuffer = new UniformBuffer(sizeof(mvp), 0);
 	mvpUniformBuffer->PersistentMap();
 	uniformBuffers.push_back(mvpUniformBuffer);
+
+	UniformBuffer* animUniformBuffer = new UniformBuffer(sizeof(anim), 2);
+	animUniformBuffer->PersistentMap();
+	uniformBuffers.push_back(animUniformBuffer);
+
+	UniformBuffer* lightsUniformBuffer = new UniformBuffer(sizeof(light), 3);
+	lightsUniformBuffer->PersistentMap();
+	uniformBuffers.push_back(lightsUniformBuffer);
 }
 
 void TexturedAnimatedGraphicsObject::Update()
@@ -50,12 +62,20 @@ void TexturedAnimatedGraphicsObject::Update()
 
 	for (unsigned int i = 0; i < model->GetArmature()->GetInvBindPose().size(); i++)
 	{
-		mvp.invBindPose[i] = model->GetArmature()->GetInvBindPose()[i];
+		anim.invBindPose[i] = model->GetArmature()->GetInvBindPose()[i];
 	}
 
-	animation->Update(mvp.pose);
+	animation->Update(anim.pose);
+
+	DirectionalLight* dirLight = LightManager::GetDirectionalLight("MainDirLight");
+
+	light.color = glm::vec4(dirLight->GetColor(), 1.0f);
+	light.direction = glm::vec4(dirLight->GetDirection(), 0.0f);
+	light.ambient = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
 
 	uniformBuffers[0]->SetData(&mvp);
+	uniformBuffers[1]->SetData(&anim);
+	uniformBuffers[2]->SetData(&light);
 }
 
 bool TexturedAnimatedGraphicsObject::ToggleLoopAnimation()

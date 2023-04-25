@@ -94,6 +94,9 @@
     <Filter Include="Source Files\Engine\Renderer\Pipeline\Shaders\glsl">
       <UniqueIdentifier>{06959aa5-431a-43e0-9bcd-dbfdd3ba2b86}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Renderer\Lights">
+      <UniqueIdentifier>{10d3999c-2b9f-46d9-8dff-3e5256dba14d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -267,6 +270,15 @@
     <ClInclude Include="Engine\Animation\Animation.h">
       <Filter>Source Files\Engine\Animation</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Renderer\Lights\LightManager.h">
+      <Filter>Source Files\Engine\Renderer\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Lights\Light.h">
+      <Filter>Source Files\Engine\Renderer\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Lights\DirectionalLight.h">
+      <Filter>Source Files\Engine\Renderer\Lights</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -439,6 +451,15 @@
     </ClCompile>
     <ClCompile Include="Engine\Animation\Animation.cpp">
       <Filter>Source Files\Engine\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Lights\LightManager.cpp">
+      <Filter>Source Files\Engine\Renderer\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Lights\Light.cpp">
+      <Filter>Source Files\Engine\Renderer\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Lights\DirectionalLight.cpp">
+      <Filter>Source Files\Engine\Renderer\Lights</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

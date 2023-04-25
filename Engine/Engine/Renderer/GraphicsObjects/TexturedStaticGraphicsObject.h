@@ -35,11 +35,19 @@ protected:
 		glm::mat4 projection;
 	};
 
+	struct LightUniformBuffer
+	{
+		glm::vec3 direction;
+		glm::vec3 color;
+	};
+
 	virtual void CreateTextures() override;
 
 	virtual void CreateUniformBuffers() override;
 
 	MVPUniformBuffer mvp;
+
+	LightUniformBuffer light;
 
 	Texture* texture;
 

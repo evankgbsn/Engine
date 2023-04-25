@@ -319,16 +319,16 @@ void Model::ModelFromAttribute(cgltf_attribute& attribute, cgltf_skin* skin, cgl
 		switch (attribType)
 		{
 		case cgltf_attribute_type_position:
-			vertices[i].GetPosition() = glm::vec3(values[index + 0], values[index + 1], values[index + 2]);
+			vertices[i].GetPosition() = glm::vec3(values[index], values[index + 1], values[index + 2]);
 			break;
 		case cgltf_attribute_type_texcoord:
-			vertices[i].GetUV() = glm::vec2(values[index + 0], values[index + 1]);
+			vertices[i].GetUV() = glm::vec2(values[index], values[index + 1]);
 			break;
 		case cgltf_attribute_type_weights:
-			vertices[i].GetWeights() = glm::vec4(values[index + 0], values[index + 1], values[index + 2], values[index + 3]);
+			vertices[i].GetWeights() = glm::vec4(values[index], values[index + 1], values[index + 2], values[index + 3]);
 			break;
 		case cgltf_attribute_type_normal:
-			vertices[i].GetNormal() = glm::vec3(values[index + 0], values[index + 1], values[index + 2]);
+			vertices[i].GetNormal() = glm::vec3(values[index], values[index + 1], values[index + 2]);
 			if (glm::length2(vertices[i].GetNormal()) < 0.000001f)
 			{
 				vertices[i].GetNormal() = glm::vec3(0, 1, 0);

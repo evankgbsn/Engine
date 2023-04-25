@@ -27,6 +27,10 @@ DescriptorSet::DescriptorSet(const VkDescriptorPool& descriptorPool, const Shade
 	VkResult result = vkAllocateDescriptorSets(device, &allocInfo, &descriptorSet);
 	VulkanUtils::CheckResult(result, true, true, "Failed to create a descriptor set.");
 
+	// Need to be allocated on the heap so that they don't get destroyed in local loop scope.
+	std::vector<VkDescriptorBufferInfo*> bufferInfos;
+	std::vector<VkDescriptorImageInfo*> imageInfos;
+
 	std::vector<VkWriteDescriptorSet> writes;
 	for (const VkDescriptorSetLayoutBinding& binding : shader.GetDescriptorSetLayout().GetLayoutBindings())
 	{
@@ -39,10 +43,12 @@ DescriptorSet::DescriptorSet(const VkDescriptorPool& descriptorPool, const Shade
 
 			if (uniformBuffer != nullptr)
 			{
-				VkDescriptorBufferInfo bufferInfo = {};
-				bufferInfo.buffer = (*uniformBuffer)();
-				bufferInfo.offset = 0;
-				bufferInfo.range = static_cast<uint64_t>(uniformBuffer->Size());
+				// Need to be allocated on the heap so that they don't get destroyed in local loop scope.
+				VkDescriptorBufferInfo* bufferInfo = new VkDescriptorBufferInfo();
+				bufferInfo->buffer = (*uniformBuffer)();
+				bufferInfo->offset = 0;
+				bufferInfo->range = static_cast<uint64_t>(uniformBuffer->Size());
+				bufferInfos.push_back(bufferInfo);
 
 				VkWriteDescriptorSet bufferWrite = {};
 				bufferWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
@@ -51,7 +57,7 @@ DescriptorSet::DescriptorSet(const VkDescriptorPool& descriptorPool, const Shade
 				bufferWrite.dstArrayElement = 0;
 				bufferWrite.descriptorCount = 1;
 				bufferWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-				bufferWrite.pBufferInfo = &bufferInfo;
+				bufferWrite.pBufferInfo = bufferInfo;
 
 				writes.push_back(bufferWrite);
 			}
@@ -61,10 +67,12 @@ DescriptorSet::DescriptorSet(const VkDescriptorPool& descriptorPool, const Shade
 
 			if (image != nullptr)
 			{
-				VkDescriptorImageInfo imageInfo = {};
-				imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-				imageInfo.imageView = image->GetImageView();
-				imageInfo.sampler = image->GetSampler();
+				// Need to be allocated on the heap so that they don't get destroyed in local loop scope.
+				VkDescriptorImageInfo* imageInfo = new VkDescriptorImageInfo();
+				imageInfo->imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+				imageInfo->imageView = image->GetImageView();
+				imageInfo->sampler = image->GetSampler();
+				imageInfos.push_back(imageInfo);
 
 				VkWriteDescriptorSet imageWrite = {};
 				imageWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
@@ -73,7 +81,7 @@ DescriptorSet::DescriptorSet(const VkDescriptorPool& descriptorPool, const Shade
 				imageWrite.dstArrayElement = 0;
 				imageWrite.descriptorCount = 1;
 				imageWrite.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-				imageWrite.pImageInfo = &imageInfo;
+				imageWrite.pImageInfo = imageInfo;
 				writes.push_back(imageWrite);
 			}
 			break;
@@ -83,6 +91,17 @@ DescriptorSet::DescriptorSet(const VkDescriptorPool& descriptorPool, const Shade
 	}
 
 	vkUpdateDescriptorSets(device, static_cast<unsigned int>(writes.size()), writes.data(), 0, nullptr);
+
+	// Cleanup
+	for (VkDescriptorBufferInfo* bufferInfo : bufferInfos)
+	{
+		delete bufferInfo;
+	}
+
+	for (VkDescriptorImageInfo* imageInfo : imageInfos)
+	{
+		delete imageInfo;
+	}
 }
 
 DescriptorSet::~DescriptorSet()

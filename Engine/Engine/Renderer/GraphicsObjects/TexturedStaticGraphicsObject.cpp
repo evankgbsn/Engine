@@ -25,9 +25,15 @@ void TexturedStaticGraphicsObject::CreateTextures()
 
 void TexturedStaticGraphicsObject::CreateUniformBuffers()
 {
+	// The binding for the texture sampler is 1.
+
 	UniformBuffer* mvpUniformBuffer = new UniformBuffer(sizeof(mvp), 0);
 	mvpUniformBuffer->PersistentMap();
 	uniformBuffers.push_back(mvpUniformBuffer);
+
+	UniformBuffer* lightUniformBuffer = new UniformBuffer(sizeof(light), 2);
+	lightUniformBuffer->PersistentMap();
+	uniformBuffers.push_back(lightUniformBuffer);
 }
 
 TexturedStaticGraphicsObject::TexturedStaticGraphicsObject(Model* const m, Texture* const tex) :

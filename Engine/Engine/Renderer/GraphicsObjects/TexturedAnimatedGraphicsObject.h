@@ -41,8 +41,19 @@ protected:
 		glm::mat4 model;
 		glm::mat4 view;
 		glm::mat4 projection;
+	};
+
+	struct AnimUniformBuffer
+	{
 		glm::mat4 pose[120];
 		glm::mat4 invBindPose[120];
+	};
+
+	struct LightUniformBuffer
+	{
+		glm::vec4 ambient;
+		glm::vec4 direction;
+		glm::vec4 color;
 	};
 
 	virtual void CreateTextures() override;
@@ -53,6 +64,10 @@ protected:
 
 	MVPUniformBuffer mvp;
 
+	AnimUniformBuffer anim;
+
+	LightUniformBuffer light;
+
 	Animation* animation;
 
 	Texture* texture;
@@ -62,6 +77,5 @@ protected:
 private:
 
 };
-
 
 #endif // TEXTUREDANIMATEDGRAPHICSOBJECT_H

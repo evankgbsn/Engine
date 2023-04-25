@@ -1,7 +1,7 @@
 #ifndef BUFFER_H
 #define BUFFER_H
 
-#include <vulkan/vk_mem_alloc.h>
+#include "../Renderer.h"
 
 class Buffer
 {

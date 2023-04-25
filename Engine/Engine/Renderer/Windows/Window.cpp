@@ -31,6 +31,7 @@
 #include "../Model/ModelManager.h"
 #include "../Pipeline/Shaders/DescriptorSetManager.h"
 #include "../Cameras/CameraManager.h"
+#include "../Lights/LightManager.h"
 #include "../Memory/MemoryManager.h"
 #include "../../Time/TimeManager.h"
 #include "../Images/TextureManager.h"
@@ -51,10 +52,14 @@ Window::Window(uint32_t w, uint32_t h, std::string&& windowName) :
 	Camera& cam = CameraManager::CreateCamera(Camera::Type::PERSPECTIVE, std::string("MainCamera"), this);
 	cam.SetPosition(glm::vec3(0.0f, 2.5f, 10.0f));
 	cam.SetTarget(glm::vec3(0.0f, 2.5f, 9.0f));
+
+	LightManager::Initialize();
+	LightManager::CreateDirectionalLight("MainDirLight");
 }
 
 Window::~Window()
 {
+	LightManager::Terminate();
 	CameraManager::Terminate();
 
 	VkDevice& device = Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice();

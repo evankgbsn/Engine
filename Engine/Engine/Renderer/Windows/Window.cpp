@@ -137,19 +137,19 @@ void Window::Initialize()
 	CreateFramebuffers();
 	CreateSyncObjects();
 
-	Texture* womanTexture = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Woman.png", "Woman");
+	//Texture* womanTexture = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Woman.png", "Woman");
 	Texture* vikingRoomTexture = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/VikingRoom.png", "VikingRoom");
 
-	Model* womanModel = ModelManager::LoadModel("Woman", "../Engine/Engine/Renderer/Model/Woman.gltf");
+	//Model* womanModel = ModelManager::LoadModel("Woman", "../Engine/Engine/Renderer/Model/Woman.gltf");
 	Model* vikingRoom = ModelManager::LoadModel("VikingRoom", "../Engine/Engine/Renderer/Model/VikingRoom.gltf");
 
 	for (unsigned int i = 0; i < 100; i++)
 	{
-		gObj0 = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), womanTexture);
+		//gObj0 = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), womanTexture);
 	}
 	
 	//GraphicsObjectManager::CreateTexturedStaticGraphicsObject(vikingRoom, vikingRoomTexture);
-	//GraphicsObjectManager::CreateGoochGraphicsObject(vikingRoom, vikingRoomTexture);
+	GraphicsObjectManager::CreateGoochGraphicsObject(vikingRoom, vikingRoomTexture);
 }
 
 bool Window::Update()

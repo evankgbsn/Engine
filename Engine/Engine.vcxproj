@@ -153,7 +153,9 @@
     <ClInclude Include="Engine\Animation\Pose.h" />
     <ClInclude Include="Engine\Animation\Track.h" />
     <ClInclude Include="Engine\Animation\TransformTrack.h" />
+    <ClInclude Include="Engine\Componnts\Component.h" />
     <ClInclude Include="Engine\Engine.h" />
+    <ClInclude Include="Engine\Entity\Entity.h" />
     <ClInclude Include="Engine\Math\BezierSpline.h" />
     <ClInclude Include="Engine\Math\HermiteSpline.h" />
     <ClInclude Include="Engine\Math\Math.h" />
@@ -215,7 +217,9 @@
     <ClCompile Include="Engine\Animation\Pose.cpp" />
     <ClCompile Include="Engine\Animation\Track.cpp" />
     <ClCompile Include="Engine\Animation\TransformTrack.cpp" />
+    <ClCompile Include="Engine\Component\Component.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
+    <ClCompile Include="Engine\Entity\Entity.cpp" />
     <ClCompile Include="Engine\Math\BezierSpline.cpp" />
     <ClCompile Include="Engine\Math\HermiteSpline.cpp" />
     <ClCompile Include="Engine\Math\Math.cpp" />

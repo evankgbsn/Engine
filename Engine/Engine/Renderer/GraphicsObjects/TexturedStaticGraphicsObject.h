@@ -2,11 +2,12 @@
 #define TEXTUREDSTATICGRAPHICSOBJECT_H
 
 #include "GraphicsObject.h"
+#include "3DTransformable.h"
 
 class Model;
 class Texture;
 
-class TexturedStaticGraphicsObject : public GraphicsObject
+class TexturedStaticGraphicsObject : public GraphicsObject, public Graphics3DTransformable
 {
 public:
 
@@ -27,6 +28,19 @@ public:
 	virtual void Update() override;
 
 protected:
+
+	// Graphics3DTransformable
+	void Translate(const glm::vec3&) override;
+
+	void Scale(const glm::vec3&) override;
+
+	void Rotate(const glm::vec3&) override;
+
+	const glm::vec3& GetTranslation() const override;
+
+	const glm::vec3& GetScale() const override;
+
+	const glm::mat4& GetRotation() const override;
 
 	struct MVPUniformBuffer
 	{

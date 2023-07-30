@@ -163,6 +163,7 @@
     <ClInclude Include="Engine\Renderer\Cameras\Camera.h" />
     <ClInclude Include="Engine\Renderer\Cameras\CameraManager.h" />
     <ClInclude Include="Engine\Renderer\Commands\CommandManager.h" />
+    <ClInclude Include="Engine\Renderer\GraphicsObjects\3DTransformable.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\GoochGraphicsObject.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\GraphicsObject.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\GraphicsObjectManager.h" />

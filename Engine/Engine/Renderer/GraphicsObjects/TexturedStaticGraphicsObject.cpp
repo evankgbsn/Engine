@@ -17,6 +17,36 @@ void TexturedStaticGraphicsObject::Update()
 	uniformBuffers[0]->SetData(&mvp);
 }
 
+void TexturedStaticGraphicsObject::Translate(const glm::vec3&)
+{
+}
+
+void TexturedStaticGraphicsObject::Scale(const glm::vec3&)
+{
+}
+
+void TexturedStaticGraphicsObject::Rotate(const glm::vec3&)
+{
+}
+
+glm::vec3 vec3DefaultReturn;
+glm::mat4 mat4DefaultReturn;
+
+const glm::vec3& TexturedStaticGraphicsObject::GetTranslation() const
+{
+	return vec3DefaultReturn;
+}
+
+const glm::vec3& TexturedStaticGraphicsObject::GetScale() const
+{
+	return vec3DefaultReturn;
+}
+
+const glm::mat4& TexturedStaticGraphicsObject::GetRotation() const
+{
+	return mat4DefaultReturn;
+}
+
 void TexturedStaticGraphicsObject::CreateTextures()
 {
 	textures.push_back(texture);

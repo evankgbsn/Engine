@@ -1,9 +1,9 @@
 #ifndef Entity_H
 #define Entity_H
 
-#include "../Component/Component.h"
-
 #include <vector>
+
+class Component;
 
 /**
 	Wrapper class for Engine Entities.

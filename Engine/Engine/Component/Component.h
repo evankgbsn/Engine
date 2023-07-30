@@ -5,9 +5,9 @@ class Component
 {
 public:
 
-	Component();
+	Component() = default;
 
-	~Component();
+	~Component() = default;
 
 private:
 
@@ -17,7 +17,7 @@ private:
 
 	Component(Component&&) = delete;
 
-	Component& operator=(component&&) = delete;
-}
+	Component& operator=(Component&&) = delete;
+};
 
-#endif // Component_H
+#endif

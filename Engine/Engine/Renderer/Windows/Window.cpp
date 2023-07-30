@@ -141,7 +141,7 @@ void Window::Initialize()
 	Texture* vikingRoomTexture = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/VikingRoom.png", "VikingRoom");
 
 	//Model* womanModel = ModelManager::LoadModel("Woman", "../Engine/Engine/Renderer/Model/Woman.gltf");
-	Model* vikingRoom = ModelManager::LoadModel("VikingRoom", "../Engine/Engine/Renderer/Model/VikingRoom.gltf");
+	Model* vikingRoom = ModelManager::LoadModel("VikingRoom", "../Engine/Engine/Renderer/Model/Cube.gltf");
 
 	//for (unsigned int i = 0; i < 1000; i++)
 	//{

@@ -144,19 +144,23 @@ void Window::Initialize()
 	Model* womanModel = ModelManager::LoadModel("Woman", "../Engine/Engine/Renderer/Model/Woman.gltf");
 	//Model* cube = ModelManager::LoadModel("Cube", "../Engine/Engine/Renderer/Model/Cube.gltf");
 
+	Model* cruiserModel = ModelManager::LoadModel("Cruiser", "../Engine/Engine/Renderer/Model/Cruiser.gltf");
+
 	const float translationScalar = 3.0f;
 
-	for (unsigned int i = 0; i < 10; i++)
-	{
-		for (unsigned int j = 0; j < 10; j++)
-		{
-			for (unsigned int k = 0; k < 10; k++)
-			{
-				gObj0 = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), womanTexture);
-				gObj0->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));
-			}
-		}
-	}
+	//for (unsigned int i = 0; i < 10; i++)
+	//{
+	//	for (unsigned int j = 0; j < 10; j++)
+	//	{
+	//		for (unsigned int k = 0; k < 10; k++)
+	//		{
+	//			gObj0 = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), womanTexture);
+	//			gObj0->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));
+	//		}
+	//	}
+	//}
+
+	GraphicsObjectManager::CreateGoochGraphicsObject(cruiserModel, womanTexture);
 }
 
 bool Window::Update()

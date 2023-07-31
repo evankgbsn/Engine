@@ -9,6 +9,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define CGLTF_IMPLEMENTATION
 #include <cgltf/cgltf.h>
+#include <filesystem>
 
 namespace GLTFHelpers
 {
@@ -61,39 +62,46 @@ Model::Model(const std::string& path) :
 	animationClips(std::vector<Clip>()),
 	armature(new Armature())
 {
-	cgltf_options options = {};
-	cgltf_data* data = NULL;
-	
-	cgltf_result result = cgltf_parse_file(&options, path.c_str(), &data);
-	
-	if (result != cgltf_result_success)
+	if (std::filesystem::exists(path.c_str()))
 	{
-		Logger::Log(std::string("Failed to load Model from gltf file.") + path, Logger::Category::Error);
-		return;
+		cgltf_options options = {};
+		cgltf_data* data = NULL;
+
+		cgltf_result result = cgltf_parse_file(&options, path.c_str(), &data);
+
+		if (result != cgltf_result_success)
+		{
+			Logger::Log(std::string("Failed to load Model from gltf file.") + path, Logger::Category::Error);
+			return;
+		}
+
+		result = cgltf_load_buffers(&options, data, path.c_str());
+
+		if (result != cgltf_result_success)
+		{
+			Logger::Log(std::string("Failed to load Model from gltf file.") + path, Logger::Category::Error);
+			return;
+		}
+
+		result = cgltf_validate(data);
+
+		if (result != cgltf_result_success)
+		{
+			Logger::Log(std::string("Failed to load Model from gltf file.") + path, Logger::Category::Error);
+			return;
+		}
+
+		LoadMeshFromGLTF(data);
+		*armature = GLTFHelpers::LoadArmature(data);
+		LoadAnimationClips(data);
+		cgltf_free(data);
+
+		BakeAnimations();
 	}
-
-	result = cgltf_load_buffers(&options, data, path.c_str());
-
-	if (result != cgltf_result_success)
+	else
 	{
-		Logger::Log(std::string("Failed to load Model from gltf file.") + path, Logger::Category::Error);
-		return;
+		Logger::Log(std::string("Failed to load model from file path ") + path + std::string(". This file path does not exist."), Logger::Category::Error);
 	}
-
-	result = cgltf_validate(data);
-
-	if (result != cgltf_result_success)
-	{
-		Logger::Log(std::string("Failed to load Model from gltf file.") + path, Logger::Category::Error);
-		return;
-	}
-
-	LoadMeshFromGLTF(data);
-	*armature = GLTFHelpers::LoadArmature(data);
-	LoadAnimationClips(data);
-	cgltf_free(data);
-
-	BakeAnimations();
 }
 
 Model::~Model()

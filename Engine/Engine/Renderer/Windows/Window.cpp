@@ -144,7 +144,7 @@ void Window::Initialize()
 	Model* womanModel = ModelManager::LoadModel("Woman", "../Engine/Engine/Renderer/Model/Woman.gltf");
 	//Model* cube = ModelManager::LoadModel("Cube", "../Engine/Engine/Renderer/Model/Cube.gltf");
 
-	Model* cruiserModel = ModelManager::LoadModel("Cruiser", "../Engine/Engine/Renderer/Model/Cruiser.gltf");
+	Model* cruiserModel = ModelManager::LoadModel("Cruiser", "../Engine/Engine/Rendrer/Model/Cruiser.gltf");
 
 	const float translationScalar = 3.0f;
 

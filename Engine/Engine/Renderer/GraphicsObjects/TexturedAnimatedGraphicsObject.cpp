@@ -19,6 +19,7 @@ TexturedAnimatedGraphicsObject::TexturedAnimatedGraphicsObject(Model* const m, T
 	texture(tex),
 	animation(new Animation(model->GetBakedAnimation(1)))
 {
+	mvp.model = glm::mat4(1.0f);
 	shaderName = "TexturedAnimated";
 	InitializeDescriptorSets();
 }
@@ -52,8 +53,6 @@ void TexturedAnimatedGraphicsObject::CreateUniformBuffers()
 
 void TexturedAnimatedGraphicsObject::Update()
 {
-	mvp.model = glm::mat4(1.0f);
-
 	const Camera& cam = CameraManager::GetCamera("MainCamera");
 
 	mvp.view = cam.GetView();
@@ -91,4 +90,35 @@ void TexturedAnimatedGraphicsObject::SetAnimationSpeed(float animationSpeed)
 void TexturedAnimatedGraphicsObject::SetClip(unsigned int clipIndex)
 {
 
+}
+
+void TexturedAnimatedGraphicsObject::Translate(const glm::vec3& translation)
+{
+	mvp.model = glm::translate(mvp.model, translation);
+}
+
+void TexturedAnimatedGraphicsObject::Scale(const glm::vec3&)
+{
+}
+
+void TexturedAnimatedGraphicsObject::Rotate(const glm::vec3&)
+{
+}
+
+extern glm::vec3 vec3DefaultReturn;
+extern glm::mat4 mat4DefaultReturn;
+
+const glm::vec3& TexturedAnimatedGraphicsObject::GetTranslation() const
+{
+	return vec3DefaultReturn;
+}
+
+const glm::vec3& TexturedAnimatedGraphicsObject::GetScale() const
+{
+	return vec3DefaultReturn;
+}
+
+const glm::mat4& TexturedAnimatedGraphicsObject::GetRotation() const
+{
+	return mat4DefaultReturn;
 }

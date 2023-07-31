@@ -2,6 +2,7 @@
 #define TEXTUREDANIMATEDGRAPHICSOBJECT_H
 
 #include "GraphicsObject.h"
+#include "3DTransformable.h"
 
 class Pose;
 class Clip;
@@ -10,7 +11,7 @@ class Model;
 class Texture;
 class Animation;
 
-class TexturedAnimatedGraphicsObject : public GraphicsObject
+class TexturedAnimatedGraphicsObject : public GraphicsObject, public Graphics3DTransformable
 {
 public:
 
@@ -33,6 +34,19 @@ public:
 	void SetAnimationSpeed(float animationSpeed);
 
 	void SetClip(unsigned int clipIndex);
+
+	// START Graphics3DTransformable
+	void Translate(const glm::vec3&) override;
+
+	void Scale(const glm::vec3&) override;
+
+	void Rotate(const glm::vec3&) override;
+
+	const glm::vec3& GetTranslation() const override;
+
+	const glm::vec3& GetScale() const override;
+
+	const glm::mat4& GetRotation() const override;
 
 protected:
 

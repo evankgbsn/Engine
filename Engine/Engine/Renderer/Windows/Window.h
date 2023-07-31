@@ -14,6 +14,7 @@ class GraphicsObject;
 class RenderPass;
 class ViewportPipelineState;
 class TexturedAnimatedGraphicsObject;
+class TexturedStaticGraphicsObject;
 
 class Window
 {
@@ -173,6 +174,8 @@ private:
 	VkFormat depthFormat;
 
 	TexturedAnimatedGraphicsObject* gObj0;
+
+	TexturedStaticGraphicsObject* tsgObj1 = nullptr;
 };
 
 #endif // WINDOW_H

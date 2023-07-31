@@ -6,8 +6,6 @@
 
 void TexturedStaticGraphicsObject::Update()
 {
-	mvp.model = glm::mat4(1.0f);
-
 	const Camera& cam = CameraManager::GetCamera("MainCamera");
 
 	mvp.view = cam.GetView();
@@ -17,8 +15,9 @@ void TexturedStaticGraphicsObject::Update()
 	uniformBuffers[0]->SetData(&mvp);
 }
 
-void TexturedStaticGraphicsObject::Translate(const glm::vec3&)
+void TexturedStaticGraphicsObject::Translate(const glm::vec3& translation)
 {
+	mvp.model = glm::translate(mvp.model, translation);
 }
 
 void TexturedStaticGraphicsObject::Scale(const glm::vec3&)
@@ -71,6 +70,7 @@ TexturedStaticGraphicsObject::TexturedStaticGraphicsObject(Model* const m, Textu
 	texture(tex),
 	mvp()
 {
+	mvp.model = glm::mat4(1.0f);
 	shaderName = "TexturedStatic";
 	InitializeDescriptorSets();
 }

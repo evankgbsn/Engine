@@ -2,6 +2,7 @@
 #define GRAPHICS3DTRANSFORMABLE_H
 
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 class Graphics3DTransformable
 {

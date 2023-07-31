@@ -26,6 +26,7 @@
 #include "../GraphicsObjects/GraphicsObjectManager.h"
 #include "../GraphicsObjects/GraphicsObject.h"
 #include "../GraphicsObjects/TexturedAnimatedGraphicsObject.h"
+#include "../GraphicsObjects/TexturedStaticGraphicsObject.h"
 #include "../GraphicsObjects/GoochGraphicsObject.h"
 #include "../Model/Model.h"
 #include "../Model/ModelManager.h"
@@ -141,7 +142,7 @@ void Window::Initialize()
 	Texture* vikingRoomTexture = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/VikingRoom.png", "VikingRoom");
 
 	//Model* womanModel = ModelManager::LoadModel("Woman", "../Engine/Engine/Renderer/Model/Woman.gltf");
-	Model* vikingRoom = ModelManager::LoadModel("VikingRoom", "../Engine/Engine/Renderer/Model/Cube.gltf");
+	Model* cube = ModelManager::LoadModel("Cube", "../Engine/Engine/Renderer/Model/Cube.gltf");
 
 	//for (unsigned int i = 0; i < 1000; i++)
 	//{
@@ -149,8 +150,10 @@ void Window::Initialize()
 	//}
 	
 	//GraphicsObjectManager::CreateTexturedStaticGraphicsObject(vikingRoom, vikingRoomTexture);
-	GraphicsObjectManager::CreateGoochGraphicsObject(vikingRoom, vikingRoomTexture);
+	//GraphicsObjectManager::CreateGoochGraphicsObject(vikingRoom, vikingRoomTexture);
 	//GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), womanTexture);
+
+	tsgObj1 = GraphicsObjectManager::CreateTexturedStaticGraphicsObject(ModelManager::GetModel("Cube"), vikingRoomTexture);
 }
 
 bool Window::Update()
@@ -159,6 +162,9 @@ bool Window::Update()
 	{
 		return false;
 	}
+
+	if(tsgObj1 != nullptr)
+		tsgObj1->Translate(glm::vec3(0.001f, 0.f, 0.f));
 
 	CheckInput();
 

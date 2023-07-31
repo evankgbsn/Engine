@@ -27,10 +27,12 @@ public:
 
 	virtual void Update() override;
 
+	void Translate(const glm::vec3&) override;
+
 protected:
 
 	// Graphics3DTransformable
-	void Translate(const glm::vec3&) override;
+	
 
 	void Scale(const glm::vec3&) override;
 

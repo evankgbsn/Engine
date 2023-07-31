@@ -18,7 +18,7 @@ Animation::~Animation()
 void Animation::Update(glm::mat4* posePalette)
 {
 	playback += TimeManager::DeltaTime();
-	if (playback >= 0.004166)
+	if (playback >= ANIMATION_PLAYBACK_FRAME_TIME)
 	{
 		for (unsigned int i = 0; i < bakedAnimation.GetPoseAtIndex(index).size(); ++i)
 		{

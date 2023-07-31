@@ -1,6 +1,9 @@
 #ifndef BAKEDANIMATION_H
 #define BAKEDANIMATION_H
 
+#define MAX_ANIMATION_FRAME_TIME 0.0041666f
+#define ANIMATION_PLAYBACK_FRAME_TIME 0.016f
+
 #include "Pose.h"
 
 #include <vector>

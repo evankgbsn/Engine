@@ -494,8 +494,8 @@ void GLTFHelpers::TrackFromChannel(Track<T, N>& result, const cgltf_animation_ch
 	std::vector<float> val; // values
 	GetScalarValues(val, N, *sampler.output);
 
-	unsigned int numFrames = sampler.input->count;
-	unsigned int compCount = val.size() / time.size();
+	unsigned int numFrames = static_cast<unsigned int>(sampler.input->count);
+	unsigned int compCount = static_cast<unsigned int>(val.size() / time.size());
 	result.SetSize(numFrames);
 
 	for (unsigned int i = 0; i < numFrames; ++i)

@@ -8,7 +8,7 @@ BakedAnimation::BakedAnimation(Clip* c, Armature* const armature) :
 	clip(c),
 	bakedPoses(std::vector<std::vector<glm::mat4>>())
 {
-	unsigned int bakedPoseCount = clip->GetDuration() / MAX_ANIMATION_FRAME_TIME;
+	unsigned int bakedPoseCount = static_cast<unsigned int>(clip->GetDuration() / MAX_ANIMATION_FRAME_TIME);
 	bakedPoses.resize(bakedPoseCount);
 	for (std::vector<glm::mat4>& posePalette : bakedPoses)
 	{
@@ -36,7 +36,7 @@ const std::vector<glm::mat4>& BakedAnimation::GetPoseAtIndex(unsigned int index)
 
 unsigned int BakedAnimation::GetFrameCount() const
 {
-	return bakedPoses.size();
+	return static_cast<unsigned int>(bakedPoses.size());
 }
 
 BakedAnimation::~BakedAnimation()

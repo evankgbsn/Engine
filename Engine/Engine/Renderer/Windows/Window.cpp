@@ -151,11 +151,11 @@ void Window::Initialize()
 
 	const float translationScalar = 3.0f;
 
-	for (unsigned int i = 0; i < 10; i++)
+	for (unsigned int i = 0; i < 25; i++)
 	{
-		for (unsigned int j = 0; j < 10; j++)
+		for (unsigned int j = 0; j < 25; j++)
 		{
-			for (unsigned int k = 0; k < 10; k++)
+			for (unsigned int k = 0; k < 25; k++)
 			{
 				gObj0 = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), womanTexture);
 				gObj0->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));

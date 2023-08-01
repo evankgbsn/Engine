@@ -1,9 +1,9 @@
 #ifndef Entity_H
 #define Entity_H
 
-#include <vector>
+#include "../Component/Component.h"
 
-class Component;
+#include <list>
 
 /**
 	Wrapper class for Engine Entities.
@@ -16,12 +16,22 @@ public:
 
 	~Entity();
 
+	void AddComponent(const Component::Type& type, Component*);
+
+	void RemoveComponent(Component* componentToRemove);
+
 protected:
+
+	static std::mutex entityIdIterativeMutex;
+
+	static unsigned long entityIdIterative;
+
+	unsigned long entityId;
 
 	/**
 		Components are not owned by the entity.
 	*/
-	std::vector<Component*> components;
+	std::list<Component*> components;
 
 private:
 

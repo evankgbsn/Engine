@@ -1,16 +1,36 @@
 #ifndef Component_H
 #define Component_H
 
+#include <mutex>
+
+/**
+	Components do not manage themselves.
+*/
 class Component
 {
 public:
 
-	Component() = default;
+	enum class Type
+	{
+		VOID
+	};
 
-	~Component() = default;
+	Component();
+
+	~Component();
+
+	Type GetType() const;
+
+protected:
+
+	static std::mutex componentIdIterativeMutex;
+	
+	static unsigned long componentIdIterative;
+
+	unsigned long componentId;
 
 private:
-
+	
 	Component(const Component&) = delete;
 
 	Component& operator=(const Component&) = delete;
@@ -18,6 +38,8 @@ private:
 	Component(Component&&) = delete;
 
 	Component& operator=(Component&&) = delete;
+
+	Type componentType;
 };
 
 #endif

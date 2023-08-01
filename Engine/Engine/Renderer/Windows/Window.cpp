@@ -140,6 +140,12 @@ void Window::Initialize()
 
 
 	Texture* womanTexture = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Woman.png", "Woman");
+	Texture* womanTexture1 = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Woman1.png", "Woman1");
+	Texture* womanTexture2 = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Woman2.png", "Woman2");
+	Texture* womanTexture3 = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Woman3.png", "Woman3");
+
+	Texture* womanTextures[5] = { womanTexture, womanTexture1, womanTexture2, womanTexture3, womanTexture};
+
 	//Texture* vikingRoomTexture = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/VikingRoom.png", "VikingRoom");
 
 	Model* womanModel = ModelManager::LoadModel("Woman", "../Engine/Engine/Renderer/Model/Woman.gltf");
@@ -151,14 +157,20 @@ void Window::Initialize()
 
 	const float translationScalar = 3.0f;
 
-	for (unsigned int i = 0; i < 25; i++)
+	srand(time(NULL));
+	unsigned int clipNum = 0;
+	unsigned int womanTextureNum;
+	for (unsigned int i = 0; i < 10; i++)
 	{
-		for (unsigned int j = 0; j < 25; j++)
+		for (unsigned int j = 0; j < 10; j++)
 		{
-			for (unsigned int k = 0; k < 25; k++)
+			for (unsigned int k = 0; k < 10; k++)
 			{
-				gObj0 = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), womanTexture);
+				clipNum = rand() % 5;
+				womanTextureNum = rand() % 5;
+				gObj0 = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), womanTextures[clipNum]);
 				gObj0->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));
+				gObj0->SetClip(clipNum);
 			}
 		}
 	}

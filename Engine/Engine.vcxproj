@@ -153,9 +153,10 @@
     <ClInclude Include="Engine\Animation\Pose.h" />
     <ClInclude Include="Engine\Animation\Track.h" />
     <ClInclude Include="Engine\Animation\TransformTrack.h" />
-    <ClInclude Include="Engine\Componnts\Component.h" />
+    <ClInclude Include="Engine\Component\Component.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Entity\Entity.h" />
+    <ClInclude Include="Engine\Entity\GameObject.h" />
     <ClInclude Include="Engine\Math\BezierSpline.h" />
     <ClInclude Include="Engine\Math\HermiteSpline.h" />
     <ClInclude Include="Engine\Math\Math.h" />
@@ -205,6 +206,7 @@
     <ClInclude Include="Engine\Renderer\Vulkan\VulkanPhysicalDevice.h" />
     <ClInclude Include="Engine\Renderer\Windows\Window.h" />
     <ClInclude Include="Engine\Renderer\Windows\WindowManager.h" />
+    <ClInclude Include="Engine\System\System.h" />
     <ClInclude Include="Engine\Time\TimeManager.h" />
     <ClInclude Include="Engine\Utils\Logger.h" />
   </ItemGroup>
@@ -221,6 +223,7 @@
     <ClCompile Include="Engine\Component\Component.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Entity\Entity.cpp" />
+    <ClCompile Include="Engine\Entity\GameObject.cpp" />
     <ClCompile Include="Engine\Math\BezierSpline.cpp" />
     <ClCompile Include="Engine\Math\HermiteSpline.cpp" />
     <ClCompile Include="Engine\Math\Math.cpp" />
@@ -269,6 +272,7 @@
     <ClCompile Include="Engine\Renderer\Vulkan\VulkanPhysicalDevice.cpp" />
     <ClCompile Include="Engine\Renderer\Windows\Window.cpp" />
     <ClCompile Include="Engine\Renderer\Windows\WindowManager.cpp" />
+    <ClCompile Include="Engine\System\System.cpp" />
     <ClCompile Include="Engine\Time\TimeManager.cpp" />
     <ClCompile Include="Engine\Utils\Logger.cpp" />
   </ItemGroup>

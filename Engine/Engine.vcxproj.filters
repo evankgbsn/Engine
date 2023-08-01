@@ -103,6 +103,9 @@
     <Filter Include="Source Files\Engine\Component">
       <UniqueIdentifier>{2c2b96a8-530c-448a-9471-b4b69da612e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\System">
+      <UniqueIdentifier>{54d144e9-c61f-44d9-904d-b5abd2d80cd6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -288,11 +291,17 @@
     <ClInclude Include="Engine\Entity\Entity.h">
       <Filter>Source Files\Engine\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Componnts\Component.h">
-      <Filter>Source Files\Engine\Component</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Renderer\GraphicsObjects\3DTransformable.h">
       <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Entity\GameObject.h">
+      <Filter>Source Files\Engine\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\Component.h">
+      <Filter>Source Files\Engine\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\System.h">
+      <Filter>Source Files\Engine\System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -481,6 +490,12 @@
     </ClCompile>
     <ClCompile Include="Engine\Component\Component.cpp">
       <Filter>Source Files\Engine\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Entity\GameObject.cpp">
+      <Filter>Source Files\Engine\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\System.cpp">
+      <Filter>Source Files\Engine\System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

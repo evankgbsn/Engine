@@ -89,7 +89,9 @@ void TexturedAnimatedGraphicsObject::SetAnimationSpeed(float animationSpeed)
 
 void TexturedAnimatedGraphicsObject::SetClip(unsigned int clipIndex)
 {
-
+	Animation* oldAnimation = animation;
+	animation = new Animation(model->GetBakedAnimation(clipIndex));
+	delete oldAnimation;
 }
 
 void TexturedAnimatedGraphicsObject::Translate(const glm::vec3& translation)

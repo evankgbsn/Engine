@@ -138,31 +138,33 @@ void Window::Initialize()
 	CreateFramebuffers();
 	CreateSyncObjects();
 
+
 	Texture* womanTexture = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Woman.png", "Woman");
 	//Texture* vikingRoomTexture = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/VikingRoom.png", "VikingRoom");
 
 	Model* womanModel = ModelManager::LoadModel("Woman", "../Engine/Engine/Renderer/Model/Woman.gltf");
 	//Model* cube = ModelManager::LoadModel("Cube", "../Engine/Engine/Renderer/Model/Cube.gltf");
 
+	Texture* cruiserTexture = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Cruiser.png", "Cruiser");
 	Model* cruiserModel = ModelManager::LoadModel("Cruiser", "../Engine/Engine/Renderer/Model/Cruiser.gltf");
 	Model* cruiserModelAnim = ModelManager::LoadModel("CruiserAnim", "../Engine/Engine/Renderer/Model/CruiserAnim.gltf");
 
 	const float translationScalar = 3.0f;
 
-	//for (unsigned int i = 0; i < 10; i++)
-	//{
-	//	for (unsigned int j = 0; j < 10; j++)
-	//	{
-	//		for (unsigned int k = 0; k < 10; k++)
-	//		{
-	//			gObj0 = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), womanTexture);
-	//			gObj0->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));
-	//		}
-	//	}
-	//}
+	for (unsigned int i = 0; i < 10; i++)
+	{
+		for (unsigned int j = 0; j < 10; j++)
+		{
+			for (unsigned int k = 0; k < 10; k++)
+			{
+				gObj0 = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), womanTexture);
+				gObj0->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));
+			}
+		}
+	}
 
 	//GraphicsObjectManager::CreateGoochGraphicsObject(cruiserModel, womanTexture);
-	GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(cruiserModelAnim, womanTexture);
+	//GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(cruiserModelAnim, cruiserTexture);
 }
 
 bool Window::Update()

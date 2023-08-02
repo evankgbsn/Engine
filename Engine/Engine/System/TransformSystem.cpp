@@ -4,7 +4,7 @@
 
 TransformSystem::TransformSystem() :
     System(),
-    transformComponents(CreateComponentTypeContainer<TransformComponent>())
+    transformComponents(std::vector<TransformComponent>())
 {
 }
 

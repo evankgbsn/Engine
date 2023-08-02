@@ -16,4 +16,17 @@ System::System(const Component::Type& systemComponentType) :
 
 System::~System()
 {
+	for (Component* component : components)
+	{
+		if (component != nullptr)
+		{
+			delete component;
+		}
+	}
+}
+
+Component** const System::CreateComponent()
+{
+	components.push_back(nullptr);
+	return &components[components.size() - 1];
 }

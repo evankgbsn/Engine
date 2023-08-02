@@ -303,6 +303,12 @@
     <ClInclude Include="Engine\System\System.h">
       <Filter>Source Files\Engine\System</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\System\TransformSystem.h">
+      <Filter>Source Files\Engine\System</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Component\TransformComponent.h">
+      <Filter>Source Files\Engine\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -495,6 +501,12 @@
       <Filter>Source Files\Engine\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\System.cpp">
+      <Filter>Source Files\Engine\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Component\TransformComponent.cpp">
+      <Filter>Source Files\Engine\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\TransformSystem.cpp">
       <Filter>Source Files\Engine\System</Filter>
     </ClCompile>
   </ItemGroup>

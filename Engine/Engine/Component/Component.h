@@ -23,6 +23,14 @@ public:
 
 protected:
 
+	Component(const Component&) = default;
+
+	Component& operator=(const Component&) = default;
+
+	Component(Component&&) = default;
+
+	Component& operator=(Component&&) = default;
+
 	static std::mutex componentIdIterativeMutex;
 	
 	static unsigned long componentIdIterative;
@@ -31,14 +39,6 @@ protected:
 
 private:
 	
-	Component(const Component&) = delete;
-
-	Component& operator=(const Component&) = delete;
-
-	Component(Component&&) = delete;
-
-	Component& operator=(Component&&) = delete;
-
 	Type componentType;
 };
 

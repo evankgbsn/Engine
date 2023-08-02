@@ -18,9 +18,15 @@ protected:
 
 	System() = default;
 
-	virtual Component* const CreateComponent() = 0;
+	template<typename T>
+	T* const CreateComponent(std::vector<T>& inComponentsVector);
+
+	template<typename T>
+	std::vector<T> CreateComponentTypeContainer() const;
 
 private:
+	
+	Component** const CreateComponent();
 
 	static std::mutex systemIdIterativeMutex;
 
@@ -44,3 +50,19 @@ private:
 };
 
 #endif // System_H
+
+template<typename T>
+inline std::vector<T> System::CreateComponentTypeContainer() const
+{
+	return std::vector<T>();
+}
+
+template<typename T>
+inline T* const System::CreateComponent(std::vector<T>& inComponentsVector)
+{
+	// Memory contiguous components.
+	Component** newComponent = System::CreateComponent();
+	*newComponent = new T();
+	inComponentsVector.push_back(*(static_cast<T*>(*newComponent)));
+	return &inComponentsVector[inComponentsVector.size() - 1];
+}

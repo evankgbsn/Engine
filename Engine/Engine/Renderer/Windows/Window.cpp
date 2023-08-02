@@ -166,7 +166,7 @@ void Window::Initialize()
 		{
 			for (unsigned int k = 0; k < 10; k++)
 			{
-				if (clipNum > 4)
+				if (clipNum > 9)
 					clipNum = 0;
 
 				womanTextureNum = rand() % 5;

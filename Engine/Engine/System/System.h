@@ -41,6 +41,10 @@ private:
 
 	Component::Type componentType = Component::Type::VOID;
 
+	std::mutex systemCreateComponentMutex;
+
+	std::mutex derivedClassCreateComponentMutex;
+
 	std::vector<Component*> components;
 
 	static std::unordered_map<unsigned long, System* const> systems;
@@ -51,7 +55,7 @@ private:
 template<typename T>
 inline T* const System::CreateComponent(std::vector<T>& inComponentsVector)
 {
-	// Memory contiguous components.
+	std::lock_guard<std::mutex> guard(derivedClassCreateComponentMutex);
 	Component** newComponent = System::CreateComponent();
 	inComponentsVector.push_back(T());
 	*newComponent = &inComponentsVector[inComponentsVector.size() - 1];

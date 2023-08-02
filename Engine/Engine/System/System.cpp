@@ -8,7 +8,9 @@ std::unordered_map<unsigned long, System* const> System::systems = std::unordere
 
 System::System(const Component::Type& systemComponentType) :
 	components(std::vector<Component*>()),
-	componentType(systemComponentType)
+	componentType(systemComponentType),
+	systemCreateComponentMutex(),
+	derivedClassCreateComponentMutex()
 {
 	std::lock_guard<std::mutex> guard(systemIdIterativeMutex);
 	systemId = systemIdIterative++;
@@ -20,6 +22,7 @@ System::~System()
 
 Component** const System::CreateComponent()
 {
+	std::lock_guard<std::mutex> guard(systemCreateComponentMutex);
 	components.push_back(nullptr);
 	return &components[components.size() - 1];
 }

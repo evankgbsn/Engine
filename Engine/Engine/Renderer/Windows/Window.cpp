@@ -157,7 +157,7 @@ void Window::Initialize()
 
 	const float translationScalar = 3.0f;
 
-	srand(time(NULL));
+	srand(std::chrono::high_resolution_clock::now().time_since_epoch().count());
 	unsigned int clipNum = 0;
 	unsigned int womanTextureNum;
 	for (unsigned int i = 0; i < 10; i++)

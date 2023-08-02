@@ -146,7 +146,7 @@ void Window::Initialize()
 
 	Texture* womanTextures[5] = { womanTexture, womanTexture1, womanTexture2, womanTexture3, womanTexture};
 
-	//Texture* vikingRoomTexture = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/VikingRoom.png", "VikingRoom");
+	Texture* vikingRoomTexture = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/VikingRoom.png", "VikingRoom");
 
 	Model* womanModel = ModelManager::LoadModel("Woman", "../Engine/Engine/Renderer/Model/Woman.gltf");
 	//Model* cube = ModelManager::LoadModel("Cube", "../Engine/Engine/Renderer/Model/Cube.gltf");
@@ -168,9 +168,7 @@ void Window::Initialize()
 			{
 				clipNum = rand() % 5;
 				womanTextureNum = rand() % 5;
-				gObj0 = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), womanTextures[clipNum]);
-				gObj0->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));
-				gObj0->SetClip(clipNum);
+				GraphicsObjectManager::CreateGoochGraphicsObject(ModelManager::GetModel("Cruiser"), vikingRoomTexture)->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));
 			}
 		}
 	}

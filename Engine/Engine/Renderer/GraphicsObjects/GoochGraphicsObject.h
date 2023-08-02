@@ -2,8 +2,9 @@
 #define GOOCHGRAPHICSOBJECT_H
 
 #include "GraphicsObject.h"
+#include "3DTransformable.h"
 
-class GoochGraphicsObject : public GraphicsObject
+class GoochGraphicsObject : public GraphicsObject, public Graphics3DTransformable
 {
 
 public:
@@ -21,6 +22,18 @@ public:
 	GoochGraphicsObject(GoochGraphicsObject&&) = delete;
 
 	GoochGraphicsObject& operator=(GoochGraphicsObject&&) = delete;
+
+	void Translate(const glm::vec3&) override;
+
+	void Scale(const glm::vec3&) override;
+
+	void Rotate(const glm::vec3&) override;
+
+	const glm::vec3& GetTranslation() const override;
+
+	const glm::vec3& GetScale() const override;
+
+	const glm::mat4& GetRotation() const override;
 
 private:
 

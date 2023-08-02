@@ -4,6 +4,39 @@
 #include "../Memory/UniformBuffer.h"
 #include "../Images/Texture.h"
 
+#include <glm/gtc/matrix_transform.hpp>
+
+void GoochGraphicsObject::Translate(const glm::vec3& translation)
+{
+	mvp.model = glm::translate(mvp.model, translation);
+}
+
+void GoochGraphicsObject::Scale(const glm::vec3&)
+{
+}
+
+void GoochGraphicsObject::Rotate(const glm::vec3&)
+{
+}
+
+extern glm::vec3 vec3DefaultReturn;
+extern glm::mat4 mat4DefaultReturn;
+
+const glm::vec3& GoochGraphicsObject::GetTranslation() const
+{
+	return vec3DefaultReturn;
+}
+
+const glm::vec3& GoochGraphicsObject::GetScale() const
+{
+	return vec3DefaultReturn;
+}
+
+const glm::mat4& GoochGraphicsObject::GetRotation() const
+{
+	return mat4DefaultReturn;
+}
+
 void GoochGraphicsObject::CreateUniformBuffers()
 {
 	UniformBuffer* mvpUniformBuffer = new UniformBuffer(sizeof(mvp), 0);
@@ -19,8 +52,6 @@ void GoochGraphicsObject::CreateTextures()
 
 void GoochGraphicsObject::Update()
 {
-	mvp.model = glm::mat4(1.0f);
-
 	const Camera& cam = CameraManager::GetCamera("MainCamera");
 
 	mvp.view = cam.GetView();
@@ -37,6 +68,7 @@ GoochGraphicsObject::GoochGraphicsObject(Model* const model, Texture* const tex)
 {
 	shaderName = "Gooch";
 	InitializeDescriptorSets();
+	mvp.model = glm::mat4(1.0f);
 }
 
 GoochGraphicsObject::~GoochGraphicsObject()

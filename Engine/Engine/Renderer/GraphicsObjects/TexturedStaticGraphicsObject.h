@@ -61,9 +61,9 @@ protected:
 
 	virtual void CreateUniformBuffers() override;
 
-	MVPUniformBuffer mvp;
+	MVPUniformBuffer* mvp;
 
-	LightUniformBuffer light;
+	LightUniformBuffer* light;
 
 	Texture* texture;
 

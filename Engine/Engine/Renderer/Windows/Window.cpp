@@ -155,9 +155,9 @@ void Window::Initialize()
 	Model* cruiserModel = ModelManager::LoadModel("Cruiser", "../Engine/Engine/Renderer/Model/Cruiser.gltf");
 	Model* cruiserModelAnim = ModelManager::LoadModel("CruiserAnim", "../Engine/Engine/Renderer/Model/CruiserAnim.gltf");
 
-	const float translationScalar = 3.0f;
+	const float translationScalar = 7.0f;
 
-	srand(std::chrono::high_resolution_clock::now().time_since_epoch().count());
+	srand(static_cast<unsigned int>(std::chrono::high_resolution_clock::now().time_since_epoch().count()));
 	unsigned int clipNum = 0;
 	unsigned int womanTextureNum;
 	for (unsigned int i = 0; i < 10; i++)
@@ -166,9 +166,13 @@ void Window::Initialize()
 		{
 			for (unsigned int k = 0; k < 10; k++)
 			{
-				clipNum = rand() % 5;
+				if (clipNum > 4)
+					clipNum = 0;
+
 				womanTextureNum = rand() % 5;
-				GraphicsObjectManager::CreateGoochGraphicsObject(ModelManager::GetModel("Cruiser"), vikingRoomTexture)->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));
+				TexturedAnimatedGraphicsObject* ta = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), womanTextures[womanTextureNum]);
+				ta->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));
+				ta->SetClip(clipNum++);
 			}
 		}
 	}

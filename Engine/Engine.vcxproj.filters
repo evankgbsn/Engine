@@ -544,5 +544,6 @@
     <None Include="Engine\Renderer\Pipeline\Shaders\glsl\Gooch.vert">
       <Filter>Source Files\Engine\Renderer\Pipeline\Shaders\glsl</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

@@ -5,6 +5,7 @@
 #include "Renderer/Windows//WindowManager.h"
 #include "Renderer/Windows/Window.h"
 #include "Time/TimeManager.h"
+#include "Scene/SceneManager.h"
 
 Engine* Engine::instance = nullptr;
 
@@ -41,11 +42,16 @@ void Engine::Start()
 	Window& mainWindow = WindowManager::CreateWindow(1920, 1080, "MainWindow");
 	mainWindow.Initialize();
 	bool shouldUpdate = true;
+
+	SceneManager::Initialize();
+
 	while (shouldUpdate)
 	{
 		TimeManager::RecordUpdateTime();
 		shouldUpdate = Renderer::Update();
 	};
+
+	SceneManager::Terminate();
 }
 
 const std::string& Engine::GetGameName()

@@ -1,0 +1,607 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="Animation">
+    <Position X="0.5" Y="0.5" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAgIAAgAAAAAAAAQAAAAAgAAABAAE=</HashCode>
+      <FileName>Engine\Animation\Animation.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Armature">
+    <Position X="4.75" Y="0.5" Width="6.25" />
+    <TypeIdentifier>
+      <HashCode>gAgAAAAAAAAEBAAAAAEAAAA4AAAAAAQACAQgAAAAAAA=</HashCode>
+      <FileName>Engine\Animation\Armature.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BakedAnimation">
+    <Position X="11.5" Y="0.5" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAQAACAAAAAAAAAAAACAAAgCAAoAAAAAAA=</HashCode>
+      <FileName>Engine\Animation\BakedAnimation.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Clip">
+    <Position X="0.5" Y="4.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>CAAgAIAgAAABwABAAACgACBgAAEEAAAgAAAgYAAABCA=</HashCode>
+      <FileName>Engine\Animation\Clip.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Frame&lt;N&gt;" Collapsed="true">
+    <Position X="16.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AZABgAAAIAAAAAAAAAAAAAMAAAAAACAAAAAgAAAAIAE=</HashCode>
+      <FileName>Engine\Animation\Frame.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pose">
+    <Position X="4.75" Y="5.5" Width="5" />
+    <TypeIdentifier>
+      <HashCode>AAkAAAAAAAAAgAAAAAgAAYACAAEEAAAAAECgAAUAAAE=</HashCode>
+      <FileName>Engine\Animation\Pose.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Track&lt;T, N&gt;" Collapsed="true">
+    <Position X="11.25" Y="7.5" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAgAMAAAEAAkBAABIAIAEBBEAEAAAAAIEAgAQAAAAE=</HashCode>
+      <FileName>Engine\Animation\Track.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TransformTrack">
+    <Position X="18.5" Y="0.5" Width="6" />
+    <TypeIdentifier>
+      <HashCode>AAAgAIAAAAAAIAACACigIABCAAAAQAAAAAAgAAKAAgA=</HashCode>
+      <FileName>Engine\Animation\TransformTrack.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Renderer">
+    <Position X="0.5" Y="11.25" Width="12.75" />
+    <TypeIdentifier>
+      <HashCode>BASoQAABQAAAAQBAAAIIkAAADQBAAAAVAACkAABACAI=</HashCode>
+      <FileName>Engine\Renderer\Renderer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WindowManager">
+    <Position X="37.25" Y="11.25" Width="6.25" />
+    <TypeIdentifier>
+      <HashCode>AAQIAAAAAAAAAQCAAAAAAAAAAABAgAAAAAAkAACwAAA=</HashCode>
+      <FileName>Engine\Renderer\Windows\WindowManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Window">
+    <Position X="37.25" Y="15.5" Width="6.25" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Struct Name="Window::SurfaceInfo" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Engine\Renderer\Windows\Window.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AQQEGFDIACQQo8SAV44CAAFECWikBQAYAQSoGFEhBAA=</HashCode>
+      <FileName>Engine\Renderer\Windows\Window.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VulkanPhysicalDevice">
+    <Position X="0.75" Y="18.75" Width="5.25" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Struct Name="VulkanPhysicalDevice::QueueFamilies" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Engine\Renderer\Vulkan\VulkanPhysicalDevice.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>GgIQCCAgAIAIAAFUQAAEAQAAAAIgEBAAAgAiAIAEBAQ=</HashCode>
+      <FileName>Engine\Renderer\Vulkan\VulkanPhysicalDevice.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PipelineLayout">
+    <Position X="6.25" Y="18.75" Width="6" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAEAAAAAAAAAAAAACAgCAAAAAA=</HashCode>
+      <FileName>Engine\Renderer\Pipeline\PipelineLayout.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphicsPipeline">
+    <Position X="6.25" Y="22" Width="6" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAIEYAAAAIAAAQIAEQAgAAAAAAAAgCFAAQAQ=</HashCode>
+      <FileName>Engine\Renderer\Pipeline\GraphicsPipeline.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ViewportPipelineState">
+    <Position X="15.75" Y="11.25" Width="5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAASAAAAAAAAAAIAAAgAAAAAAA=</HashCode>
+      <FileName>Engine\Renderer\Pipeline\Viewport\ViewportPipelineState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VertexInputPipelineState">
+    <Position X="15.75" Y="14.75" Width="5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAQAAAAAAAAACAAAAgAAAAAAA=</HashCode>
+      <FileName>Engine\Renderer\Pipeline\VertexInput\VertexInputPipelineState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShaderPipelineStage">
+    <Position X="31" Y="11.25" Width="4.75" />
+    <TypeIdentifier>
+      <HashCode>CAAiACARAAAgAAAAAAAAAAAAACAAAQAgAABgCCAAAAA=</HashCode>
+      <FileName>Engine\Renderer\Pipeline\Shaders\ShaderPipelineStage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shader">
+    <Position X="31" Y="16.25" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAgAAAAABAAAAAQAAAAAAABABggAAABAI=</HashCode>
+      <FileName>Engine\Renderer\Pipeline\Shaders\Shader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DescriptorSetManager">
+    <Position X="22" Y="11.25" Width="8" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAACQAAAABAAAAAAABAAAAAEAAkAAAAAAE=</HashCode>
+      <FileName>Engine\Renderer\Pipeline\Shaders\DescriptorSetManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DescriptorSetLayout">
+    <Position X="22" Y="15" Width="6" />
+    <TypeIdentifier>
+      <HashCode>EAAAAACAAAAIAAAAEAAAQIAAAAAAgAAAAAAgCAAAAAA=</HashCode>
+      <FileName>Engine\Renderer\Pipeline\Shaders\DescriptorSetLayout.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DescriptorSet">
+    <Position X="22" Y="19" Width="7.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAgEIAAAAAAAAAAAAAAAgggAAAAAAA=</HashCode>
+      <FileName>Engine\Renderer\Pipeline\Shaders\DescriptorSet.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RenderPass">
+    <Position X="31" Y="20.75" Width="5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAIAAAAAAAQAAQAQAABAAIAACgEBAAAAA=</HashCode>
+      <FileName>Engine\Renderer\Pipeline\RenderPass\RenderPass.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RasterizerPipelineState">
+    <Position X="15.75" Y="17.75" Width="5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAUAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Engine\Renderer\Pipeline\Rasterizer\RasterizerPipelineState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MultisamplingPipelineState">
+    <Position X="15.75" Y="20.75" Width="5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAIAAgAAgAAAA=</HashCode>
+      <FileName>Engine\Renderer\Pipeline\Multisampling\MultisamplingPipelineState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InputAssemblyPipelineState">
+    <Position X="31" Y="25.25" Width="5.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAABAAAQAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Engine\Renderer\Pipeline\InputAssembly\InputAssemblyPipelineState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DynamicPipelineState">
+    <Position X="15.75" Y="24.25" Width="5.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAACAAAAAQAAAAAAQAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Engine\Renderer\Pipeline\DynamicState\DynamicPipelineState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DepthStencilPipelineState">
+    <Position X="15.75" Y="27.5" Width="5.25" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAgAgAAAAAAA=</HashCode>
+      <FileName>Engine\Renderer\Pipeline\DepthStencilTest\DepthStencilPipelineState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ColorBlendingPipelineState">
+    <Position X="15.75" Y="30.5" Width="5.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAQABAAACAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Engine\Renderer\Pipeline\ColorBlending\ColorBlendingPipelineState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Vertex">
+    <Position X="52.25" Y="11.25" Width="5.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACABAAAIAAAAYQgQAAIAQAAAAECgAAAABgg=</HashCode>
+      <FileName>Engine\Renderer\Model\Vertex.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ModelManager">
+    <Position X="44.25" Y="11.25" Width="7" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAQAAARAIAAAAAABAAAAAAAAkAAAIAAA=</HashCode>
+      <FileName>Engine\Renderer\Model\ModelManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model">
+    <Position X="44.25" Y="15.5" Width="7" />
+    <TypeIdentifier>
+      <HashCode>AQBAQAEAAiAAIBAAAQICgAAAAACSCCQAAAggAAAAAAA=</HashCode>
+      <FileName>Engine\Renderer\Model\Model.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VertexBuffer">
+    <Position X="58.5" Y="11.25" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAEAA=</HashCode>
+      <FileName>Engine\Renderer\Memory\VertexBuffer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UniformBuffer">
+    <Position X="58.5" Y="14" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACABAAAAgAAAAAAAAgAAAAADA=</HashCode>
+      <FileName>Engine\Renderer\Memory\UniformBuffer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StagingBuffer">
+    <Position X="58.5" Y="17.5" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAkAAAAAAA=</HashCode>
+      <FileName>Engine\Renderer\Memory\StagingBuffer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MemoryManager">
+    <Position X="58.5" Y="20.25" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAQAAAAEAAAoAAABAAAAAAEAkAAABAAA=</HashCode>
+      <FileName>Engine\Renderer\Memory\MemoryManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IndexBuffer">
+    <Position X="58.5" Y="24.25" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAABAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Engine\Renderer\Memory\IndexBuffer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Image">
+    <Position X="58.5" Y="27" Width="5.75" />
+    <TypeIdentifier>
+      <HashCode>AUAACAAAAAAAEEAEAAAAQAABkBAAABIAAAAgNAAAACQ=</HashCode>
+      <FileName>Engine\Renderer\Memory\Image.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Buffer">
+    <Position X="57.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABABgIgCAAEAAAAQAAAAgAAAAAAABwQAYUQAA=</HashCode>
+      <FileName>Engine\Renderer\Memory\Buffer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LightManager">
+    <Position X="0.75" Y="35.75" Width="6.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAQAAAAAQAAAAgABAAAAAAAAkADAAAAA=</HashCode>
+      <FileName>Engine\Renderer\Lights\LightManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Light">
+    <Position X="6.5" Y="33.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAgAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Engine\Renderer\Lights\Light.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DirectionalLight">
+    <Position X="8" Y="35.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAIIAAAAAAQAAAAAAAAAACAAAAgAAAAAAA=</HashCode>
+      <FileName>Engine\Renderer\Lights\DirectionalLight.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TextureManager">
+    <Position X="58.5" Y="33" Width="6" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAACAEAAAQAABAAAAAAABABAAAAAAAAkABAAAAA=</HashCode>
+      <FileName>Engine\Renderer\Images\TextureManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Texture">
+    <Position X="58.5" Y="37" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>CAAEAAAAAAAAgAQAQAACAAAQkAAAAAAAAAIwIAAAAAA=</HashCode>
+      <FileName>Engine\Renderer\Images\Texture.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TexturedStaticGraphicsObject">
+    <Position X="22.5" Y="45.75" Width="5.25" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Struct Name="TexturedStaticGraphicsObject::MVPUniformBuffer" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Engine\Renderer\GraphicsObjects\TexturedStaticGraphicsObject.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+      <Struct Name="TexturedStaticGraphicsObject::LightUniformBuffer" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Engine\Renderer\GraphicsObjects\TexturedStaticGraphicsObject.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAACAACAAAAIAQAAAEAIAAgAAIgAkIAAAAAI=</HashCode>
+      <FileName>Engine\Renderer\GraphicsObjects\TexturedStaticGraphicsObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphicsObject">
+    <Position X="29" Y="36.5" Width="5.25" />
+    <TypeIdentifier>
+      <HashCode>QAQAAAAgEGCABEABAAIAQAJQAAAAAAAAAAAgIACIAAA=</HashCode>
+      <FileName>Engine\Renderer\GraphicsObjects\GraphicsObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TexturedAnimatedGraphicsObject">
+    <Position X="28.5" Y="45.75" Width="6" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Struct Name="TexturedAnimatedGraphicsObject::MVPUniformBuffer" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Engine\Renderer\GraphicsObjects\TexturedAnimatedGraphicsObject.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+      <Struct Name="TexturedAnimatedGraphicsObject::AnimUniformBuffer" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Engine\Renderer\GraphicsObjects\TexturedAnimatedGraphicsObject.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+      <Struct Name="TexturedAnimatedGraphicsObject::LightUniformBuffer" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Engine\Renderer\GraphicsObjects\TexturedAnimatedGraphicsObject.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAQEAAAAIICAAAAAAAIAUIAAEAIAAgAAIQCkIEAAAAI=</HashCode>
+      <FileName>Engine\Renderer\GraphicsObjects\TexturedAnimatedGraphicsObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphicsObjectManager">
+    <Position X="20" Y="36.5" Width="7" />
+    <TypeIdentifier>
+      <HashCode>AECAEAAAAEIAAQAAAMAIAAAQgABASEgIQAAkCAAIAAg=</HashCode>
+      <FileName>Engine\Renderer\GraphicsObjects\GraphicsObjectManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GoochGraphicsObject">
+    <Position X="35.75" Y="45.75" Width="5.25" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Struct Name="GoochGraphicsObject::MVPUniformBuffer" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Engine\Renderer\GraphicsObjects\GoochGraphicsObject.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAEAACAAAIAAAIAQAAAEAAAAgAAIAAkIAAAAAI=</HashCode>
+      <FileName>Engine\Renderer\GraphicsObjects\GoochGraphicsObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Graphics3DTransformable">
+    <Position X="36.25" Y="38" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAIAAAAAEAAAAAAAIAAEIAAAAAA=</HashCode>
+      <FileName>Engine\Renderer\GraphicsObjects\3DTransformable.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CommandManager">
+    <Position X="0.75" Y="27.75" Width="5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAgAAAAAQAAIBAAAAECAABAAAAAEAAkAAAARAA=</HashCode>
+      <FileName>Engine\Renderer\Commands\CommandManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CameraManager">
+    <Position X="47.5" Y="42.75" Width="6.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAQgAAAAAYAAAAABAAAIAAAAkAAAgAAA=</HashCode>
+      <FileName>Engine\Renderer\Cameras\CameraManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Camera">
+    <Position X="47.5" Y="31.75" Width="3.75" />
+    <NestedTypes>
+      <Enum Name="Camera::Type" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Engine\Renderer\Cameras\Camera.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>ABCKAQYQQCAAABAI6AAgIAgYEAAJQoEYBYAlAAgAgAI=</HashCode>
+      <FileName>Engine\Renderer\Cameras\Camera.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Math::BezierSpline">
+    <Position X="18.75" Y="6.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAACQAAAGAAAAAgABgAAAAAAA=</HashCode>
+      <FileName>Engine\Math\BezierSpline.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Math::HermiteSpline">
+    <Position X="22.5" Y="6.25" Width="5.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACACAAAAAAAAQAAEQAAAAAgAggAAAAAAA=</HashCode>
+      <FileName>Engine\Math\HermiteSpline.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Math::Transform">
+    <Position X="25" Y="0.5" Width="5.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAgEAKAIQQCAAAAAAAAAAAhRAGAAIA=</HashCode>
+      <FileName>Engine\Math\Transform.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObject">
+    <Position X="91.75" Y="19.75" Width="5.75" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAgAAIAAAA=</HashCode>
+      <FileName>Engine\Entity\GameObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entity">
+    <Position X="91.75" Y="15" Width="5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAIACAAAACAAAAAACIAAAAEAAAgAABAAAA=</HashCode>
+      <FileName>Engine\Entity\Entity.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TransformComponent">
+    <Position X="98.25" Y="24" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAFCAAAAAAALAAAAAEAAEAAgAIAIkIgAAAAA=</HashCode>
+      <FileName>Engine\Component\TransformComponent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Component">
+    <Position X="98.25" Y="19.75" Width="4" />
+    <NestedTypes>
+      <Enum Name="Component::Type" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Engine\Component\Component.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAABAACAAAAACAAAAAAQAAEAAABgAAAAAAA=</HashCode>
+      <FileName>Engine\Component\Component.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System">
+    <Position X="98" Y="15" Width="5.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQIAAAAAAAACAABAAAAARgAAAAEAgAAAEJAA=</HashCode>
+      <FileName>Engine\System\System.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TransformSystem">
+    <Position X="98" Y="12" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAAAAAgAAAAAAQAAABAA=</HashCode>
+      <FileName>Engine\System\TransformSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeManager">
+    <Position X="97.25" Y="6.5" Width="5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAQABIAEgAgAAAABAAEAAAAAkAAAAAAA=</HashCode>
+      <FileName>Engine\Time\TimeManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Logger">
+    <Position X="75.25" Y="0.75" Width="6.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="Logger::Category" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Engine\Utils\Logger.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAACIAADAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Engine\Utils\Logger.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine">
+    <Position X="91.5" Y="6.5" Width="5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Struct Name="Engine::Version" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Engine\Engine.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAiQAAQAAAAAAAACAAABAACAIBAAkAAAAAIA=</HashCode>
+      <FileName>Engine\Engine.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="std::hash&lt;Vertex&gt;">
+    <Position X="52.25" Y="17.75" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Engine\Renderer\Model\Vertex.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="ScalarFrame" Collapsed="true">
+    <Position X="15" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Engine\Animation\Frame.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="VectorFrame" Collapsed="true">
+    <Position X="16.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Engine\Animation\Frame.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="QuaternionFrame" Collapsed="true">
+    <Position X="16.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Engine\Animation\Frame.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="ScalarTrack" Collapsed="true">
+    <Position X="13.75" Y="9.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Engine\Animation\Track.cpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="VectorTrack" Collapsed="true">
+    <Position X="10.25" Y="5.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Engine\Animation\Track.cpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="QuaternionTrack" Collapsed="true">
+    <Position X="10.75" Y="9.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Engine\Animation\Track.cpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Enum Name="Interpolation">
+    <Position X="13.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAEAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Engine\Animation\Frame.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

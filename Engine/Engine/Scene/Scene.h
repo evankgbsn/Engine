@@ -15,9 +15,9 @@ public:
 
 	~Scene();
 
-	void AddEntity(Entity* const ent);
+	void AddEntity(const std::string& name, Entity* const ent);
 
-	void AddSystem(System* const sys);
+	void AddSystem(const std::string& name, System* const sys);
 
 protected:
 

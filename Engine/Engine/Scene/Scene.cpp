@@ -1,6 +1,8 @@
 #include "Scene.h"
 
-Scene::Scene()
+Scene::Scene() :
+	entities(std::unordered_map<std::string, Entity*>()),
+	systems(std::unordered_map<std::string, System*>())
 {
 }
 
@@ -8,10 +10,12 @@ Scene::~Scene()
 {
 }
 
-void Scene::AddEntity(Entity* const ent)
+void Scene::AddEntity(const std::string& name, Entity* const ent)
 {
+	entities.insert(std::make_pair(name, ent));
 }
 
-void Scene::AddSystem(System* const sys)
+void Scene::AddSystem(const std::string& name, System* const sys)
 {
+	systems.insert(std::make_pair(name, sys));
 }

@@ -107,7 +107,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)Dependencies/Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -209,6 +209,8 @@
     <ClInclude Include="Engine\Renderer\Vulkan\VulkanPhysicalDevice.h" />
     <ClInclude Include="Engine\Renderer\Windows\Window.h" />
     <ClInclude Include="Engine\Renderer\Windows\WindowManager.h" />
+    <ClInclude Include="Engine\Scene\Scene.h" />
+    <ClInclude Include="Engine\Scene\SceneManager.h" />
     <ClInclude Include="Engine\System\System.h" />
     <ClInclude Include="Engine\System\TransformSystem.h" />
     <ClInclude Include="Engine\Time\TimeManager.h" />
@@ -277,6 +279,8 @@
     <ClCompile Include="Engine\Renderer\Vulkan\VulkanPhysicalDevice.cpp" />
     <ClCompile Include="Engine\Renderer\Windows\Window.cpp" />
     <ClCompile Include="Engine\Renderer\Windows\WindowManager.cpp" />
+    <ClCompile Include="Engine\Scene\Scene.cpp" />
+    <ClCompile Include="Engine\Scene\SceneManager.cpp" />
     <ClCompile Include="Engine\System\System.cpp" />
     <ClCompile Include="Engine\System\TransformSystem.cpp" />
     <ClCompile Include="Engine\Time\TimeManager.cpp" />

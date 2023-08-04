@@ -25,11 +25,16 @@ void Animation::Update(glm::mat4* posePalette)
 			posePalette[i] = bakedAnimation.GetPoseAtIndex(index)[i];
 		}
 
-		index++;
+		++index += speed;
 		if (index >= bakedAnimation.GetFrameCount())
 		{
 			index = 0;
 		}
 		playback = 0;
 	}
+}
+
+void Animation::SetSpeed(float newSpeed)
+{
+	speed = newSpeed;
 }

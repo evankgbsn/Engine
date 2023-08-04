@@ -170,7 +170,10 @@ std::vector<std::string> GLTFHelpers::LoadJointNames(cgltf_data* data)
 
 const BakedAnimation& Model::GetBakedAnimation(unsigned int index) const
 {
-	return bakedAnimations[index];
+	if (index < bakedAnimations.size())
+		return bakedAnimations[index];
+	else
+		return bakedAnimations[0];
 }
 
 void Model::CPUSkin(Armature& armature, Pose& pose)
@@ -245,36 +248,39 @@ void Model::CPUSkinMatrices(Armature& armature, Pose& pose)
 
 void Model::LoadAnimationClips(cgltf_data* data)
 {
-	unsigned int numClips = static_cast<unsigned int>(data->animations_count);
-	unsigned int numNodes = static_cast<unsigned int>(data->nodes_count);
+	unsigned long long numClips = data->animations_count;
+	unsigned long long numNodes = data->nodes_count;
 	animationClips.resize(numClips);
 
-	for (unsigned int i = 0; i < numClips; i++)
+	for (unsigned long long i = 0; i < numClips; i++)
 	{
 		animationClips[i].SetName(data->animations[i].name);
 
-		unsigned int numChannels = static_cast<unsigned int>(data->animations->channels_count);
+		unsigned long long numChannels = data->animations->channels_count;
 
-		for (unsigned int j = 0; j < numChannels; j++)
+		for (unsigned long long j = 0; j < numChannels; j++)
 		{
 			cgltf_animation_channel& channel = data->animations[i].channels[j];
 			cgltf_node* target = channel.target_node;
 			int nodeId = GLTFHelpers::GetNodeIndex(target, data->nodes, numNodes);
 
-			if (channel.target_path == cgltf_animation_path_type_translation)
+			if (nodeId != -1)
 			{
-				VectorTrack& transTrack = animationClips[i][nodeId].GetPositionTrack();
-				GLTFHelpers::TrackFromChannel<glm::vec3, 3U>(transTrack, channel);
-			}
-			else if (channel.target_path == cgltf_animation_path_type_rotation)
-			{
-				QuaternionTrack& rotTrack = animationClips[i][nodeId].GetRotationTrack();
-				GLTFHelpers::TrackFromChannel<glm::quat, 4U>(rotTrack, channel);
-			}
-			else if(channel.target_path == cgltf_animation_path_type_scale)
-			{
-				VectorTrack& scaleTrack = animationClips[i][nodeId].GetScaleTrack();
-				GLTFHelpers::TrackFromChannel<glm::vec3, 3U>(scaleTrack, channel);
+				if (channel.target_path == cgltf_animation_path_type_translation)
+				{
+					VectorTrack& transTrack = animationClips[i][nodeId].GetPositionTrack();
+					GLTFHelpers::TrackFromChannel<glm::vec3, 3U>(transTrack, channel);
+				}
+				else if (channel.target_path == cgltf_animation_path_type_rotation)
+				{
+					QuaternionTrack& rotTrack = animationClips[i][nodeId].GetRotationTrack();
+					GLTFHelpers::TrackFromChannel<glm::quat, 4U>(rotTrack, channel);
+				}
+				else if (channel.target_path == cgltf_animation_path_type_scale)
+				{
+					VectorTrack& scaleTrack = animationClips[i][nodeId].GetScaleTrack();
+					GLTFHelpers::TrackFromChannel<glm::vec3, 3U>(scaleTrack, channel);
+				}
 			}
 		}
 

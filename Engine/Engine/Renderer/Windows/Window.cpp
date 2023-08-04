@@ -154,7 +154,7 @@ void Window::Initialize()
 	Texture* cruiserTexture = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Cruiser.png", "Cruiser");
 	Model* cruiserModel = ModelManager::LoadModel("Cruiser", "../Engine/Engine/Renderer/Model/Cruiser.gltf");
 	Model* cruiserModelAnim = ModelManager::LoadModel("CruiserAnim", "../Engine/Engine/Renderer/Model/CruiserAnim.gltf");
-	Model* ballModel = ModelManager::LoadModel("Ball", "../Engine/Engine/Renderer/Model/Ball.gltf");
+	Model* ballModel = ModelManager::LoadModel("Ball", "../Engine/Engine/Renderer/Model/NewBall.gltf");
 
 	const float translationScalar = 7.0f;
 
@@ -174,6 +174,7 @@ void Window::Initialize()
 				TexturedAnimatedGraphicsObject* ta = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Ball"), womanTextures[womanTextureNum]);
 				ta->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));
 				ta->SetClip(0);
+				ta->SetAnimationSpeed(2.f);
 			}
 		}
 	}

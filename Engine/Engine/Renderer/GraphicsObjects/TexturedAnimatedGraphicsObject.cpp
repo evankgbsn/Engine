@@ -84,7 +84,7 @@ bool TexturedAnimatedGraphicsObject::ToggleLoopAnimation()
 
 void TexturedAnimatedGraphicsObject::SetAnimationSpeed(float animationSpeed)
 {
-	
+	animation->SetSpeed(animationSpeed);
 }
 
 void TexturedAnimatedGraphicsObject::SetClip(unsigned int clipIndex)

@@ -26,6 +26,8 @@ public:
 
 	void Update(glm::mat4* posePalette);
 
+	void SetSpeed(float newSpeed);
+
 private:
 
 	float playback;

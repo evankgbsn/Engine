@@ -1,0 +1,10 @@
+Blender Animated Model Workflow:
+-Create Mesh
+-Model Mesh in Edit Mode
+-Select all vertices in mesh and create a smart UV project
+-Edit UVs/save/export image of UV map
+-Go to Object Mode with the model selected by pressing tab and create an "Armature"
+-Parent the mesh with automatic weights to the bones of the armature.
+-Create keyframes by advancing the track and inserting them with "I" for location, rotation, and scale (make sure that the mouse is hovered over the viewer and not the track.).
+-Save the animation in the dope sheets action editor. Give it a cool name.
+-Use proper export settings.

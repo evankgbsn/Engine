@@ -156,13 +156,13 @@ void Window::Initialize()
 	Model* cruiserModelAnim = ModelManager::LoadModel("CruiserAnim", "../Engine/Engine/Renderer/Model/CruiserAnim.gltf");
 	Model* ballModel = ModelManager::LoadModel("Ball", "../Engine/Engine/Renderer/Model/NewBall.gltf");
 
-	Texture* humanModelTexture = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Human.png", "Human");
+	Texture* humanModelTexture = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/HumanStatic.png", "Human");
 	Model* human = ModelManager::LoadModel("Human", "../Engine/Engine/Renderer/Model/Human.gltf");
 
 
 	Model* cube = ModelManager::LoadModel("Cube", "../Engine/Engine/Renderer/Model/Cube.gltf");
 
-	GraphicsObjectManager::CreateTexturedStaticGraphicsObject(cruiserModel, cruiserTexture);
+	GraphicsObjectManager::CreateTexturedStaticGraphicsObject(human, humanModelTexture);
 
 	//const float translationScalar = 7.0f;
 	//

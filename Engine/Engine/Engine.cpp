@@ -43,15 +43,13 @@ void Engine::Start()
 	mainWindow.Initialize();
 	bool shouldUpdate = true;
 
-	SceneManager::Initialize();
+	instance->SpawnAndDetachGameThread();
 
 	while (shouldUpdate)
 	{
 		TimeManager::RecordUpdateTime();
 		shouldUpdate = Renderer::Update();
 	};
-
-	SceneManager::Terminate();
 }
 
 const std::string& Engine::GetGameName()
@@ -78,16 +76,51 @@ const Engine::Version& Engine::GetGameVersion()
 	return instance->gameVersion;
 }
 
+void Engine::SetGameThreadFunc(void(*newGameThreadFunc)())
+{
+	if (instance != nullptr)
+	{
+		if (instance->userGameThread == nullptr)
+		{
+			instance->userGameThreadFunc = newGameThreadFunc;
+			Logger::Log(std::string("Engine::SetGameThreadFunc success"), Logger::Category::Success);
+		}
+	}
+	else
+	{
+		Logger::Log(std::string("Calling Engine::SetAndSpawnGameThread before Engine::Initialize"), Logger::Category::Error);
+	}
+}
+
 Engine::Engine(const std::string& gn, const Version& gv) :
 	gameName(gn),
 	gameVersion(gv),
-	engineVersion(Version(1,0,0))
+	engineVersion(Version(1,0,0)),
+	spawnedGameThreads(std::unordered_map<void(*)(), std::thread*>())
 {
 	TimeManager::Initialize();
+	SceneManager::Initialize();
 }
 
 Engine::~Engine()
 {
+	for (std::pair<void(* const)(), std::thread*>& thread : spawnedGameThreads)
+	{
+		if (thread.second->joinable())
+		{
+			thread.second->join();
+			delete thread.second;
+		}
+	}
+
+	SceneManager::Terminate();
 	Renderer::Terminate();
 	TimeManager::Terminate();
+}
+
+void Engine::SpawnAndDetachGameThread()
+{
+	userGameThread = new std::thread(userGameThreadFunc);
+	userGameThread->detach();
+	spawnedGameThreads.insert(std::make_pair(userGameThreadFunc, userGameThread));
 }

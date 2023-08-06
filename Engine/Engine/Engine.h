@@ -2,6 +2,9 @@
 #define ENGINE_H
 
 #include <string>
+#include <mutex>
+#include <thread>
+#include <unordered_map>
 
 class Engine
 {
@@ -41,6 +44,8 @@ public:
 	// Get the version of the game that is currently running.
 	static const Version& GetGameVersion();
 
+	static void SetGameThreadFunc(void(*newGameThreadFunc)());
+
 private:
 
 	Engine() = delete;
@@ -57,6 +62,8 @@ private:
 
 	Engine& operator=(Engine&&) = delete;
 
+	void SpawnAndDetachGameThread();
+
 	// The single instance of the Engine class.
 	static Engine* instance;
 
@@ -68,6 +75,12 @@ private:
 
 	// The version of the engine.
 	const Version engineVersion;
+
+	void(*userGameThreadFunc)();
+
+	std::thread* userGameThread = nullptr;
+
+	std::unordered_map<void(*)(), std::thread*> spawnedGameThreads;
 };
 
 #endif // ENGINE_H

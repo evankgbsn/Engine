@@ -14,7 +14,10 @@ public:
 
 	Entity();
 
-	~Entity();
+	virtual ~Entity();
+
+	template<typename T>
+	T* GetComponent(Component::Type componentType) const;
 
 	void AddComponent(const Component::Type& type, Component*);
 
@@ -46,3 +49,17 @@ private:
 };
 
 #endif // Entity_H
+
+template<typename T>
+inline T* Entity::GetComponent(Component::Type componentType) const
+{
+	for (Component* component : components)
+	{
+		if (component->GetType() == componentType)
+		{
+			return static_cast<T*>(component);
+		}
+	}
+
+	return nullptr;
+}

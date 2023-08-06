@@ -38,6 +38,8 @@ public:
 	// Update one frame in the engine.
 	static void Start();
 
+	static bool Operating();
+
 	// Get the name of the game that is currently running.
 	static const std::string& GetGameName();
 
@@ -66,6 +68,8 @@ private:
 
 	// The single instance of the Engine class.
 	static Engine* instance;
+
+	bool shouldUpdate = true;
 
 	// The name of the game that the engine is currently running.
 	const std::string& gameName;

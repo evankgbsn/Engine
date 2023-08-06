@@ -39,17 +39,29 @@ void Engine::Terminate()
 
 void Engine::Start()
 {
-	Window& mainWindow = WindowManager::CreateWindow(1920, 1080, "MainWindow");
-	mainWindow.Initialize();
-	bool shouldUpdate = true;
-
-	instance->SpawnAndDetachGameThread();
-
-	while (shouldUpdate)
+	if (instance != nullptr)
 	{
-		TimeManager::RecordUpdateTime();
-		shouldUpdate = Renderer::Update();
-	};
+		Window& mainWindow = WindowManager::CreateWindow(1920, 1080, "MainWindow");
+		mainWindow.Initialize();
+
+		instance->SpawnAndDetachGameThread();
+
+		while (instance->shouldUpdate)
+		{
+			TimeManager::RecordUpdateTime();
+			instance->shouldUpdate = Renderer::Update();
+		};
+	}
+}
+
+bool Engine::Operating()
+{
+	if (instance != nullptr)
+	{
+		return instance->shouldUpdate;
+	}
+
+	return false;
 }
 
 const std::string& Engine::GetGameName()
@@ -106,11 +118,9 @@ Engine::~Engine()
 {
 	for (std::pair<void(* const)(), std::thread*>& thread : spawnedGameThreads)
 	{
-		if (thread.second->joinable())
-		{
+		if(thread.second->joinable())
 			thread.second->join();
-			delete thread.second;
-		}
+		delete thread.second;
 	}
 
 	SceneManager::Terminate();

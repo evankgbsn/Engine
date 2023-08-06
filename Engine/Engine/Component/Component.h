@@ -12,12 +12,13 @@ public:
 
 	enum class Type
 	{
-		VOID
+		VOID,
+		TRANSFORM
 	};
 
-	Component();
+	Component(Type type = Type::VOID);
 
-	~Component();
+	virtual ~Component();
 
 	Type GetType() const;
 
@@ -38,6 +39,8 @@ protected:
 	unsigned long componentId;
 
 private:
+
+	Component() = delete;
 	
 	Type componentType;
 };

@@ -4,9 +4,9 @@ std::mutex Component::componentIdIterativeMutex = std::mutex();
 
 unsigned long Component::componentIdIterative = 1;
 
-Component::Component() :
+Component::Component(Type type) :
 	componentId(0),
-	componentType(Type::VOID)
+	componentType(type)
 {
 	std::lock_guard<std::mutex> guard(componentIdIterativeMutex);
 	componentId = componentIdIterative++;

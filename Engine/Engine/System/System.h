@@ -12,11 +12,11 @@ public:
 	
 	System(const Component::Type& systemComponentType);
 
-	~System();
+	virtual ~System();
 
 protected:
 
-	System() = default;
+	System() = delete;
 
 	template<typename T>
 	T* const CreateComponent(std::vector<T>& inComponentsVector);

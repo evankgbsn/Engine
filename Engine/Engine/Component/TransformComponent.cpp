@@ -1,6 +1,7 @@
 #include "TransformComponent.h"
 
 TransformComponent::TransformComponent() :
+	Component(Type::TRANSFORM),
 	rotation(1.0f),
 	transform(1.0f)
 {

@@ -38,7 +38,7 @@ Scene* SceneManager::CreateScene(const std::string& name)
 	{
 		if (instance->scenes.find(name) == instance->scenes.end())
 		{
-			instance->scenes.insert(std::make_pair(name, new Scene()));
+			return instance->scenes[name] = new Scene();
 		}
 		else
 		{

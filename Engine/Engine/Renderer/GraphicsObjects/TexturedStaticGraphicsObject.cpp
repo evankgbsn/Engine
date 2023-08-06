@@ -3,21 +3,30 @@
 #include "../Memory/UniformBuffer.h"
 #include "../Cameras/CameraManager.h"
 #include "../Images/Texture.h"
+#include "../Lights/LightManager.h"
+#include "../Lights/DirectionalLight.h"
 
 void TexturedStaticGraphicsObject::Update()
 {
 	const Camera& cam = CameraManager::GetCamera("MainCamera");
 
-	mvp->view = cam.GetView();
-	mvp->projection = cam.GetProjection();
-	mvp->projection[1][1] *= -1;
+	mvp.view = cam.GetView();
+	mvp.projection = cam.GetProjection();
+	mvp.projection[1][1] *= -1;
+
+	DirectionalLight* dirLight = LightManager::GetDirectionalLight("MainDirLight");
+
+	light.color = glm::vec4(dirLight->GetColor(), 1.0f);
+	light.direction = glm::vec4(dirLight->GetDirection(), 0.0f);
+	light.ambient = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
 
 	uniformBuffers[0]->SetData(&mvp);
+	uniformBuffers[1]->SetData(&light);
 }
 
 void TexturedStaticGraphicsObject::Translate(const glm::vec3& translation)
 {
-	mvp->model = glm::translate(mvp->model, translation);
+	mvp.model = glm::translate(mvp.model, translation);
 }
 
 void TexturedStaticGraphicsObject::Scale(const glm::vec3&)
@@ -68,16 +77,14 @@ void TexturedStaticGraphicsObject::CreateUniformBuffers()
 TexturedStaticGraphicsObject::TexturedStaticGraphicsObject(Model* const m, Texture* const tex) :
 	GraphicsObject(m),
 	texture(tex),
-	mvp(new MVPUniformBuffer()),
-	light(new LightUniformBuffer())
+	mvp(),
+	light()
 {
-	mvp->model = glm::mat4(1.0f);
+	mvp.model = glm::mat4(1.0f);
 	shaderName = "TexturedStatic";
 	InitializeDescriptorSets();
 }
 
 TexturedStaticGraphicsObject::~TexturedStaticGraphicsObject()
 {
-	delete mvp;
-	delete light;
 }

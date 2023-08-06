@@ -15,7 +15,6 @@ static HeapProfiling heapProfiling;
 
 void Game()
 {
-	while (true);
 	return;
 }
 

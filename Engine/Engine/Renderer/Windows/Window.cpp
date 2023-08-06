@@ -157,30 +157,35 @@ void Window::Initialize()
 	Model* ballModel = ModelManager::LoadModel("Ball", "../Engine/Engine/Renderer/Model/NewBall.gltf");
 
 	Texture* humanModelTexture = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Human.png", "Human");
+	Model* human = ModelManager::LoadModel("Human", "../Engine/Engine/Renderer/Model/Human.gltf");
+
+
 	Model* cube = ModelManager::LoadModel("Cube", "../Engine/Engine/Renderer/Model/Cube.gltf");
 
-	const float translationScalar = 7.0f;
+	GraphicsObjectManager::CreateTexturedStaticGraphicsObject(cruiserModel, cruiserTexture);
 
-	srand(static_cast<unsigned int>(std::chrono::high_resolution_clock::now().time_since_epoch().count()));
-	unsigned int clipNum = 0;
-	unsigned int womanTextureNum;
-	for (unsigned int i = 0; i < 10; i++)
-	{
-		for (unsigned int j = 0; j < 10; j++)
-		{
-			for (unsigned int k = 0; k < 10; k++)
-			{
-				if (clipNum > 9)
-					clipNum = 0;
-
-				womanTextureNum = rand() % 5;
-				TexturedAnimatedGraphicsObject* ta = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), vikingRoomTexture);
-				ta->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));
-				ta->SetClip(0);
-				ta->SetAnimationSpeed(2.f);
-			}
-		}
-	}
+	//const float translationScalar = 7.0f;
+	//
+	//srand(static_cast<unsigned int>(std::chrono::high_resolution_clock::now().time_since_epoch().count()));
+	//unsigned int clipNum = 0;
+	//unsigned int womanTextureNum;
+	//for (unsigned int i = 0; i < 10; i++)
+	//{
+	//	for (unsigned int j = 0; j < 10; j++)
+	//	{
+	//		for (unsigned int k = 0; k < 10; k++)
+	//		{
+	//			if (clipNum > 9)
+	//				clipNum = 0;
+	//
+	//			womanTextureNum = rand() % 5;
+	//			TexturedAnimatedGraphicsObject* ta = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), vikingRoomTexture);
+	//			ta->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));
+	//			ta->SetClip(0);
+	//			ta->SetAnimationSpeed(2.f);
+	//		}
+	//	}
+	//}
 
 	//GraphicsObjectManager::CreateGoochGraphicsObject(cruiserModel, womanTexture);
 	//GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(cruiserModelAnim, cruiserTexture);

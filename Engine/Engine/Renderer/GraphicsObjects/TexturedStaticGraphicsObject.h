@@ -53,17 +53,18 @@ protected:
 
 	struct LightUniformBuffer
 	{
-		glm::vec3 direction;
-		glm::vec3 color;
+		glm::vec4 ambient;
+		glm::vec4 direction;
+		glm::vec4 color;
 	};
 
 	virtual void CreateTextures() override;
 
 	virtual void CreateUniformBuffers() override;
 
-	MVPUniformBuffer* mvp;
+	MVPUniformBuffer mvp;
 
-	LightUniformBuffer* light;
+	LightUniformBuffer light;
 
 	Texture* texture;
 

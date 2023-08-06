@@ -75,4 +75,8 @@ LightManager::LightManager() :
 
 LightManager::~LightManager()
 {
+	for (auto& directionalLight : directionalLights)
+	{
+		delete directionalLight.second;
+	}
 }

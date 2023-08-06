@@ -23,7 +23,7 @@ public:
 
 	GraphicsObject(Model* const model);
 
-	~GraphicsObject();
+	virtual ~GraphicsObject();
 
 	GraphicsObject(const GraphicsObject&) = delete;
 

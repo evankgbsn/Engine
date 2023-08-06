@@ -26,6 +26,7 @@ TexturedAnimatedGraphicsObject::TexturedAnimatedGraphicsObject(Model* const m, T
 
 TexturedAnimatedGraphicsObject::~TexturedAnimatedGraphicsObject()
 {
+	delete animation;
 }
 
 void TexturedAnimatedGraphicsObject::CreateTextures()

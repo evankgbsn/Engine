@@ -54,5 +54,7 @@ void Texture::LoadTexture()
 	StagingBuffer stagingBuffer(width * height * 4);
 	stagingBuffer.Map(pixels, stagingBuffer.Size());
 
+	free(pixels);
+
 	image = new Image(width, height, stagingBuffer, binding);
 }

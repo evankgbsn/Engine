@@ -168,6 +168,8 @@ void ShaderPipelineStage::CreateDescriptorSetLayout()
 				}
 			}
 		}
+
+		spvReflectDestroyShaderModule(&spvShaderModule);
 	};
 
 	addLayoutBindings(VK_SHADER_STAGE_VERTEX_BIT);

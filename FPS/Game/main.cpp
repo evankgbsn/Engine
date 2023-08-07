@@ -9,6 +9,7 @@
 #include "Renderer/Model/ModelManager.h"
 #include "Renderer/GraphicsObjects/GraphicsObjectManager.h"
 #include "Renderer/GraphicsObjects/TexturedAnimatedGraphicsObject.h"
+#include "Time/TimeManager.h"
 
 #include <cstdio>
 
@@ -92,9 +93,12 @@ void StressTest()
 
 				TexturedAnimatedGraphicsObject* taGo = static_cast<TexturedAnimatedGraphicsObject*>(ta);
 
-				taGo->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));
-				taGo->SetClip(0);
-				taGo->SetAnimationSpeed(2.f);
+				if (taGo != nullptr)
+				{
+					taGo->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));
+					taGo->SetClip(0);
+					taGo->SetAnimationSpeed(2.f);
+				}
 			}
 		}
 	}
@@ -116,8 +120,8 @@ void Game()
 	//TODO: Engine thread GraphicsObject Creation Commands.
 	GraphicsObject* ta0 = nullptr;
 	GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"), &ta0);
-	GraphicsObject* ta1 = nullptr;
-	GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"), &ta1);
+	//GraphicsObject* ta1 = nullptr;
+	//GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"), &ta1);
 
 	//Scene* main = SceneManager::CreateScene("Main");
 	//

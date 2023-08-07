@@ -7,7 +7,7 @@
 
 GameObject::GameObject()
 {
-	graphicsObject = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"));
+	GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"), &graphicsObject);
 }
 
 GameObject::~GameObject()

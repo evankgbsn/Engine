@@ -4,7 +4,7 @@
 #include "Entity.h"
 
 class Component;
-class TexturedAnimatedGraphicsObject;
+class GraphicsObject;
 
 class GameObject : public Entity
 {
@@ -32,7 +32,7 @@ private:
 
 	GameObject& operator=(GameObject&&) = delete;
 
-	TexturedAnimatedGraphicsObject* graphicsObject;
+	GraphicsObject* graphicsObject;
 };
 
 #endif // GameObject_H

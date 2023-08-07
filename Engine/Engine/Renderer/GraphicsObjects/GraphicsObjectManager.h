@@ -5,6 +5,8 @@
 #include <unordered_map>
 #include <string>
 #include <vulkan/vulkan.h>
+#include <mutex>
+#include <functional>
 #include <glm/glm.hpp>
 
 class GraphicsObject;
@@ -28,11 +30,11 @@ public:
 
 	static void Terminate();
 
-	static TexturedStaticGraphicsObject* const CreateTexturedStaticGraphicsObject(Model* const model, Texture* const texture);
+	static void CreateTexturedStaticGraphicsObject(Model* const model, Texture* const texture, GraphicsObject** outGraphicsObject);
 
-	static TexturedAnimatedGraphicsObject* const CreateTexturedAnimatedGraphicsObject(Model* const model, Texture* const texture);
+	static void CreateTexturedAnimatedGraphicsObject(Model* const model, Texture* const texture, GraphicsObject** outGraphicsObject);
 
-	static GoochGraphicsObject* const CreateGoochGraphicsObject(Model* const model, Texture* const texture);
+	static void CreateGoochGraphicsObject(Model* const model, Texture* const texture, GraphicsObject** outGraphicsObject);
 
 	static const std::vector<GraphicsObject*>& GetTexturedStaticGraphicsObjets();
 
@@ -64,7 +66,11 @@ private:
 
 	void LoadShaders();
 
+	void CreateQueuedGraphicsObjects();
+
 	static GraphicsObjectManager* instance;
+
+	std::mutex drawMutex;
 
 	std::vector<GraphicsObject*> staticGraphicsObjects;
 
@@ -79,6 +85,8 @@ private:
 	std::vector<Shader*> shaders;
 
 	static const std::string shaderDirectoryName;
+
+	std::list<std::function<void()>> graphicsObjectCreateQueue;
 };
 
 #endif // GRAPHICSOBJECTMANAGER_H

@@ -15,7 +15,7 @@ namespace GLTFHelpers
 {
 	Math::Transform GetLocalTransform(cgltf_node& n);
 	
-	int GetNodeIndex(cgltf_node* const target, cgltf_node* const allNodes, unsigned int numNodes);
+	int GetNodeIndex(cgltf_node* const target, cgltf_node* const allNodes, unsigned long long numNodes);
 	
 	void GetScalarValues(std::vector<float>& out, unsigned int compCount, const cgltf_accessor& inAccessor);
 
@@ -445,7 +445,7 @@ Math::Transform GLTFHelpers::GetLocalTransform(cgltf_node& n)
 	return result;
 }
 
-int GLTFHelpers::GetNodeIndex(cgltf_node* const target, cgltf_node* const allNodes, unsigned int numNodes)
+int GLTFHelpers::GetNodeIndex(cgltf_node* const target, cgltf_node* const allNodes, unsigned long long numNodes)
 {
 	if (target == nullptr)
 	{

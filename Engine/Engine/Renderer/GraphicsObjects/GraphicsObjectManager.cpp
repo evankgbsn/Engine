@@ -53,25 +53,6 @@ void GraphicsObjectManager::Terminate()
 	}
 }
 
-TexturedStaticGraphicsObject* const GraphicsObjectManager::CreateTexturedStaticGraphicsObject(Model* const model, Texture* const texture)
-{
-	TexturedStaticGraphicsObject* newGraphicsObject = nullptr;
-
-	if (instance == nullptr)
-	{
-		Logger::Log(std::string("Calling GraphicsObjectManager::CreateStaticGraphicsObject() before GraphicsObjectManager::Initialize()."), Logger::Category::Warning);
-		return nullptr;
-	}
-
-	if (model != nullptr && texture != nullptr)
-	{
-		newGraphicsObject = new TexturedStaticGraphicsObject(model, texture);
-		instance->staticGraphicsObjects.push_back(newGraphicsObject);
-	}
-
-	return newGraphicsObject;
-}
-
 void GraphicsObjectManager::CreateDescriptorPools()
 {
 	Window* const mainWindow = WindowManager::GetWindow("MainWindow");
@@ -165,42 +146,91 @@ void GraphicsObjectManager::LoadShaders()
 	}
 }
 
-TexturedAnimatedGraphicsObject* const GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(Model* const model, Texture* const texture)
+void GraphicsObjectManager::CreateQueuedGraphicsObjects()
 {
-	TexturedAnimatedGraphicsObject* newGraphicsObject = nullptr;
-
-	if (instance == nullptr)
+	for (const auto& graphicsCreateFunction : graphicsObjectCreateQueue)
 	{
-		Logger::Log(std::string("Calling GraphicsObjectManager::CreateAnimatedGraphicsObject() before GraphicsObjectManager::Initialize()."), Logger::Category::Warning);
-		return nullptr;
+		graphicsCreateFunction();
 	}
 
-	if (model != nullptr && texture != nullptr)
-	{
-		newGraphicsObject = new TexturedAnimatedGraphicsObject(model, texture);
-		instance->animatedGraphicsObjects.push_back(newGraphicsObject);
-	}
-
-	return newGraphicsObject;
+	graphicsObjectCreateQueue.clear();
 }
 
-GoochGraphicsObject* const GraphicsObjectManager::CreateGoochGraphicsObject(Model* const model, Texture* const texture)
+void GraphicsObjectManager::CreateTexturedStaticGraphicsObject(Model* const model, Texture* const texture, GraphicsObject** outGraphicsObject)
 {
-	GoochGraphicsObject* newGraphicsObject = nullptr;
-
 	if (instance == nullptr)
 	{
 		Logger::Log(std::string("Calling GraphicsObjectManager::CreateStaticGraphicsObject() before GraphicsObjectManager::Initialize()."), Logger::Category::Warning);
-		return nullptr;
+		return;
 	}
 
-	if (model != nullptr)
+	std::function<void()> create = [model, texture, outGraphicsObject]()
 	{
-		newGraphicsObject = new GoochGraphicsObject(model, texture);
-		instance->goochGraphicsObjects.push_back(newGraphicsObject);
+		TexturedStaticGraphicsObject* newGraphicsObject = nullptr;
+		std::lock_guard<std::mutex> guard(instance->drawMutex);
+
+		if (model != nullptr && texture != nullptr)
+		{
+			newGraphicsObject = new TexturedStaticGraphicsObject(model, texture);
+			instance->staticGraphicsObjects.push_back(newGraphicsObject);
+		}
+
+		*outGraphicsObject = newGraphicsObject;
+	};
+
+	instance->graphicsObjectCreateQueue.push_back(create);
+}
+
+void GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(Model* const model, Texture* const texture, GraphicsObject** outGraphicsObject)
+{
+	if (instance == nullptr)
+	{
+		Logger::Log(std::string("Calling GraphicsObjectManager::CreateAnimatedGraphicsObject() before GraphicsObjectManager::Initialize()."), Logger::Category::Warning);
+		return;
 	}
 
-	return newGraphicsObject;
+	std::function<void()> create = [model, texture, outGraphicsObject]()
+	{
+		std::lock_guard<std::mutex> guard(instance->drawMutex);
+
+		TexturedAnimatedGraphicsObject* newGraphicsObject = nullptr;
+		
+		if (model != nullptr && texture != nullptr)
+		{
+			newGraphicsObject = new TexturedAnimatedGraphicsObject(model, texture);
+			instance->animatedGraphicsObjects.push_back(newGraphicsObject);
+		}
+
+		*outGraphicsObject = newGraphicsObject;
+	};
+
+	instance->graphicsObjectCreateQueue.push_back(create);
+}
+
+void GraphicsObjectManager::CreateGoochGraphicsObject(Model* const model, Texture* const texture, GraphicsObject** outGraphicsObject)
+{
+	if (instance == nullptr)
+	{
+		Logger::Log(std::string("Calling GraphicsObjectManager::CreateStaticGraphicsObject() before GraphicsObjectManager::Initialize()."), Logger::Category::Warning);
+		return;
+	}
+
+	std::function<void()> create = [model, texture, outGraphicsObject]()
+	{
+		std::lock_guard<std::mutex> guard(instance->drawMutex);
+
+		GoochGraphicsObject* newGraphicsObject = nullptr;
+
+		if (model != nullptr)
+		{
+			newGraphicsObject = new GoochGraphicsObject(model, texture);
+			instance->goochGraphicsObjects.push_back(newGraphicsObject);
+		}
+
+		*outGraphicsObject = newGraphicsObject;
+	};
+
+	instance->graphicsObjectCreateQueue.push_back(create);
 }
 
 const std::vector<GraphicsObject*>& GraphicsObjectManager::GetTexturedStaticGraphicsObjets()
@@ -229,6 +259,15 @@ const std::vector<GraphicsObject*>& GraphicsObjectManager::GetTexturedAnimatedGr
 
 void GraphicsObjectManager::DrawObjects(VkCommandBuffer& buffer, unsigned int imageIndex)
 {
+	if (instance == nullptr)
+	{
+		return;
+	}
+
+	instance->CreateQueuedGraphicsObjects();
+
+	std::lock_guard<std::mutex> guard(instance->drawMutex);
+
 	std::for_each(std::execution::par, instance->animatedGraphicsObjects.begin(), instance->animatedGraphicsObjects.end(),
 		[](GraphicsObject* obj)
 		{
@@ -301,7 +340,8 @@ GraphicsObjectManager::GraphicsObjectManager(const Window& w) :
 	staticGraphicsObjects(std::vector<GraphicsObject*>()),
 	animatedGraphicsObjects(std::vector<GraphicsObject*>()),
 	goochGraphicsObjects(std::vector<GraphicsObject*>()),
-	window(w)
+	window(w),
+	drawMutex()
 {
 	DescriptorSetManager::Initialize();
 	CreateDescriptorPools();

@@ -25,7 +25,7 @@ void Animation::Update(glm::mat4* posePalette)
 			posePalette[i] = bakedAnimation.GetPoseAtIndex(index)[i];
 		}
 
-		++index += speed;
+		++index += static_cast<unsigned int>(speed);
 		if (index >= bakedAnimation.GetFrameCount())
 		{
 			index = 0;

@@ -57,7 +57,7 @@ void LoadAssets()
 	ModelManager::LoadModel("Human", "../Engine/Engine/Renderer/Model/Human.gltf");
 	ModelManager::LoadModel("Cube", "../Engine/Engine/Renderer/Model/Cube.gltf");
 
-	StressTest();
+	//StressTest();
 }
 
 void StressTest()
@@ -85,10 +85,16 @@ void StressTest()
 					clipNum = 0;
 	
 				womanTextureNum = rand() % 5;
-				TexturedAnimatedGraphicsObject* ta = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"));
-				ta->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));
-				ta->SetClip(0);
-				ta->SetAnimationSpeed(2.f);
+				GraphicsObject* ta = nullptr;
+				GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"), &ta);
+
+				while (ta == nullptr);
+
+				TexturedAnimatedGraphicsObject* taGo = static_cast<TexturedAnimatedGraphicsObject*>(ta);
+
+				taGo->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));
+				taGo->SetClip(0);
+				taGo->SetAnimationSpeed(2.f);
 			}
 		}
 	}
@@ -99,7 +105,7 @@ void StressTest()
 
 void Game()
 {
-	//StressTest();
+	StressTest();
 
 	//float translation = 3.0f;
 	//for (unsigned int i = 0; i < 10; i++)
@@ -108,8 +114,10 @@ void Game()
 	//}
 	
 	//TODO: Engine thread GraphicsObject Creation Commands.
-	TexturedAnimatedGraphicsObject* ta0 = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"));
-	//TexturedAnimatedGraphicsObject* ta1 = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"));
+	GraphicsObject* ta0 = nullptr;
+	GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"), &ta0);
+	GraphicsObject* ta1 = nullptr;
+	GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"), &ta1);
 
 	//Scene* main = SceneManager::CreateScene("Main");
 	//

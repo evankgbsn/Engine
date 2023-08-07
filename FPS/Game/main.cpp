@@ -87,7 +87,7 @@ void StressTest()
 	
 				womanTextureNum = rand() % 5;
 				GraphicsObject* ta = nullptr;
-				GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"), &ta);
+				GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), TextureManager::GetTexture("Woman3"), &ta);
 
 				while (ta == nullptr);
 

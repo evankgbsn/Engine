@@ -2,6 +2,8 @@
 #define Component_H
 
 #include <mutex>
+#include <functional>
+#include <list>
 
 /**
 	Components do not manage themselves.
@@ -22,7 +24,11 @@ public:
 
 	Type GetType() const;
 
+	void Operate();
+
 protected:
+
+	void QueueCommand(const std::function<void()>& command);
 
 	Component(const Component&) = default;
 
@@ -37,6 +43,10 @@ protected:
 	static unsigned long componentIdIterative;
 
 	unsigned long componentId;
+
+	std::mutex commandQueueMutex;
+
+	std::list<std::function<void()>> commands;
 
 private:
 

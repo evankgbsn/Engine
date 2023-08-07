@@ -37,6 +37,7 @@ void Game()
 	while (Engine::Operating());
 
 	delete gameObject;
+
 }
 
 int main(int argc, const char** argv)

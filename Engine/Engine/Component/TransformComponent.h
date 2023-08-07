@@ -13,11 +13,11 @@ public:
 
 	~TransformComponent();
 
-	TransformComponent(const TransformComponent&) = default;
+	TransformComponent(const TransformComponent& other) : Component(Component::Type::VOID), rotation(other.rotation), transform(other.transform) {};
 
 	TransformComponent& operator=(const TransformComponent&) = default;
 
-	TransformComponent(TransformComponent&&) = default;
+	TransformComponent(TransformComponent&& other) : Component(Component::Type::VOID), rotation(other.rotation), transform(other.transform) {};
 
 	TransformComponent& operator=(TransformComponent&&) = default;
 

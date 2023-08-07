@@ -14,6 +14,8 @@ public:
 
 	virtual ~System();
 
+	void Operate();
+
 protected:
 
 	System() = delete;

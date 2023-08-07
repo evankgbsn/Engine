@@ -20,6 +20,14 @@ System::~System()
 {
 }
 
+void System::Operate()
+{
+	for (const auto& component : components)
+	{
+		component->Operate();
+	}
+}
+
 Component** const System::CreateComponent()
 {
 	std::lock_guard<std::mutex> guard(systemCreateComponentMutex);

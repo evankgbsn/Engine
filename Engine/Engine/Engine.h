@@ -48,6 +48,8 @@ public:
 
 	static void SetGameThreadFunc(void(*newGameThreadFunc)());
 
+	static void SetLoadAssetsFunc(void(*newLoadAssetsFunc)());
+
 private:
 
 	Engine() = delete;
@@ -66,6 +68,8 @@ private:
 
 	void SpawnAndDetachGameThread();
 
+	void LoadAssets();
+
 	// The single instance of the Engine class.
 	static Engine* instance;
 
@@ -80,11 +84,13 @@ private:
 	// The version of the engine.
 	const Version engineVersion;
 
-	void(*userGameThreadFunc)();
+	void(*userGameThreadFunc)() = nullptr;
 
 	std::thread* userGameThread = nullptr;
 
 	std::unordered_map<void(*)(), std::thread*> spawnedGameThreads;
+
+	void(*loadAssetsFunc)() = nullptr;
 };
 
 #endif // ENGINE_H

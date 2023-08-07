@@ -44,6 +44,7 @@ void Engine::Start()
 		Window& mainWindow = WindowManager::CreateWindow(1920, 1080, "MainWindow");
 		mainWindow.Initialize();
 
+		instance->LoadAssets();
 		instance->SpawnAndDetachGameThread();
 
 		while (instance->shouldUpdate)
@@ -104,6 +105,14 @@ void Engine::SetGameThreadFunc(void(*newGameThreadFunc)())
 	}
 }
 
+void Engine::SetLoadAssetsFunc(void(*newLoadAssetsFunc)())
+{
+	if (instance != nullptr)
+	{
+		instance->loadAssetsFunc = newLoadAssetsFunc;
+	}
+}
+
 Engine::Engine(const std::string& gn, const Version& gv) :
 	gameName(gn),
 	gameVersion(gv),
@@ -130,7 +139,15 @@ Engine::~Engine()
 
 void Engine::SpawnAndDetachGameThread()
 {
-	userGameThread = new std::thread(userGameThreadFunc);
-	userGameThread->detach();
-	spawnedGameThreads.insert(std::make_pair(userGameThreadFunc, userGameThread));
+	if (userGameThreadFunc != nullptr)
+	{
+		userGameThread = new std::thread(userGameThreadFunc);
+		userGameThread->detach();
+		spawnedGameThreads.insert(std::make_pair(userGameThreadFunc, userGameThread));
+	}
+}
+
+void Engine::LoadAssets()
+{
+	loadAssetsFunc();
 }

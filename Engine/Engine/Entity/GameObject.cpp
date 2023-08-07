@@ -1,7 +1,13 @@
 #include "GameObject.h"
 
+#include "../Renderer/Model/ModelManager.h"
+#include "../Renderer/Images/TextureManager.h"
+#include "../Renderer/GraphicsObjects/GraphicsObjectManager.h"
+#include "../Renderer/GraphicsObjects/TexturedAnimatedGraphicsObject.h"
+
 GameObject::GameObject()
 {
+	graphicsObject = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"));
 }
 
 GameObject::~GameObject()
@@ -12,6 +18,10 @@ GameObject* const GameObject::Create(Component* optionalComponents[], unsigned i
 {
 	//Memory System?
 	return new GameObject();
+}
+
+void GameObject::Update()
+{
 }
 
 GameObject::GameObject(Component* optionalComponents[], unsigned int componentCount)

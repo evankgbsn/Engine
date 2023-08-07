@@ -23,6 +23,8 @@ public:
 
 	void RemoveComponent(Component* componentToRemove);
 
+	virtual void Update() = 0;
+
 protected:
 
 	static std::mutex entityIdIterativeMutex;

@@ -4,6 +4,7 @@
 #include "Entity.h"
 
 class Component;
+class TexturedAnimatedGraphicsObject;
 
 class GameObject : public Entity
 {
@@ -14,6 +15,8 @@ public:
 	~GameObject();
 
 	static GameObject* const Create(Component* optionalComponents[] = {}, unsigned int componentCount = 0);
+
+	virtual void Update() override;
 
 protected:
 
@@ -28,6 +31,8 @@ private:
 	GameObject(GameObject&&) = delete;
 
 	GameObject& operator=(GameObject&&) = delete;
+
+	TexturedAnimatedGraphicsObject* graphicsObject;
 };
 
 #endif // GameObject_H

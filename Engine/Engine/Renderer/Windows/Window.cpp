@@ -137,58 +137,6 @@ void Window::Initialize()
 
 	CreateFramebuffers();
 	CreateSyncObjects();
-
-
-	Texture* womanTexture = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Woman.png", "Woman");
-	Texture* womanTexture1 = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Woman1.png", "Woman1");
-	Texture* womanTexture2 = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Woman2.png", "Woman2");
-	Texture* womanTexture3 = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Woman3.png", "Woman3");
-
-	Texture* womanTextures[5] = { womanTexture, womanTexture1, womanTexture2, womanTexture3, womanTexture};
-
-	Texture* vikingRoomTexture = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/VikingRoom.png", "VikingRoom");
-
-	Model* womanModel = ModelManager::LoadModel("Woman", "../Engine/Engine/Renderer/Model/Woman.gltf");
-	//Model* cube = ModelManager::LoadModel("Cube", "../Engine/Engine/Renderer/Model/Cube.gltf");
-
-	Texture* cruiserTexture = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Cruiser.png", "Cruiser");
-	Model* cruiserModel = ModelManager::LoadModel("Cruiser", "../Engine/Engine/Renderer/Model/Cruiser.gltf");
-	Model* cruiserModelAnim = ModelManager::LoadModel("CruiserAnim", "../Engine/Engine/Renderer/Model/CruiserAnim.gltf");
-	Model* ballModel = ModelManager::LoadModel("Ball", "../Engine/Engine/Renderer/Model/NewBall.gltf");
-
-	Texture* humanModelTexture = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/HumanStatic.png", "Human");
-	Model* human = ModelManager::LoadModel("Human", "../Engine/Engine/Renderer/Model/Human.gltf");
-
-
-	Model* cube = ModelManager::LoadModel("Cube", "../Engine/Engine/Renderer/Model/Cube.gltf");
-
-	GraphicsObjectManager::CreateTexturedStaticGraphicsObject(human, humanModelTexture);
-
-	//const float translationScalar = 7.0f;
-	//
-	//srand(static_cast<unsigned int>(std::chrono::high_resolution_clock::now().time_since_epoch().count()));
-	//unsigned int clipNum = 0;
-	//unsigned int womanTextureNum;
-	//for (unsigned int i = 0; i < 10; i++)
-	//{
-	//	for (unsigned int j = 0; j < 10; j++)
-	//	{
-	//		for (unsigned int k = 0; k < 10; k++)
-	//		{
-	//			if (clipNum > 9)
-	//				clipNum = 0;
-	//
-	//			womanTextureNum = rand() % 5;
-	//			TexturedAnimatedGraphicsObject* ta = GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), vikingRoomTexture);
-	//			ta->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));
-	//			ta->SetClip(0);
-	//			ta->SetAnimationSpeed(2.f);
-	//		}
-	//	}
-	//}
-
-	//GraphicsObjectManager::CreateGoochGraphicsObject(cruiserModel, womanTexture);
-	//GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(cruiserModelAnim, cruiserTexture);
 }
 
 bool Window::Update()

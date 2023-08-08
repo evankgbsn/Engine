@@ -58,7 +58,6 @@ void LoadAssets()
 	ModelManager::LoadModel("Human", "../Engine/Engine/Renderer/Model/Human.gltf");
 	ModelManager::LoadModel("Cube", "../Engine/Engine/Renderer/Model/Cube.gltf");
 
-	//StressTest();
 }
 
 void StressTest()
@@ -72,7 +71,6 @@ void StressTest()
 	};
 
 	const float translationScalar = 7.0f;
-	
 	srand(static_cast<unsigned int>(std::chrono::high_resolution_clock::now().time_since_epoch().count()));
 	unsigned int clipNum = 0;
 	unsigned int womanTextureNum;
@@ -134,8 +132,22 @@ void Game()
 	//gameObject->AddComponent(Component::Type::TRANSFORM, transformSystem->CreateComponent());
 	//
 	//TransformComponent* transformComponent = gameObject->GetComponent<TransformComponent>(Component::Type::TRANSFORM);
-	//
-	while (Engine::Operating());
-
-	//delete gameObject;
+	
+	float frame = TimeManager::SecondsSinceStart();
+	while (Engine::Operating())
+	{
+		if ((TimeManager::SecondsSinceStart() - frame) > 0.0041666f)
+		{
+			if (ta0 != nullptr)
+			{
+				TexturedAnimatedGraphicsObject* taGo = static_cast<TexturedAnimatedGraphicsObject*>(ta0);
+				taGo->Translate(glm::vec3(0.01f, 0.0f, 0.0f));
+				glm::vec3 translation = taGo->GetTranslation();
+				translation += 1.0f;
+				translation -= 1.0f;
+			}
+			frame = TimeManager::SecondsSinceStart();
+		}
+		
+	};
 }

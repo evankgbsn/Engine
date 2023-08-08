@@ -24,12 +24,12 @@ Component::Type Component::GetType() const
 
 void Component::Operate()
 {
-	std::lock_guard<std::mutex> guard(commandQueueMutex);
 	for (const auto& command : commands)
 	{
 		command();
 	}
 
+	std::lock_guard<std::mutex> guard(commandQueueMutex);
 	commands.clear();
 }
 

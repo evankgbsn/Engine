@@ -44,6 +44,8 @@ public:
 
 	static const ShaderPipelineStage* const GetShaderPipelineStage(const std::string& shaderName);
 
+	static bool Operating();
+
 private:
 
 	GraphicsObjectManager() = delete;
@@ -69,6 +71,8 @@ private:
 	void CreateQueuedGraphicsObjects();
 
 	static GraphicsObjectManager* instance;
+
+	static bool shouldUpdate;
 
 	std::mutex drawMutex;
 

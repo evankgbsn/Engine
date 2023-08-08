@@ -1,6 +1,7 @@
 #include "TransformComponent.h"
 
 #include <functional>
+#include <glm/gtc/matrix_access.hpp>
 
 TransformComponent::TransformComponent() :
 	Component(Type::TRANSFORM),
@@ -101,17 +102,17 @@ void TransformComponent::Scale(const glm::vec3& scale)
 	QueueCommand(function);
 }
 
-const glm::mat4& TransformComponent::GetTransform() const
+glm::mat4 TransformComponent::GetTransform() const
 {
 	return transform;
 }
 
-const glm::vec4& TransformComponent::GetTranslation() const
+glm::vec4 TransformComponent::GetTranslation() const
 {
 	return transform[3];
 }
 
-const glm::mat4& TransformComponent::GetRotation() const
+glm::mat4 TransformComponent::GetRotation() const
 {
 	return rotation;
 }

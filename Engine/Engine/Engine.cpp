@@ -46,11 +46,16 @@ void Engine::Start()
 
 		instance->LoadAssets();
 		instance->SpawnAndDetachGameThread();
-
+		
+		float frame = TimeManager::SecondsSinceStart();
 		while (instance->shouldUpdate)
 		{
-			TimeManager::RecordUpdateTime();
-			instance->shouldUpdate = Renderer::Update();
+			if ((TimeManager::SecondsSinceStart() - frame) > 0.0041666f)
+			{
+				TimeManager::RecordUpdateTime();
+				instance->shouldUpdate = Renderer::Update();
+				frame = TimeManager::SecondsSinceStart();
+			}
 		};
 	}
 }

@@ -26,6 +26,8 @@
 
 GraphicsObjectManager* GraphicsObjectManager::instance = nullptr;
 
+bool GraphicsObjectManager::shouldUpdate = false;
+
 const std::string GraphicsObjectManager::shaderDirectoryName = std::string("../Engine/Engine/Renderer/Pipeline/Shaders/spv/");
 
 void GraphicsObjectManager::Initialize(const Window& window)
@@ -336,6 +338,11 @@ const ShaderPipelineStage* const GraphicsObjectManager::GetShaderPipelineStage(c
 	}
 }
 
+bool GraphicsObjectManager::Operating()
+{
+	return shouldUpdate;
+}
+
 GraphicsObjectManager::GraphicsObjectManager(const Window& w) :
 	staticGraphicsObjects(std::vector<GraphicsObject*>()),
 	animatedGraphicsObjects(std::vector<GraphicsObject*>()),
@@ -345,10 +352,13 @@ GraphicsObjectManager::GraphicsObjectManager(const Window& w) :
 {
 	DescriptorSetManager::Initialize();
 	CreateDescriptorPools();
+	shouldUpdate = true;
 }
 
 GraphicsObjectManager::~GraphicsObjectManager()
 {
+	shouldUpdate = false;
+
 	for (GraphicsObject* graphicsObject : staticGraphicsObjects)
 	{
 		delete graphicsObject;
@@ -357,6 +367,7 @@ GraphicsObjectManager::~GraphicsObjectManager()
 	for (GraphicsObject* graphicsObject : animatedGraphicsObjects)
 	{
 		delete graphicsObject;
+		graphicsObject = nullptr;
 	}
 
 	for (GraphicsObject* graphicsObject : goochGraphicsObjects)

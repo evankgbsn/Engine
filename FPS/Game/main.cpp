@@ -107,7 +107,7 @@ void StressTest()
 
 void Game()
 {
-	StressTest();
+	//StressTest();
 
 	//float translation = 3.0f;
 	//for (unsigned int i = 0; i < 10; i++)
@@ -115,39 +115,47 @@ void Game()
 	//	ta->Translate(glm::vec3(i * translation, 0.0f, 0.0f));
 	//}
 	
-	//TODO: Engine thread GraphicsObject Creation Commands.
-	GraphicsObject* ta0 = nullptr;
-	GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"), &ta0);
+	//GraphicsObject* ta0 = nullptr;
+	//GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"), &ta0);
 	//GraphicsObject* ta1 = nullptr;
 	//GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"), &ta1);
 
-	//Scene* main = SceneManager::CreateScene("Main");
-	//
-	//TransformSystem* transformSystem = new TransformSystem();
-	//
-	//main->AddSystem(std::string("Transform"), transformSystem);
-	//
-	//GameObject* gameObject = GameObject::Create();
-	//
-	//gameObject->AddComponent(Component::Type::TRANSFORM, transformSystem->CreateComponent());
-	//
-	//TransformComponent* transformComponent = gameObject->GetComponent<TransformComponent>(Component::Type::TRANSFORM);
+	Scene* main = SceneManager::CreateScene("Main");
+	
+	TransformSystem* transformSystem = new TransformSystem();
+	
+	main->AddSystem(std::string("Transform"), transformSystem);
+	
+	GameObject* gameObject = GameObject::Create();
+	
+	gameObject->AddComponent(Component::Type::TRANSFORM, transformSystem->CreateComponent());
+	
+	TransformComponent* transformComponent = gameObject->GetComponent<TransformComponent>(Component::Type::TRANSFORM);
+
 	
 	float frame = TimeManager::SecondsSinceStart();
 	while (Engine::Operating())
 	{
 		if ((TimeManager::SecondsSinceStart() - frame) > 0.0041666f)
 		{
-			if (ta0 != nullptr)
-			{
-				TexturedAnimatedGraphicsObject* taGo = static_cast<TexturedAnimatedGraphicsObject*>(ta0);
-				taGo->Translate(glm::vec3(0.01f, 0.0f, 0.0f));
-				glm::vec3 translation = taGo->GetTranslation();
-				translation += 1.0f;
-				translation -= 1.0f;
-			}
+			transformSystem->Operate();
+			gameObject->Update();
+
+
+			//if (ta0 != nullptr)
+			//{
+			//	TexturedAnimatedGraphicsObject* taGo = static_cast<TexturedAnimatedGraphicsObject*>(ta0);
+			//	taGo->Translate(glm::vec3(0.01f, 0.0f, 0.0f));
+			//	glm::vec3 translation = taGo->GetTranslation();
+			//	translation += 1.0f;
+			//	translation -= 1.0f;
+			//}
 			frame = TimeManager::SecondsSinceStart();
 		}
 		
 	};
+
+	delete transformSystem;
+	delete gameObject;
+
 }

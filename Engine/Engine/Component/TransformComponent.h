@@ -13,11 +13,11 @@ public:
 
 	~TransformComponent();
 
-	TransformComponent(const TransformComponent& other) : Component(Component::Type::VOID), rotation(other.rotation), transform(other.transform) {};
+	TransformComponent(const TransformComponent& other) : Component(other.GetType()), rotation(other.rotation), transform(other.transform) {};
 
 	TransformComponent& operator=(const TransformComponent&) = default;
 
-	TransformComponent(TransformComponent&& other) : Component(Component::Type::VOID), rotation(other.rotation), transform(other.transform) {};
+	TransformComponent(TransformComponent&& other) : Component(other.GetType()), rotation(other.rotation), transform(other.transform) {};
 
 	TransformComponent& operator=(TransformComponent&&) = default;
 
@@ -33,11 +33,11 @@ public:
 
 	void Scale(const glm::vec3& scale);
 
-	const glm::mat4& GetTransform() const;
+	glm::mat4 GetTransform() const;
 
-	const glm::vec4& GetTranslation() const;
+	glm::vec4 GetTranslation() const;
 
-	const glm::mat4& GetRotation() const;
+	glm::mat4 GetRotation() const;
 
 	glm::vec3 GetScale() const;
 

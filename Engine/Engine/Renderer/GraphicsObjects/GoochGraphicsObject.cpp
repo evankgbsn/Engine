@@ -22,17 +22,17 @@ void GoochGraphicsObject::Rotate(const glm::vec3&)
 extern glm::vec3 vec3DefaultReturn;
 extern glm::mat4 mat4DefaultReturn;
 
-const glm::vec3& GoochGraphicsObject::GetTranslation() const
+glm::vec3 GoochGraphicsObject::GetTranslation() const
 {
 	return vec3DefaultReturn;
 }
 
-const glm::vec3& GoochGraphicsObject::GetScale() const
+glm::vec3 GoochGraphicsObject::GetScale() const
 {
 	return vec3DefaultReturn;
 }
 
-const glm::mat4& GoochGraphicsObject::GetRotation() const
+glm::mat4 GoochGraphicsObject::GetRotation() const
 {
 	return mat4DefaultReturn;
 }

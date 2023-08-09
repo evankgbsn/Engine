@@ -108,17 +108,17 @@ void TexturedAnimatedGraphicsObject::Rotate(const glm::vec3&)
 {
 }
 
-const glm::vec3& TexturedAnimatedGraphicsObject::GetTranslation() const
+glm::vec3 TexturedAnimatedGraphicsObject::GetTranslation() const
 {
 	return mvp.model[3];
 }
 
-const glm::vec3& TexturedAnimatedGraphicsObject::GetScale() const
+glm::vec3 TexturedAnimatedGraphicsObject::GetScale() const
 {
 	return glm::vec3(glm::length(mvp.model[0]), glm::length(mvp.model[1]), glm::length(mvp.model[2]));
 }
 
-const glm::mat4& TexturedAnimatedGraphicsObject::GetRotation() const
+glm::mat4 TexturedAnimatedGraphicsObject::GetRotation() const
 {
 	return glm::mat4(
 		glm::normalize(mvp.model[0]),

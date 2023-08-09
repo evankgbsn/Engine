@@ -40,17 +40,17 @@ void TexturedStaticGraphicsObject::Rotate(const glm::vec3&)
 glm::vec3 vec3DefaultReturn;
 glm::mat4 mat4DefaultReturn;
 
-const glm::vec3& TexturedStaticGraphicsObject::GetTranslation() const
+glm::vec3 TexturedStaticGraphicsObject::GetTranslation() const
 {
 	return vec3DefaultReturn;
 }
 
-const glm::vec3& TexturedStaticGraphicsObject::GetScale() const
+glm::vec3 TexturedStaticGraphicsObject::GetScale() const
 {
 	return vec3DefaultReturn;
 }
 
-const glm::mat4& TexturedStaticGraphicsObject::GetRotation() const
+glm::mat4 TexturedStaticGraphicsObject::GetRotation() const
 {
 	return mat4DefaultReturn;
 }

@@ -16,11 +16,11 @@ protected:
 
 	virtual void Rotate(const glm::vec3&) = 0;
 
-	virtual const glm::vec3& GetTranslation() const = 0;
+	virtual glm::vec3 GetTranslation() const = 0;
 
-	virtual const glm::vec3& GetScale() const = 0;
+	virtual glm::vec3 GetScale() const = 0;
 
-	virtual const glm::mat4& GetRotation() const = 0;
+	virtual glm::mat4 GetRotation() const = 0;
 
 private:
 

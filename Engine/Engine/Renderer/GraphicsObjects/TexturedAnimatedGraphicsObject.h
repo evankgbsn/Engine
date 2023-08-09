@@ -42,11 +42,11 @@ public:
 
 	void Rotate(const glm::vec3&) override;
 
-	const glm::vec3& GetTranslation() const override;
+	glm::vec3 GetTranslation() const override;
 
-	const glm::vec3& GetScale() const override;
+	glm::vec3 GetScale() const override;
 
-	const glm::mat4& GetRotation() const override;
+	glm::mat4 GetRotation() const override;
 
 protected:
 

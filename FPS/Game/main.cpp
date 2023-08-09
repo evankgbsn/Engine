@@ -140,16 +140,6 @@ void Game()
 		{
 			transformSystem->Operate();
 			gameObject->Update();
-
-
-			//if (ta0 != nullptr)
-			//{
-			//	TexturedAnimatedGraphicsObject* taGo = static_cast<TexturedAnimatedGraphicsObject*>(ta0);
-			//	taGo->Translate(glm::vec3(0.01f, 0.0f, 0.0f));
-			//	glm::vec3 translation = taGo->GetTranslation();
-			//	translation += 1.0f;
-			//	translation -= 1.0f;
-			//}
 			frame = TimeManager::SecondsSinceStart();
 		}
 		

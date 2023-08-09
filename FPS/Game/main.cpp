@@ -89,18 +89,18 @@ void StressTest()
 	
 				womanTextureNum = rand() % 5;
 				GraphicsObject* ta = nullptr;
-				GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("Woman3"), &ta);
+				GraphicsObjectManager::CreateLitTexturedStaticGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("Woman3"), &ta);
 
-				while (ta == nullptr);
-
-				TexturedAnimatedGraphicsObject* taGo = static_cast<TexturedAnimatedGraphicsObject*>(ta);
-
-				if (taGo != nullptr)
-				{
-					taGo->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));
-					taGo->SetClip(0);
-					taGo->SetAnimationSpeed(1.f);
-				}
+				//while (ta == nullptr);
+				//
+				//TexturedAnimatedGraphicsObject* taGo = static_cast<TexturedAnimatedGraphicsObject*>(ta);
+				//
+				//if (taGo != nullptr)
+				//{
+				//	taGo->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));
+				//	taGo->SetClip(0);
+				//	taGo->SetAnimationSpeed(1.f);
+				//}
 			}
 		}
 	}

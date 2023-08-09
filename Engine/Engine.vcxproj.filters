@@ -318,6 +318,9 @@
     <ClInclude Include="Engine\Scene\SceneManager.h">
       <Filter>Source Files\Engine\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Renderer\GraphicsObjects\LitTexturedStaticGraphicsObject.h">
+      <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -524,6 +527,9 @@
     <ClCompile Include="Engine\Scene\SceneManager.cpp">
       <Filter>Source Files\Engine\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Renderer\GraphicsObjects\LitTexturedStaticGraphicsObject.cpp">
+      <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Renderer\Pipeline\Shaders\glsl\TexturedAnimated.frag">
@@ -545,5 +551,11 @@
       <Filter>Source Files\Engine\Renderer\Pipeline\Shaders\glsl</Filter>
     </None>
     <None Include="ClassDiagram.cd" />
+    <None Include="Engine\Renderer\Pipeline\Shaders\glsl\LitTexturedStatic.frag">
+      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders\glsl</Filter>
+    </None>
+    <None Include="Engine\Renderer\Pipeline\Shaders\glsl\LitTexturedStatic.vert">
+      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders\glsl</Filter>
+    </None>
   </ItemGroup>
 </Project>

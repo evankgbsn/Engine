@@ -34,7 +34,7 @@ void TexturedStaticGraphicsObject::Scale(const glm::vec3& scale)
 	mvp.model = glm::scale(mvp.model, scale);
 }
 
-void TexturedStaticGraphicsObject::Rotate(const glm::vec3&)
+void TexturedStaticGraphicsObject::Rotate(float angle, const glm::vec3&)
 {
 }
 

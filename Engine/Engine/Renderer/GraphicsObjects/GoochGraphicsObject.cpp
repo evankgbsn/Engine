@@ -15,7 +15,7 @@ void GoochGraphicsObject::Scale(const glm::vec3&)
 {
 }
 
-void GoochGraphicsObject::Rotate(const glm::vec3&)
+void GoochGraphicsObject::Rotate(float angle, const glm::vec3& axis)
 {
 }
 

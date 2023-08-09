@@ -3,6 +3,7 @@
 #include "../../Utils/Logger.h"
 #include "TexturedAnimatedGraphicsObject.h"
 #include "TexturedStaticGraphicsObject.h"
+#include "LitTexturedStaticGraphicsObject.h"
 #include "GoochGraphicsObject.h"
 #include "../Pipeline/Shaders/DescriptorSet.h"
 #include "../Pipeline/Shaders/DescriptorSetManager.h"
@@ -235,6 +236,32 @@ void GraphicsObjectManager::CreateGoochGraphicsObject(Model* const model, Textur
 	instance->graphicsObjectCreateQueue.push_back(create);
 }
 
+void GraphicsObjectManager::CreateLitTexturedStaticGraphicsObject(Model* const model, Texture* const texture, GraphicsObject** outGraphicsObject)
+{
+	if (instance == nullptr)
+	{
+		Logger::Log(std::string("Calling GraphicsObjectManager::CreateLitTexturedStaticGraphicsObject() before GraphicsObjectManager::Initialize()."), Logger::Category::Warning);
+		return;
+	}
+
+	std::function<void()> create = [model, texture, outGraphicsObject]()
+	{
+		std::lock_guard<std::mutex> guard(instance->drawMutex);
+
+		LitTexturedStaticGraphicsObject* newGraphicsObject = nullptr;
+
+		if (model != nullptr)
+		{
+			newGraphicsObject = new LitTexturedStaticGraphicsObject(model, texture);
+			instance->litStaticGraphicsObjects.push_back(newGraphicsObject);
+		}
+
+		*outGraphicsObject = newGraphicsObject;
+	};
+
+	instance->graphicsObjectCreateQueue.push_back(create);
+}
+
 const std::vector<GraphicsObject*>& GraphicsObjectManager::GetTexturedStaticGraphicsObjets()
 {
 	if (instance == nullptr)
@@ -288,6 +315,12 @@ void GraphicsObjectManager::DrawObjects(VkCommandBuffer& buffer, unsigned int im
 			obj->Update();
 		});
 
+	std::for_each(std::execution::par, instance->litStaticGraphicsObjects.begin(), instance->litStaticGraphicsObjects.end(),
+		[](GraphicsObject* obj)
+		{
+			obj->Update();
+		});
+
 	VkDeviceSize offsets[] = { 0 };
 	vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **instance->graphicsPipelines.find("TexturedAnimated")->second.second);
 	for (GraphicsObject* obj : instance->animatedGraphicsObjects)
@@ -311,6 +344,15 @@ void GraphicsObjectManager::DrawObjects(VkCommandBuffer& buffer, unsigned int im
 	for (GraphicsObject* obj : instance->goochGraphicsObjects)
 	{
 		vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(instance->graphicsPipelines.find("Gooch")->second.second->GetPipelineLayout()), 0, 1, &obj->GetDescriptorSet()(), 0, nullptr);
+		vkCmdBindVertexBuffers(buffer, 0, 1, &obj->GetVertexBuffer()(), offsets);
+		vkCmdBindIndexBuffer(buffer, obj->GetIndexBuffer()(), 0, VK_INDEX_TYPE_UINT32);
+		vkCmdDrawIndexed(buffer, static_cast<unsigned int>(obj->GetModel()->GetIndices().size()), 1, 0, 0, 0);
+	}
+
+	vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **instance->graphicsPipelines.find("LitTexturedStatic")->second.second);
+	for (GraphicsObject* obj : instance->litStaticGraphicsObjects)
+	{
+		vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(instance->graphicsPipelines.find("LitTexturedStatic")->second.second->GetPipelineLayout()), 0, 1, &obj->GetDescriptorSet()(), 0, nullptr);
 		vkCmdBindVertexBuffers(buffer, 0, 1, &obj->GetVertexBuffer()(), offsets);
 		vkCmdBindIndexBuffer(buffer, obj->GetIndexBuffer()(), 0, VK_INDEX_TYPE_UINT32);
 		vkCmdDrawIndexed(buffer, static_cast<unsigned int>(obj->GetModel()->GetIndices().size()), 1, 0, 0, 0);
@@ -347,6 +389,7 @@ GraphicsObjectManager::GraphicsObjectManager(const Window& w) :
 	staticGraphicsObjects(std::vector<GraphicsObject*>()),
 	animatedGraphicsObjects(std::vector<GraphicsObject*>()),
 	goochGraphicsObjects(std::vector<GraphicsObject*>()),
+	litStaticGraphicsObjects(std::vector<GraphicsObject*>()),
 	window(w),
 	drawMutex()
 {
@@ -371,6 +414,11 @@ GraphicsObjectManager::~GraphicsObjectManager()
 	}
 
 	for (GraphicsObject* graphicsObject : goochGraphicsObjects)
+	{
+		delete graphicsObject;
+	}
+
+	for (GraphicsObject* graphicsObject : litStaticGraphicsObjects)
 	{
 		delete graphicsObject;
 	}

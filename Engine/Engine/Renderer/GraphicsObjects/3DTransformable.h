@@ -14,7 +14,7 @@ protected:
 
 	virtual void Scale(const glm::vec3&) = 0;
 
-	virtual void Rotate(const glm::vec3&) = 0;
+	virtual void Rotate(float angle, const glm::vec3& axis) = 0;
 
 	virtual glm::vec3 GetTranslation() const = 0;
 

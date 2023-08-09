@@ -171,6 +171,7 @@
     <ClInclude Include="Engine\Renderer\GraphicsObjects\GoochGraphicsObject.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\GraphicsObject.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\GraphicsObjectManager.h" />
+    <ClInclude Include="Engine\Renderer\GraphicsObjects\LitTexturedStaticGraphicsObject.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\TexturedAnimatedGraphicsObject.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\TexturedStaticGraphicsObject.h" />
     <ClInclude Include="Engine\Renderer\Images\Texture.h" />
@@ -241,6 +242,7 @@
     <ClCompile Include="Engine\Renderer\GraphicsObjects\GoochGraphicsObject.cpp" />
     <ClCompile Include="Engine\Renderer\GraphicsObjects\GraphicsObject.cpp" />
     <ClCompile Include="Engine\Renderer\GraphicsObjects\GraphicsObjectManager.cpp" />
+    <ClCompile Include="Engine\Renderer\GraphicsObjects\LitTexturedStaticGraphicsObject.cpp" />
     <ClCompile Include="Engine\Renderer\GraphicsObjects\TexturedAnimatedGraphicsObject.cpp" />
     <ClCompile Include="Engine\Renderer\GraphicsObjects\TexturedStaticGraphicsObject.cpp" />
     <ClCompile Include="Engine\Renderer\Images\Texture.cpp" />
@@ -290,6 +292,8 @@
     <None Include="ClassDiagram.cd" />
     <None Include="Engine\Renderer\Pipeline\Shaders\glsl\Gooch.frag" />
     <None Include="Engine\Renderer\Pipeline\Shaders\glsl\Gooch.vert" />
+    <None Include="Engine\Renderer\Pipeline\Shaders\glsl\LitTexturedStatic.frag" />
+    <None Include="Engine\Renderer\Pipeline\Shaders\glsl\LitTexturedStatic.vert" />
     <None Include="Engine\Renderer\Pipeline\Shaders\glsl\TexturedAnimated.frag" />
     <None Include="Engine\Renderer\Pipeline\Shaders\glsl\TexturedAnimated.vert" />
     <None Include="Engine\Renderer\Pipeline\Shaders\glsl\TexturedStatic.frag" />

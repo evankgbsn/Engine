@@ -35,7 +35,7 @@ protected:
 
 	// Graphics3DTransformable
 
-	void Rotate(const glm::vec3&) override;
+	void Rotate(float angle, const glm::vec3& axis) override;
 
 	glm::vec3 GetTranslation() const override;
 

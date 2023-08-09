@@ -12,6 +12,7 @@
 class GraphicsObject;
 class TexturedStaticGraphicsObject;
 class TexturedAnimatedGraphicsObject;
+class LitTexturedStaticGraphicsObject;
 class GoochGraphicsObject;
 class Model;
 class DescriptorSetLayout;
@@ -35,6 +36,8 @@ public:
 	static void CreateTexturedAnimatedGraphicsObject(Model* const model, Texture* const texture, GraphicsObject** outGraphicsObject);
 
 	static void CreateGoochGraphicsObject(Model* const model, Texture* const texture, GraphicsObject** outGraphicsObject);
+
+	static void CreateLitTexturedStaticGraphicsObject(Model* const model, Texture* const texture, GraphicsObject** outGraphicsObject);
 
 	static const std::vector<GraphicsObject*>& GetTexturedStaticGraphicsObjets();
 
@@ -81,6 +84,8 @@ private:
 	std::vector<GraphicsObject*> animatedGraphicsObjects;
 
 	std::vector<GraphicsObject*> goochGraphicsObjects;
+
+	std::vector<GraphicsObject*> litStaticGraphicsObjects;
 
 	const Window& window;
 

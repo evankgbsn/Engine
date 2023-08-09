@@ -40,7 +40,7 @@ public:
 
 	void Scale(const glm::vec3&) override;
 
-	void Rotate(const glm::vec3&) override;
+	void Rotate(float angle, const glm::vec3&) override;
 
 	glm::vec3 GetTranslation() const override;
 

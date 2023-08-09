@@ -43,11 +43,7 @@ void TexturedAnimatedGraphicsObject::CreateUniformBuffers()
 	mvpUniformBuffer->PersistentMap();
 	uniformBuffers.push_back(mvpUniformBuffer);
 
-	UniformBuffer* animUniformBuffer = new UniformBuffer(sizeof(anim), 2);
-	animUniformBuffer->PersistentMap();
-	uniformBuffers.push_back(animUniformBuffer);
-
-	UniformBuffer* lightsUniformBuffer = new UniformBuffer(sizeof(light), 3);
+	UniformBuffer* lightsUniformBuffer = new UniformBuffer(sizeof(light), 2);
 	lightsUniformBuffer->PersistentMap();
 	uniformBuffers.push_back(lightsUniformBuffer);
 }
@@ -74,8 +70,7 @@ void TexturedAnimatedGraphicsObject::Update()
 	light.ambient = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
 
 	uniformBuffers[0]->SetData(&mvp);
-	uniformBuffers[1]->SetData(&anim);
-	uniformBuffers[2]->SetData(&light);
+	uniformBuffers[1]->SetData(&light);
 }
 
 bool TexturedAnimatedGraphicsObject::ToggleLoopAnimation()
@@ -104,7 +99,7 @@ void TexturedAnimatedGraphicsObject::Scale(const glm::vec3&)
 {
 }
 
-void TexturedAnimatedGraphicsObject::Rotate(const glm::vec3&)
+void TexturedAnimatedGraphicsObject::Rotate(float angle, const glm::vec3&)
 {
 }
 

@@ -46,7 +46,7 @@ void Engine::Start()
 
 		instance->LoadAssets();
 		instance->SpawnAndDetachGameThread();
-		
+
 		float frame = TimeManager::SecondsSinceStart();
 		while (instance->shouldUpdate)
 		{

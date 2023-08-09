@@ -109,17 +109,6 @@ void Game()
 {
 	//StressTest();
 
-	//float translation = 3.0f;
-	//for (unsigned int i = 0; i < 10; i++)
-	//{
-	//	ta->Translate(glm::vec3(i * translation, 0.0f, 0.0f));
-	//}
-	
-	//GraphicsObject* ta0 = nullptr;
-	//GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"), &ta0);
-	//GraphicsObject* ta1 = nullptr;
-	//GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"), &ta1);
-
 	Scene* main = SceneManager::CreateScene("Main");
 	
 	TransformSystem* transformSystem = new TransformSystem();
@@ -132,6 +121,7 @@ void Game()
 	
 	TransformComponent* transformComponent = gameObject->GetComponent<TransformComponent>(Component::Type::TRANSFORM);
 
+	main->AddEntity("GameObject",gameObject);
 	
 	float frame = TimeManager::SecondsSinceStart();
 	while (Engine::Operating())
@@ -142,7 +132,6 @@ void Game()
 			gameObject->Update();
 			frame = TimeManager::SecondsSinceStart();
 		}
-		
 	};
 
 	delete transformSystem;

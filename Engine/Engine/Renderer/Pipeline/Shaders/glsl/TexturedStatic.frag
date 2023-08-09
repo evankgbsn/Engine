@@ -23,7 +23,7 @@ vec4 DirectionalLight()
     diffuse *= sampledFragColor;
     ambient *= sampledFragColor;
 
-    return ambient + diffuse;
+    return sampledFragColor;
 };
 
 void main(void)

@@ -8,7 +8,6 @@
 
 GameObject::GameObject()
 {
-	GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"), &graphicsObject);
 }
 
 GameObject::~GameObject()
@@ -23,14 +22,7 @@ GameObject* const GameObject::Create(Component* optionalComponents[], unsigned i
 
 void GameObject::Update()
 {
-	TransformComponent* transformComp = GetComponent<TransformComponent>(Component::Type::TRANSFORM);
-	transformComp->Translate(glm::vec3(0.00001f, 0.0f, 0.0f));
-	TexturedAnimatedGraphicsObject* taGo = static_cast<TexturedAnimatedGraphicsObject*>(graphicsObject);
-
-	if (taGo != nullptr && GraphicsObjectManager::Operating())
-	{
-		taGo->Translate(transformComp->GetTranslation());
-	}
+	
 
 }
 

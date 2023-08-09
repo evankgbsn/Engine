@@ -16,10 +16,21 @@
     <Filter Include="Source Files\Game">
       <UniqueIdentifier>{e42bb5ad-f960-457c-9d67-e8c5737f4cb7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game\Entities">
+      <UniqueIdentifier>{8f1a5734-6198-472d-9945-bed772d43fb6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\main.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Entities\Skybox.cpp">
+      <Filter>Source Files\Game\Entities</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game\Entities\Skybox.h">
+      <Filter>Source Files\Game\Entities</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

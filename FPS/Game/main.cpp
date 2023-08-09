@@ -11,6 +11,8 @@
 #include "Renderer/GraphicsObjects/TexturedAnimatedGraphicsObject.h"
 #include "Time/TimeManager.h"
 
+#include "Entities/Skybox.h"
+
 #include <cstdio>
 
 class HeapProfiling
@@ -50,6 +52,7 @@ void LoadAssets()
 	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Cruiser.png", "Cruiser");
 	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/VikingRoom.png", "VikingRoom");
 	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/HumanStatic.png", "Human");
+	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Skybox2.png", "Skybox");
 
 	ModelManager::LoadModel("Woman", "../Engine/Engine/Renderer/Model/Woman.gltf");
 	ModelManager::LoadModel("Cruiser", "../Engine/Engine/Renderer/Model/Cruiser.gltf");
@@ -57,6 +60,7 @@ void LoadAssets()
 	ModelManager::LoadModel("Ball", "../Engine/Engine/Renderer/Model/NewBall.gltf");
 	ModelManager::LoadModel("Human", "../Engine/Engine/Renderer/Model/Human.gltf");
 	ModelManager::LoadModel("Cube", "../Engine/Engine/Renderer/Model/Cube.gltf");
+	ModelManager::LoadModel("Skybox", "../Engine/Engine/Renderer/Model/Skybox.gltf");
 
 }
 
@@ -85,7 +89,7 @@ void StressTest()
 	
 				womanTextureNum = rand() % 5;
 				GraphicsObject* ta = nullptr;
-				GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), TextureManager::GetTexture("Woman3"), &ta);
+				GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("Woman3"), &ta);
 
 				while (ta == nullptr);
 
@@ -95,7 +99,7 @@ void StressTest()
 				{
 					taGo->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));
 					taGo->SetClip(0);
-					taGo->SetAnimationSpeed(2.f);
+					taGo->SetAnimationSpeed(1.f);
 				}
 			}
 		}
@@ -107,21 +111,17 @@ void StressTest()
 
 void Game()
 {
-	//StressTest();
+	StressTest();
 
-	Scene* main = SceneManager::CreateScene("Main");
-	
+	Scene* mainScene = SceneManager::CreateScene("Main");
 	TransformSystem* transformSystem = new TransformSystem();
-	
-	main->AddSystem(std::string("Transform"), transformSystem);
-	
-	GameObject* gameObject = GameObject::Create();
-	
-	gameObject->AddComponent(Component::Type::TRANSFORM, transformSystem->CreateComponent());
-	
-	TransformComponent* transformComponent = gameObject->GetComponent<TransformComponent>(Component::Type::TRANSFORM);
+	Skybox* skyboxGameObject = new Skybox();
 
-	main->AddEntity("GameObject",gameObject);
+	TransformComponent* skyboxTransform = transformSystem->CreateComponent();
+	
+	skyboxGameObject->AddComponent(skyboxTransform->GetType(), skyboxTransform);
+	mainScene->AddEntity("Skybox", skyboxGameObject);
+	mainScene->AddSystem("Transform", transformSystem);
 	
 	float frame = TimeManager::SecondsSinceStart();
 	while (Engine::Operating())
@@ -129,12 +129,12 @@ void Game()
 		if ((TimeManager::SecondsSinceStart() - frame) > 0.0041666f)
 		{
 			transformSystem->Operate();
-			gameObject->Update();
+			skyboxGameObject->Update();
 			frame = TimeManager::SecondsSinceStart();
 		}
 	};
 
 	delete transformSystem;
-	delete gameObject;
+	delete skyboxGameObject;
 
 }

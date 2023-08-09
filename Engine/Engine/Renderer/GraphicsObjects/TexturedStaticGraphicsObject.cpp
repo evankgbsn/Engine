@@ -29,8 +29,9 @@ void TexturedStaticGraphicsObject::Translate(const glm::vec3& translation)
 	mvp.model = glm::translate(mvp.model, translation);
 }
 
-void TexturedStaticGraphicsObject::Scale(const glm::vec3&)
+void TexturedStaticGraphicsObject::Scale(const glm::vec3& scale)
 {
+	mvp.model = glm::scale(mvp.model, scale);
 }
 
 void TexturedStaticGraphicsObject::Rotate(const glm::vec3&)

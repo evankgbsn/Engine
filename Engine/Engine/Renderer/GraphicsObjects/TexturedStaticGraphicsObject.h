@@ -29,11 +29,11 @@ public:
 
 	void Translate(const glm::vec3&) override;
 
+	void Scale(const glm::vec3&) override;
+
 protected:
 
 	// Graphics3DTransformable
-
-	void Scale(const glm::vec3&) override;
 
 	void Rotate(const glm::vec3&) override;
 

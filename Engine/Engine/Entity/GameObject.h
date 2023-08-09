@@ -31,8 +31,6 @@ private:
 	GameObject(GameObject&&) = delete;
 
 	GameObject& operator=(GameObject&&) = delete;
-
-	GraphicsObject* graphicsObject;
 };
 
 #endif // GameObject_H

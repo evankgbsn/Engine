@@ -159,32 +159,33 @@ void GraphicsObjectManager::CreateQueuedGraphicsObjects()
 	graphicsObjectCreateQueue.clear();
 }
 
-void GraphicsObjectManager::CreateTexturedStaticGraphicsObject(Model* const model, Texture* const texture, GraphicsObject** outGraphicsObject)
+void GraphicsObjectManager::CreateTexturedStaticGraphicsObject(Model* const model, Texture* const texture, std::function<void(GraphicsObject*)> callback)
 {
+
 	if (instance == nullptr)
 	{
 		Logger::Log(std::string("Calling GraphicsObjectManager::CreateStaticGraphicsObject() before GraphicsObjectManager::Initialize()."), Logger::Category::Warning);
 		return;
 	}
 
-	std::function<void()> create = [model, texture, outGraphicsObject]()
+	std::lock_guard<std::mutex> guard(instance->enqueuestaticMutex);
+
+	std::function<void()> create = [model, texture, callback]()
 	{
 		TexturedStaticGraphicsObject* newGraphicsObject = nullptr;
-		std::lock_guard<std::mutex> guard(instance->drawMutex);
 
 		if (model != nullptr && texture != nullptr)
 		{
 			newGraphicsObject = new TexturedStaticGraphicsObject(model, texture);
 			instance->staticGraphicsObjects.push_back(newGraphicsObject);
+			callback(newGraphicsObject);
 		}
-
-		*outGraphicsObject = newGraphicsObject;
 	};
 
 	instance->graphicsObjectCreateQueue.push_back(create);
 }
 
-void GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(Model* const model, Texture* const texture, GraphicsObject** outGraphicsObject)
+void GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(Model* const model, Texture* const texture, std::function<void(GraphicsObject*)> callback)
 {
 	if (instance == nullptr)
 	{
@@ -192,25 +193,24 @@ void GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(Model* const mo
 		return;
 	}
 
-	std::function<void()> create = [model, texture, outGraphicsObject]()
-	{
-		std::lock_guard<std::mutex> guard(instance->drawMutex);
+	std::lock_guard<std::mutex> guard(instance->enqueueAnimatedMutex);
 
+	std::function<void()> create = [model, texture, callback]()
+	{
 		TexturedAnimatedGraphicsObject* newGraphicsObject = nullptr;
 		
 		if (model != nullptr && texture != nullptr)
 		{
 			newGraphicsObject = new TexturedAnimatedGraphicsObject(model, texture);
 			instance->animatedGraphicsObjects.push_back(newGraphicsObject);
+			callback(newGraphicsObject);
 		}
-
-		*outGraphicsObject = newGraphicsObject;
 	};
 
 	instance->graphicsObjectCreateQueue.push_back(create);
 }
 
-void GraphicsObjectManager::CreateGoochGraphicsObject(Model* const model, Texture* const texture, GraphicsObject** outGraphicsObject)
+void GraphicsObjectManager::CreateGoochGraphicsObject(Model* const model, Texture* const texture, std::function<void(GraphicsObject*)> callback)
 {
 	if (instance == nullptr)
 	{
@@ -218,25 +218,24 @@ void GraphicsObjectManager::CreateGoochGraphicsObject(Model* const model, Textur
 		return;
 	}
 
-	std::function<void()> create = [model, texture, outGraphicsObject]()
-	{
-		std::lock_guard<std::mutex> guard(instance->drawMutex);
+	std::lock_guard<std::mutex> guard(instance->enqueueGoochMutex);
 
+	std::function<void()> create = [model, texture, callback]()
+	{
 		GoochGraphicsObject* newGraphicsObject = nullptr;
 
 		if (model != nullptr)
 		{
 			newGraphicsObject = new GoochGraphicsObject(model, texture);
 			instance->goochGraphicsObjects.push_back(newGraphicsObject);
+			callback(newGraphicsObject);
 		}
-
-		*outGraphicsObject = newGraphicsObject;
 	};
 
 	instance->graphicsObjectCreateQueue.push_back(create);
 }
 
-void GraphicsObjectManager::CreateLitTexturedStaticGraphicsObject(Model* const model, Texture* const texture, GraphicsObject** outGraphicsObject)
+void GraphicsObjectManager::CreateLitTexturedStaticGraphicsObject(Model* const model, Texture* const texture, std::function<void(GraphicsObject*)> callback)
 {
 	if (instance == nullptr)
 	{
@@ -244,19 +243,18 @@ void GraphicsObjectManager::CreateLitTexturedStaticGraphicsObject(Model* const m
 		return;
 	}
 
-	std::function<void()> create = [model, texture, outGraphicsObject]()
-	{
-		std::lock_guard<std::mutex> guard(instance->drawMutex);
+	std::lock_guard<std::mutex> guard(instance->enqueuelitStaticMutex);
 
+	std::function<void()> create = [model, texture, callback]()
+	{
 		LitTexturedStaticGraphicsObject* newGraphicsObject = nullptr;
 
 		if (model != nullptr)
 		{
 			newGraphicsObject = new LitTexturedStaticGraphicsObject(model, texture);
 			instance->litStaticGraphicsObjects.push_back(newGraphicsObject);
+			callback(newGraphicsObject);
 		}
-
-		*outGraphicsObject = newGraphicsObject;
 	};
 
 	instance->graphicsObjectCreateQueue.push_back(create);

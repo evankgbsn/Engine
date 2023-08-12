@@ -78,6 +78,7 @@ void StressTest()
 	srand(static_cast<unsigned int>(std::chrono::high_resolution_clock::now().time_since_epoch().count()));
 	unsigned int clipNum = 0;
 	unsigned int womanTextureNum;
+
 	for (unsigned int i = 0; i < 10; i++)
 	{
 		for (unsigned int j = 0; j < 10; j++)
@@ -88,19 +89,20 @@ void StressTest()
 					clipNum = 0;
 	
 				womanTextureNum = rand() % 5;
-				GraphicsObject* ta = nullptr;
-				GraphicsObjectManager::CreateLitTexturedStaticGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("Woman3"), &ta);
 
-				//while (ta == nullptr);
-				//
-				//TexturedAnimatedGraphicsObject* taGo = static_cast<TexturedAnimatedGraphicsObject*>(ta);
-				//
-				//if (taGo != nullptr)
-				//{
-				//	taGo->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));
-				//	taGo->SetClip(0);
-				//	taGo->SetAnimationSpeed(1.f);
-				//}
+				auto animationCreationCallback = [translationScalar, i, j, k](GraphicsObject* go)
+				{
+					TexturedAnimatedGraphicsObject* ago = static_cast<TexturedAnimatedGraphicsObject*>(go);
+					if (go != nullptr)
+					{
+						ago->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));
+						ago->SetClip(0);
+						ago->SetAnimationSpeed(1.f);
+					}
+				};
+				
+				GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), TextureManager::GetTexture("Woman3"), animationCreationCallback);
+				
 			}
 		}
 	}

@@ -31,13 +31,13 @@ public:
 
 	static void Terminate();
 
-	static void CreateTexturedStaticGraphicsObject(Model* const model, Texture* const texture, GraphicsObject** outGraphicsObject);
+	static void CreateTexturedStaticGraphicsObject(Model* const model, Texture* const texture, std::function<void(GraphicsObject*)> callback);
 
-	static void CreateTexturedAnimatedGraphicsObject(Model* const model, Texture* const texture, GraphicsObject** outGraphicsObject);
+	static void CreateTexturedAnimatedGraphicsObject(Model* const model, Texture* const texture, std::function<void(GraphicsObject*)> callback);
 
-	static void CreateGoochGraphicsObject(Model* const model, Texture* const texture, GraphicsObject** outGraphicsObject);
+	static void CreateGoochGraphicsObject(Model* const model, Texture* const texture, std::function<void(GraphicsObject*)> callback);
 
-	static void CreateLitTexturedStaticGraphicsObject(Model* const model, Texture* const texture, GraphicsObject** outGraphicsObject);
+	static void CreateLitTexturedStaticGraphicsObject(Model* const model, Texture* const texture, std::function<void(GraphicsObject*)> callback);
 
 	static const std::vector<GraphicsObject*>& GetTexturedStaticGraphicsObjets();
 
@@ -78,6 +78,14 @@ private:
 	static bool shouldUpdate;
 
 	std::mutex drawMutex;
+
+	std::mutex enqueuestaticMutex;
+
+	std::mutex enqueueAnimatedMutex;
+
+	std::mutex enqueueGoochMutex;
+
+	std::mutex enqueuelitStaticMutex;
 
 	std::vector<GraphicsObject*> staticGraphicsObjects;
 

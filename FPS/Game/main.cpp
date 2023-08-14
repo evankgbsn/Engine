@@ -97,11 +97,11 @@ void StressTest()
 					{
 						ago->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));
 						ago->SetClip(0);
-						ago->SetAnimationSpeed(1.f);
+						ago->SetAnimationSpeed(1.0f);
 					}
 				};
-				
-				GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), TextureManager::GetTexture("Woman3"), animationCreationCallback);
+				//std::this_thread::sleep_for(std::chrono::milliseconds(10));
+				GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Ball"), TextureManager::GetTexture("VikingRoom"), animationCreationCallback);
 				
 			}
 		}

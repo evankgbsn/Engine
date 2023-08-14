@@ -33,7 +33,7 @@ void WindowManager::Terminate()
 	Logger::Log(std::string("Calling WindowManager::Terminate when the WindowManager has already been terminated."), Logger::Category::Warning);
 }
 
-Window& WindowManager::CreateWindow(uint32_t&& width, uint32_t&& height, std::string&& name)
+Window& WindowManager::CreateManagedWindow(uint32_t&& width, uint32_t&& height, std::string&& name)
 {
 	if (!instance)
 	{

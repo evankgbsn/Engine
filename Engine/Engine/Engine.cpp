@@ -6,6 +6,7 @@
 #include "Renderer/Windows/Window.h"
 #include "Time/TimeManager.h"
 #include "Scene/SceneManager.h"
+#include "Network/NetworkManager.h"
 
 Engine* Engine::instance = nullptr;
 
@@ -41,7 +42,7 @@ void Engine::Start()
 {
 	if (instance != nullptr)
 	{
-		Window& mainWindow = WindowManager::CreateWindow(1920, 1080, "MainWindow");
+		Window& mainWindow = WindowManager::CreateManagedWindow(1920, 1080, "MainWindow");
 		mainWindow.Initialize();
 
 		instance->LoadAssets();
@@ -125,6 +126,7 @@ Engine::Engine(const std::string& gn, const Version& gv) :
 	spawnedGameThreads(std::unordered_map<void(*)(), std::thread*>())
 {
 	TimeManager::Initialize();
+	NetworkManager::Initialize();
 	SceneManager::Initialize();
 }
 
@@ -139,6 +141,7 @@ Engine::~Engine()
 
 	SceneManager::Terminate();
 	Renderer::Terminate();
+	NetworkManager::Terminate();
 	TimeManager::Terminate();
 }
 

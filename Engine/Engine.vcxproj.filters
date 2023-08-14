@@ -109,6 +109,9 @@
     <Filter Include="Source Files\Engine\Scene">
       <UniqueIdentifier>{ec6f3bd0-154b-4e57-a044-d1004c22f1c7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Network">
+      <UniqueIdentifier>{d8d5b63a-a52f-491a-921f-f6ea881acba0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -321,6 +324,9 @@
     <ClInclude Include="Engine\Renderer\GraphicsObjects\LitTexturedStaticGraphicsObject.h">
       <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Network\NetworkManager.h">
+      <Filter>Source Files\Engine\Network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -529,6 +535,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Renderer\GraphicsObjects\LitTexturedStaticGraphicsObject.cpp">
       <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Network\NetworkManager.cpp">
+      <Filter>Source Files\Engine\Network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

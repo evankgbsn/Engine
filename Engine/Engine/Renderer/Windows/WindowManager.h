@@ -15,7 +15,7 @@ public:
 
 	static void Terminate();
 
-	static Window& CreateWindow(uint32_t&& width, uint32_t&& height, std::string&& name);
+	static Window& CreateManagedWindow(uint32_t&& width, uint32_t&& height, std::string&& name);
 
 	static bool Update();
 

@@ -51,6 +51,8 @@ private:
 
 	const char* serverPort;
 
+	const char* clientPort;
+
 #ifdef _WIN32
 	SOCKET serverIPV4SocketTCP;
 	SOCKET serverIPV6SocketTCP;

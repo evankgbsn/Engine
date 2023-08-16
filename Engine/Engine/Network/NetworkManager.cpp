@@ -3,6 +3,8 @@
 #include "../Utils/Logger.h"
 #include "../Engine.h"
 
+#include <cstdio>
+
 NetworkManager* NetworkManager::instance = nullptr;
 
 void NetworkManager::Initialize()
@@ -32,8 +34,9 @@ void NetworkManager::Terminate()
 }
 
 NetworkManager::NetworkManager() :
-	isServer(true),
-	serverPort("27519")
+	isServer(false),
+	serverPort("27519"),
+	clientPort("41606")
 #ifdef _WIN32
 	,serverIPV4SocketTCP(INVALID_SOCKET),
 	serverIPV6SocketTCP(INVALID_SOCKET)
@@ -61,6 +64,10 @@ void NetworkManager::NetworkThread()
 	if (isServer)
 	{
 		InitializeWinsockServer();
+	}
+	else
+	{
+		InitializeWinsockClient();
 	}
 
 #endif // _WIN32
@@ -113,7 +120,7 @@ void NetworkManager::InitializeWinsockServer()
 		return nullptr;
 	};
 
-	auto CreateSocket = [this](addrinfo* addrInfo, SOCKET& socketHandle) -> bool
+	auto CreateSocket = [](addrinfo* addrInfo, SOCKET& socketHandle) -> bool
 	{
 		if (addrInfo != nullptr)
 		{
@@ -243,6 +250,39 @@ void NetworkManager::InitializeWinsockServer()
 
 void NetworkManager::InitializeWinsockClient()
 {
+
+	addrinfo* result = nullptr;
+	addrinfo* ptr = nullptr;
+	addrinfo hints = {};
+
+	hints.ai_family = AF_INET;
+	hints.ai_socktype = SOCK_STREAM;
+	hints.ai_protocol = IPPROTO_TCP;
+
+	char ip[10] = {};
+	int count = scanf_s("%9s", &ip, (unsigned int)_countof(ip));
+
+	int iResult = getaddrinfo(ip, clientPort, &hints, &result);
+
+	if (iResult != 0)
+	{
+		printf("getaddrinfo failed: %d\n", iResult);
+		WSACleanup();
+	}
+
+	SOCKET connectSocket = INVALID_SOCKET;
+
+	ptr = result;
+
+	connectSocket = socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
+
+	if (connectSocket != INVALID_SOCKET)
+	{
+		printf("Error at socket(): %ld\n", WSAGetLastError());
+		freeaddrinfo(result);
+		WSACleanup();
+	}
+
 }
 
 void NetworkManager::HandleConnectionRequests(SOCKET listenSocket)

@@ -35,8 +35,8 @@ void NetworkManager::Terminate()
 
 NetworkManager::NetworkManager() :
 	isServer(false),
-	serverPort("27519"),
-	clientPort("41606")
+	serverPort("27015"),
+	clientPort("27015")
 #ifdef _WIN32
 	,serverIPV4SocketTCP(INVALID_SOCKET),
 	serverIPV6SocketTCP(INVALID_SOCKET)
@@ -250,6 +250,10 @@ void NetworkManager::InitializeWinsockServer()
 
 void NetworkManager::InitializeWinsockClient()
 {
+	WSADATA wsaData;
+	int iResult = -1;
+	iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
+	int x = WSAGetLastError();
 
 	addrinfo* result = nullptr;
 	addrinfo* ptr = nullptr;
@@ -259,10 +263,10 @@ void NetworkManager::InitializeWinsockClient()
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_protocol = IPPROTO_TCP;
 
-	char ip[10] = {};
-	int count = scanf_s("%9s", &ip, (unsigned int)_countof(ip));
+	char ip[14] = "192.168.1.110";
+	//int count = scanf_s("%9s", &ip, (unsigned int)_countof(ip));
 
-	int iResult = getaddrinfo(ip, clientPort, &hints, &result);
+	iResult = getaddrinfo(ip, clientPort, &hints, &result);
 
 	if (iResult != 0)
 	{
@@ -276,10 +280,27 @@ void NetworkManager::InitializeWinsockClient()
 
 	connectSocket = socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
 
-	if (connectSocket != INVALID_SOCKET)
+	if (connectSocket == INVALID_SOCKET)
 	{
 		printf("Error at socket(): %ld\n", WSAGetLastError());
 		freeaddrinfo(result);
+		WSACleanup();
+	}
+
+	iResult = connect(connectSocket, ptr->ai_addr, (int)ptr->ai_addrlen);
+
+
+	if (iResult == SOCKET_ERROR)
+	{
+		closesocket(connectSocket);
+		connectSocket = INVALID_SOCKET;
+	}
+
+	freeaddrinfo(result);
+
+	if (connectSocket == INVALID_SOCKET)
+	{
+		Logger::Log(std::string("Error connecting to server."), Logger::Category::Error);
 		WSACleanup();
 	}
 

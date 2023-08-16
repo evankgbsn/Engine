@@ -1,6 +1,7 @@
 #include "NetworkManager.h"
 
 #include "../Utils/Logger.h"
+#include "../Engine.h"
 
 NetworkManager* NetworkManager::instance = nullptr;
 
@@ -31,19 +32,38 @@ void NetworkManager::Terminate()
 }
 
 NetworkManager::NetworkManager() :
+	isServer(true),
 	serverPort("27519")
 #ifdef _WIN32
 	,serverIPV4SocketTCP(INVALID_SOCKET),
 	serverIPV6SocketTCP(INVALID_SOCKET)
 #endif
 {
-#ifdef _WIN32
-	InitializeWinsockServer();
-#endif // _WIN32
+	networkThread = new std::thread(&NetworkManager::NetworkThread, this);
+	networkThread->detach();
 }
 
 NetworkManager::~NetworkManager()
 {
+	if (networkThread->joinable())
+		networkThread->join();
+	delete networkThread;
+
+#ifdef _WIN32
+	WSACleanup();
+#endif // _WIN32
+}
+
+void NetworkManager::NetworkThread()
+{
+#ifdef _WIN32
+
+	if (isServer)
+	{
+		InitializeWinsockServer();
+	}
+
+#endif // _WIN32
 }
 
 void NetworkManager::InitializeWinsockServer()
@@ -93,16 +113,16 @@ void NetworkManager::InitializeWinsockServer()
 		return nullptr;
 	};
 
-	auto CreateSocket = [this](addrinfo* addrInfo) -> bool
+	auto CreateSocket = [this](addrinfo* addrInfo, SOCKET& socketHandle) -> bool
 	{
 		if (addrInfo != nullptr)
 		{
-			serverIPV4SocketTCP = socket(addrInfo->ai_family, addrInfo->ai_socktype, addrInfo->ai_protocol);
+			socketHandle = socket(addrInfo->ai_family, addrInfo->ai_socktype, addrInfo->ai_protocol);
 		}
 
-		if (serverIPV4SocketTCP == INVALID_SOCKET)
+		if (socketHandle == INVALID_SOCKET)
 		{
-			Logger::Log(std::string("Failed to initialize ipv4 serve socket, NetworkManager::InitializeWinsock"), Logger::Category::Error);
+			Logger::Log(std::string("Failed to initialize server socket, NetworkManager::InitializeWinsock"), Logger::Category::Error);
 			freeaddrinfo(addrInfo);
 			return false;
 		}
@@ -152,7 +172,6 @@ void NetworkManager::InitializeWinsockServer()
 				cleanup = true;
 				break;
 			case !SOCKET_ERROR:
-
 				break;
 			default:
 				break;
@@ -163,15 +182,22 @@ void NetworkManager::InitializeWinsockServer()
 
 		if(cleanup)
 			WSACleanup();
+		else
+		{
+			std::thread ListenThreadIPV4(&NetworkManager::HandleConnectionRequests, this, serverIPV4SocketTCP);
+			ListenThreadIPV4.detach();
+			std::thread ListenThreadIPV6(&NetworkManager::HandleConnectionRequests, this, serverIPV6SocketTCP);
+			ListenThreadIPV6.detach();
+		}
 		
 	};
 
 	auto OnSuccess = [this, GetAddrInfoForFamily, CreateSocket, BindSockets]()
 	{
 		addrinfo* ipv4AddrInfo = GetAddrInfoForFamily(AF_INET);
-		bool createdIPV4Socket = CreateSocket(ipv4AddrInfo);
+		bool createdIPV4Socket = CreateSocket(ipv4AddrInfo, serverIPV4SocketTCP);
 		addrinfo* ipv6AddrInfo = GetAddrInfoForFamily(AF_INET6);
-		bool createdIPV6Socket = CreateSocket(ipv4AddrInfo);
+		bool createdIPV6Socket = CreateSocket(ipv6AddrInfo, serverIPV6SocketTCP);
 
 		if (createdIPV4Socket && createdIPV6Socket)
 		{
@@ -213,4 +239,41 @@ void NetworkManager::InitializeWinsockServer()
 	default:
 		break;
 	}
+}
+
+void NetworkManager::InitializeWinsockClient()
+{
+}
+
+void NetworkManager::HandleConnectionRequests(SOCKET listenSocket)
+{
+	while (Engine::Operating())
+	{
+		int iResult = listen(listenSocket, SOMAXCONN);
+
+		int x = WSAGetLastError();
+
+
+		if (iResult == SOCKET_ERROR)
+		{
+			closesocket(listenSocket);
+		}
+
+		SOCKET clientSocket = INVALID_SOCKET;
+
+		clientSocket = accept(listenSocket, nullptr, nullptr);
+
+		if (clientSocket == INVALID_SOCKET)
+		{
+			closesocket(listenSocket);
+		}
+
+		std::lock_guard<std::mutex> guard(connectionsMutex);
+		static unsigned int connectionIndex = 1;
+		connections[connectionIndex++] = clientSocket;
+	}
+}
+
+void NetworkManager::HandleConnection()
+{
 }

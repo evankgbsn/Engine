@@ -7,6 +7,10 @@
 #pragma comment(lib, "Ws2_32.lib")
 #endif
 
+#include <thread>
+#include <mutex>
+#include <unordered_map>
+
 class NetworkManager
 {
 public:
@@ -29,15 +33,31 @@ private:
 
 	NetworkManager& operator=(NetworkManager&&) = delete;
 
+	void NetworkThread();
+
 	void InitializeWinsockServer();
 
+	void InitializeWinsockClient();
+
+	void HandleConnectionRequests(SOCKET listenSocket);
+
+	void HandleConnection();
+
 	static NetworkManager* instance;
+
+	std::thread* networkThread;
+
+	bool isServer;
 
 	const char* serverPort;
 
 #ifdef _WIN32
 	SOCKET serverIPV4SocketTCP;
 	SOCKET serverIPV6SocketTCP;
+
+	std::mutex connectionsMutex;
+
+	std::unordered_map<unsigned int, SOCKET> connections;
 #endif // _WIN32
 
 };

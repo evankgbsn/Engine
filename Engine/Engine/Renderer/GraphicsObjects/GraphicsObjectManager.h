@@ -75,6 +75,8 @@ private:
 
 	void CreateQueuedGraphicsObjects();
 
+	bool IsPipelineFromShader(const std::string& pipelineKey);
+
 	static GraphicsObjectManager* instance;
 
 	static bool shouldUpdate;

@@ -7,8 +7,12 @@
 #include "Component/TransformComponent.h"
 #include "Renderer/Images/TextureManager.h"
 #include "Renderer/Model/ModelManager.h"
+#include "Renderer/Model/Model.h"
 #include "Renderer/GraphicsObjects/GraphicsObjectManager.h"
 #include "Renderer/GraphicsObjects/TexturedAnimatedGraphicsObject.h"
+#include "Renderer/GraphicsObjects/TexturedStatic2DGraphicsObject.h"
+#include "Renderer/GraphicsObjects/TexturedStaticGraphicsObject.h"
+
 #include "Time/TimeManager.h"
 
 #include "Entities/Skybox.h"
@@ -106,7 +110,21 @@ void StressTest()
 			}
 		}
 	}
+
+	auto rectangleCallback = [](GraphicsObject* obj)
+	{
+		TexturedStatic2DGraphicsObject* staticobj = static_cast<TexturedStatic2DGraphicsObject*>(obj);
+
+		if (obj != nullptr)
+		{
+			//TRS maybe queue these.
+			staticobj->Translate({ -500.0f, -500.f });
+			staticobj->Scale({ 500.f, 500.f});
+		}
+	};
 	
+	//GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"), rectangleCallback);
+	GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(ModelManager::GetModel("DefaultRectangle"), TextureManager::GetTexture("Human"), rectangleCallback);
 	//GraphicsObjectManager::CreateGoochGraphicsObject(ModelManager::GetModel("Cruiser"), TextureManager::GetTexture("Woman"));
 	//GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("CruiserAnim"), TextureManager::GetTexture("Cruiser"));
 }

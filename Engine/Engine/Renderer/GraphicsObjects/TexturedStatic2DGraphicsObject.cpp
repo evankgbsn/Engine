@@ -28,6 +28,8 @@ void TexturedStatic2DGraphicsObject::Update()
 	mvp.projection = cam.GetProjection();
 	mvp.projection[1][1] *= -1;
 
+	Rotate(-0.01f);
+
 	uniformBuffers[0]->SetData(&mvp);
 }
 

@@ -200,6 +200,7 @@
     <ClInclude Include="Engine\Renderer\Pipeline\Multisampling\MultisamplingPipelineState.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\PipelineLayout.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\Rasterizer\RasterizerPipelineState.h" />
+    <ClInclude Include="Engine\Renderer\Pipeline\Rasterizer\WireFrameRasterizerPipelineState.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\RenderPass\RenderPass.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\Shaders\DescriptorSet.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\Shaders\DescriptorSetLayout.h" />
@@ -273,6 +274,7 @@
     <ClCompile Include="Engine\Renderer\Pipeline\Multisampling\MultisamplingPipelineState.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\PipelineLayout.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\Rasterizer\RasterizerPipelineState.cpp" />
+    <ClCompile Include="Engine\Renderer\Pipeline\Rasterizer\WireFrameRasterizerPipelineState.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\RenderPass\RenderPass.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\Shaders\DescriptorSet.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\Shaders\DescriptorSetLayout.cpp" />

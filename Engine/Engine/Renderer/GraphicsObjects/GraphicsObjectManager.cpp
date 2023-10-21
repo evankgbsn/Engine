@@ -17,6 +17,7 @@
 #include "../Model/Model.h"
 #include "../Pipeline/PipelineLayout.h"
 #include "../Pipeline/Shaders/ShaderPipelineStage.h"
+#include "../Pipeline/Rasterizer/WireFrameRasterizerPipelineState.h"
 #include "../Pipeline/Shaders/Shader.h"
 #include "../Renderer.h"
 #include "../Vulkan/VulkanPhysicalDevice.h"
@@ -71,9 +72,23 @@ void GraphicsObjectManager::CreateGraphicsPipelines()
 	// After loading the shaders there should now be an entry for each shader file name.
 	for (auto& graphicsPipeline : graphicsPipelines)
 	{
-		graphicsPipeline.second.first->CreateDescriptorSetLayout();
-		graphicsPipeline.second.second = new GraphicsPipeline(*graphicsPipeline.second.first, window);
+		if (IsPipelineFromShader(graphicsPipeline.first))
+		{
+			graphicsPipeline.second.first->CreateDescriptorSetLayout();
+			graphicsPipeline.second.second = new GraphicsPipeline(*graphicsPipeline.second.first, window);
+		}
 	}
+
+	for (auto& graphicsPipeline : graphicsPipelines)
+	{
+		if (!IsPipelineFromShader(graphicsPipeline.first))
+		{
+			const WireFrameRasterizerPipelineState* const wireFrameRasterizer = new WireFrameRasterizerPipelineState();
+			graphicsPipeline.second.second = new GraphicsPipeline(*graphicsPipeline.second.first, *wireFrameRasterizer, window);
+		}
+	}
+
+	
 }
 
 void GraphicsObjectManager::LoadShaders()
@@ -136,6 +151,7 @@ void GraphicsObjectManager::LoadShaders()
 						{
 							shaderPipelineStage = new ShaderPipelineStage();
 							graphicsPipelines.insert(std::pair<std::string, std::pair<ShaderPipelineStage*, GraphicsPipeline*>>(fileName, std::pair<ShaderPipelineStage*, GraphicsPipeline*>(shaderPipelineStage, nullptr)));
+							graphicsPipelines.insert(std::pair<std::string, std::pair<ShaderPipelineStage*, GraphicsPipeline*>>(std::string("WireFrame_") + fileName, std::pair<ShaderPipelineStage*, GraphicsPipeline*>(shaderPipelineStage, nullptr)));
 						}
 
 						// Create and add the shader to the ShaderPipelineStage.
@@ -158,6 +174,14 @@ void GraphicsObjectManager::CreateQueuedGraphicsObjects()
 	}
 
 	graphicsObjectCreateQueue.clear();
+}
+
+bool GraphicsObjectManager::IsPipelineFromShader(const std::string& pipelineKey)
+{
+	size_t pieplineKeySize = pipelineKey.size();
+	const std::string wireFrame("WireFrame_");
+	const std::string pipelineKeyPrefix((pipelineKey.size() > wireFrame.size()) ? std::string(pipelineKey.begin(), pipelineKey.begin() + wireFrame.size()) : "");
+	return pipelineKeyPrefix.compare(wireFrame);
 }
 
 void GraphicsObjectManager::CreateTexturedStaticGraphicsObject(Model* const model, Texture* const texture, std::function<void(GraphicsObject*)> callback)
@@ -472,7 +496,10 @@ GraphicsObjectManager::~GraphicsObjectManager()
 
 	for (auto& graphicsPipeline : graphicsPipelines)
 	{
-		delete graphicsPipeline.second.first;
+		if (IsPipelineFromShader(graphicsPipeline.first))
+		{
+			delete graphicsPipeline.second.first;
+		}
 		delete graphicsPipeline.second.second;
 	}
 

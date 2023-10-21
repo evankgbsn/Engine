@@ -333,6 +333,9 @@
     <ClInclude Include="Engine\Renderer\GraphicsObjects\2DTransformable.h">
       <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Renderer\Pipeline\Rasterizer\WireFrameRasterizerPipelineState.h">
+      <Filter>Source Files\Engine\Renderer\Pipeline\Rasterizer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -547,6 +550,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Renderer\GraphicsObjects\TexturedStatic2DGraphicsObject.cpp">
       <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Pipeline\Rasterizer\WireFrameRasterizerPipelineState.cpp">
+      <Filter>Source Files\Engine\Renderer\Pipeline\Rasterizer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -10,6 +10,7 @@
 #include "VertexInput/VertexInputPipelineState.h"
 #include "Viewport/ViewportPipelineState.h"
 #include "Rasterizer/RasterizerPipelineState.h"
+#include "Rasterizer/WireFrameRasterizerPipelineState.h"
 #include "Multisampling/MultisamplingPipelineState.h"
 #include "ColorBlending/ColorBlendingPipelineState.h"
 #include "DynamicState/DynamicPipelineState.h"
@@ -27,6 +28,49 @@ GraphicsPipeline::GraphicsPipeline(const ShaderPipelineStage& sps, const Window&
 	viewportPipelineState(window.GetViewportPipelineState()),
 	shaderPipelineStage(sps),
 	rasterizer(new RasterizerPipelineState()),
+	multisampling(new MultisamplingPipelineState(window.GetMSAASampleCount())),
+	colorBlending(new ColorBlendingPipelineState()),
+	dynamic(new DynamicPipelineState()),
+	renderPass(window.GetRenderPass()),
+	layout(new PipelineLayout(Renderer::GetVulkanPhysicalDevice(), &sps.GetDescriptorSetLayout())),
+	depthStencil(new DepthStencilPipelineState())
+{
+	createInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+	createInfo.stageCount = 2;
+	createInfo.pStages = (*shaderPipelineStage).data();
+	createInfo.pInputAssemblyState = &**inputAssembly;
+	createInfo.pVertexInputState = &**vertexInput;
+	createInfo.pViewportState = &*viewportPipelineState;
+	createInfo.pRasterizationState = &**rasterizer;
+	createInfo.pMultisampleState = &**multisampling;
+	createInfo.pDepthStencilState = nullptr;
+	createInfo.pColorBlendState = &**colorBlending;
+	createInfo.pDynamicState = &**dynamic;
+	createInfo.pDepthStencilState = &**depthStencil;
+	createInfo.layout = **layout;
+	createInfo.renderPass = *renderPass;
+	createInfo.subpass = 0;
+	createInfo.basePipelineHandle = VK_NULL_HANDLE;
+	createInfo.basePipelineIndex = -1;
+
+	VkDevice device = Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice();
+	VkResult result = vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &createInfo, nullptr, &graphicsPipeline);
+
+	if (result != VK_SUCCESS)
+	{
+		Logger::Log(std::string("Failed to create a graphics pipeline"), Logger::Category::Error);
+		throw std::runtime_error("Failed to create a graphics pipeline");
+	}
+
+	Logger::Log(std::string("Created a graphics pipeline"), Logger::Category::Success);
+}
+
+GraphicsPipeline::GraphicsPipeline(const ShaderPipelineStage& sps, const RasterizerPipelineState& rasterizerPipelineState, const Window& window) :
+	inputAssembly(new InputAssemblyPipelineState()),
+	vertexInput(new VertexInputPipelineState()),
+	viewportPipelineState(window.GetViewportPipelineState()),
+	shaderPipelineStage(sps),
+	rasterizer(&rasterizerPipelineState),
 	multisampling(new MultisamplingPipelineState(window.GetMSAASampleCount())),
 	colorBlending(new ColorBlendingPipelineState()),
 	dynamic(new DynamicPipelineState()),

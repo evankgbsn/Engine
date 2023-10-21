@@ -14,6 +14,10 @@ public:
 
 	const VkPipelineRasterizationStateCreateInfo& operator*() const;
 
+protected:
+	
+	VkPipelineRasterizationStateCreateInfo createInfo{};
+
 private:
 
 	RasterizerPipelineState(const RasterizerPipelineState&) = delete;
@@ -24,7 +28,6 @@ private:
 
 	RasterizerPipelineState& operator=(const RasterizerPipelineState&&) = delete;
 
-	VkPipelineRasterizationStateCreateInfo createInfo{};
 };
 
 

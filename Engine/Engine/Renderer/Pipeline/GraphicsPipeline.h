@@ -23,6 +23,8 @@ public:
 
 	GraphicsPipeline(const ShaderPipelineStage& shaderPipelineStage, const Window& window);
 
+	GraphicsPipeline(const ShaderPipelineStage& shaderPipelineStage, const RasterizerPipelineState& rasterizerPipelineState, const Window& window);
+
 	~GraphicsPipeline();
 
 	const VkPipeline& operator*() const { return graphicsPipeline; };
@@ -49,7 +51,7 @@ private:
 
 	InputAssemblyPipelineState* const inputAssembly;
 	VertexInputPipelineState* const vertexInput;
-	RasterizerPipelineState* const rasterizer;
+	const RasterizerPipelineState* const rasterizer;
 	MultisamplingPipelineState* const multisampling;
 	ColorBlendingPipelineState* const colorBlending;
 	DynamicPipelineState* const dynamic;

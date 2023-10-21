@@ -17,7 +17,7 @@ GameObject::~GameObject()
 GameObject* const GameObject::Create(Component* optionalComponents[], unsigned int componentCount)
 {
 	//Memory System?
-	return new GameObject();
+	return new GameObject(optionalComponents, componentCount);
 }
 
 void GameObject::Update()

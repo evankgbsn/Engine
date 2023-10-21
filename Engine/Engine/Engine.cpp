@@ -126,7 +126,7 @@ Engine::Engine(const std::string& gn, const Version& gv) :
 	spawnedGameThreads(std::unordered_map<void(*)(), std::thread*>())
 {
 	TimeManager::Initialize();
-	NetworkManager::Initialize();
+	//NetworkManager::Initialize();
 	SceneManager::Initialize();
 }
 
@@ -141,7 +141,7 @@ Engine::~Engine()
 
 	SceneManager::Terminate();
 	Renderer::Terminate();
-	NetworkManager::Terminate();
+	//NetworkManager::Terminate();
 	TimeManager::Terminate();
 }
 

@@ -32,7 +32,7 @@ void Game();
 
 int main(int argc, const char** argv)
 {
-	const std::string gameName("FPS");
+	const std::string gameName("Test");
 	const Engine::Version gameVersion(1, 0, 0);
 
 	Engine::Initialize(gameName, gameVersion);
@@ -101,7 +101,7 @@ void StressTest()
 					}
 				};
 				//std::this_thread::sleep_for(std::chrono::milliseconds(10));
-				GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Ball"), TextureManager::GetTexture("VikingRoom"), animationCreationCallback);
+				GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"), animationCreationCallback);
 				
 			}
 		}

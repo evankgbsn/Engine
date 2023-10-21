@@ -51,8 +51,8 @@ Window::Window(uint32_t w, uint32_t h, std::string&& windowName) :
 {
 	CameraManager::Initialize();
 	Camera& cam = CameraManager::CreateCamera(Camera::Type::PERSPECTIVE, std::string("MainCamera"), this);
-	cam.SetPosition(glm::vec3(0.0f, 2.5f, 10.0f));
-	cam.SetTarget(glm::vec3(0.0f, 2.5f, 9.0f));
+
+	Camera& orthoCam = CameraManager::CreateCamera(Camera::Type::ORTHOGRAPHIC, std::string("MainOrthoCamera"), this);
 
 	LightManager::Initialize();
 	LightManager::CreateDirectionalLight("MainDirLight");

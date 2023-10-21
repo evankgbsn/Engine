@@ -5,6 +5,7 @@
 #include "TexturedStaticGraphicsObject.h"
 #include "LitTexturedStaticGraphicsObject.h"
 #include "GoochGraphicsObject.h"
+#include "TexturedStatic2DGraphicsObject.h"
 #include "../Pipeline/Shaders/DescriptorSet.h"
 #include "../Pipeline/Shaders/DescriptorSetManager.h"
 #include "../Windows/Window.h"
@@ -164,11 +165,11 @@ void GraphicsObjectManager::CreateTexturedStaticGraphicsObject(Model* const mode
 
 	if (instance == nullptr)
 	{
-		Logger::Log(std::string("Calling GraphicsObjectManager::CreateStaticGraphicsObject() before GraphicsObjectManager::Initialize()."), Logger::Category::Warning);
+		Logger::Log(std::string("Calling GraphicsObjectManager::CreateTexturedStaticGraphicsObject() before GraphicsObjectManager::Initialize()."), Logger::Category::Warning);
 		return;
 	}
 
-	std::lock_guard<std::mutex> guard(instance->enqueuestaticMutex);
+	std::lock_guard<std::mutex> guard(instance->enqueueStaticMutex);
 
 	std::function<void()> create = [model, texture, callback]()
 	{
@@ -260,6 +261,31 @@ void GraphicsObjectManager::CreateLitTexturedStaticGraphicsObject(Model* const m
 	instance->graphicsObjectCreateQueue.push_back(create);
 }
 
+void GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(Model* const model, Texture* const texture, std::function<void(GraphicsObject*)> callback)
+{
+	if (instance == nullptr)
+	{
+		Logger::Log(std::string("Calling GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject() before GraphicsObjectManager::Initialize()."), Logger::Category::Warning);
+		return;
+	}
+
+	std::lock_guard<std::mutex> guard(instance->enqueueStatic2DMutex);
+
+	std::function<void()> create = [model, texture, callback]()
+	{
+		TexturedStatic2DGraphicsObject* newGraphicsObject = nullptr;
+
+		if (model != nullptr && texture != nullptr)
+		{
+			newGraphicsObject = new TexturedStatic2DGraphicsObject(model, texture);
+			instance->staticGraphicsObjects.push_back(newGraphicsObject);
+			callback(newGraphicsObject);
+		}
+	};
+
+	instance->graphicsObjectCreateQueue.push_back(create);
+}
+
 const std::vector<GraphicsObject*>& GraphicsObjectManager::GetTexturedStaticGraphicsObjets()
 {
 	if (instance == nullptr)
@@ -295,6 +321,12 @@ void GraphicsObjectManager::DrawObjects(VkCommandBuffer& buffer, unsigned int im
 
 	std::lock_guard<std::mutex> guard(instance->drawMutex);
 
+	std::for_each(std::execution::par, instance->static2DGraphicsObjects.begin(), instance->static2DGraphicsObjects.end(),
+		[](GraphicsObject* obj)
+		{
+			obj->Update();
+		});
+
 	std::for_each(std::execution::par, instance->animatedGraphicsObjects.begin(), instance->animatedGraphicsObjects.end(),
 		[](GraphicsObject* obj)
 		{
@@ -321,6 +353,9 @@ void GraphicsObjectManager::DrawObjects(VkCommandBuffer& buffer, unsigned int im
 
 	VkDeviceSize offsets[] = { 0 };
 	vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **instance->graphicsPipelines.find("TexturedAnimated")->second.second);
+
+
+	// Look into command pools for threaded draw calls.
 	for (GraphicsObject* obj : instance->animatedGraphicsObjects)
 	{
 		vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(instance->graphicsPipelines.find("TexturedAnimated")->second.second->GetPipelineLayout()), 0, 1, &obj->GetDescriptorSet()(), 0, nullptr);
@@ -331,6 +366,14 @@ void GraphicsObjectManager::DrawObjects(VkCommandBuffer& buffer, unsigned int im
 
 	vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **instance->graphicsPipelines.find("TexturedStatic")->second.second);
 	for (GraphicsObject* obj : instance->staticGraphicsObjects)
+	{
+		vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(instance->graphicsPipelines.find("TexturedStatic")->second.second->GetPipelineLayout()), 0, 1, &obj->GetDescriptorSet()(), 0, nullptr);
+		vkCmdBindVertexBuffers(buffer, 0, 1, &obj->GetVertexBuffer()(), offsets);
+		vkCmdBindIndexBuffer(buffer, obj->GetIndexBuffer()(), 0, VK_INDEX_TYPE_UINT32);
+		vkCmdDrawIndexed(buffer, static_cast<unsigned int>(obj->GetModel()->GetIndices().size()), 1, 0, 0, 0);
+	}
+
+	for (GraphicsObject* obj : instance->static2DGraphicsObjects)
 	{
 		vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(instance->graphicsPipelines.find("TexturedStatic")->second.second->GetPipelineLayout()), 0, 1, &obj->GetDescriptorSet()(), 0, nullptr);
 		vkCmdBindVertexBuffers(buffer, 0, 1, &obj->GetVertexBuffer()(), offsets);
@@ -388,6 +431,7 @@ GraphicsObjectManager::GraphicsObjectManager(const Window& w) :
 	animatedGraphicsObjects(std::vector<GraphicsObject*>()),
 	goochGraphicsObjects(std::vector<GraphicsObject*>()),
 	litStaticGraphicsObjects(std::vector<GraphicsObject*>()),
+	static2DGraphicsObjects(std::vector<GraphicsObject*>()),
 	window(w),
 	drawMutex()
 {
@@ -417,6 +461,11 @@ GraphicsObjectManager::~GraphicsObjectManager()
 	}
 
 	for (GraphicsObject* graphicsObject : litStaticGraphicsObjects)
+	{
+		delete graphicsObject;
+	}
+
+	for (GraphicsObject* graphicsObject : static2DGraphicsObjects)
 	{
 		delete graphicsObject;
 	}

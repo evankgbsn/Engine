@@ -168,7 +168,7 @@ void Camera::UpdateProjection()
 		projection = glm::perspective(fov, aspect, near, far);
 		break;
 	case Camera::Type::ORTHOGRAPHIC:
-		projection = projection = glm::ortho(left, right, bottom, top, near, far);
+		projection = glm::orthoRH_ZO(left, right, bottom, top, near, far);
 		break;
 	default:
 		break;

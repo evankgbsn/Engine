@@ -25,11 +25,11 @@ public:
 
 	TexturedStaticGraphicsObject& operator=(TexturedStaticGraphicsObject&&) = delete;
 
-	virtual void Update() override;
+	void Update() override;
 
-	void Translate(const glm::vec3&) override;
+	void Translate(const glm::vec3& translation) override;
 
-	void Scale(const glm::vec3&) override;
+	void Scale(const glm::vec3& scale) override;
 
 protected:
 
@@ -50,26 +50,16 @@ protected:
 		glm::mat4 projection;
 	};
 
-	struct LightUniformBuffer
-	{
-		glm::vec4 ambient;
-		glm::vec4 direction;
-		glm::vec4 color;
-	};
+	void CreateTextures() override;
 
-	virtual void CreateTextures() override;
-
-	virtual void CreateUniformBuffers() override;
+	void CreateUniformBuffers() override;
 
 	MVPUniformBuffer mvp;
-
-	LightUniformBuffer light;
 
 	Texture* texture;
 
 private:
 
 };
-
 
 #endif // TEXTUREDSTATICGRAPHICSOBJECT_H

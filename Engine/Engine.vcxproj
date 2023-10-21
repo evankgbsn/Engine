@@ -168,12 +168,14 @@
     <ClInclude Include="Engine\Renderer\Cameras\Camera.h" />
     <ClInclude Include="Engine\Renderer\Cameras\CameraManager.h" />
     <ClInclude Include="Engine\Renderer\Commands\CommandManager.h" />
+    <ClInclude Include="Engine\Renderer\GraphicsObjects\2DTransformable.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\3DTransformable.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\GoochGraphicsObject.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\GraphicsObject.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\GraphicsObjectManager.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\LitTexturedStaticGraphicsObject.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\TexturedAnimatedGraphicsObject.h" />
+    <ClInclude Include="Engine\Renderer\GraphicsObjects\TexturedStatic2DGraphicsObject.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\TexturedStaticGraphicsObject.h" />
     <ClInclude Include="Engine\Renderer\Images\Texture.h" />
     <ClInclude Include="Engine\Renderer\Images\TextureManager.h" />
@@ -246,6 +248,7 @@
     <ClCompile Include="Engine\Renderer\GraphicsObjects\GraphicsObjectManager.cpp" />
     <ClCompile Include="Engine\Renderer\GraphicsObjects\LitTexturedStaticGraphicsObject.cpp" />
     <ClCompile Include="Engine\Renderer\GraphicsObjects\TexturedAnimatedGraphicsObject.cpp" />
+    <ClCompile Include="Engine\Renderer\GraphicsObjects\TexturedStatic2DGraphicsObject.cpp" />
     <ClCompile Include="Engine\Renderer\GraphicsObjects\TexturedStaticGraphicsObject.cpp" />
     <ClCompile Include="Engine\Renderer\Images\Texture.cpp" />
     <ClCompile Include="Engine\Renderer\Images\TextureManager.cpp" />

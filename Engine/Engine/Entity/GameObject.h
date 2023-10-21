@@ -14,6 +14,7 @@ public:
 
 	~GameObject();
 
+	// For creating classless gameobjects.
 	static GameObject* const Create(Component* optionalComponents[] = {}, unsigned int componentCount = 0);
 
 	virtual void Update() override;

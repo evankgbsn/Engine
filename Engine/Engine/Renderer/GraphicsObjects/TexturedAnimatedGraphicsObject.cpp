@@ -100,11 +100,11 @@ void TexturedAnimatedGraphicsObject::Translate(const glm::vec3& translation)
 	mvp.model = glm::translate(mvp.model, translation);
 }
 
-void TexturedAnimatedGraphicsObject::Scale(const glm::vec3&)
+void TexturedAnimatedGraphicsObject::Scale(const glm::vec3& scale)
 {
 }
 
-void TexturedAnimatedGraphicsObject::Rotate(float angle, const glm::vec3&)
+void TexturedAnimatedGraphicsObject::Rotate(float angle, const glm::vec3& axis)
 {
 }
 

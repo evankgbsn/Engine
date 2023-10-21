@@ -3,8 +3,6 @@
 #include "../Memory/UniformBuffer.h"
 #include "../Cameras/CameraManager.h"
 #include "../Images/Texture.h"
-#include "../Lights/LightManager.h"
-#include "../Lights/DirectionalLight.h"
 
 void TexturedStaticGraphicsObject::Update()
 {
@@ -14,14 +12,7 @@ void TexturedStaticGraphicsObject::Update()
 	mvp.projection = cam.GetProjection();
 	mvp.projection[1][1] *= -1;
 
-	DirectionalLight* dirLight = LightManager::GetDirectionalLight("MainDirLight");
-
-	light.color = glm::vec4(dirLight->GetColor(), 1.0f);
-	light.direction = glm::vec4(dirLight->GetDirection(), 0.0f);
-	light.ambient = glm::vec4(0.5f, 0.5f, 0.5f, 1.0f);
-
 	uniformBuffers[0]->SetData(&mvp);
-	uniformBuffers[1]->SetData(&light);
 }
 
 void TexturedStaticGraphicsObject::Translate(const glm::vec3& translation)
@@ -34,8 +25,9 @@ void TexturedStaticGraphicsObject::Scale(const glm::vec3& scale)
 	mvp.model = glm::scale(mvp.model, scale);
 }
 
-void TexturedStaticGraphicsObject::Rotate(float angle, const glm::vec3&)
+void TexturedStaticGraphicsObject::Rotate(float angle, const glm::vec3& axis)
 {
+	
 }
 
 glm::vec3 vec3DefaultReturn;
@@ -64,22 +56,17 @@ void TexturedStaticGraphicsObject::CreateTextures()
 
 void TexturedStaticGraphicsObject::CreateUniformBuffers()
 {
-	// The binding for the texture sampler is 1.
-
 	UniformBuffer* mvpUniformBuffer = new UniformBuffer(sizeof(mvp), 0);
 	mvpUniformBuffer->PersistentMap();
 	uniformBuffers.push_back(mvpUniformBuffer);
-
-	UniformBuffer* lightUniformBuffer = new UniformBuffer(sizeof(light), 2);
-	lightUniformBuffer->PersistentMap();
-	uniformBuffers.push_back(lightUniformBuffer);
+	
+	// The binding for the texture sampler is 1.
 }
 
 TexturedStaticGraphicsObject::TexturedStaticGraphicsObject(Model* const m, Texture* const tex) :
 	GraphicsObject(m),
 	texture(tex),
-	mvp(),
-	light()
+	mvp()
 {
 	mvp.model = glm::mat4(1.0f);
 	shaderName = "TexturedStatic";

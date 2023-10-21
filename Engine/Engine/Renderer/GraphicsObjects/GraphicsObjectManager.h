@@ -39,6 +39,8 @@ public:
 
 	static void CreateLitTexturedStaticGraphicsObject(Model* const model, Texture* const texture, std::function<void(GraphicsObject*)> callback);
 
+	static void CreateTexturedStatic2DGraphicsObject(Model* const model, Texture* const texture, std::function<void(GraphicsObject*)> callback);
+
 	static const std::vector<GraphicsObject*>& GetTexturedStaticGraphicsObjets();
 
 	static const std::vector<GraphicsObject*>& GetTexturedAnimatedGraphicsObjects();
@@ -79,7 +81,9 @@ private:
 
 	std::mutex drawMutex;
 
-	std::mutex enqueuestaticMutex;
+	std::mutex enqueueStaticMutex;
+
+	std::mutex enqueueStatic2DMutex;
 
 	std::mutex enqueueAnimatedMutex;
 
@@ -94,6 +98,8 @@ private:
 	std::vector<GraphicsObject*> goochGraphicsObjects;
 
 	std::vector<GraphicsObject*> litStaticGraphicsObjects;
+
+	std::vector<GraphicsObject*> static2DGraphicsObjects;
 
 	const Window& window;
 

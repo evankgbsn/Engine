@@ -13,24 +13,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Game">
-      <UniqueIdentifier>{e42bb5ad-f960-457c-9d67-e8c5737f4cb7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Game\Entities">
-      <UniqueIdentifier>{8f1a5734-6198-472d-9945-bed772d43fb6}</UniqueIdentifier>
+    <Filter Include="Source Files\Entities">
+      <UniqueIdentifier>{e2df1f32-3908-475b-9e93-e3e857fbe6d3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\main.cpp">
-      <Filter>Source Files\Game</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\Entities\Skybox.cpp">
-      <Filter>Source Files\Game\Entities</Filter>
+      <Filter>Source Files\Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Entities\Skybox.h">
-      <Filter>Source Files\Game\Entities</Filter>
+      <Filter>Source Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

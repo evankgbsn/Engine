@@ -1,6 +1,8 @@
 #ifndef GRAPHICSOBJECT_H
 #define GRAPHICSOBJECT_H
 
+#include "GraphicsObjectTypes.h"
+
 #include <glm/glm.hpp>
 #include <vector>
 #include <string>
@@ -68,6 +70,8 @@ protected:
 	DescriptorSet* descriptorSet;
 
 	std::string shaderName;
+
+	ObjectTypes::GraphicsObjectType type;
 
 private:
 	

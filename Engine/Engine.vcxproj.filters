@@ -336,6 +336,9 @@
     <ClInclude Include="Engine\Renderer\Pipeline\Rasterizer\WireFrameRasterizerPipelineState.h">
       <Filter>Source Files\Engine\Renderer\Pipeline\Rasterizer</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Renderer\GraphicsObjects\GraphicsObjectTypes.h">
+      <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">

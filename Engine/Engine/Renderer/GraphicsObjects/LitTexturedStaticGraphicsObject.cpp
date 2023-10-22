@@ -12,6 +12,7 @@ LitTexturedStaticGraphicsObject::LitTexturedStaticGraphicsObject(Model* const mo
 	mvp(),
 	light()
 {
+	type = ObjectTypes::GraphicsObjectType::LitTexturedStatic;
 	mvp.model = glm::mat4(1.0f);
 	shaderName = "LitTexturedStatic";
 	InitializeDescriptorSets();

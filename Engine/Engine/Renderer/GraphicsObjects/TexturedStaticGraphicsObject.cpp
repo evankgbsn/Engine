@@ -68,6 +68,7 @@ TexturedStaticGraphicsObject::TexturedStaticGraphicsObject(Model* const m, Textu
 	texture(tex),
 	mvp()
 {
+	type = ObjectTypes::GraphicsObjectType::TexturedStatic;
 	mvp.model = glm::mat4(1.0f);
 	shaderName = "TexturedStatic";
 	InitializeDescriptorSets();

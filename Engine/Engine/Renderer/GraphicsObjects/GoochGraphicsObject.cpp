@@ -66,6 +66,7 @@ GoochGraphicsObject::GoochGraphicsObject(Model* const model, Texture* const tex)
 	mvp(),
 	texture(tex)
 {
+	type = ObjectTypes::GraphicsObjectType::Gooch;
 	shaderName = "Gooch";
 	InitializeDescriptorSets();
 	mvp.model = glm::mat4(1.0f);

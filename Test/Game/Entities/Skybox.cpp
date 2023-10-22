@@ -22,6 +22,8 @@ Skybox::Skybox()
 				ts->Scale(glm::vec3(1000.0f, 1000.0f, 1000.0f));
 				scaled = true;
 			}
+
+			//GraphicsObjectManager::WireFrame(go, ObjectTypes::GraphicsObjectType::TexturedStatic);
 		}
 	};
 

@@ -656,6 +656,8 @@ void Window::RecordCommands(int imageIndex)
 
 	vkCmdBeginRenderPass(buffer, &renderPassBeginInfo, VK_SUBPASS_CONTENTS_INLINE);
 
+	GraphicsObjectManager::ExecutePendingCommands();
+	GraphicsObjectManager::UpdateObjects();
 	GraphicsObjectManager::DrawObjects(buffer, imageIndex);
 	
 	vkCmdEndRenderPass(buffer);

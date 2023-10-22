@@ -27,7 +27,8 @@ GraphicsObject::GraphicsObject() :
 	modelIndexBuffer(new IndexBuffer(static_cast<unsigned int>(sizeof(unsigned int) * model->GetIndices().size()))),
 	uniformBuffers(std::vector<UniformBuffer*>()),
 	descriptorSet(nullptr),
-	textures(std::vector<Texture*>())
+	textures(std::vector<Texture*>()),
+	type()
 {
 	InitializeBuffers();
 }

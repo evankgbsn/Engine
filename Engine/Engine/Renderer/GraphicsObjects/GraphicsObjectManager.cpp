@@ -176,6 +176,16 @@ void GraphicsObjectManager::CreateQueuedGraphicsObjects()
 	graphicsObjectCreateQueue.clear();
 }
 
+void GraphicsObjectManager::ConvertPipelineForQueuedGraphicsObjects()
+{
+	for (const auto& graphicsConversionFunction : graphicsObjectPipelineConversionQueue)
+	{
+		graphicsConversionFunction();
+	}
+
+	graphicsObjectPipelineConversionQueue.clear();
+}
+
 bool GraphicsObjectManager::IsPipelineFromShader(const std::string& pipelineKey)
 {
 	size_t pieplineKeySize = pipelineKey.size();
@@ -202,7 +212,7 @@ void GraphicsObjectManager::CreateTexturedStaticGraphicsObject(Model* const mode
 		if (model != nullptr && texture != nullptr)
 		{
 			newGraphicsObject = new TexturedStaticGraphicsObject(model, texture);
-			instance->staticGraphicsObjects.push_back(newGraphicsObject);
+			instance->texturedStaticGraphicsObjects.push_back(newGraphicsObject);
 			callback(newGraphicsObject);
 		}
 	};
@@ -227,7 +237,7 @@ void GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(Model* const mo
 		if (model != nullptr && texture != nullptr)
 		{
 			newGraphicsObject = new TexturedAnimatedGraphicsObject(model, texture);
-			instance->animatedGraphicsObjects.push_back(newGraphicsObject);
+			instance->animatedTexturedGraphicsObjects.push_back(newGraphicsObject);
 			callback(newGraphicsObject);
 		}
 	};
@@ -277,7 +287,7 @@ void GraphicsObjectManager::CreateLitTexturedStaticGraphicsObject(Model* const m
 		if (model != nullptr)
 		{
 			newGraphicsObject = new LitTexturedStaticGraphicsObject(model, texture);
-			instance->litStaticGraphicsObjects.push_back(newGraphicsObject);
+			instance->litTexturedStaticGraphicsObjects.push_back(newGraphicsObject);
 			callback(newGraphicsObject);
 		}
 	};
@@ -302,12 +312,130 @@ void GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(Model* const mo
 		if (model != nullptr && texture != nullptr)
 		{
 			newGraphicsObject = new TexturedStatic2DGraphicsObject(model, texture);
-			instance->staticGraphicsObjects.push_back(newGraphicsObject);
+			instance->texturedStaticGraphicsObjects.push_back(newGraphicsObject);
 			callback(newGraphicsObject);
 		}
 	};
 
 	instance->graphicsObjectCreateQueue.push_back(create);
+}
+
+void GraphicsObjectManager::WireFrame(GraphicsObject* obj, ObjectTypes::GraphicsObjectType type)
+{
+	std::function<void()> wireFrameCall = [obj, type]()
+	{
+		if (obj == nullptr)
+			return;
+
+		auto moveToWireFrame = [](std::vector<GraphicsObject*>& solidArray, std::vector<GraphicsObject*>& wireFrameArray, GraphicsObject* obj)
+		{
+			// queue these calls to update before draw each frame or mutex.
+			for (unsigned int i = 0; i < solidArray.size(); i++)
+			{
+				GraphicsObject* graphicsObjectAtIndex = solidArray[i];
+
+				if (graphicsObjectAtIndex == obj)
+				{
+					solidArray[i] = nullptr;
+					bool placedInWireFrameArray = false;
+					for (unsigned int j = 0; j < wireFrameArray.size(); j++)
+					{
+						if (wireFrameArray[j] == nullptr)
+						{
+							wireFrameArray[j] = obj;
+							placedInWireFrameArray = true;
+							break;
+						}
+					}
+
+					if (!placedInWireFrameArray)
+					{
+						wireFrameArray.push_back(obj);
+					}
+				}
+			}
+		};
+
+		switch (type)
+		{
+		case ObjectTypes::GraphicsObjectType::TexturedStatic:
+			moveToWireFrame(instance->texturedStaticGraphicsObjects, instance->texturedStaticGraphicsObjectsWireFrame, obj);
+			break;
+		case ObjectTypes::GraphicsObjectType::LitTexturedStatic:
+			moveToWireFrame(instance->litTexturedStaticGraphicsObjects, instance->litTexturedStaticGraphicsObjectsWireFrame, obj);
+			break;
+		case ObjectTypes::GraphicsObjectType::AnimatedTextured:
+			moveToWireFrame(instance->animatedTexturedGraphicsObjects, instance->animatedTexturedGraphicsObjectsWireFrame, obj);
+			break;
+		case ObjectTypes::GraphicsObjectType::TexturedStatic2D:
+			moveToWireFrame(instance->texturedStatic2DGraphicsObjects, instance->texturedStatic2DGraphicsObjectsWireFrame, obj);
+			break;
+		case ObjectTypes::GraphicsObjectType::Gooch:
+			moveToWireFrame(instance->goochGraphicsObjects, instance->goochGraphicsObjectsWireFrame, obj);
+			break;
+		}
+	};
+
+	instance->graphicsObjectPipelineConversionQueue.push_back(wireFrameCall);
+}
+
+void GraphicsObjectManager::Solid(GraphicsObject* obj, ObjectTypes::GraphicsObjectType type)
+{
+	std::function<void()> solidCall = [obj, type]()
+	{
+		if (obj == nullptr)
+			return;
+
+		auto moveToWireFrame = [](std::vector<GraphicsObject*>& solidArray, std::vector<GraphicsObject*>& wireFrameArray, GraphicsObject* obj)
+		{
+			// queue these calls to update before draw each frame or mutex.
+			for (unsigned int i = 0; i < solidArray.size(); i++)
+			{
+				GraphicsObject* graphicsObjectAtIndex = solidArray[i];
+
+				if (graphicsObjectAtIndex == obj)
+				{
+					solidArray[i] = nullptr;
+					bool placedInWireFrameArray = false;
+					for (unsigned int j = 0; j < wireFrameArray.size(); j++)
+					{
+						if (wireFrameArray[j] == nullptr)
+						{
+							wireFrameArray[j] = obj;
+							placedInWireFrameArray = true;
+							break;
+						}
+					}
+
+					if (!placedInWireFrameArray)
+					{
+						wireFrameArray.push_back(obj);
+					}
+				}
+			}
+		};
+
+		switch (type)
+		{
+		case ObjectTypes::GraphicsObjectType::TexturedStatic:
+			moveToWireFrame(instance->texturedStaticGraphicsObjects, instance->texturedStaticGraphicsObjectsWireFrame, obj);
+			break;
+		case ObjectTypes::GraphicsObjectType::LitTexturedStatic:
+			moveToWireFrame(instance->litTexturedStaticGraphicsObjects, instance->litTexturedStaticGraphicsObjectsWireFrame, obj);
+			break;
+		case ObjectTypes::GraphicsObjectType::AnimatedTextured:
+			moveToWireFrame(instance->animatedTexturedGraphicsObjects, instance->animatedTexturedGraphicsObjectsWireFrame, obj);
+			break;
+		case ObjectTypes::GraphicsObjectType::TexturedStatic2D:
+			moveToWireFrame(instance->texturedStatic2DGraphicsObjects, instance->texturedStatic2DGraphicsObjectsWireFrame, obj);
+			break;
+		case ObjectTypes::GraphicsObjectType::Gooch:
+			moveToWireFrame(instance->goochGraphicsObjects, instance->goochGraphicsObjectsWireFrame, obj);
+			break;
+		}
+	};
+
+	instance->graphicsObjectPipelineConversionQueue.push_back(solidCall);
 }
 
 const std::vector<GraphicsObject*>& GraphicsObjectManager::GetTexturedStaticGraphicsObjets()
@@ -319,7 +447,7 @@ const std::vector<GraphicsObject*>& GraphicsObjectManager::GetTexturedStaticGrap
 		return defaultReturn;
 	}
 
-	return instance->staticGraphicsObjects;
+	return instance->texturedStaticGraphicsObjects;
 }
 
 const std::vector<GraphicsObject*>& GraphicsObjectManager::GetTexturedAnimatedGraphicsObjects()
@@ -331,97 +459,78 @@ const std::vector<GraphicsObject*>& GraphicsObjectManager::GetTexturedAnimatedGr
 		return defaultReturn;
 	}
 
-	return instance->animatedGraphicsObjects;
+	return instance->animatedTexturedGraphicsObjects;
+}
+
+void GraphicsObjectManager::ExecutePendingCommands()
+{
+	if (instance == nullptr)
+		return;
+	
+	instance->CreateQueuedGraphicsObjects();
+	instance->ConvertPipelineForQueuedGraphicsObjects();
+}
+
+void GraphicsObjectManager::UpdateObjects()
+{
+	if (instance == nullptr)
+		return;
+
+	auto updateObjects = [](std::vector<GraphicsObject*>& goArray)
+	{
+		std::for_each(std::execution::par, goArray.begin(), goArray.end(),
+			[](GraphicsObject* obj)
+			{
+				if (obj != nullptr)
+					obj->Update();
+			});
+	};
+
+	updateObjects(instance->texturedStatic2DGraphicsObjects);
+	updateObjects(instance->texturedStatic2DGraphicsObjectsWireFrame);
+	updateObjects(instance->animatedTexturedGraphicsObjects);
+	updateObjects(instance->animatedTexturedGraphicsObjectsWireFrame);
+	updateObjects(instance->texturedStaticGraphicsObjects);
+	updateObjects(instance->texturedStaticGraphicsObjectsWireFrame);
+	updateObjects(instance->goochGraphicsObjects);
+	updateObjects(instance->goochGraphicsObjectsWireFrame);
+	updateObjects(instance->litTexturedStaticGraphicsObjects);
+	updateObjects(instance->litTexturedStaticGraphicsObjectsWireFrame);
 }
 
 void GraphicsObjectManager::DrawObjects(VkCommandBuffer& buffer, unsigned int imageIndex)
 {
 	if (instance == nullptr)
-	{
 		return;
-	}
 
-	instance->CreateQueuedGraphicsObjects();
-
-	std::lock_guard<std::mutex> guard(instance->drawMutex);
-
-	std::for_each(std::execution::par, instance->static2DGraphicsObjects.begin(), instance->static2DGraphicsObjects.end(),
-		[](GraphicsObject* obj)
-		{
-			obj->Update();
-		});
-
-	std::for_each(std::execution::par, instance->animatedGraphicsObjects.begin(), instance->animatedGraphicsObjects.end(),
-		[](GraphicsObject* obj)
-		{
-			obj->Update();
-		});
-
-	std::for_each(std::execution::par, instance->staticGraphicsObjects.begin(), instance->staticGraphicsObjects.end(),
-		[](GraphicsObject* obj)
-		{
-			obj->Update();
-		});
-
-	std::for_each(std::execution::par, instance->goochGraphicsObjects.begin(), instance->goochGraphicsObjects.end(),
-		[](GraphicsObject* obj)
-		{
-			obj->Update();
-		});
-
-	std::for_each(std::execution::par, instance->litStaticGraphicsObjects.begin(), instance->litStaticGraphicsObjects.end(),
-		[](GraphicsObject* obj)
-		{
-			obj->Update();
-		});
-
-	VkDeviceSize offsets[] = { 0 };
-	vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **instance->graphicsPipelines.find("TexturedAnimated")->second.second);
-
-
-	// Look into command pools for threaded draw calls.
-	for (GraphicsObject* obj : instance->animatedGraphicsObjects)
+	auto drawObjects = [&buffer](const std::string& pipelineName, std::vector<GraphicsObject*>& objects)
 	{
-		vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(instance->graphicsPipelines.find("TexturedAnimated")->second.second->GetPipelineLayout()), 0, 1, &obj->GetDescriptorSet()(), 0, nullptr);
-		vkCmdBindVertexBuffers(buffer, 0, 1, &obj->GetVertexBuffer()(), offsets);
-		vkCmdBindIndexBuffer(buffer, obj->GetIndexBuffer()(), 0, VK_INDEX_TYPE_UINT32);
-		vkCmdDrawIndexed(buffer, static_cast<unsigned int>(obj->GetModel()->GetIndices().size()), 1, 0, 0, 0);
-	}
+		VkDeviceSize offsets[] = { 0 };
+		vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **instance->graphicsPipelines.find(pipelineName)->second.second);
 
-	vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **instance->graphicsPipelines.find("TexturedStatic")->second.second);
-	for (GraphicsObject* obj : instance->staticGraphicsObjects)
-	{
-		vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(instance->graphicsPipelines.find("TexturedStatic")->second.second->GetPipelineLayout()), 0, 1, &obj->GetDescriptorSet()(), 0, nullptr);
-		vkCmdBindVertexBuffers(buffer, 0, 1, &obj->GetVertexBuffer()(), offsets);
-		vkCmdBindIndexBuffer(buffer, obj->GetIndexBuffer()(), 0, VK_INDEX_TYPE_UINT32);
-		vkCmdDrawIndexed(buffer, static_cast<unsigned int>(obj->GetModel()->GetIndices().size()), 1, 0, 0, 0);
-	}
-
-	for (GraphicsObject* obj : instance->static2DGraphicsObjects)
-	{
-		vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(instance->graphicsPipelines.find("TexturedStatic")->second.second->GetPipelineLayout()), 0, 1, &obj->GetDescriptorSet()(), 0, nullptr);
-		vkCmdBindVertexBuffers(buffer, 0, 1, &obj->GetVertexBuffer()(), offsets);
-		vkCmdBindIndexBuffer(buffer, obj->GetIndexBuffer()(), 0, VK_INDEX_TYPE_UINT32);
-		vkCmdDrawIndexed(buffer, static_cast<unsigned int>(obj->GetModel()->GetIndices().size()), 1, 0, 0, 0);
-	}
-
-	vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **instance->graphicsPipelines.find("Gooch")->second.second);
-	for (GraphicsObject* obj : instance->goochGraphicsObjects)
-	{
-		vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(instance->graphicsPipelines.find("Gooch")->second.second->GetPipelineLayout()), 0, 1, &obj->GetDescriptorSet()(), 0, nullptr);
-		vkCmdBindVertexBuffers(buffer, 0, 1, &obj->GetVertexBuffer()(), offsets);
-		vkCmdBindIndexBuffer(buffer, obj->GetIndexBuffer()(), 0, VK_INDEX_TYPE_UINT32);
-		vkCmdDrawIndexed(buffer, static_cast<unsigned int>(obj->GetModel()->GetIndices().size()), 1, 0, 0, 0);
-	}
-
-	vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **instance->graphicsPipelines.find("LitTexturedStatic")->second.second);
-	for (GraphicsObject* obj : instance->litStaticGraphicsObjects)
-	{
-		vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(instance->graphicsPipelines.find("LitTexturedStatic")->second.second->GetPipelineLayout()), 0, 1, &obj->GetDescriptorSet()(), 0, nullptr);
-		vkCmdBindVertexBuffers(buffer, 0, 1, &obj->GetVertexBuffer()(), offsets);
-		vkCmdBindIndexBuffer(buffer, obj->GetIndexBuffer()(), 0, VK_INDEX_TYPE_UINT32);
-		vkCmdDrawIndexed(buffer, static_cast<unsigned int>(obj->GetModel()->GetIndices().size()), 1, 0, 0, 0);
-	}
+		// Look into command pools for threaded draw calls.
+		for (GraphicsObject* obj : objects)
+		{
+			if (obj != nullptr)
+			{
+				vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(instance->graphicsPipelines.find(pipelineName)->second.second->GetPipelineLayout()), 0, 1, &obj->GetDescriptorSet()(), 0, nullptr);
+				vkCmdBindVertexBuffers(buffer, 0, 1, &obj->GetVertexBuffer()(), offsets);
+				vkCmdBindIndexBuffer(buffer, obj->GetIndexBuffer()(), 0, VK_INDEX_TYPE_UINT32);
+				vkCmdDrawIndexed(buffer, static_cast<unsigned int>(obj->GetModel()->GetIndices().size()), 1, 0, 0, 0);
+			}
+		}
+	};
+	
+	drawObjects(std::string("WireFrame_TexturedAnimated"), instance->animatedTexturedGraphicsObjectsWireFrame);
+	drawObjects(std::string("TexturedAnimated"), instance->animatedTexturedGraphicsObjects);
+	drawObjects(std::string("WireFrame_TexturedStatic"), instance->texturedStaticGraphicsObjectsWireFrame);
+	drawObjects(std::string("WireFrame_TexturedStatic"), instance->texturedStatic2DGraphicsObjectsWireFrame);
+	drawObjects(std::string("TexturedStatic"), instance->texturedStaticGraphicsObjects);
+	drawObjects(std::string("TexturedStatic"), instance->texturedStatic2DGraphicsObjects);
+	drawObjects(std::string("Gooch"), instance->goochGraphicsObjects);
+	drawObjects(std::string("WireFrame_Gooch"), instance->goochGraphicsObjectsWireFrame);
+	drawObjects(std::string("LitTexturedStatic"), instance->litTexturedStaticGraphicsObjects);
+	drawObjects(std::string("WireFrame_LitTexturedStatic"), instance->litTexturedStaticGraphicsObjectsWireFrame);
 }
 
 const ShaderPipelineStage* const GraphicsObjectManager::GetShaderPipelineStage(const std::string& shaderName)
@@ -451,13 +560,12 @@ bool GraphicsObjectManager::Operating()
 }
 
 GraphicsObjectManager::GraphicsObjectManager(const Window& w) :
-	staticGraphicsObjects(std::vector<GraphicsObject*>()),
-	animatedGraphicsObjects(std::vector<GraphicsObject*>()),
+	texturedStaticGraphicsObjects(std::vector<GraphicsObject*>()),
+	animatedTexturedGraphicsObjects(std::vector<GraphicsObject*>()),
 	goochGraphicsObjects(std::vector<GraphicsObject*>()),
-	litStaticGraphicsObjects(std::vector<GraphicsObject*>()),
-	static2DGraphicsObjects(std::vector<GraphicsObject*>()),
-	window(w),
-	drawMutex()
+	litTexturedStaticGraphicsObjects(std::vector<GraphicsObject*>()),
+	texturedStatic2DGraphicsObjects(std::vector<GraphicsObject*>()),
+	window(w)
 {
 	DescriptorSetManager::Initialize();
 	CreateDescriptorPools();
@@ -468,31 +576,28 @@ GraphicsObjectManager::~GraphicsObjectManager()
 {
 	shouldUpdate = false;
 
-	for (GraphicsObject* graphicsObject : staticGraphicsObjects)
+	auto deleteGraphicsObjectArray = [](std::vector<GraphicsObject*>& goArray)
 	{
-		delete graphicsObject;
-	}
+		for (unsigned int i = 0; i < goArray.size(); i++)
+		{
+			if (goArray[i] != nullptr)
+			{
+				delete goArray[i];
+				goArray[i] = nullptr;
+			}
+		}
+	};
 
-	for (GraphicsObject* graphicsObject : animatedGraphicsObjects)
-	{
-		delete graphicsObject;
-		graphicsObject = nullptr;
-	}
-
-	for (GraphicsObject* graphicsObject : goochGraphicsObjects)
-	{
-		delete graphicsObject;
-	}
-
-	for (GraphicsObject* graphicsObject : litStaticGraphicsObjects)
-	{
-		delete graphicsObject;
-	}
-
-	for (GraphicsObject* graphicsObject : static2DGraphicsObjects)
-	{
-		delete graphicsObject;
-	}
+	deleteGraphicsObjectArray(texturedStaticGraphicsObjects);
+	deleteGraphicsObjectArray(animatedTexturedGraphicsObjects);
+	deleteGraphicsObjectArray(goochGraphicsObjects);
+	deleteGraphicsObjectArray(litTexturedStaticGraphicsObjects);
+	deleteGraphicsObjectArray(texturedStatic2DGraphicsObjects);
+	deleteGraphicsObjectArray(texturedStaticGraphicsObjectsWireFrame);
+	deleteGraphicsObjectArray(animatedTexturedGraphicsObjectsWireFrame);
+	deleteGraphicsObjectArray(goochGraphicsObjectsWireFrame);
+	deleteGraphicsObjectArray(litTexturedStaticGraphicsObjectsWireFrame);
+	deleteGraphicsObjectArray(texturedStatic2DGraphicsObjectsWireFrame);
 
 	for (auto& graphicsPipeline : graphicsPipelines)
 	{

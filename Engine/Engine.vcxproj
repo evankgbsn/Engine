@@ -173,6 +173,7 @@
     <ClInclude Include="Engine\Renderer\GraphicsObjects\GoochGraphicsObject.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\GraphicsObject.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\GraphicsObjectManager.h" />
+    <ClInclude Include="Engine\Renderer\GraphicsObjects\GraphicsObjectTypes.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\LitTexturedStaticGraphicsObject.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\TexturedAnimatedGraphicsObject.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\TexturedStatic2DGraphicsObject.h" />

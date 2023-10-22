@@ -11,6 +11,7 @@ TexturedStatic2DGraphicsObject::TexturedStatic2DGraphicsObject(Model* const m, T
 	texture(tex),
 	mvp()
 {
+	type = ObjectTypes::GraphicsObjectType::TexturedStatic2D;
 	mvp.model = glm::mat4(1.0f);
 	shaderName = "TexturedStatic"; //TODO: Maybe seperate glsl/spv shader for 2D texture static graphics objects.
 	InitializeDescriptorSets();

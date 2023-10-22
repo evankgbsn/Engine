@@ -19,6 +19,7 @@ TexturedAnimatedGraphicsObject::TexturedAnimatedGraphicsObject(Model* const m, T
 	texture(tex),
 	animation(new Animation(model->GetBakedAnimation(0)))
 {
+	type = ObjectTypes::GraphicsObjectType::AnimatedTextured;
 	mvp.model = glm::mat4(1.0f);
 	shaderName = "TexturedAnimated";
 	InitializeDescriptorSets();

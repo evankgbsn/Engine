@@ -103,6 +103,12 @@ void StressTest()
 						ago->SetClip(0);
 						ago->SetAnimationSpeed(1.0f);
 					}
+
+					if (i == j)
+					{
+						GraphicsObjectManager::WireFrame(go, ObjectTypes::GraphicsObjectType::AnimatedTextured);
+					}
+
 				};
 				//std::this_thread::sleep_for(std::chrono::milliseconds(10));
 				GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"), animationCreationCallback);

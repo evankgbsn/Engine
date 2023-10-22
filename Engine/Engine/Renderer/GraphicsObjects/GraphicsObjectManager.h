@@ -1,6 +1,8 @@
 #ifndef GRAPHICSOBJECTMANAGER_H
 #define GRAPHICSOBJECTMANAGER_H
 
+#include "GraphicsObjectTypes.h"
+
 #include <vector>
 #include <unordered_map>
 #include <string>
@@ -41,9 +43,17 @@ public:
 
 	static void CreateTexturedStatic2DGraphicsObject(Model* const model, Texture* const texture, std::function<void(GraphicsObject*)> callback);
 
+	static void WireFrame(GraphicsObject* obj, ObjectTypes::GraphicsObjectType type);
+
+	static void Solid(GraphicsObject* obj, ObjectTypes::GraphicsObjectType type);
+
 	static const std::vector<GraphicsObject*>& GetTexturedStaticGraphicsObjets();
 
 	static const std::vector<GraphicsObject*>& GetTexturedAnimatedGraphicsObjects();
+
+	static void ExecutePendingCommands();
+
+	static void UpdateObjects();
 
 	static void DrawObjects(VkCommandBuffer& buffer, unsigned int imageIndex);
 
@@ -75,13 +85,13 @@ private:
 
 	void CreateQueuedGraphicsObjects();
 
+	void ConvertPipelineForQueuedGraphicsObjects();
+
 	bool IsPipelineFromShader(const std::string& pipelineKey);
 
 	static GraphicsObjectManager* instance;
 
 	static bool shouldUpdate;
-
-	std::mutex drawMutex;
 
 	std::mutex enqueueStaticMutex;
 
@@ -93,15 +103,25 @@ private:
 
 	std::mutex enqueuelitStaticMutex;
 
-	std::vector<GraphicsObject*> staticGraphicsObjects;
+	std::vector<GraphicsObject*> texturedStaticGraphicsObjects;
 
-	std::vector<GraphicsObject*> animatedGraphicsObjects;
+	std::vector<GraphicsObject*> texturedStaticGraphicsObjectsWireFrame;
+
+	std::vector<GraphicsObject*> animatedTexturedGraphicsObjects;
+
+	std::vector<GraphicsObject*> animatedTexturedGraphicsObjectsWireFrame;
 
 	std::vector<GraphicsObject*> goochGraphicsObjects;
 
-	std::vector<GraphicsObject*> litStaticGraphicsObjects;
+	std::vector<GraphicsObject*> goochGraphicsObjectsWireFrame;
 
-	std::vector<GraphicsObject*> static2DGraphicsObjects;
+	std::vector<GraphicsObject*> litTexturedStaticGraphicsObjects;
+
+	std::vector<GraphicsObject*> litTexturedStaticGraphicsObjectsWireFrame;
+
+	std::vector<GraphicsObject*> texturedStatic2DGraphicsObjects;
+
+	std::vector<GraphicsObject*> texturedStatic2DGraphicsObjectsWireFrame;
 
 	const Window& window;
 
@@ -112,6 +132,8 @@ private:
 	static const std::string shaderDirectoryName;
 
 	std::list<std::function<void()>> graphicsObjectCreateQueue;
+
+	std::list<std::function<void()>> graphicsObjectPipelineConversionQueue;
 };
 
 #endif // GRAPHICSOBJECTMANAGER_H

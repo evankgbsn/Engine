@@ -21,7 +21,7 @@ public:
 
 	static unsigned int WindowCount();
 
-	static Window* const GetWindow(std::string name);
+	static Window* const GetWindow(const std::string& name);
 
 private:
 

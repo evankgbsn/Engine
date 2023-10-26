@@ -82,6 +82,10 @@ public:
 
 	const VkFormat& GetDepthFormat() const;
 
+	glm::vec2 GetCursorPosition() const;
+
+	int GetKey(int keyCode) const;
+
 	bool framebufferResized;
 
 private:

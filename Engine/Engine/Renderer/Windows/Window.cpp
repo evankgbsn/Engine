@@ -36,6 +36,7 @@
 #include "../Memory/MemoryManager.h"
 #include "../../Time/TimeManager.h"
 #include "../Images/TextureManager.h"
+#include "../../Input/InputManager.h"
 
 #include "glm/gtc/matrix_transform.hpp"
 
@@ -56,10 +57,14 @@ Window::Window(uint32_t w, uint32_t h, std::string&& windowName) :
 
 	LightManager::Initialize();
 	LightManager::CreateDirectionalLight("MainDirLight");
+	
+	InputManager::Initialize();
 }
 
 Window::~Window()
 {
+	InputManager::Terminate();
+
 	LightManager::Terminate();
 	CameraManager::Terminate();
 
@@ -149,7 +154,9 @@ bool Window::Update()
 	if(tsgObj1 != nullptr)
 		tsgObj1->Translate(glm::vec3(0.001f, 0.f, 0.f));
 
-	CheckInput();
+	InputManager::Update();
+
+	//CheckInput();
 
 	glfwPollEvents();
 
@@ -482,6 +489,19 @@ void Window::CleanupSwapchain()
 const VkFormat& Window::GetDepthFormat() const
 {
 	return depthFormat;
+}
+
+glm::vec2 Window::GetCursorPosition() const
+{
+	double x, y;
+	glfwGetCursorPos(window, &x, &y);
+
+	return glm::vec2(static_cast<float>(x),static_cast<float>(y));
+}
+
+int Window::GetKey(int keyCode) const
+{
+	return glfwGetKey(window, keyCode);
 }
 
 void Window::Draw()

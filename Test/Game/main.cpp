@@ -12,6 +12,10 @@
 #include "Renderer/GraphicsObjects/TexturedAnimatedGraphicsObject.h"
 #include "Renderer/GraphicsObjects/TexturedStatic2DGraphicsObject.h"
 #include "Renderer/GraphicsObjects/TexturedStaticGraphicsObject.h"
+#include "UI/UserInterfaceItem.h"
+#include "Input/InputManager.h"
+#include "Renderer/Cameras/CameraManager.h"
+#include "Renderer/Cameras/Camera.h"
 
 #include "Time/TimeManager.h"
 
@@ -33,6 +37,7 @@ static HeapProfiling heapProfiling;
 void StressTest();
 void LoadAssets();
 void Game();
+void SetInput();
 
 int main(int argc, const char** argv)
 {
@@ -111,7 +116,7 @@ void StressTest()
 
 				};
 				//std::this_thread::sleep_for(std::chrono::milliseconds(10));
-				GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"), animationCreationCallback);
+				GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("Woman"), animationCreationCallback);
 				
 			}
 		}
@@ -129,11 +134,26 @@ void StressTest()
 		}
 	};
 	
+	UserInterfaceItem* uiItem = new UserInterfaceItem(ModelManager::GetModel("DefaultRectangle"), TextureManager::GetTexture("Woman"));
+
 	//GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"), rectangleCallback);
-	GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(ModelManager::GetModel("DefaultRectangle"), TextureManager::GetTexture("Human"), rectangleCallback);
+	//GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(ModelManager::GetModel("DefaultRectangle"), TextureManager::GetTexture("Human"), rectangleCallback);
 	//GraphicsObjectManager::CreateGoochGraphicsObject(ModelManager::GetModel("Cruiser"), TextureManager::GetTexture("Woman"));
 	//GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("CruiserAnim"), TextureManager::GetTexture("Cruiser"));
+
+	SetInput();
 }
+
+std::function<void()>* wPress = nullptr;
+std::function<void()>* aPress = nullptr;
+std::function<void()>* sPress = nullptr;
+std::function<void()>* dPress = nullptr;
+std::function<void()>* lctrPress = nullptr;
+std::function<void()>* spacePress = nullptr;
+std::function<void()>* qPress = nullptr;
+std::function<void()>* ePress = nullptr;
+
+std::vector<std::function<void()>**> keyList = { &wPress, &aPress, &dPress, &lctrPress, &spacePress, &qPress, &ePress };
 
 void Game()
 {
@@ -160,7 +180,72 @@ void Game()
 		}
 	};
 
+	for (std::function<void()>** keyPressFunction : keyList)
+	{
+		if (*keyPressFunction != nullptr)
+		{
+			delete *keyPressFunction;
+		}
+	}
+
 	delete transformSystem;
 	delete skyboxGameObject;
 
+}
+
+void SetInput()
+{
+	Camera& cam = CameraManager::GetCamera("MainCamera");
+
+	float speed = 0.004f * TimeManager::DeltaTime();
+	float rotSpeed = 0.002f * TimeManager::DeltaTime();
+
+	wPress = new std::function<void()>([&cam, speed]()
+		{
+			cam.Translate(cam.GetForwardVector() * speed);
+		});
+
+	aPress = new std::function<void()>([&cam, speed]()
+		{
+			cam.Translate(cam.GetRightVector() * -speed);
+		});
+
+	sPress = new std::function<void()>([&cam, speed]()
+		{
+			cam.Translate(cam.GetForwardVector() * -speed);
+		});
+
+	dPress = new std::function<void()>([&cam, speed]()
+		{
+			cam.Translate(cam.GetRightVector() * speed);
+		});
+
+	lctrPress = new std::function<void()>([&cam, speed]()
+		{
+			cam.Translate(glm::vec3(0.0f, -speed, 0.0f));
+		});
+
+	spacePress = new std::function<void()>([&cam, speed]()
+		{
+			cam.Translate(glm::vec3(0.0f, speed, 0.0f));
+		});
+
+	qPress = new std::function<void()>([&cam, rotSpeed]()
+		{
+			cam.Rotate(cam.GetUpVector(), rotSpeed);
+		});
+
+	ePress = new std::function<void()>([&cam, rotSpeed]()
+		{
+			cam.Rotate(cam.GetUpVector(), -rotSpeed);
+		});
+
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_W, wPress);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_A, aPress);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_S, sPress);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_D, dPress);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_Q, qPress);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_E, ePress);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_LEFT_CTRL, lctrPress);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_SPACE, spacePress);
 }

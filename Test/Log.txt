@@ -23,9 +23,6 @@ Info: Supported Vulkan Instance Layers:
 	VK_LAYER_AMD_switchable_graphics
 	VK_LAYER_NV_optimus
 	VK_LAYER_OBS_HOOK
-	VK_LAYER_VALVE_steam_overlay
-	VK_LAYER_VALVE_steam_fossilize
-	VK_LAYER_OBS_HOOK
 	VK_LAYER_OBS_HOOK
 	VK_LAYER_LUNARG_api_dump
 	VK_LAYER_LUNARG_gfxreconstruct
@@ -428,6 +425,7 @@ Info: Engine Version: 1.0.0
 Info: Game Version: 1.0.0
 Success: Engine::SetGameThreadFunc success
 Success: Initialized LightManager
+Success: Initialized InputManager
 Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
 Info: Present Mode FIFO available
 Info: Present Mode FIFO Relaxed available
@@ -462,6 +460,15 @@ Success: Created a graphics pipeline
 Success: Created a graphics pipeline
 Success: Created a graphics pipeline
 Success: Created a graphics pipeline
+Success: Registered press callback for key code 87
+Success: Registered press callback for key code 65
+Success: Registered press callback for key code 83
+Success: Registered press callback for key code 68
+Success: Registered press callback for key code 81
+Success: Registered press callback for key code 69
+Success: Registered press callback for key code 341
+Success: Registered press callback for key code 32
+Success: Terminated InputManager
 Success: Terminated SceneManager
 Success: Terminated WindowManager
 Success: Terminated Renderer

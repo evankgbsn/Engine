@@ -112,6 +112,12 @@
     <Filter Include="Source Files\Engine\Network">
       <UniqueIdentifier>{d8d5b63a-a52f-491a-921f-f6ea881acba0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\UI">
+      <UniqueIdentifier>{4f4d5f70-1077-4cf6-ba34-1ce9a6681eec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Input">
+      <UniqueIdentifier>{f35f24b1-0459-4874-9bd8-46618887dc50}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -339,6 +345,15 @@
     <ClInclude Include="Engine\Renderer\GraphicsObjects\GraphicsObjectTypes.h">
       <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\UI\UserInterfaceManager.h">
+      <Filter>Source Files\Engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\UI\UserInterfaceItem.h">
+      <Filter>Source Files\Engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Input\InputManager.h">
+      <Filter>Source Files\Engine\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -556,6 +571,15 @@
     </ClCompile>
     <ClCompile Include="Engine\Renderer\Pipeline\Rasterizer\WireFrameRasterizerPipelineState.cpp">
       <Filter>Source Files\Engine\Renderer\Pipeline\Rasterizer</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\UI\UserInterfaceManager.cpp">
+      <Filter>Source Files\Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\UI\UserInterfaceItem.cpp">
+      <Filter>Source Files\Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Input\InputManager.cpp">
+      <Filter>Source Files\Engine\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

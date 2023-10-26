@@ -94,7 +94,7 @@ unsigned int WindowManager::WindowCount()
 	return static_cast<unsigned int>(instance->windows.size());
 }
 
-Window* const WindowManager::GetWindow(std::string name)
+Window* const WindowManager::GetWindow(const std::string& name)
 {
 	if (instance == nullptr)
 	{

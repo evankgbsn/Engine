@@ -160,6 +160,7 @@
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Entity\Entity.h" />
     <ClInclude Include="Engine\Entity\GameObject.h" />
+    <ClInclude Include="Engine\Input\InputManager.h" />
     <ClInclude Include="Engine\Math\BezierSpline.h" />
     <ClInclude Include="Engine\Math\HermiteSpline.h" />
     <ClInclude Include="Engine\Math\Math.h" />
@@ -220,6 +221,8 @@
     <ClInclude Include="Engine\System\System.h" />
     <ClInclude Include="Engine\System\TransformSystem.h" />
     <ClInclude Include="Engine\Time\TimeManager.h" />
+    <ClInclude Include="Engine\UI\UserInterfaceItem.h" />
+    <ClInclude Include="Engine\UI\UserInterfaceManager.h" />
     <ClInclude Include="Engine\Utils\Logger.h" />
   </ItemGroup>
   <ItemGroup>
@@ -237,6 +240,7 @@
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Entity\Entity.cpp" />
     <ClCompile Include="Engine\Entity\GameObject.cpp" />
+    <ClCompile Include="Engine\Input\InputManager.cpp" />
     <ClCompile Include="Engine\Math\BezierSpline.cpp" />
     <ClCompile Include="Engine\Math\HermiteSpline.cpp" />
     <ClCompile Include="Engine\Math\Math.cpp" />
@@ -294,6 +298,8 @@
     <ClCompile Include="Engine\System\System.cpp" />
     <ClCompile Include="Engine\System\TransformSystem.cpp" />
     <ClCompile Include="Engine\Time\TimeManager.cpp" />
+    <ClCompile Include="Engine\UI\UserInterfaceItem.cpp" />
+    <ClCompile Include="Engine\UI\UserInterfaceManager.cpp" />
     <ClCompile Include="Engine\Utils\Logger.cpp" />
   </ItemGroup>
   <ItemGroup>

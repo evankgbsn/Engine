@@ -29,8 +29,6 @@ void TexturedStatic2DGraphicsObject::Update()
 	mvp.projection = cam.GetProjection();
 	mvp.projection[1][1] *= -1;
 
-	Rotate(-0.01f);
-
 	uniformBuffers[0]->SetData(&mvp);
 }
 
@@ -61,7 +59,7 @@ void TexturedStatic2DGraphicsObject::Scale(const glm::vec2& scale)
 
 void TexturedStatic2DGraphicsObject::Rotate(float angle)
 {
-	static const glm::vec3 forward(0.0f, 0.0f, -1.0f);
+	static const glm::vec3 forward(0.0f, 0.0f, 1.0f);
 	mvp.model = glm::rotate(mvp.model, angle, forward);
 	angle += angle;
 }

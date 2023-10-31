@@ -172,34 +172,27 @@ void InputManager::DeregisterCallbackForKeyState(int state, int keyCode, std::fu
 
 void InputManager::ProcessKeyEvents() const
 {
-	std::function<void(int state, const std::unordered_map<int, std::list<std::function<void()>*>>&)> processKeyEvents = [](int state, const std::unordered_map<int, std::list<std::function<void()>*>>& map)
+	static std::vector<int> states = { GLFW_PRESS, GLFW_RELEASE, GLFW_REPEAT };
+	std::vector<std::unordered_map<int, std::list<std::function<void()>*>>> registeredKeyMaps = { instance->registeredKeyPressEvents, instance->registeredKeyReleaseEvents, instance->registeredKeyPressedEvents };
+	
+	for (unsigned int i = 0; i < states.size(); i++)
 	{
-		if (instance != nullptr)
+		const Window* const mainWindow = WindowManager::GetWindow(std::string("MainWindow"));
+		for (const auto& keyCallbacks : registeredKeyMaps[i])
 		{
-			const Window* const mainWindow = WindowManager::GetWindow(std::string("MainWindow"));
-			for (const auto& keyCallbacks : map)
-			{
-				int keyState = mainWindow->GetKey(keyCallbacks.first);
+			int keyState = mainWindow->GetKey(keyCallbacks.first);
 
-				if (keyState == state)
+			if (keyState == states[i])
+			{
+				for (const std::function<void()>* const func : keyCallbacks.second)
 				{
-					for (const std::function<void()>* const func : keyCallbacks.second)
+					if (func != nullptr)
 					{
-						if (func != nullptr)
-						{
-							(*func)();
-						}
+						(*func)();
 					}
 				}
 			}
 		}
-	};
-
-	if (instance != nullptr)
-	{
-		processKeyEvents(GLFW_PRESS, instance->registeredKeyPressEvents);
-		processKeyEvents(GLFW_RELEASE, instance->registeredKeyReleaseEvents);
-		processKeyEvents(GLFW_REPEAT, instance->registeredKeyPressedEvents);
 	}
 }
 

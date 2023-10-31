@@ -30,7 +30,25 @@ public:
 	{
 
 	};
+
+	static std::function<void()>* wPress;
+	static std::function<void()>* aPress;
+	static std::function<void()>* sPress;
+	static std::function<void()>* dPress;
+	static std::function<void()>* lctrPress;
+	static std::function<void()>* spacePress;
+	static std::function<void()>* qPress;
+	static std::function<void()>* ePress;
 };
+
+std::function<void()>* HeapProfiling::wPress = nullptr;
+std::function<void()>* HeapProfiling::aPress = nullptr;
+std::function<void()>* HeapProfiling::sPress = nullptr;
+std::function<void()>* HeapProfiling::dPress = nullptr;
+std::function<void()>* HeapProfiling::lctrPress = nullptr;
+std::function<void()>* HeapProfiling::spacePress = nullptr;
+std::function<void()>* HeapProfiling::qPress = nullptr;
+std::function<void()>* HeapProfiling::ePress = nullptr;
 
 static HeapProfiling heapProfiling;
 
@@ -144,16 +162,7 @@ void StressTest()
 	SetInput();
 }
 
-std::function<void()>* wPress = nullptr;
-std::function<void()>* aPress = nullptr;
-std::function<void()>* sPress = nullptr;
-std::function<void()>* dPress = nullptr;
-std::function<void()>* lctrPress = nullptr;
-std::function<void()>* spacePress = nullptr;
-std::function<void()>* qPress = nullptr;
-std::function<void()>* ePress = nullptr;
-
-std::vector<std::function<void()>**> keyList = { &wPress, &aPress, &dPress, &lctrPress, &spacePress, &qPress, &ePress };
+std::vector<std::function<void()>**> keyList = { &HeapProfiling::wPress, &HeapProfiling::aPress, &HeapProfiling::dPress, &HeapProfiling::lctrPress, &HeapProfiling::spacePress, &HeapProfiling::qPress, &HeapProfiling::ePress };
 
 void Game()
 {
@@ -197,55 +206,55 @@ void SetInput()
 {
 	Camera& cam = CameraManager::GetCamera("MainCamera");
 
-	float speed = 0.004f * TimeManager::DeltaTime();
-	float rotSpeed = 0.002f * TimeManager::DeltaTime();
+	float speed = 0.4f * TimeManager::DeltaTime();
+	float rotSpeed = 0.2f * TimeManager::DeltaTime();
 
-	wPress = new std::function<void()>([&cam, speed]()
-		{
-			cam.Translate(cam.GetForwardVector() * speed);
-		});
+	HeapProfiling::wPress = new std::function<void()>([&cam, speed]()
+	{
+		cam.Translate(cam.GetForwardVector() * speed);
+	});
 
-	aPress = new std::function<void()>([&cam, speed]()
-		{
-			cam.Translate(cam.GetRightVector() * -speed);
-		});
+	HeapProfiling::aPress = new std::function<void()>([&cam, speed]()
+	{
+		cam.Translate(cam.GetRightVector() * -speed);
+	});
 
-	sPress = new std::function<void()>([&cam, speed]()
-		{
-			cam.Translate(cam.GetForwardVector() * -speed);
-		});
+	HeapProfiling::sPress = new std::function<void()>([&cam, speed]()
+	{
+		cam.Translate(cam.GetForwardVector() * -speed);
+	});
 
-	dPress = new std::function<void()>([&cam, speed]()
-		{
-			cam.Translate(cam.GetRightVector() * speed);
-		});
+	HeapProfiling::dPress = new std::function<void()>([&cam, speed]()
+	{
+		cam.Translate(cam.GetRightVector() * speed);
+	});
 
-	lctrPress = new std::function<void()>([&cam, speed]()
-		{
-			cam.Translate(glm::vec3(0.0f, -speed, 0.0f));
-		});
+	HeapProfiling::lctrPress = new std::function<void()>([&cam, speed]()
+	{
+		cam.Translate(glm::vec3(0.0f, -speed, 0.0f));
+	});
 
-	spacePress = new std::function<void()>([&cam, speed]()
-		{
-			cam.Translate(glm::vec3(0.0f, speed, 0.0f));
-		});
+	HeapProfiling::spacePress = new std::function<void()>([&cam, speed]()
+	{
+		cam.Translate(glm::vec3(0.0f, speed, 0.0f));
+	});
 
-	qPress = new std::function<void()>([&cam, rotSpeed]()
-		{
-			cam.Rotate(cam.GetUpVector(), rotSpeed);
-		});
+	HeapProfiling::qPress = new std::function<void()>([&cam, rotSpeed]()
+	{
+		cam.Rotate(cam.GetUpVector(), rotSpeed);
+	});
 
-	ePress = new std::function<void()>([&cam, rotSpeed]()
-		{
-			cam.Rotate(cam.GetUpVector(), -rotSpeed);
-		});
+	HeapProfiling::ePress = new std::function<void()>([&cam, rotSpeed]()
+	{
+		cam.Rotate(cam.GetUpVector(), -rotSpeed);
+	});
 
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_W, wPress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_A, aPress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_S, sPress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_D, dPress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_Q, qPress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_E, ePress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_LEFT_CTRL, lctrPress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_SPACE, spacePress);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_W, HeapProfiling::wPress);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_A, HeapProfiling::aPress);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_S, HeapProfiling::sPress);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_D, HeapProfiling::dPress);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_Q, HeapProfiling::qPress);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_E, HeapProfiling::ePress);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_LEFT_CTRL, HeapProfiling::lctrPress);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_SPACE, HeapProfiling::spacePress);
 }

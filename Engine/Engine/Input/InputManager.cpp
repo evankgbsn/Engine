@@ -146,7 +146,7 @@ void InputManager::DeregisterCallbackForKeyState(int state, int keyCode, std::fu
 	static const std::string pressSuccessLog("Deregistered press callback for key code ");
 	static const std::string releaseSuccessLog("Deregistered release callback for key code ");
 
-	std::function<void()> inputRegisterFunctionToQueue = [state, deregisterCallbackForKeyState]()
+	std::function<void()> inputDeregisterFunctionToQueue = [state, deregisterCallbackForKeyState]()
 	{
 		if (instance != nullptr)
 		{
@@ -166,6 +166,8 @@ void InputManager::DeregisterCallbackForKeyState(int state, int keyCode, std::fu
 			}
 		}
 	};
+
+	EnqueueInputCall(inputDeregisterFunctionToQueue); 
 }
 
 void InputManager::ProcessKeyEvents() const

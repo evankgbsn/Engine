@@ -107,6 +107,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)Engine/Dependencies/Include/;$(SolutionDir)Engine/Engine/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

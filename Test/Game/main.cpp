@@ -190,50 +190,66 @@ void Game()
 
 	delete transformSystem;
 	delete skyboxGameObject;
+
 }
 
 void SetInput()
 {
-	Camera& cam = CameraManager::GetCamera("MainCamera");
 
-	wPress = new std::function<void()>([&cam]()
+	wPress = new std::function<void()>([]()
 	{
-		cam.Translate(cam.GetForwardVector() * 0.004f * TimeManager::DeltaTime());
+		Camera& cam = CameraManager::GetCamera("MainCamera");
+		float speed = 0.4f * TimeManager::DeltaTime();
+		cam.Translate(cam.GetForwardVector() * speed);
 	});
 
-	aPress = new std::function<void()>([&cam]()
+	aPress = new std::function<void()>([]()
 	{
-		cam.Translate(cam.GetRightVector() * -0.004f * TimeManager::DeltaTime());
+		Camera& cam = CameraManager::GetCamera("MainCamera");
+		float speed = 0.4f * TimeManager::DeltaTime();
+		cam.Translate(cam.GetRightVector() * -speed);
 	});
 
-	sPress = new std::function<void()>([&cam]()
+	sPress = new std::function<void()>([]()
 	{
-		cam.Translate(cam.GetForwardVector() * -0.004f * TimeManager::DeltaTime());
+		Camera& cam = CameraManager::GetCamera("MainCamera");
+		float speed = 0.4f * TimeManager::DeltaTime();
+		cam.Translate(cam.GetForwardVector() * -speed);
 	});
 
-	dPress = new std::function<void()>([&cam]()
+	dPress = new std::function<void()>([]()
 	{
-		cam.Translate(cam.GetRightVector() * 0.004f * TimeManager::DeltaTime());
+		Camera& cam = CameraManager::GetCamera("MainCamera");
+		float speed = 0.4f * TimeManager::DeltaTime();
+		cam.Translate(cam.GetRightVector() * speed);
 	});
 
-	lctrPress = new std::function<void()>([&cam]()
+	lctrPress = new std::function<void()>([]()
 	{
-		cam.Translate(glm::vec3(0.0f, -0.004f * TimeManager::DeltaTime(), 0.0f));
+		Camera& cam = CameraManager::GetCamera("MainCamera");
+		float speed = 0.4f * TimeManager::DeltaTime();
+		cam.Translate(glm::vec3(0.0f, -speed, 0.0f));
 	});
 
-	spacePress = new std::function<void()>([&cam]()
+	spacePress = new std::function<void()>([]()
 	{
-		cam.Translate(glm::vec3(0.0f, 0.004f * TimeManager::DeltaTime(), 0.0f));
+		Camera& cam = CameraManager::GetCamera("MainCamera");
+		float speed = 0.4f * TimeManager::DeltaTime();
+		cam.Translate(glm::vec3(0.0f, speed, 0.0f));
 	});
 
-	qPress = new std::function<void()>([&cam]()
+	qPress = new std::function<void()>([]()
 	{
-		cam.Rotate(cam.GetUpVector(), 0.002f * TimeManager::DeltaTime());
+		Camera& cam = CameraManager::GetCamera("MainCamera");
+		float rotSpeed = 0.2f * TimeManager::DeltaTime();
+		cam.Rotate(cam.GetUpVector(), rotSpeed);
 	});
 
-	ePress = new std::function<void()>([&cam]()
+	ePress = new std::function<void()>([]()
 	{
-		cam.Rotate(cam.GetUpVector(), -0.002f * TimeManager::DeltaTime());
+		Camera& cam = CameraManager::GetCamera("MainCamera");
+		float rotSpeed = 0.2f * TimeManager::DeltaTime();
+		cam.Rotate(cam.GetUpVector(), -rotSpeed);
 	});
 
 	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_W, wPress);

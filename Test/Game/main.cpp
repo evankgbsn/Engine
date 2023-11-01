@@ -76,9 +76,9 @@ void LoadAssets()
 	ModelManager::LoadModel("Cruiser", "../Engine/Engine/Renderer/Model/Cruiser.gltf");
 	ModelManager::LoadModel("CruiserAnim", "../Engine/Engine/Renderer/Model/CruiserAnim.gltf");
 	ModelManager::LoadModel("Ball", "../Engine/Engine/Renderer/Model/NewBall.gltf");
-	ModelManager::LoadModel("Human", "../Engine/Engine/Renderer/Model/Human.gltf");
 	ModelManager::LoadModel("Cube", "../Engine/Engine/Renderer/Model/Cube.gltf");
 	ModelManager::LoadModel("Skybox", "../Engine/Engine/Renderer/Model/Skybox.gltf");
+	ModelManager::LoadModel("Human", "../Engine/Engine/Renderer/Model/Human.gltf");
 
 }
 
@@ -138,8 +138,8 @@ void StressTest()
 		if (obj != nullptr)
 		{
 			//TRS maybe queue these.
-			staticobj->Translate({ -500.0f, -500.f });
-			staticobj->Scale({ 500.f, 500.f});
+			staticobj->TranslateObject({ -500.0f, -500.f });
+			staticobj->ScaleObject({ 500.f, 500.f});
 		}
 	};
 	
@@ -190,65 +190,63 @@ void Game()
 
 	delete transformSystem;
 	delete skyboxGameObject;
-
 }
 
 void SetInput()
 {
-
 	wPress = new std::function<void()>([]()
 	{
 		Camera& cam = CameraManager::GetCamera("MainCamera");
-		float speed = 0.4f * TimeManager::DeltaTime();
+		float speed = 4.0f * TimeManager::DeltaTime();
 		cam.Translate(cam.GetForwardVector() * speed);
 	});
 
 	aPress = new std::function<void()>([]()
 	{
 		Camera& cam = CameraManager::GetCamera("MainCamera");
-		float speed = 0.4f * TimeManager::DeltaTime();
+		float speed = 4.0f * TimeManager::DeltaTime();
 		cam.Translate(cam.GetRightVector() * -speed);
 	});
 
 	sPress = new std::function<void()>([]()
 	{
 		Camera& cam = CameraManager::GetCamera("MainCamera");
-		float speed = 0.4f * TimeManager::DeltaTime();
+		float speed = 4.0f * TimeManager::DeltaTime();
 		cam.Translate(cam.GetForwardVector() * -speed);
 	});
 
 	dPress = new std::function<void()>([]()
 	{
 		Camera& cam = CameraManager::GetCamera("MainCamera");
-		float speed = 0.4f * TimeManager::DeltaTime();
+		float speed = 4.0f * TimeManager::DeltaTime();
 		cam.Translate(cam.GetRightVector() * speed);
 	});
 
 	lctrPress = new std::function<void()>([]()
 	{
 		Camera& cam = CameraManager::GetCamera("MainCamera");
-		float speed = 0.4f * TimeManager::DeltaTime();
+		float speed = 4.0f * TimeManager::DeltaTime();
 		cam.Translate(glm::vec3(0.0f, -speed, 0.0f));
 	});
 
 	spacePress = new std::function<void()>([]()
 	{
 		Camera& cam = CameraManager::GetCamera("MainCamera");
-		float speed = 0.4f * TimeManager::DeltaTime();
+		float speed = 4.0f * TimeManager::DeltaTime();
 		cam.Translate(glm::vec3(0.0f, speed, 0.0f));
 	});
 
 	qPress = new std::function<void()>([]()
 	{
 		Camera& cam = CameraManager::GetCamera("MainCamera");
-		float rotSpeed = 0.2f * TimeManager::DeltaTime();
+		float rotSpeed = 2.0f * TimeManager::DeltaTime();
 		cam.Rotate(cam.GetUpVector(), rotSpeed);
 	});
 
 	ePress = new std::function<void()>([]()
 	{
 		Camera& cam = CameraManager::GetCamera("MainCamera");
-		float rotSpeed = 0.2f * TimeManager::DeltaTime();
+		float rotSpeed = 2.0f * TimeManager::DeltaTime();
 		cam.Rotate(cam.GetUpVector(), -rotSpeed);
 	});
 

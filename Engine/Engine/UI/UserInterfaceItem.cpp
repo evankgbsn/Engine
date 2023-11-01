@@ -16,6 +16,9 @@ UserInterfaceItem::UserInterfaceItem(Model* const model, Texture* const texture)
 	std::function<void(GraphicsObject*)> graphicsObjectCreationCallback = [this](GraphicsObject* obj)
 	{
 		graphicsObject = static_cast<TexturedStatic2DGraphicsObject*>(obj);
+
+		graphicsObject->ScaleObject({ 100.0f, 100.0f });
+		graphicsObject->TranslateObject({ 0.0f, -100.0f });
 	};
 
 	GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(model, texture, graphicsObjectCreationCallback);

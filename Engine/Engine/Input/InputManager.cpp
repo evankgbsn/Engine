@@ -46,7 +46,7 @@ void InputManager::EnqueueInputCall(const std::function<void()>& inputCall)
 
 void InputManager::GetCursorPosition(const std::function<void(const glm::vec2&)>& callback)
 {
-	std::function<void()> getCursorPosition = [&callback]()
+	std::function<void()> getCursorPosition = [callback]()
 	{
 		const Window* const mainWindow = WindowManager::GetWindow("MainWindow");
 

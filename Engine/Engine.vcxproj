@@ -251,6 +251,7 @@
     <ClCompile Include="Engine\Renderer\Cameras\Camera.cpp" />
     <ClCompile Include="Engine\Renderer\Cameras\CameraManager.cpp" />
     <ClCompile Include="Engine\Renderer\Commands\CommandManager.cpp" />
+    <ClCompile Include="Engine\Renderer\GraphicsObjects\2DTransformable.cpp" />
     <ClCompile Include="Engine\Renderer\GraphicsObjects\GoochGraphicsObject.cpp" />
     <ClCompile Include="Engine\Renderer\GraphicsObjects\GraphicsObject.cpp" />
     <ClCompile Include="Engine\Renderer\GraphicsObjects\GraphicsObjectManager.cpp" />

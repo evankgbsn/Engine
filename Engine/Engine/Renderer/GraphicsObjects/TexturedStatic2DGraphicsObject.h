@@ -7,7 +7,7 @@
 class Model;
 class Texture;
 
-class TexturedStatic2DGraphicsObject : public GraphicsObject, public Graphics2DTransformable
+class TexturedStatic2DGraphicsObject : public GraphicsObject, private Graphics2DTransformable
 {
 public:
 
@@ -25,14 +25,13 @@ public:
 
 	TexturedStatic2DGraphicsObject& operator=(TexturedStatic2DGraphicsObject&&) = delete;
 
+	void TranslateObject(const glm::vec2& translation);
+
+	void RotateObject(const float& rotation);
+
+	void ScaleObject(const glm::vec2& scale);
+
 	void Update() override;
-
-	// Graphics2DTransformable
-	void Translate(const glm::vec2& translation) override;
-
-	void Scale(const glm::vec2& scale) override;
-
-	void Rotate(float angle) override;
 
 	glm::vec2 GetTranslation() const override;
 

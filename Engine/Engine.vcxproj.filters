@@ -581,6 +581,9 @@
     <ClCompile Include="Engine\Input\InputManager.cpp">
       <Filter>Source Files\Engine\Input</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Renderer\GraphicsObjects\2DTransformable.cpp">
+      <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Renderer\Pipeline\Shaders\glsl\TexturedAnimated.frag">

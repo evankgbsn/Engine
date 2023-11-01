@@ -21,8 +21,42 @@ TexturedStatic2DGraphicsObject::~TexturedStatic2DGraphicsObject()
 {
 }
 
+void TexturedStatic2DGraphicsObject::TranslateObject(const glm::vec2& translation)
+{
+	std::function<void()> translationFunction = std::function<void()>([translation, this]()
+	{
+		mvp.model = glm::translate(mvp.model, glm::vec3(translation.x, translation.y, 0.0f));
+	});
+
+	Translate(translationFunction);
+}
+
+void TexturedStatic2DGraphicsObject::RotateObject(const float& rotation)
+{
+	std::function<void()> rotationFunction = std::function<void()>([rotation, this]()
+	{
+		static const glm::vec3 forward(0.0f, 0.0f, 1.0f);
+		mvp.model = glm::rotate(mvp.model, rotation, forward);
+		angle += rotation;
+	});
+
+	Rotate(rotationFunction);
+}
+
+void TexturedStatic2DGraphicsObject::ScaleObject(const glm::vec2& scale)
+{
+	std::function<void()> scaleFunction = std::function<void()>([scale, this]()
+	{
+		mvp.model = glm::scale(mvp.model, glm::vec3(scale, 1.0f));
+	});
+
+	Scale(scaleFunction);
+}
+
 void TexturedStatic2DGraphicsObject::Update()
 {
+	TransformObject();
+
 	const Camera& cam = CameraManager::GetCamera("MainOrthoCamera");
 
 	mvp.view = cam.GetView();
@@ -45,23 +79,6 @@ void TexturedStatic2DGraphicsObject::CreateUniformBuffers()
 	uniformBuffers.push_back(mvpUniformBuffer);
 
 	// The binding for the texture sampler is 1.
-}
-
-void TexturedStatic2DGraphicsObject::Translate(const glm::vec2& translation)
-{
-	mvp.model = glm::translate(mvp.model, glm::vec3(translation, 0.0f));
-}
-
-void TexturedStatic2DGraphicsObject::Scale(const glm::vec2& scale)
-{
-	mvp.model = glm::scale(mvp.model, glm::vec3(scale, 1.0f));
-}
-
-void TexturedStatic2DGraphicsObject::Rotate(float angle)
-{
-	static const glm::vec3 forward(0.0f, 0.0f, 1.0f);
-	mvp.model = glm::rotate(mvp.model, angle, forward);
-	angle += angle;
 }
 
 glm::vec2 TexturedStatic2DGraphicsObject::GetTranslation() const

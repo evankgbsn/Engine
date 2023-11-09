@@ -95,3 +95,8 @@ float TexturedStatic2DGraphicsObject::GetRotation() const
 {
 	return angle;
 }
+
+glm::mat4 TexturedStatic2DGraphicsObject::GetModelMat4() const
+{
+	return mvp.model;
+}

@@ -39,6 +39,8 @@ public:
 
 	float GetRotation() const override;
 
+	glm::mat4 GetModelMat4() const;
+
 private:
 	
 	struct MVPUniformBuffer

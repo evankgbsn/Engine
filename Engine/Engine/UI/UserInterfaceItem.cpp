@@ -1,11 +1,12 @@
 #include "UserInterfaceItem.h"
 
-
 #include <vector>
 
 #include "../Renderer/GraphicsObjects/GraphicsObjectManager.h"
 #include "../Renderer/GraphicsObjects/TexturedStatic2DGraphicsObject.h"
+#include "../Renderer/Model/Model.h"
 #include "../Utils/Logger.h"
+#include "../Input/InputManager.h"
 
 UserInterfaceItem::UserInterfaceItem(Model* const model, Texture* const texture) :
 	graphicsObject(nullptr),
@@ -62,4 +63,23 @@ UserInterfaceItem* const UserInterfaceItem::GetSubItem(std::string& name) const
 	if(foundItem != subItems.end())
 		return foundItem->second;
 	return nullptr;
+}
+
+void UserInterfaceItem::Hovered(const std::function<void()>& onHover) const
+{
+	std::function<void(const glm::vec2&)> getCursorPositionCallback = [onHover, this](const glm::vec2& position)
+	{
+		graphicsObject->TranslateObject({100.0f, 100.0f});
+
+		// Tirangle intersection test with transform.
+		const Model* const  modelToTest = graphicsObject->GetModel();
+		const glm::mat4 modelMat4 = graphicsObject->GetModelMat4();
+
+		// Compute shader?
+
+
+	
+	};
+
+	InputManager::GetCursorPosition(getCursorPositionCallback);
 }

@@ -3,6 +3,7 @@
 
 #include <unordered_map>
 #include <string>
+#include <functional>
 
 #include <glm/glm.hpp>
 
@@ -32,6 +33,8 @@ public:
 	UserInterfaceItem* RemoveSubItem(const std::string& name);
 
 	UserInterfaceItem* const GetSubItem(std::string& name) const;
+
+	void Hovered(const std::function<void()>& onHover) const;
 
 protected:
 

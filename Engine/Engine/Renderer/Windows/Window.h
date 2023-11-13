@@ -174,10 +174,6 @@ private:
 	VmaAllocation depthImageAllocation;
 	VmaAllocationCreateInfo depthImageAllocInfo;
 	VkFormat depthFormat;
-
-	TexturedAnimatedGraphicsObject* gObj0;
-
-	TexturedStaticGraphicsObject* tsgObj1 = nullptr;
 };
 
 #endif // WINDOW_H

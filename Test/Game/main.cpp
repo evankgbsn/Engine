@@ -41,12 +41,22 @@ std::function<void()>* spacePress = nullptr;
 std::function<void()>* qPress = nullptr;
 std::function<void()>* ePress = nullptr;
 
+
+std::function<void()>* lPress = nullptr;
+
 static HeapProfiling heapProfiling;
 
 void StressTest();
 void LoadAssets();
 void Game();
 void SetInput();
+
+UserInterfaceItem* uiItem = nullptr;
+
+auto onHover = []()
+{
+	uiItem->Scale(1.001f, 1.001f);
+};
 
 int main(int argc, const char** argv)
 {
@@ -143,7 +153,7 @@ void StressTest()
 		}
 	};
 	
-	UserInterfaceItem* uiItem = new UserInterfaceItem(ModelManager::GetModel("DefaultRectangle"), TextureManager::GetTexture("Woman"));
+	uiItem = new UserInterfaceItem(ModelManager::GetModel("DefaultRectangle"), TextureManager::GetTexture("VikingRoom"));
 
 	//GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"), rectangleCallback);
 	//GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(ModelManager::GetModel("DefaultRectangle"), TextureManager::GetTexture("Human"), rectangleCallback);
@@ -170,10 +180,12 @@ void Game()
 	mainScene->AddSystem("Transform", transformSystem);
 	
 	float frame = TimeManager::SecondsSinceStart();
+
 	while (Engine::Operating())
 	{
-		if ((TimeManager::SecondsSinceStart() - frame) > 0.0041666f)
-		{
+		float frameTime = 0.0041666f;
+		if ((TimeManager::SecondsSinceStart() - frame) > frameTime)
+		{	
 			transformSystem->Operate();
 			skyboxGameObject->Update();
 			frame = TimeManager::SecondsSinceStart();
@@ -250,6 +262,12 @@ void SetInput()
 		cam.Rotate(cam.GetUpVector(), -rotSpeed);
 	});
 
+	lPress = new std::function<void()>([]()
+	{
+		uiItem->Hovered(onHover);
+	});
+
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_L, lPress);
 	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_W, wPress);
 	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_A, aPress);
 	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_S, sPress);

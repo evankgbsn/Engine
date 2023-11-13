@@ -19,7 +19,7 @@ UserInterfaceItem::UserInterfaceItem(Model* const model, Texture* const texture)
 		graphicsObject = static_cast<TexturedStatic2DGraphicsObject*>(obj);
 
 		graphicsObject->ScaleObject({ 100.0f, 100.0f });
-		graphicsObject->TranslateObject({ 0.0f, -100.0f });
+		graphicsObject->TranslateObject({ -1000.0f, -500.0f });
 	};
 
 	GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(model, texture, graphicsObjectCreationCallback);
@@ -69,17 +69,107 @@ void UserInterfaceItem::Hovered(const std::function<void()>& onHover) const
 {
 	std::function<void(const glm::vec2&)> getCursorPositionCallback = [onHover, this](const glm::vec2& position)
 	{
-		graphicsObject->TranslateObject({100.0f, 100.0f});
-
 		// Tirangle intersection test with transform.
 		const Model* const  modelToTest = graphicsObject->GetModel();
 		const glm::mat4 modelMat4 = graphicsObject->GetModelMat4();
 
+		const std::vector<Vertex>& vertices = modelToTest->GetVertices();
+
+		glm::vec2 anchor;
+		glm::vec2 vecOne;
+		glm::vec2 vecTwo;
+		glm::vec2 vecAnchorToPoint;
+		glm::vec2 vecOneToPoint;
+		glm::vec2 vecTwoToPoint;
+
+		glm::vec2* vecsToPoint[3] = {&vecAnchorToPoint, &vecOneToPoint, &vecTwoToPoint};
+
+		static const glm::vec2 vecRight(1.0f, 0.0f);
+
+		Vertex triangleVerts[3] = { Vertex(), Vertex(), Vertex() };
+
+		float dotVecOne = 0.0f;
+		float dotVecTwo = 0.0f;
+		float lengthVecOne = 0.0f;
+		float lengthVecTwo = 0.0f;
+		float lengthVecToPoint = 0.0f;
+		float dotVecRight = 0.0f;
+
+		bool between = false;
+
+		glm::vec2 worldSpacePointOne(0.0f);
+		glm::vec2 worldSpacePointTwo(0.0f);
+		glm::vec2 worldSpacePointThree(0.0f);
+
+		for (unsigned int i = 0; i < modelToTest->GetIndices().size(); i += 3)
+		{
+			triangleVerts[0] = vertices[modelToTest->GetIndices()[i]];
+			triangleVerts[1] = vertices[modelToTest->GetIndices()[i + 1]];
+			triangleVerts[2] = vertices[modelToTest->GetIndices()[i + 2]];
+
+			worldSpacePointOne = glm::vec2(glm::vec4(triangleVerts[0].GetPosition(), 1.0f) * modelMat4);
+			worldSpacePointTwo = glm::vec2(glm::vec4(triangleVerts[1].GetPosition(), 1.0f) * modelMat4);
+			worldSpacePointThree = glm::vec2(glm::vec4(triangleVerts[2].GetPosition(), 1.0f) * modelMat4);
+
+			worldSpacePointOne = (worldSpacePointOne + glm::vec2(modelMat4[3]));
+			worldSpacePointTwo = (worldSpacePointTwo + glm::vec2(modelMat4[3]));
+			worldSpacePointThree = (worldSpacePointThree + glm::vec2(modelMat4[3]));
+
+			anchor = worldSpacePointOne;
+			vecOne = worldSpacePointTwo - anchor;
+			vecTwo = worldSpacePointThree - anchor;
+			vecAnchorToPoint = -position - anchor;
+			vecOneToPoint = -position - worldSpacePointOne;
+			vecTwoToPoint = -position - worldSpacePointTwo;
+
+			//____\|/____
+
+			dotVecOne = glm::dot(vecOne, vecAnchorToPoint);
+			dotVecTwo = glm::dot(vecTwo, vecAnchorToPoint);
+			dotVecRight = glm::dot(vecRight, vecAnchorToPoint);
+
+			bool rightOfVecOne = dotVecOne > 0 && dotVecRight > 0;
+			bool leftOfVecTwo = dotVecTwo < 0 && dotVecRight < 0;
+
+			between = rightOfVecOne && leftOfVecTwo || !rightOfVecOne && !leftOfVecTwo;
+			
+			if (between)
+			{
+				lengthVecOne = glm::length(vecOne);
+				lengthVecTwo = glm::length(vecTwo);
+
+				float lengthOposite = glm::length(worldSpacePointThree - worldSpacePointTwo);
+				bool inside = true;
+				for (unsigned int i = 0; i < 3; i++)
+				{
+					if(!(glm::length(*(vecsToPoint[i])) > lengthOposite) || !(glm::length(*(vecsToPoint[i])) > lengthVecOne) || !(glm::length(*(vecsToPoint[i])) > lengthVecTwo))
+					{
+						continue;
+					}
+					else
+					{
+						inside = false;
+						break;
+					}
+				}
+
+				if (inside)
+				{
+					onHover();
+				}
+			}
+		}
+
 		// Compute shader?
-
-
-	
 	};
 
 	InputManager::GetCursorPosition(getCursorPositionCallback);
+}
+
+
+void UserInterfaceItem::Scale(float x, float y)
+{
+	{
+		graphicsObject->ScaleObject(glm::vec2(x, y));
+	}
 }

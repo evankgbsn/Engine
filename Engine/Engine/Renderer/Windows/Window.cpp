@@ -151,9 +151,6 @@ bool Window::Update()
 		return false;
 	}
 
-	if(tsgObj1 != nullptr)
-		tsgObj1->Translate(glm::vec3(0.001f, 0.f, 0.f));
-
 	InputManager::Update();
 
 	//CheckInput();

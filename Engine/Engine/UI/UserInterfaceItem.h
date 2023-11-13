@@ -36,6 +36,8 @@ public:
 
 	void Hovered(const std::function<void()>& onHover) const;
 
+	void Scale(float x, float y);
+
 protected:
 
 private:

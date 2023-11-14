@@ -470,8 +470,3 @@ Success: Registered press callback for key code 69
 Success: Registered press callback for key code 341
 Success: Registered press callback for key code 32
 Success: Terminated InputManager
-Success: Terminated SceneManager
-Success: Terminated WindowManager
-Success: Terminated Renderer
-Success: Terminated TimeManager.
-Success: Terminated Engine

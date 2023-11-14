@@ -64,6 +64,30 @@ void InputManager::GetCursorPosition(const std::function<void(const glm::vec2&)>
 	EnqueueInputCall(getCursorPosition);
 }
 
+void InputManager::WhenCursorMoved(const std::function<void(const glm::vec2& newCursorPosition)>& callback)
+{
+	std::function<void()> getCursorPosition = [callback]()
+		{
+			const Window* const mainWindow = WindowManager::GetWindow("MainWindow");
+
+			if (mainWindow != nullptr)
+			{
+				glm::vec2 newCursorPosition;
+				bool moved = mainWindow->GetCursorMoved(newCursorPosition);
+				
+				if(moved) 
+					callback(newCursorPosition);
+			}
+			else
+			{
+				Logger::Log(std::string("Failed to get cursor position. Could not get window reference. InputManager::GetCursorPosition"), Logger::Category::Warning);
+				callback(glm::vec2(0.0f, 0.0f));
+			}
+		};
+
+	EnqueueInputCall(getCursorPosition);
+}
+
 void InputManager::RegisterCallbackForKeyState(int state, int keyCode, std::function<void()>* callback)
 {
 	auto registerCallbackForKeyState = [keyCode, callback](std::unordered_map<int, std::list<std::function<void()>*>>& map, const std::string& successLog)

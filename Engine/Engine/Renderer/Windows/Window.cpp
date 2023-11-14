@@ -146,6 +146,7 @@ void Window::Initialize()
 
 bool Window::Update()
 {
+	
 	if (glfwWindowShouldClose(window))
 	{
 		return false;
@@ -153,10 +154,10 @@ bool Window::Update()
 
 	InputManager::Update();
 
-	//CheckInput();
-
 	glfwPollEvents();
 
+	lastFramePosition = GetCursorPosition();
+	
 	Draw();
 
 	return true;
@@ -494,6 +495,22 @@ glm::vec2 Window::GetCursorPosition() const
 	glfwGetCursorPos(window, &x, &y);
 
 	return glm::vec2(static_cast<float>(x),static_cast<float>(y));
+}
+
+bool Window::GetCursorMoved(glm::vec2& outNewPosition) const
+{
+	glm::vec2 currentCursorPosition = GetCursorPosition();
+	float difX = max(abs(currentCursorPosition.x), abs(lastFramePosition.x)) - min(abs(currentCursorPosition.x), abs(lastFramePosition.x));
+	float difY = max(abs(currentCursorPosition.y), abs(lastFramePosition.y)) - min(abs(currentCursorPosition.y), abs(lastFramePosition.y));
+
+	float errorRange = 1.0f;
+	if (!(difX < errorRange && difY < errorRange))
+	{
+		outNewPosition = currentCursorPosition;
+		return true;
+
+	}
+	return false;
 }
 
 int Window::GetKey(int keyCode) const

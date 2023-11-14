@@ -75,91 +75,42 @@ void UserInterfaceItem::Hovered(const std::function<void()>& onHover) const
 
 		const std::vector<Vertex>& vertices = modelToTest->GetVertices();
 
-		glm::vec2 anchor;
-		glm::vec2 vecOne;
-		glm::vec2 vecTwo;
-		glm::vec2 vecAnchorToPoint;
-		glm::vec2 vecOneToPoint;
-		glm::vec2 vecTwoToPoint;
-
-		glm::vec2* vecsToPoint[3] = {&vecAnchorToPoint, &vecOneToPoint, &vecTwoToPoint};
-
-		static const glm::vec2 vecRight(1.0f, 0.0f);
-
-		Vertex triangleVerts[3] = { Vertex(), Vertex(), Vertex() };
-
-		float dotVecOne = 0.0f;
-		float dotVecTwo = 0.0f;
-		float lengthVecOne = 0.0f;
-		float lengthVecTwo = 0.0f;
-		float lengthVecToPoint = 0.0f;
-		float dotVecRight = 0.0f;
-
-		bool between = false;
-
-		glm::vec2 worldSpacePointOne(0.0f);
-		glm::vec2 worldSpacePointTwo(0.0f);
-		glm::vec2 worldSpacePointThree(0.0f);
+		glm::vec4 triangleVerts[3] = { glm::vec4(0.0f), glm::vec4(0.0f), glm::vec4(0.0f)};
 
 		for (unsigned int i = 0; i < modelToTest->GetIndices().size(); i += 3)
 		{
-			triangleVerts[0] = vertices[modelToTest->GetIndices()[i]];
-			triangleVerts[1] = vertices[modelToTest->GetIndices()[i + 1]];
-			triangleVerts[2] = vertices[modelToTest->GetIndices()[i + 2]];
+			triangleVerts[0] = glm::vec4(vertices[modelToTest->GetIndices()[i]].GetPosition(), 1.0f) * modelMat4;
+			triangleVerts[1] = glm::vec4(vertices[modelToTest->GetIndices()[i + 1]].GetPosition(), 1.0f) * modelMat4;
+			triangleVerts[2] = glm::vec4(vertices[modelToTest->GetIndices()[i + 2]].GetPosition(), 1.0f) * modelMat4;
 
-			worldSpacePointOne = glm::vec2(glm::vec4(triangleVerts[0].GetPosition(), 1.0f) * modelMat4);
-			worldSpacePointTwo = glm::vec2(glm::vec4(triangleVerts[1].GetPosition(), 1.0f) * modelMat4);
-			worldSpacePointThree = glm::vec2(glm::vec4(triangleVerts[2].GetPosition(), 1.0f) * modelMat4);
+			triangleVerts[0] += modelMat4[3];
+			triangleVerts[1] += modelMat4[3];
+			triangleVerts[2] += modelMat4[3];
 
-			worldSpacePointOne = (worldSpacePointOne + glm::vec2(modelMat4[3]));
-			worldSpacePointTwo = (worldSpacePointTwo + glm::vec2(modelMat4[3]));
-			worldSpacePointThree = (worldSpacePointThree + glm::vec2(modelMat4[3]));
+			glm::vec2 zeroToOne = triangleVerts[1] - triangleVerts[0];
+			glm::vec2 zeroToTwo = triangleVerts[2] - triangleVerts[0];
+			glm::vec2 oneToTwo = triangleVerts[2] - triangleVerts[1];
 
-			anchor = worldSpacePointOne;
-			vecOne = worldSpacePointTwo - anchor;
-			vecTwo = worldSpacePointThree - anchor;
-			vecAnchorToPoint = -position - anchor;
-			vecOneToPoint = -position - worldSpacePointOne;
-			vecTwoToPoint = -position - worldSpacePointTwo;
+			glm::vec2 zeroToPosition = glm::vec4(-position, 0.0f, 1.0f) - triangleVerts[0];
+			glm::vec2 oneToPosition = glm::vec4(-position, 0.0f, 1.0f) - triangleVerts[1];
+			glm::vec2 twoToPosition = glm::vec4(-position, 0.0f, 1.0f) - triangleVerts[2];
 
-			//____\|/____
+			float zeroToOneLength = glm::length2(zeroToOne);
+			float zeroToTwoLength = glm::length2(zeroToTwo);
+			float oneToTwoLength = glm::length2(oneToTwo);
 
-			dotVecOne = glm::dot(vecOne, vecAnchorToPoint);
-			dotVecTwo = glm::dot(vecTwo, vecAnchorToPoint);
-			dotVecRight = glm::dot(vecRight, vecAnchorToPoint);
+			float zeroToPositionLength = glm::length2(zeroToPosition) * 1.9f;
+			float oneToPositionLength = glm::length2(oneToPosition) * 1.9f;
+			float twoToPositionLength = glm::length2(twoToPosition) * 1.9f;
 
-			bool rightOfVecOne = dotVecOne > 0 && dotVecRight > 0;
-			bool leftOfVecTwo = dotVecTwo < 0 && dotVecRight < 0;
-
-			between = rightOfVecOne && leftOfVecTwo || !rightOfVecOne && !leftOfVecTwo;
+			float sumToPosition = zeroToPositionLength + oneToPositionLength + twoToPositionLength;
+			float sumOfSides = zeroToOneLength + zeroToTwoLength + oneToTwoLength;
 			
-			if (between)
+			if (sumToPosition <= sumOfSides)
 			{
-				lengthVecOne = glm::length(vecOne);
-				lengthVecTwo = glm::length(vecTwo);
-
-				float lengthOposite = glm::length(worldSpacePointThree - worldSpacePointTwo);
-				bool inside = true;
-				for (unsigned int i = 0; i < 3; i++)
-				{
-					if(!(glm::length(*(vecsToPoint[i])) > lengthOposite) || !(glm::length(*(vecsToPoint[i])) > lengthVecOne) || !(glm::length(*(vecsToPoint[i])) > lengthVecTwo))
-					{
-						continue;
-					}
-					else
-					{
-						inside = false;
-						break;
-					}
-				}
-
-				if (inside)
-				{
-					onHover();
-				}
+				onHover();
 			}
 		}
-
 		// Compute shader?
 	};
 

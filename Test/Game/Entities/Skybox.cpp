@@ -5,6 +5,10 @@
 #include "Renderer/Model/ModelManager.h"
 #include "Renderer/Images/TextureManager.h"
 #include "Component/TransformComponent.h"
+#include "Renderer/Cameras/CameraManager.h"
+#include "Renderer/Cameras/Camera.h"
+#include "Time/TimeManager.h"
+#include "Input/InputManager.h"
 
 Skybox::Skybox()
 {
@@ -36,5 +40,13 @@ Skybox::~Skybox()
 
 void Skybox::Update()
 {
-	
+	auto cursorMovedCallback = [](const glm::vec2& newCursorPosition)
+	{
+		Camera& cam = CameraManager::GetCamera("MainCamera");
+		float rotSpeed = 2.0f * TimeManager::DeltaTime();
+		cam.Rotate(cam.GetUpVector(), -rotSpeed);
+	};
+
+	InputManager::WhenCursorMoved(cursorMovedCallback);
+
 }

@@ -84,6 +84,8 @@ public:
 
 	glm::vec2 GetCursorPosition() const;
 
+	bool GetCursorMoved(glm::vec2& outNewPosition) const;
+
 	int GetKey(int keyCode) const;
 
 	bool framebufferResized;
@@ -174,6 +176,8 @@ private:
 	VmaAllocation depthImageAllocation;
 	VmaAllocationCreateInfo depthImageAllocInfo;
 	VkFormat depthFormat;
+
+	glm::vec2 lastFramePosition;
 };
 
 #endif // WINDOW_H

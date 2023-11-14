@@ -7,6 +7,7 @@
 #include "Time/TimeManager.h"
 #include "Scene/SceneManager.h"
 #include "Network/NetworkManager.h"
+#include "Input/InputManager.h"
 
 Engine* Engine::instance = nullptr;
 
@@ -17,6 +18,7 @@ void Engine::Initialize(const std::string& gameName, const Version& gameVersion)
 		Logger::ClearLog();
 		instance = new Engine(gameName, gameVersion);
 		Renderer::Initialize();
+		InputManager::Initialize();
 		Logger::Log(std::string("Initialized Engine"), Logger::Category::Success);
 		Logger::Log(std::string("Engine Version: ") + instance->engineVersion.ToString());
 		Logger::Log(std::string("Game Version: ") + instance->gameVersion.ToString());
@@ -140,6 +142,7 @@ Engine::~Engine()
 	}
 
 	SceneManager::Terminate();
+	InputManager::Terminate();
 	Renderer::Terminate();
 	//NetworkManager::Terminate();
 	TimeManager::Terminate();

@@ -57,14 +57,10 @@ Window::Window(uint32_t w, uint32_t h, std::string&& windowName) :
 
 	LightManager::Initialize();
 	LightManager::CreateDirectionalLight("MainDirLight");
-	
-	InputManager::Initialize();
 }
 
 Window::~Window()
 {
-	InputManager::Terminate();
-
 	LightManager::Terminate();
 	CameraManager::Terminate();
 

@@ -9,6 +9,8 @@
 #include "Renderer/Cameras/Camera.h"
 #include "Time/TimeManager.h"
 #include "Input/InputManager.h"
+#include "Engine.h"
+#include "Renderer/Windows/WindowManager.h"
 
 Skybox::Skybox()
 {
@@ -46,6 +48,7 @@ void Skybox::Update()
 		float rotSpeed = 2.0f * TimeManager::DeltaTime();
 		cam.Rotate(cam.GetUpVector(), -rotSpeed);
 	};
+
 
 	InputManager::WhenCursorMoved(cursorMovedCallback);
 

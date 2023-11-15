@@ -39,11 +39,11 @@ public:
 
 	bool Update();
 
-	const std::string& GetName() const { return name; };
+	const std::string& GetName() const;
 
-	const uint32_t& GetWidth() const { return width; };
+	const uint32_t& GetWidth() const;
 
-	const uint32_t& GetHeight() const { return height; };
+	const uint32_t& GetHeight() const;
 
 	const VkSurfaceKHR& GetSurface() const { return surface; };
 

@@ -42,7 +42,7 @@ private:
 
 	InputManager& operator=(InputManager&&) = delete;
 
-	static void EnqueueInputCall(const std::function<void()>& inputCall);
+	static void EnqueueInputCall(std::function<void()> inputCall);
 	
 	void ProcessKeyEvents() const;
 

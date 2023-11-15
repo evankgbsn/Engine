@@ -25,7 +25,7 @@ void TexturedStatic2DGraphicsObject::TranslateObject(const glm::vec2& translatio
 {
 	std::function<void()> translationFunction = std::function<void()>([translation, this]()
 	{
-		mvp.model = glm::translate(mvp.model, glm::vec3(translation.x, translation.y, 0.0f));
+		mvp.model = glm::translate(mvp.model, glm::vec3(-translation.x, -translation.y, 0.0f));
 	});
 
 	Translate(translationFunction);

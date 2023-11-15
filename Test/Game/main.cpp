@@ -51,12 +51,7 @@ void LoadAssets();
 void Game();
 void SetInput();
 
-UserInterfaceItem* uiItem = nullptr;
 
-auto onHover = []()
-{
-	uiItem->Scale(1.001f, 1.001f);
-};
 
 int main(int argc, const char** argv)
 {
@@ -135,7 +130,7 @@ void StressTest()
 
 				};
 				//std::this_thread::sleep_for(std::chrono::milliseconds(10));
-				GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("Woman"), animationCreationCallback);
+				GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"), animationCreationCallback);
 				
 			}
 		}
@@ -152,8 +147,6 @@ void StressTest()
 			staticobj->ScaleObject({ 500.f, 500.f});
 		}
 	};
-	
-	uiItem = new UserInterfaceItem(ModelManager::GetModel("DefaultRectangle"), TextureManager::GetTexture("VikingRoom"));
 
 	//GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"), rectangleCallback);
 	//GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(ModelManager::GetModel("DefaultRectangle"), TextureManager::GetTexture("Human"), rectangleCallback);
@@ -260,11 +253,6 @@ void SetInput()
 		Camera& cam = CameraManager::GetCamera("MainCamera");
 		float rotSpeed = 2.0f * TimeManager::DeltaTime();
 		cam.Rotate(cam.GetUpVector(), -rotSpeed);
-	});
-
-	lPress = new std::function<void()>([]()
-	{
-		uiItem->Hovered(onHover);
 	});
 
 	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_L, lPress);

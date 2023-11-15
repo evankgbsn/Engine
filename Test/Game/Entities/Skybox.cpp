@@ -11,6 +11,9 @@
 #include "Input/InputManager.h"
 #include "Engine.h"
 #include "Renderer/Windows/WindowManager.h"
+#include "UI/UserInterfaceItem.h"
+
+UserInterfaceItem* uiItem = nullptr;
 
 Skybox::Skybox()
 {
@@ -28,9 +31,10 @@ Skybox::Skybox()
 				ts->Scale(glm::vec3(1000.0f, 1000.0f, 1000.0f));
 				scaled = true;
 			}
-
-			//GraphicsObjectManager::WireFrame(go, ObjectTypes::GraphicsObjectType::TexturedStatic);
 		}
+
+		uiItem = new UserInterfaceItem(ModelManager::GetModel("DefaultRectangle"), TextureManager::GetTexture("VikingRoom"));
+
 	};
 
 	GraphicsObjectManager::CreateTexturedStaticGraphicsObject(ModelManager::GetModel("Skybox"), TextureManager::GetTexture("Skybox"), callback);
@@ -38,18 +42,27 @@ Skybox::Skybox()
 
 Skybox::~Skybox()
 {
+	if(uiItem != nullptr)
+		delete uiItem;
 }
 
 void Skybox::Update()
 {
-	auto cursorMovedCallback = [](const glm::vec2& newCursorPosition)
+	std::function<void(const glm::vec2&)> cursorMovedCallback = [](const glm::vec2& newCursorPosition)
 	{
-		Camera& cam = CameraManager::GetCamera("MainCamera");
-		float rotSpeed = 2.0f * TimeManager::DeltaTime();
-		cam.Rotate(cam.GetUpVector(), -rotSpeed);
+		auto onHover = []()
+		{
+			if (uiItem != nullptr)
+				uiItem->Rotate(.001f);
+		};
+		
+		if(uiItem != nullptr)
+			uiItem->Hovered(onHover);
 	};
 
+	static unsigned int i = 0;
+	i++;
 
-	InputManager::WhenCursorMoved(cursorMovedCallback);
-
+	if(i%5 == 0)
+		InputManager::WhenCursorMoved(cursorMovedCallback);
 }

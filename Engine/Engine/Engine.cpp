@@ -44,16 +44,18 @@ void Engine::Start()
 {
 	if (instance != nullptr)
 	{
-		Window& mainWindow = WindowManager::CreateManagedWindow(1920, 1080, "MainWindow");
+		Window& mainWindow = WindowManager::CreateManagedWindow(1280, 720, "MainWindow");
 		mainWindow.Initialize();
 
 		instance->LoadAssets();
 		instance->SpawnAndDetachGameThread();
+		
+		static const float frameTime = 0.0041666f;
 
 		float frame = TimeManager::SecondsSinceStart();
 		while (instance->shouldUpdate)
 		{
-			if ((TimeManager::SecondsSinceStart() - frame) > 0.0041666f)
+			if ((TimeManager::SecondsSinceStart() - frame) > frameTime)
 			{
 				TimeManager::RecordUpdateTime();
 				instance->shouldUpdate = Renderer::Update();

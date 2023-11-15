@@ -159,6 +159,21 @@ bool Window::Update()
 	return true;
 }
 
+const std::string& Window::GetName() const
+{
+	return name;
+}
+
+const uint32_t& Window::GetWidth() const
+{
+	return width;
+}
+
+const uint32_t& Window::GetHeight() const
+{
+	return height;
+}
+
 const Window::SurfaceInfo& Window::GetSurfaceInfo(const VulkanPhysicalDevice& device)
 {
 	VkResult result = vkGetPhysicalDeviceSurfaceCapabilitiesKHR(*device, surface, &surfaceInfo.surfaceInfo);
@@ -420,10 +435,10 @@ void Window::CreateFramebuffers()
 void Window::RecreateSwapchain()
 {
 	// Minimization.
-	int width = 0, height = 0;
-	glfwGetFramebufferSize(window, &width, &height);
+	int framebufferWidth = 0, framebufferHeight = 0;
+	glfwGetFramebufferSize(window, &framebufferWidth, &framebufferHeight);
 	while (width == 0 || height == 0) {
-		glfwGetFramebufferSize(window, &width, &height);
+		glfwGetFramebufferSize(window, &framebufferWidth, &framebufferHeight);
 		glfwWaitEvents();
 	}
 	//
@@ -452,8 +467,11 @@ void Window::RecreateSwapchain()
 
 	width = swapchainExtent.width;
 	height = swapchainExtent.height;
-	framebufferResized = false;
 
+	// Update ortho camera
+	CameraManager::GetCamera("MainOrthoCamera").SetWindow(this);
+
+	framebufferResized = false;
 }
 
 void Window::CleanupSwapchain()
@@ -487,10 +505,15 @@ const VkFormat& Window::GetDepthFormat() const
 
 glm::vec2 Window::GetCursorPosition() const
 {
-	double x, y;
-	glfwGetCursorPos(window, &x, &y);
+	double cursorX, cursorY;
+	glfwGetCursorPos(window, &cursorX, &cursorY);
 
-	return glm::vec2(static_cast<float>(x),static_cast<float>(y));
+	int windowX, windowY;
+	glfwGetWindowPos(window, &windowX, &windowY);
+
+	float outX, outY;
+
+	return glm::vec2(static_cast<float>(cursorX),static_cast<float>(cursorY));
 }
 
 bool Window::GetCursorMoved(glm::vec2& outNewPosition) const
@@ -502,7 +525,14 @@ bool Window::GetCursorMoved(glm::vec2& outNewPosition) const
 	float errorRange = 1.0f;
 	if (!(difX < errorRange && difY < errorRange))
 	{
+
+		//char stringBufferX[5] = { '\0','\0','\0','\0','\0' };
+		//_itoa_s(currentCursorPosition.x, stringBufferX, 10);
+		//char stringBufferY[5] = { '\0','\0','\0','\0','\0' };
+		//_itoa_s(currentCursorPosition.y, stringBufferY, 10);
+
 		outNewPosition = currentCursorPosition;
+		//Logger::Log(std::string("CursorPos: ") + stringBufferX + std::string(",") + stringBufferY, Logger::Category::Info);
 		return true;
 
 	}

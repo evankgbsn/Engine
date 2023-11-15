@@ -38,6 +38,8 @@ public:
 
 	void Scale(float x, float y);
 
+	void Rotate(float angle);
+
 protected:
 
 private:

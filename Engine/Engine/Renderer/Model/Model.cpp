@@ -45,7 +45,7 @@ Model::Model() :
 		Vertex(glm::vec3(-0.5f, 0.5f, 0.2f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 1.0f))
 	};
 
-	indices = { 0,2,1,2,0,3 };
+	indices = { 0,1,2,2,3,0 };
 }
 
 Model::Model(const std::vector<Vertex>& v, const std::vector<unsigned int>& i) :

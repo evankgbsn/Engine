@@ -35,7 +35,7 @@ void InputManager::Terminate()
 	}
 }
 
-void InputManager::EnqueueInputCall(const std::function<void()>& inputCall)
+void InputManager::EnqueueInputCall(std::function<void()> inputCall)
 {
 	if (instance != nullptr)
 	{
@@ -67,23 +67,23 @@ void InputManager::GetCursorPosition(const std::function<void(const glm::vec2&)>
 void InputManager::WhenCursorMoved(const std::function<void(const glm::vec2& newCursorPosition)>& callback)
 {
 	std::function<void()> getCursorPosition = [callback]()
-		{
-			const Window* const mainWindow = WindowManager::GetWindow("MainWindow");
+	{
+		const Window* const mainWindow = WindowManager::GetWindow("MainWindow");
 
-			if (mainWindow != nullptr)
-			{
-				glm::vec2 newCursorPosition;
-				bool moved = mainWindow->GetCursorMoved(newCursorPosition);
-				
-				if(moved) 
-					callback(newCursorPosition);
-			}
-			else
-			{
-				Logger::Log(std::string("Failed to get cursor position. Could not get window reference. InputManager::GetCursorPosition"), Logger::Category::Warning);
-				callback(glm::vec2(0.0f, 0.0f));
-			}
-		};
+		if (mainWindow != nullptr)
+		{
+			glm::vec2 newCursorPosition;
+			bool moved = mainWindow->GetCursorMoved(newCursorPosition);
+			
+			if(moved) 
+				callback(newCursorPosition);
+		}
+		else
+		{
+			Logger::Log(std::string("Failed to get cursor position. Could not get window reference. InputManager::GetCursorPosition"), Logger::Category::Warning);
+			callback(glm::vec2(0.0f, 0.0f));
+		}
+	};
 
 	EnqueueInputCall(getCursorPosition);
 }
@@ -235,6 +235,7 @@ void InputManager::Update()
 		{
 			func();
 		}
+
 		instance->inputQueue.clear();
 
 		instance->ProcessKeyEvents();

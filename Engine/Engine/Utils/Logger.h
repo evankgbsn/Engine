@@ -2,6 +2,7 @@
 #define LOGGER_H
 
 #include <string>
+#include <glm/glm.hpp>
 
 class Logger
 {
@@ -33,6 +34,9 @@ public:
 
 	// Log and then throw a runtime error with the same message.
 	static void LogAndThrow(std::string&& log);
+
+	// Log a 2D point
+	static void Log2DPoint(const glm::vec2& point);
 
 private:
 

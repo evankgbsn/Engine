@@ -33,7 +33,7 @@ Skybox::Skybox()
 			}
 		}
 
-		uiItem = new UserInterfaceItem(ModelManager::GetModel("DefaultRectangle"), TextureManager::GetTexture("VikingRoom"));
+		uiItem = new UserInterfaceItem(ModelManager::GetModel("DefaultRectangleWithDepth"), TextureManager::GetTexture("VikingRoom"));
 
 	};
 
@@ -53,7 +53,9 @@ void Skybox::Update()
 		auto onHover = []()
 		{
 			if (uiItem != nullptr)
-				uiItem->Rotate(.001f);
+			{
+				uiItem->Translate(0.2f, 0.2f);	
+			}
 		};
 		
 		if(uiItem != nullptr)

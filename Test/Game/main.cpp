@@ -16,6 +16,7 @@
 #include "Input/InputManager.h"
 #include "Renderer/Cameras/CameraManager.h"
 #include "Renderer/Cameras/Camera.h"
+#include "Math/Math.h"
 
 #include "Time/TimeManager.h"
 

@@ -102,3 +102,13 @@ void Logger::LogAndThrow(std::string&& log)
 	Logger::Log(std::string(log), Logger::Category::Error);
 	throw std::runtime_error(log.c_str());
 }
+
+void Logger::Log2DPoint(const glm::vec2& point)
+{
+	char stringBufferx[5] = { '\0','\0','\0','\0','\0' };
+	_itoa_s((int)point.x, stringBufferx, 10);
+	char stringBuffery[5] = { '\0','\0','\0','\0','\0' };
+	_itoa_s((int)point.y, stringBuffery, 10);
+	
+	Logger::Log(std::string("Point: ") + stringBufferx + std::string(" ,") + stringBuffery, Logger::Category::Info);
+}

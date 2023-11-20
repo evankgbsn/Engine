@@ -16,7 +16,7 @@ class UserInterfaceItem
 
 public:
 
-	UserInterfaceItem(Model* const model, Texture* const texture);
+	UserInterfaceItem(const std::string& name, Model* const model, Texture* const texture, const glm::vec2& initialPosition);
 
 	~UserInterfaceItem();
 
@@ -34,7 +34,9 @@ public:
 
 	UserInterfaceItem* const GetSubItem(std::string& name) const;
 
-	void Hovered(const std::function<void()>& onHover) const;
+	const std::unordered_map<std::string, UserInterfaceItem*>& GetSubItems() const;
+
+	void Hovered(std::function<void()> onHover) const;
 
 	void Scale(float x, float y);
 
@@ -55,6 +57,8 @@ private:
 	TexturedStatic2DGraphicsObject* graphicsObject;
 
 	std::unordered_map<std::string, UserInterfaceItem*> subItems;
+
+	std::string name;
 
 };
 

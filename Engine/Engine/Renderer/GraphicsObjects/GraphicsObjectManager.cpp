@@ -609,4 +609,6 @@ GraphicsObjectManager::~GraphicsObjectManager()
 	}
 
 	DescriptorSetManager::Terminate();
+
+	instance = nullptr;
 }

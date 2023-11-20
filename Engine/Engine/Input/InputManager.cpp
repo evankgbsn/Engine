@@ -44,7 +44,7 @@ void InputManager::EnqueueInputCall(std::function<void()> inputCall)
 	}
 }
 
-void InputManager::GetCursorPosition(const std::function<void(const glm::vec2&)>& callback)
+void InputManager::GetCursorPosition(std::function<void(const glm::vec2&)> callback)
 {
 	std::function<void()> getCursorPosition = [callback]()
 	{
@@ -64,7 +64,7 @@ void InputManager::GetCursorPosition(const std::function<void(const glm::vec2&)>
 	EnqueueInputCall(getCursorPosition);
 }
 
-void InputManager::WhenCursorMoved(const std::function<void(const glm::vec2& newCursorPosition)>& callback)
+void InputManager::WhenCursorMoved(std::function<void(const glm::vec2& newCursorPosition)> callback)
 {
 	std::function<void()> getCursorPosition = [callback]()
 	{
@@ -231,13 +231,20 @@ void InputManager::Update()
 {
 	if (instance != nullptr)
 	{
-		for (const std::function<void()>& func : instance->inputQueue)
+		if (!instance->inputQueue.empty())
 		{
-			func();
+			for (std::function<void()> func : instance->inputQueue)
+			{
+				func();
+			}
+
+			std::list<std::function<void()>>::iterator it = instance->inputQueue.begin();
+			for (it; it != instance->inputQueue.end();)
+			{
+				it = instance->inputQueue.erase(it);
+			}
 		}
-
-		instance->inputQueue.clear();
-
+		
 		instance->ProcessKeyEvents();
 	}
 	else
@@ -255,4 +262,5 @@ InputManager::InputManager() :
 
 InputManager::~InputManager()
 {
+	instance = nullptr;
 }

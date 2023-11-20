@@ -87,6 +87,8 @@ ModelManager::~ModelManager()
 	{
 		delete model.second;
 	}
+
+	instance = nullptr;
 }
 
 void ModelManager::LoadDefaultModels()
@@ -116,4 +118,9 @@ void ModelManager::LoadDefaultModels()
 	std::vector<unsigned int> triangleIndices = { 0,2,1 };
 
 	models.insert(std::make_pair(std::string("DefaultTriangle"), new Model(triangleVertices, triangleIndices)));
+
+	std::vector<Vertex> nullVertices;
+	std::vector<unsigned int> nullIndices;
+
+	models.insert(std::make_pair(std::string("Null"), new Model(nullVertices, nullIndices)));
 }

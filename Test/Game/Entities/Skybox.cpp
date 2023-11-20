@@ -12,8 +12,12 @@
 #include "Engine.h"
 #include "Renderer/Windows/WindowManager.h"
 #include "UI/UserInterfaceItem.h"
+#include "UI/UserInterfaceManager.h"
+#include "Renderer/Lights/LightManager.h"
+#include "Renderer/Lights/DirectionalLight.h"
 
-UserInterfaceItem* uiItem = nullptr;
+
+#include <glm/gtc/matrix_transform.hpp>
 
 Skybox::Skybox()
 {
@@ -33,7 +37,7 @@ Skybox::Skybox()
 			}
 		}
 
-		uiItem = new UserInterfaceItem(ModelManager::GetModel("DefaultRectangleWithDepth"), TextureManager::GetTexture("VikingRoom"));
+		UserInterfaceManager::CrateUserInterfaceItem(std::string("Coco"), ModelManager::GetModel("DefaultRectangleWithDepth"), TextureManager::GetTexture("Coco"), glm::vec2(800.0f, 600.0f));
 
 	};
 
@@ -42,29 +46,29 @@ Skybox::Skybox()
 
 Skybox::~Skybox()
 {
-	if(uiItem != nullptr)
-		delete uiItem;
 }
 
 void Skybox::Update()
 {
-	std::function<void(const glm::vec2&)> cursorMovedCallback = [](const glm::vec2& newCursorPosition)
+	auto onHover = []()
 	{
-		auto onHover = []()
+		UserInterfaceItem* cocoImage = UserInterfaceManager::GetUserInterfaceItem("Coco");
+		if (cocoImage != nullptr)
 		{
-			if (uiItem != nullptr)
-			{
-				uiItem->Translate(0.2f, 0.2f);	
-			}
-		};
-		
-		if(uiItem != nullptr)
-			uiItem->Hovered(onHover);
+			cocoImage->Rotate(0.2f);
+		}
 	};
 
-	static unsigned int i = 0;
-	i++;
+	UserInterfaceItem* cocoImage = UserInterfaceManager::GetUserInterfaceItem("Coco");
+	if (cocoImage != nullptr)
+		cocoImage->Hovered(onHover);
 
-	if(i%5 == 0)
-		InputManager::WhenCursorMoved(cursorMovedCallback);
+	static glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), 0.001f, glm::vec3(0.0f, 0.0f, 1.0f));
+
+	DirectionalLight* const light = LightManager::GetDirectionalLight("MainDirLight");
+
+	if (light != nullptr)
+	{
+		light->SetDirection(glm::vec4(light->GetDirection(), 1.0f)* rotationMatrix);
+	}
 }

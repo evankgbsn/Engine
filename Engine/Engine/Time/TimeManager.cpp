@@ -83,4 +83,5 @@ TimeManager::TimeManager() :
 
 TimeManager::~TimeManager()
 {
+	instance = nullptr;
 }

@@ -1,7 +1,7 @@
 #include "DirectionalLight.h"
 
 DirectionalLight::DirectionalLight() :
-	direction(0.333f, -0.333f, 0.333f),
+	direction(0.0f, -1.0f, 0.0f),
 	color(0.333f, 0.333f, 0.333f)
 {
 }
@@ -24,4 +24,9 @@ const glm::vec3 DirectionalLight::GetColor() const
 const glm::vec3 DirectionalLight::GetDirection() const
 {
 	return direction;
+}
+
+void DirectionalLight::SetDirection(const glm::vec3& newDirection)
+{
+	direction = newDirection;
 }

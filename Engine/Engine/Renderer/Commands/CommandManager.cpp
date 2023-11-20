@@ -74,6 +74,8 @@ CommandManager::~CommandManager()
 
 	vkDestroyCommandPool(device, renderCommandPool, nullptr);
 	vkDestroyCommandPool(device, transferCommandPool, nullptr);
+
+	instance = nullptr;
 }
 
 void CommandManager::CreateCommandPools()

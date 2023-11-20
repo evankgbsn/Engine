@@ -5,8 +5,12 @@
 
 LightManager* LightManager::instance = nullptr;
 
+std::mutex LightManager::instanceMutex = std::mutex();
+
 void LightManager::Initialize()
 {
+	std::lock_guard<std::mutex> guard(instanceMutex);
+
 	if (instance == nullptr)
 	{
 		instance = new LightManager();
@@ -20,6 +24,8 @@ void LightManager::Initialize()
 
 void LightManager::Terminate()
 {
+	std::lock_guard<std::mutex> guard(instanceMutex);
+
 	if (instance != nullptr)
 	{
 		delete instance;
@@ -32,12 +38,13 @@ void LightManager::Terminate()
 
 DirectionalLight* LightManager::CreateDirectionalLight(const std::string& name, const glm::vec3& direction, const glm::vec3& color)
 {
+	std::lock_guard<std::mutex> guard(instanceMutex);
+
 	if (instance == nullptr)
 	{
 		Logger::Log(std::string("Calling LightManager::CreateDirectionalLight() before LightManager::Initialize()"), Logger::Category::Warning);
 		return nullptr;
 	}
-
 
 	std::unordered_map<std::string, DirectionalLight*>::iterator existingLight = instance->directionalLights.find(name);
 	if (existingLight != instance->directionalLights.end())
@@ -51,6 +58,8 @@ DirectionalLight* LightManager::CreateDirectionalLight(const std::string& name, 
 
 DirectionalLight* LightManager::GetDirectionalLight(const std::string& name)
 {
+	std::lock_guard<std::mutex> guard(instanceMutex);
+
 	if (instance == nullptr)
 	{
 		Logger::Log(std::string("Calling LightManager::GetDirectionalLight() before LightManager::Initialize()"), Logger::Category::Warning);
@@ -79,4 +88,6 @@ LightManager::~LightManager()
 	{
 		delete directionalLight.second;
 	}
+
+	instance = nullptr;
 }

@@ -137,6 +137,8 @@ Renderer::~Renderer()
 	TerminateVulkan();
 	WindowManager::Terminate();
 	ModelManager::Terminate();
+
+	instance = nullptr;
 }
 
 const std::vector<std::string>& Renderer::GetSupportedInstanceExtensions()

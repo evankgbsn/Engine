@@ -129,4 +129,6 @@ WindowManager::~WindowManager()
 	}
 
 	glfwTerminate();
+
+	instance = nullptr;
 }

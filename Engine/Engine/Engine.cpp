@@ -50,17 +50,10 @@ void Engine::Start()
 		instance->LoadAssets();
 		instance->SpawnAndDetachGameThread();
 		
-		static const float frameTime = 0.0041666f;
-
-		float frame = TimeManager::SecondsSinceStart();
 		while (instance->shouldUpdate)
 		{
-			if ((TimeManager::SecondsSinceStart() - frame) > frameTime)
-			{
-				TimeManager::RecordUpdateTime();
-				instance->shouldUpdate = Renderer::Update();
-				frame = TimeManager::SecondsSinceStart();
-			}
+			TimeManager::RecordUpdateTime();
+			instance->shouldUpdate = Renderer::Update();
 		};
 	}
 }
@@ -148,6 +141,8 @@ Engine::~Engine()
 	Renderer::Terminate();
 	//NetworkManager::Terminate();
 	TimeManager::Terminate();
+
+	instance = nullptr;
 }
 
 void Engine::SpawnAndDetachGameThread()

@@ -99,4 +99,6 @@ DescriptorSetManager::~DescriptorSetManager()
 
 		delete pool.second.first;
 	}
+
+	instance = nullptr;
 }

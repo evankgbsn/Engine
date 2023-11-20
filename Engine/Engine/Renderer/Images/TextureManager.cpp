@@ -108,4 +108,6 @@ TextureManager::~TextureManager()
 	}
 
 	textures.clear();
+
+	instance = nullptr;
 }

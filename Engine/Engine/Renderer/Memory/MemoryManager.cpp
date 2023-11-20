@@ -62,4 +62,6 @@ MemoryManager::MemoryManager()
 MemoryManager::~MemoryManager()
 {
 	TerminateVMAAllocator();
+
+	instance = nullptr;
 }

@@ -18,9 +18,9 @@ public:
 
 	static void Terminate();
 
-	static void GetCursorPosition(const std::function<void(const glm::vec2& cursorPositon)>& callback);
+	static void GetCursorPosition(std::function<void(const glm::vec2& cursorPositon)> callback);
 
-	static void WhenCursorMoved(const std::function<void(const glm::vec2& newCursorPosition)>& callback);
+	static void WhenCursorMoved(std::function<void(const glm::vec2& newCursorPosition)> callback);
 
 	static void RegisterCallbackForKeyState(int state, int keyCode, std::function<void()>* const callback);
 

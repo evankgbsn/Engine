@@ -77,6 +77,7 @@ void LoadAssets()
 	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/VikingRoom.png", "VikingRoom");
 	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/HumanStatic.png", "Human");
 	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Skybox2.png", "Skybox");
+	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Coco.png", "Coco");
 
 	ModelManager::LoadModel("Woman", "../Engine/Engine/Renderer/Model/Woman.gltf");
 	ModelManager::LoadModel("Cruiser", "../Engine/Engine/Renderer/Model/Cruiser.gltf");
@@ -120,7 +121,7 @@ void StressTest()
 					if (go != nullptr)
 					{
 						ago->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));
-						ago->SetClip(0);
+						ago->SetClip(5);
 						ago->SetAnimationSpeed(1.0f);
 					}
 
@@ -131,28 +132,11 @@ void StressTest()
 
 				};
 				//std::this_thread::sleep_for(std::chrono::milliseconds(10));
-				GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"), animationCreationCallback);
+				GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), TextureManager::GetTexture("Woman2"), animationCreationCallback);
 				
 			}
 		}
 	}
-
-	auto rectangleCallback = [](GraphicsObject* obj)
-	{
-		TexturedStatic2DGraphicsObject* staticobj = static_cast<TexturedStatic2DGraphicsObject*>(obj);
-
-		if (obj != nullptr)
-		{
-			//TRS maybe queue these.
-			staticobj->TranslateObject({ -500.0f, -500.f });
-			staticobj->ScaleObject({ 500.f, 500.f});
-		}
-	};
-
-	//GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("VikingRoom"), rectangleCallback);
-	//GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(ModelManager::GetModel("DefaultRectangle"), TextureManager::GetTexture("Human"), rectangleCallback);
-	//GraphicsObjectManager::CreateGoochGraphicsObject(ModelManager::GetModel("Cruiser"), TextureManager::GetTexture("Woman"));
-	//GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("CruiserAnim"), TextureManager::GetTexture("Cruiser"));
 
 	SetInput();
 }
@@ -177,7 +161,7 @@ void Game()
 
 	while (Engine::Operating())
 	{
-		float frameTime = 0.0041666f;
+		float frameTime = 0.0016f;
 		if ((TimeManager::SecondsSinceStart() - frame) > frameTime)
 		{	
 			transformSystem->Operate();

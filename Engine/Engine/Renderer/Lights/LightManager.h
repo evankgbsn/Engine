@@ -5,6 +5,8 @@
 #include <unordered_map>
 #include <glm/glm.hpp>
 
+#include <mutex>
+
 class DirectionalLight;
 
 class LightManager
@@ -16,7 +18,7 @@ public:
 	static void Terminate();
 
 	// Creates a new directional light with the name provided. If a dircetional light already exists with that name it will return the existing directional light.
-	static DirectionalLight* CreateDirectionalLight(const std::string& name, const glm::vec3& direction = glm::vec3(-0.5f, -0.5f, -0.5f), const glm::vec3& color = glm::vec3(1.0f, 1.0f, 1.0f));
+	static DirectionalLight* CreateDirectionalLight(const std::string& name, const glm::vec3& direction = glm::vec3(-0.0f, -0.8f, -0.2f), const glm::vec3& color = glm::vec3(1.0f, 1.0f, 1.0f));
 
 	static DirectionalLight* GetDirectionalLight(const std::string& name);
 
@@ -39,6 +41,8 @@ private:
 	static LightManager* instance;
 
 	std::unordered_map<std::string, DirectionalLight*> directionalLights;
+
+	static std::mutex instanceMutex;
 };
 
 #endif //LIGHTMANAGER_H

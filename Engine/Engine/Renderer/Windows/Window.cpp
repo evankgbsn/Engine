@@ -37,6 +37,7 @@
 #include "../../Time/TimeManager.h"
 #include "../Images/TextureManager.h"
 #include "../../Input/InputManager.h"
+#include "../../UI/UserInterfaceManager.h"
 
 #include "glm/gtc/matrix_transform.hpp"
 
@@ -68,6 +69,7 @@ Window::~Window()
 
 	CleanupSwapchain();
 	
+	UserInterfaceManager::Terminate();
 	GraphicsObjectManager::Terminate();
 	TextureManager::Terminate();
 	MemoryManager::Terminate();
@@ -122,6 +124,8 @@ void Window::Initialize()
 		viewportPipelineState = new ViewportPipelineState(*this);
 		TextureManager::Initialize();
 		GraphicsObjectManager::Initialize(*this);
+		UserInterfaceManager::Initialize();
+
 		firstWindow = false;
 	}
 
@@ -511,8 +515,6 @@ glm::vec2 Window::GetCursorPosition() const
 	int windowX, windowY;
 	glfwGetWindowPos(window, &windowX, &windowY);
 
-	float outX, outY;
-
 	return glm::vec2(static_cast<float>(cursorX),static_cast<float>(cursorY));
 }
 
@@ -525,16 +527,8 @@ bool Window::GetCursorMoved(glm::vec2& outNewPosition) const
 	float errorRange = 1.0f;
 	if (!(difX < errorRange && difY < errorRange))
 	{
-
-		//char stringBufferX[5] = { '\0','\0','\0','\0','\0' };
-		//_itoa_s(currentCursorPosition.x, stringBufferX, 10);
-		//char stringBufferY[5] = { '\0','\0','\0','\0','\0' };
-		//_itoa_s(currentCursorPosition.y, stringBufferY, 10);
-
 		outNewPosition = currentCursorPosition;
-		//Logger::Log(std::string("CursorPos: ") + stringBufferX + std::string(",") + stringBufferY, Logger::Category::Info);
 		return true;
-
 	}
 	return false;
 }

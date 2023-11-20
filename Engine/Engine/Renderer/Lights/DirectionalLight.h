@@ -27,6 +27,8 @@ public:
 
 	const glm::vec3 GetDirection() const;
 
+	void SetDirection(const glm::vec3& newDirection);
+
 protected:
 
 	glm::vec3 color;

@@ -60,4 +60,6 @@ SceneManager::~SceneManager()
 	{
 		delete scene.second;
 	}
+
+	instance = nullptr;
 }

@@ -114,4 +114,6 @@ CameraManager::~CameraManager()
 	}
 
 	cameras.clear();
+
+	instance = nullptr;
 }

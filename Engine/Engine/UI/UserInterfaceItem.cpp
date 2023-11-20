@@ -14,18 +14,19 @@
 #include "../Renderer/Windows/Window.h"
 #include "../Math/Math.h"
 
-UserInterfaceItem::UserInterfaceItem(Model* const model, Texture* const texture) :
+UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const model, Texture* const texture, const glm::vec2& initialPosition) :
 	graphicsObject(nullptr),
-	position(glm::vec2(0.0f, 0.0f)),
+	position(initialPosition),
 	angle(0.0f),
-	subItems(std::unordered_map<std::string, UserInterfaceItem*>())
+	subItems(std::unordered_map<std::string, UserInterfaceItem*>()),
+	name(itemName)
 {
 	std::function<void(GraphicsObject*)> graphicsObjectCreationCallback = [this](GraphicsObject* obj)
 	{
 		graphicsObject = static_cast<TexturedStatic2DGraphicsObject*>(obj);
 
 		//graphicsObject->ScaleObject({ 100.f, 100.f });
-		graphicsObject->TranslateObject({ 500.0f, 500.0f });
+		graphicsObject->TranslateObject(position);
 	};
 
 	GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(model, texture, graphicsObjectCreationCallback);
@@ -71,7 +72,12 @@ UserInterfaceItem* const UserInterfaceItem::GetSubItem(std::string& name) const
 	return nullptr;
 }
 
-void UserInterfaceItem::Hovered(const std::function<void()>& onHover) const
+const std::unordered_map<std::string, UserInterfaceItem*>& UserInterfaceItem::GetSubItems() const
+{
+	return subItems;
+}
+
+void UserInterfaceItem::Hovered(std::function<void()> onHover) const
 {
 	std::function<void(const glm::vec2&)> getCursorPositionCallback = [onHover, this](const glm::vec2& position)
 	{
@@ -92,12 +98,11 @@ void UserInterfaceItem::Hovered(const std::function<void()>& onHover) const
 
 		static glm::vec4 triangleVerts[3] = { glm::vec4(0.0f), glm::vec4(0.0f), glm::vec4(0.0f)};
 
+		// Compute shader?
 		if (Math::PointIn2DModel(modelToTest, view, projection, modelMat4, position, glm::vec2(window->GetWidth(), window->GetHeight())))
 		{
 			onHover();
 		}
-
-		// Compute shader?
 	};
 
 	InputManager::GetCursorPosition(getCursorPositionCallback);

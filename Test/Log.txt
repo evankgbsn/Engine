@@ -33,6 +33,7 @@ Info: Supported Vulkan Instance Layers:
 	VK_LAYER_LUNARG_screenshot
 	VK_LAYER_KHRONOS_profiles
 Success: Created the vulkan instance
+Success: Created the vulkan debug messenger
 Info: Vulkan Physical Devices: 
 	NVIDIA GeForce RTX 3090 Device Properties: 
 		API Version: 0.1.3.260
@@ -241,6 +242,10 @@ Info: Present Mode FIFO Relaxed available
 Info: Present Mode Mailbox available
 Info: Present Mode Immediate available
 Success: Present Mode set to Mailbox
+Info: General: Inserted device layer "VK_LAYER_KHRONOS_validation" (C:\VulkanSDK\1.3.211.0\Bin\.\VkLayer_khronos_validation.dll)
+Info: General: Inserted device layer "VK_LAYER_OBS_HOOK" (C:\ProgramData\obs-studio-hook\.\graphics-hook64.dll)
+Info: General: Inserted device layer "VK_LAYER_NV_optimus" (C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_1fea8972dc2f0a69\.\nvoglv64.dll)
+Info: General:        Using "NVIDIA GeForce RTX 3090" with driver: "C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_1fea8972dc2f0a69\.\nvoglv64.dll"
 Success: Created logical device using NVIDIA GeForce RTX 3090
 Info: Min sawpchain images: 2
 Info: Max swapchain images: 8
@@ -380,6 +385,190 @@ Warning: Failed to get UserInterfaceItem Coco
 Warning: Failed to get UserInterfaceItem Coco
 Warning: Failed to get UserInterfaceItem Coco
 Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
 Success: Created UserInterfaceItem: Coco
 Success: Registered press callback for key code 76
 Success: Registered press callback for key code 87
@@ -390,9 +579,228 @@ Success: Registered press callback for key code 81
 Success: Registered press callback for key code 69
 Success: Registered press callback for key code 341
 Success: Registered press callback for key code 32
+Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
+Info: Present Mode FIFO available
+Info: Present Mode FIFO Relaxed available
+Info: Present Mode Mailbox available
+Info: Present Mode Immediate available
+Success: Present Mode set to Mailbox
+Info: Min sawpchain images: 2
+Info: Max swapchain images: 8
+Info: Image sharing mode set to exclusive for swapchain
+Success: Created swapchain with 3 images
+Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
+Info: Present Mode FIFO available
+Info: Present Mode FIFO Relaxed available
+Info: Present Mode Mailbox available
+Info: Present Mode Immediate available
+Success: Present Mode set to Mailbox
+Info: Min sawpchain images: 2
+Info: Max swapchain images: 8
+Info: Image sharing mode set to exclusive for swapchain
+Success: Created swapchain with 3 images
+Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
+Info: Present Mode FIFO available
+Info: Present Mode FIFO Relaxed available
+Info: Present Mode Mailbox available
+Info: Present Mode Immediate available
+Success: Present Mode set to Mailbox
+Info: Min sawpchain images: 2
+Info: Max swapchain images: 8
+Info: Image sharing mode set to exclusive for swapchain
+Success: Created swapchain with 3 images
+Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
+Info: Present Mode FIFO available
+Info: Present Mode FIFO Relaxed available
+Info: Present Mode Mailbox available
+Info: Present Mode Immediate available
+Success: Present Mode set to Mailbox
+Info: Min sawpchain images: 2
+Info: Max swapchain images: 8
+Info: Image sharing mode set to exclusive for swapchain
+Success: Created swapchain with 3 images
+Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
+Info: Present Mode FIFO available
+Info: Present Mode FIFO Relaxed available
+Info: Present Mode Mailbox available
+Info: Present Mode Immediate available
+Success: Present Mode set to Mailbox
+Info: Min sawpchain images: 2
+Info: Max swapchain images: 8
+Info: Image sharing mode set to exclusive for swapchain
+Success: Created swapchain with 3 images
+Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
+Info: Present Mode FIFO available
+Info: Present Mode FIFO Relaxed available
+Info: Present Mode Mailbox available
+Info: Present Mode Immediate available
+Success: Present Mode set to Mailbox
+Info: Min sawpchain images: 2
+Info: Max swapchain images: 8
+Info: Image sharing mode set to exclusive for swapchain
+Success: Created swapchain with 3 images
+Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
+Info: Present Mode FIFO available
+Info: Present Mode FIFO Relaxed available
+Info: Present Mode Mailbox available
+Info: Present Mode Immediate available
+Success: Present Mode set to Mailbox
+Info: Min sawpchain images: 2
+Info: Max swapchain images: 8
+Info: Image sharing mode set to exclusive for swapchain
+Success: Created swapchain with 3 images
+Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
+Info: Present Mode FIFO available
+Info: Present Mode FIFO Relaxed available
+Info: Present Mode Mailbox available
+Info: Present Mode Immediate available
+Success: Present Mode set to Mailbox
+Info: Min sawpchain images: 2
+Info: Max swapchain images: 8
+Info: Image sharing mode set to exclusive for swapchain
+Success: Created swapchain with 3 images
+Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
+Info: Present Mode FIFO available
+Info: Present Mode FIFO Relaxed available
+Info: Present Mode Mailbox available
+Info: Present Mode Immediate available
+Success: Present Mode set to Mailbox
+Info: Min sawpchain images: 2
+Info: Max swapchain images: 8
+Info: Image sharing mode set to exclusive for swapchain
+Success: Created swapchain with 3 images
+Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
+Info: Present Mode FIFO available
+Info: Present Mode FIFO Relaxed available
+Info: Present Mode Mailbox available
+Info: Present Mode Immediate available
+Success: Present Mode set to Mailbox
+Info: Min sawpchain images: 2
+Info: Max swapchain images: 8
+Info: Image sharing mode set to exclusive for swapchain
+Success: Created swapchain with 3 images
+Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
+Info: Present Mode FIFO available
+Info: Present Mode FIFO Relaxed available
+Info: Present Mode Mailbox available
+Info: Present Mode Immediate available
+Success: Present Mode set to Mailbox
+Info: Min sawpchain images: 2
+Info: Max swapchain images: 8
+Info: Image sharing mode set to exclusive for swapchain
+Success: Created swapchain with 3 images
+Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
+Info: Present Mode FIFO available
+Info: Present Mode FIFO Relaxed available
+Info: Present Mode Mailbox available
+Info: Present Mode Immediate available
+Success: Present Mode set to Mailbox
+Info: Min sawpchain images: 2
+Info: Max swapchain images: 8
+Info: Image sharing mode set to exclusive for swapchain
+Success: Created swapchain with 3 images
+Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
+Info: Present Mode FIFO available
+Info: Present Mode FIFO Relaxed available
+Info: Present Mode Mailbox available
+Info: Present Mode Immediate available
+Success: Present Mode set to Mailbox
+Info: Min sawpchain images: 2
+Info: Max swapchain images: 8
+Info: Image sharing mode set to exclusive for swapchain
+Success: Created swapchain with 3 images
+Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
+Info: Present Mode FIFO available
+Info: Present Mode FIFO Relaxed available
+Info: Present Mode Mailbox available
+Info: Present Mode Immediate available
+Success: Present Mode set to Mailbox
+Info: Min sawpchain images: 2
+Info: Max swapchain images: 8
+Info: Image sharing mode set to exclusive for swapchain
+Success: Created swapchain with 3 images
+Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
+Info: Present Mode FIFO available
+Info: Present Mode FIFO Relaxed available
+Info: Present Mode Mailbox available
+Info: Present Mode Immediate available
+Success: Present Mode set to Mailbox
+Info: Min sawpchain images: 2
+Info: Max swapchain images: 8
+Info: Image sharing mode set to exclusive for swapchain
+Success: Created swapchain with 3 images
+Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
+Info: Present Mode FIFO available
+Info: Present Mode FIFO Relaxed available
+Info: Present Mode Mailbox available
+Info: Present Mode Immediate available
+Success: Present Mode set to Mailbox
+Info: Min sawpchain images: 2
+Info: Max swapchain images: 8
+Info: Image sharing mode set to exclusive for swapchain
+Success: Created swapchain with 3 images
+Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
+Info: Present Mode FIFO available
+Info: Present Mode FIFO Relaxed available
+Info: Present Mode Mailbox available
+Info: Present Mode Immediate available
+Success: Present Mode set to Mailbox
+Info: Min sawpchain images: 2
+Info: Max swapchain images: 8
+Info: Image sharing mode set to exclusive for swapchain
+Success: Created swapchain with 3 images
+Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
+Info: Present Mode FIFO available
+Info: Present Mode FIFO Relaxed available
+Info: Present Mode Mailbox available
+Info: Present Mode Immediate available
+Success: Present Mode set to Mailbox
+Info: Min sawpchain images: 2
+Info: Max swapchain images: 8
+Info: Image sharing mode set to exclusive for swapchain
+Success: Created swapchain with 3 images
+Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
+Info: Present Mode FIFO available
+Info: Present Mode FIFO Relaxed available
+Info: Present Mode Mailbox available
+Info: Present Mode Immediate available
+Success: Present Mode set to Mailbox
+Info: Min sawpchain images: 2
+Info: Max swapchain images: 8
+Info: Image sharing mode set to exclusive for swapchain
+Success: Created swapchain with 3 images
+Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
+Info: Present Mode FIFO available
+Info: Present Mode FIFO Relaxed available
+Info: Present Mode Mailbox available
+Info: Present Mode Immediate available
+Success: Present Mode set to Mailbox
+Info: Min sawpchain images: 2
+Info: Max swapchain images: 8
+Info: Image sharing mode set to exclusive for swapchain
+Success: Created swapchain with 3 images
+Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
+Info: Present Mode FIFO available
+Info: Present Mode FIFO Relaxed available
+Info: Present Mode Mailbox available
+Info: Present Mode Immediate available
+Success: Present Mode set to Mailbox
+Info: Min sawpchain images: 2
+Info: Max swapchain images: 8
+Info: Image sharing mode set to exclusive for swapchain
+Success: Created swapchain with 3 images
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Success: Termiated UserInterfaceManager
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()

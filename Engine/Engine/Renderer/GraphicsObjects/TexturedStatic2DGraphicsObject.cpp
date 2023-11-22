@@ -100,3 +100,14 @@ glm::mat4 TexturedStatic2DGraphicsObject::GetModelMat4() const
 {
 	return mvp.model;
 }
+
+void TexturedStatic2DGraphicsObject::SetTranslation(const glm::vec2& newTranslation)
+{
+	std::function<void()> translationFunction = std::function<void()>([newTranslation, this]()
+	{
+		mvp.model = glm::translate(mvp.model, glm::vec3(-mvp.model[3].x,-mvp.model[3].y, 0.0f));
+		mvp.model = glm::translate(mvp.model, glm::vec3(-newTranslation.x, -newTranslation.y, 0.0f));
+	});
+
+	Translate(translationFunction);
+}

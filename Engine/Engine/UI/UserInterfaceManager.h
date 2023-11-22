@@ -7,6 +7,7 @@
 
 #include <glm/glm.hpp>
 
+class Window;
 class Model;
 class Texture;
 class UserInterfaceItem;
@@ -25,8 +26,20 @@ public:
 
 	static UserInterfaceItem* const GetUserInterfaceItem(const std::string& name);
 
+	static float GetWindowWidth();
+
+	static float GetWindowHeight();
+
+	static float GetPreviousWindowWidth();
+
+	static float GetPreviousWindowHeight();
+
 private:
 	
+	friend class Window;
+
+	static void OnWindowSizeUpdate(const Window* const window);
+
 	UserInterfaceManager();
 
 	~UserInterfaceManager();
@@ -45,6 +58,13 @@ private:
 
 	static std::mutex instanceMutex;
 
+	float windowWidth;
+	
+	float windowHeight;
+
+	float previousWindowWidth;
+
+	float previousWindowHeight;
 };
 
 #endif // USERINTERFACEMANAGER_H

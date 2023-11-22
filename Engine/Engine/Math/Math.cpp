@@ -84,3 +84,11 @@ bool Math::PointIn2DModel(const Model* const model, const glm::mat4& view, const
 
 	return false;
 }
+
+float Math::ChangeRange(float currentBegin, float currentEnd, float newBegin, float newEnd, float value)
+{
+	float oldRange = (currentEnd - currentBegin);
+	float newRange = (newEnd - newBegin);
+
+	return (((value - currentBegin) * newRange) / oldRange) + newBegin;
+}

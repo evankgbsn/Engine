@@ -36,6 +36,8 @@ protected:
 
 	virtual float GetRotation() const = 0;
 
+	virtual void SetTranslation(const glm::vec2& newtranslation) = 0;
+
 	float angle = 0;
 
 private:

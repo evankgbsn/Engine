@@ -4,6 +4,8 @@
 #include "../Renderer/Model/ModelManager.h"
 #include "../Renderer/Images/TextureManager.h"
 #include "../Utils/Logger.h"
+#include "../Renderer/Windows/Window.h"
+#include "../Renderer/Windows/WindowManager.h"
 
 UserInterfaceManager* UserInterfaceManager::instance = nullptr;
 
@@ -121,10 +123,82 @@ UserInterfaceItem* const UserInterfaceManager::GetUserInterfaceItem(const std::s
 	}
 }
 
-UserInterfaceManager::UserInterfaceManager() :
-	userInterfaceItems(std::unordered_map<std::string, UserInterfaceItem*>())
+float UserInterfaceManager::GetWindowWidth()
 {
+	if (instance != nullptr)
+	{
+		return (float)instance->windowWidth;
+	}
 
+	return 0.0f;
+}
+
+float UserInterfaceManager::GetWindowHeight()
+{
+	if (instance != nullptr)
+	{
+		return (float)instance->windowHeight;
+	}
+
+	return 0.0f;
+}
+
+float UserInterfaceManager::GetPreviousWindowWidth()
+{
+	if (instance != nullptr)
+	{
+		return (float)instance->previousWindowWidth;
+	}
+
+	return 0.0f;
+}
+
+float UserInterfaceManager::GetPreviousWindowHeight()
+{
+	if (instance != nullptr)
+	{
+		return (float)instance->previousWindowHeight;
+	}
+
+	return 0.0f;
+}
+
+void UserInterfaceManager::OnWindowSizeUpdate(const Window* const window)
+{
+	if (instance != nullptr)
+	{
+		const Window* const window = WindowManager::GetWindow("MainWindow");
+
+		if (window != nullptr)
+		{
+			instance->windowWidth = window->GetWidth();
+			instance->windowHeight = window->GetHeight();
+		}
+
+		for (auto& userInterfaceItem : instance->userInterfaceItems)
+		{
+			userInterfaceItem.second->OnWindowSizeUpdate();
+		}
+
+		instance->previousWindowWidth = instance->windowWidth;
+		instance->previousWindowHeight = instance->windowHeight;
+	}
+}
+
+UserInterfaceManager::UserInterfaceManager() :
+	userInterfaceItems(std::unordered_map<std::string, UserInterfaceItem*>()),
+	windowWidth(0.0f),
+	windowHeight(0.0f),
+	previousWindowWidth(windowWidth),
+	previousWindowHeight(windowHeight)
+{
+	const Window* const window = WindowManager::GetWindow("MainWindow");
+
+	if (window != nullptr)
+	{
+		windowWidth = previousWindowWidth = window->GetWidth();
+		windowHeight = previousWindowHeight = window->GetHeight();
+	}
 }
 
 UserInterfaceManager::~UserInterfaceManager()

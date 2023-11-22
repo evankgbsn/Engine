@@ -10,9 +10,10 @@
 #include "../Utils/Logger.h"
 #include "../Renderer/Cameras/CameraManager.h"
 #include "../Renderer/Cameras/Camera.h"
-#include "../Renderer/Windows/WindowManager.h"
-#include "../Renderer/Windows/Window.h"
+#include "../UI/UserInterfaceManager.h"
 #include "../Math/Math.h"
+#include "../Renderer/Windows/Window.h"
+#include "../Renderer/Windows/WindowManager.h"
 
 UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const model, Texture* const texture, const glm::vec2& initialPosition) :
 	graphicsObject(nullptr),
@@ -25,8 +26,10 @@ UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const m
 	{
 		graphicsObject = static_cast<TexturedStatic2DGraphicsObject*>(obj);
 
-		//graphicsObject->ScaleObject({ 100.f, 100.f });
-		graphicsObject->TranslateObject(position);
+		float width = UserInterfaceManager::GetWindowWidth();
+		float height = UserInterfaceManager::GetWindowHeight();
+
+		graphicsObject->TranslateObject({ (position.x > 0) ? glm::min(position.x, width) : 0.0f, (position.y > 0) ? glm::min(position.y, height) : 0.0f });
 	};
 
 	GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(model, texture, graphicsObjectCreationCallback);
@@ -87,8 +90,6 @@ void UserInterfaceItem::Hovered(std::function<void()> onHover) const
 
 		const Camera& mainOrthoCam = CameraManager::GetCamera(std::string("MainOrthoCamera"));
 
-		Window* window = WindowManager::GetWindow("MainWindow");
-
 		glm::mat4 projection = mainOrthoCam.GetProjection();
 		projection[1][1] *= -1.0f;
 
@@ -98,8 +99,10 @@ void UserInterfaceItem::Hovered(std::function<void()> onHover) const
 
 		static glm::vec4 triangleVerts[3] = { glm::vec4(0.0f), glm::vec4(0.0f), glm::vec4(0.0f)};
 
+		//const Window* const window = WindowManager::GetWindow("MainWindow");
+
 		// Compute shader?
-		if (Math::PointIn2DModel(modelToTest, view, projection, modelMat4, position, glm::vec2(window->GetWidth(), window->GetHeight())))
+		if (Math::PointIn2DModel(modelToTest, view, projection, modelMat4, position, glm::vec2(UserInterfaceManager::GetWindowWidth(), UserInterfaceManager::GetWindowHeight())))
 		{
 			onHover();
 		}
@@ -122,4 +125,22 @@ void UserInterfaceItem::Rotate(float angle)
 void UserInterfaceItem::Translate(float x, float y)
 {
 	graphicsObject->TranslateObject({ x, y });
+}
+
+void UserInterfaceItem::OnWindowSizeUpdate()
+{
+	if (graphicsObject != nullptr)
+	{
+		float previousWidth = UserInterfaceManager::GetPreviousWindowWidth();
+		float previousHeight = UserInterfaceManager::GetPreviousWindowHeight();
+
+		float width = UserInterfaceManager::GetWindowWidth();
+		float height = UserInterfaceManager::GetWindowHeight();
+
+		position.x = Math::ChangeRange(0.0f, previousWidth, 0.0f, width, position.x);
+		position.y = Math::ChangeRange(0.0f, previousHeight, 0.0f, height, position.y);
+
+
+		graphicsObject->SetTranslation(position);
+	}
 }

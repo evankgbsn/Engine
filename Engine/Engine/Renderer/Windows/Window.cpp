@@ -475,6 +475,8 @@ void Window::RecreateSwapchain()
 	// Update ortho camera
 	CameraManager::GetCamera("MainOrthoCamera").SetWindow(this);
 
+	UserInterfaceManager::OnWindowSizeUpdate(this);
+
 	framebufferResized = false;
 }
 

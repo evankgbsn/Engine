@@ -43,6 +43,8 @@ public:
 	void Rotate(float angle);
 
 	void Translate(float x, float y);
+	
+	void OnWindowSizeUpdate();
 
 protected:
 

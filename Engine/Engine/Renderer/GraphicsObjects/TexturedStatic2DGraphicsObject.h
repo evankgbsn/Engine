@@ -41,6 +41,8 @@ public:
 
 	glm::mat4 GetModelMat4() const;
 
+	void SetTranslation(const glm::vec2& newTranslation) override;
+
 private:
 	
 	struct MVPUniformBuffer

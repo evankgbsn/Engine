@@ -19,6 +19,8 @@ namespace Math
 	void ModelSpaceToWorldSpace(const glm::mat4& view, const glm::mat4& projection, const glm::mat4& model, const glm::vec4& point, glm::vec4& outWorldSpacePoint);
 
 	bool PointIn2DModel(const Model* const model, const glm::mat4& view, const glm::mat4& projection, const glm::mat4& modelMat, const glm::vec2& point, const glm::vec2& windowDimensions, const glm::vec2& offset = glm::vec2(0.0f));
+
+	float ChangeRange(float currentBegin, float currentEnd, float newBegin, float newEnd, float value);
 };
 
 #endif // MATH_H

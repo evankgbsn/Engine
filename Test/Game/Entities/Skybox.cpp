@@ -37,7 +37,7 @@ Skybox::Skybox()
 			}
 		}
 
-		UserInterfaceManager::CrateUserInterfaceItem(std::string("Coco"), ModelManager::GetModel("DefaultRectangleWithDepth"), TextureManager::GetTexture("Coco"), glm::vec2(100.0f, 600.0f));
+		UserInterfaceManager::CrateUserInterfaceItem(std::string("Coco"), ModelManager::GetModel("Bang"), TextureManager::GetTexture("Coco"), glm::vec2(100.0f, 600.0f));
 
 	};
 

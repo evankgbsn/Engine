@@ -50,6 +50,10 @@ public:
 
 	void CPUSkin(Armature& armature, Pose& pose);
 
+	void SetZforAllVerts(float newZ);
+
+	void FlipTriangleWindingOrder();
+
 protected:
 
 private:

@@ -3,26 +3,20 @@ Success: Initialized SceneManager
 Success: Initialized WindowManager
 Info: Supported Vulkan Instance Extensions: 
 	VK_KHR_device_group_creation
-	VK_KHR_display
 	VK_KHR_external_fence_capabilities
 	VK_KHR_external_memory_capabilities
 	VK_KHR_external_semaphore_capabilities
-	VK_KHR_get_display_properties2
 	VK_KHR_get_physical_device_properties2
 	VK_KHR_get_surface_capabilities2
 	VK_KHR_surface
-	VK_KHR_surface_protected_capabilities
 	VK_KHR_win32_surface
 	VK_EXT_debug_report
 	VK_EXT_debug_utils
-	VK_EXT_direct_mode_display
-	VK_EXT_surface_maintenance1
 	VK_EXT_swapchain_colorspace
-	VK_NV_external_memory_capabilities
 	VK_KHR_portability_enumeration
 	VK_LUNARG_direct_driver_loading
 Info: Supported Vulkan Instance Layers: 
-	VK_LAYER_NV_optimus
+	VK_LAYER_AMD_switchable_graphics
 	VK_LAYER_OBS_HOOK
 	VK_LAYER_OBS_HOOK
 	VK_LAYER_LUNARG_api_dump
@@ -35,13 +29,13 @@ Info: Supported Vulkan Instance Layers:
 Success: Created the vulkan instance
 Success: Created the vulkan debug messenger
 Info: Vulkan Physical Devices: 
-	NVIDIA GeForce RTX 3090 Device Properties: 
-		API Version: 0.1.3.260
-		DeviceID: 8708
+	AMD Radeon RX 6650 XT Device Properties: 
+		API Version: 0.1.3.250
+		DeviceID: 29679
 		Device Type: Discrete GPU
-		Driver Version: 4.34.68.0
+		Driver Version: 0.2.0.270
 		Limits: 
-			Buffer Image Granularity: 1024
+			Buffer Image Granularity: 1
 			Discrete Queue Priorities: 2
 			Framebuffer Color Sample Counts: 
 				VK_SAMPLE_COUNT_1_BIT
@@ -58,123 +52,121 @@ Info: Vulkan Physical Devices:
 				VK_SAMPLE_COUNT_2_BIT
 				VK_SAMPLE_COUNT_4_BIT
 				VK_SAMPLE_COUNT_8_BIT
-				VK_SAMPLE_COUNT_16_BIT
 			Framebuffer Stencil Sample Counts: 
 				VK_SAMPLE_COUNT_1_BIT
 				VK_SAMPLE_COUNT_2_BIT
 				VK_SAMPLE_COUNT_4_BIT
 				VK_SAMPLE_COUNT_8_BIT
-				VK_SAMPLE_COUNT_16_BIT
-			Line Width Granularity: 0.062500
-			Line Width Range: 1.000000 : 64.000000
+			Line Width Granularity: 0.125000
+			Line Width Range: 0.000000 : 8191.875000
 			Max Bound Descriptor Sets: 32
 			Max Clip Distances: 8
 			Max Color Attachments: 8
 			Max Combined Clip and Cull Distances: 8
-			Max Compute Shared Memory Size: 49152
-			Max Compute Work Group Count: 2147483647 65535 65535
+			Max Compute Shared Memory Size: 32768
+			Max Compute Work Group Count: 65535 65535 65535
 			Max Compute Work Group Invocations: 1024
-			Max Compute Work Group Size: 1024 1024 64
+			Max Compute Work Group Size: 1024 1024 1024
 			Max Cull Distances: 8
-			Max Descriptor Set Input Attachments: 1048576
-			Max Descriptor Set Sampled Images: 1048576
-			Max Descriptor Set Samplers: 1048576
-			Max Descriptor Set Storage Buffers: 1048576
-			Max Descriptor Set Storage Buffers Dynamic: 16
-			Max Descriptor Set Storage Images: 1048576
-			Max Descriptor Set Storage Uniform Buffers: 1048576
-			Max Descriptor Set Storage Uniform Buffers Dynamic: 15
+			Max Descriptor Set Input Attachments: 4294967295
+			Max Descriptor Set Sampled Images: 4294967295
+			Max Descriptor Set Samplers: 4294967295
+			Max Descriptor Set Storage Buffers: 4294967295
+			Max Descriptor Set Storage Buffers Dynamic: 8
+			Max Descriptor Set Storage Images: 4294967295
+			Max Descriptor Set Storage Uniform Buffers: 4294967295
+			Max Descriptor Set Storage Uniform Buffers Dynamic: 8
 			Max Draw Indexed Index Value: 4294967295
 			Max Draw Indirect Count: 4294967295
 			Max Fragment Combined Output Resources: 4294967295
 			Max Fragment Dual Src Attachments: 1
 			Max Fragment Input Components: 128
 			Max Fragment Output Attachments: 8
-			Max Framebuffer Height: 32768
-			Max Framebuffer Layers: 2048
-			Max Framebuffer Width: 32768
+			Max Framebuffer Height: 16384
+			Max Framebuffer Layers: 8192
+			Max Framebuffer Width: 16384
 			Max Geometry Input Components: 128
 			Max Geometry Output Components: 128
-			Max Geometry Output Vertices: 1024
-			Max Geometry Shader Invocations: 32
-			Max Geometry Total Output Components: 1024
-			Max Image Array Layers: 2048
-			Max Image Dimension 1D: 32768
-			Max Image Dimension 2D: 32768
-			Max Image Dimension 3D: 16384
-			Max Image Dimension Cube: 32768
-			Max Interpolation Offset: 0.437500
+			Max Geometry Output Vertices: 1023
+			Max Geometry Shader Invocations: 126
+			Max Geometry Total Output Components: 4095
+			Max Image Array Layers: 8192
+			Max Image Dimension 1D: 16384
+			Max Image Dimension 2D: 16384
+			Max Image Dimension 3D: 8192
+			Max Image Dimension Cube: 16384
+			Max Interpolation Offset: 1.000000
 			Max Memory Allocation Count: 4096
-			Max PerStage Descriptor Input Attachments: 1048576
-			Max Per Stage Descriptor Sampled Images: 1048576
-			Max Per Stage Descriptor Samplers: 1048576
-			Max Per Stage Descriptor Storage Buffers: 1048576
-			Max Per Stage Descriptor Storage Images: 1048576
-			Max Per Stage Descriptor Uniform Buffers: 1048576
+			Max PerStage Descriptor Input Attachments: 4294967295
+			Max Per Stage Descriptor Sampled Images: 4294967295
+			Max Per Stage Descriptor Samplers: 4294967295
+			Max Per Stage Descriptor Storage Buffers: 4294967295
+			Max Per Stage Descriptor Storage Images: 4294967295
+			Max Per Stage Descriptor Uniform Buffers: 4294967295
 			Max Per Stage Resources: 4294967295
-			Max Push Constants Size: 256
+			Max Push Constants Size: 128
 			Max Sample Mask Words: 1
-			Max Sampler Allocation Count: 4000
+			Max Sampler Allocation Count: 1048576
 			Max Sampler Anisotropy: 16.000000
-			Max Sampler Lod Bias: 15.000000
+			Max Sampler Lod Bias: 15.996094
 			Max Storage Buffer Range: 4294967295
 			Max Tessellation Control Per Patch Output Components: 120
 			Max Tessellation Control Per Vertex Input Components: 128
 			Max Tessellation Control Per Vertex Output Components: 128
-			Max Tessellation Control Total Output Components: 4216
+			Max Tessellation Control Total Output Components: 4096
 			Max Tessellation Evaluation Input Components: 128
 			Max Tessellation Evaluation Output Components: 128
 			Max Tessellation Generation Level: 64
 			Max Tessellation Patch Size: 32
-			Max Texel Buffer Elements: 134217728
+			Max Texel Buffer Elements: 4294967295
 			Max Texel Gather Offset: 31
-			Max Texel Offset: 7
-			Max Uniform Buffer Range: 65536
-			Max Vertex Input Attribute Offset: 2047
-			Max Vertex Input Attributes: 32
+			Max Texel Offset: 63
+			Max Uniform Buffer Range: 4294967295
+			Max Vertex Input Attribute Offset: 4294967295
+			Max Vertex Input Attributes: 64
 			Max Vertex Input Bindings: 32
-			Max Vertex Input Bindings Stride: 2048
+			Max Vertex Input Bindings Stride: 16383
 			Max Vertex Output Components: 128
-			Max Viewport Dimensions: 32768 : 32768
+			Max Viewport Dimensions: 16384 : 16384
 			Max Viewports: 16
-			Min Interpolation Offset: -0.500000
+			Min Interpolation Offset: -2.000000
 			Min Memory Map Alignment: 64
-			Min Storage Buffer Offset Alignment: 16
-			Min Texel Buffer Offset Alignment: 16
+			Min Storage Buffer Offset Alignment: 4
+			Min Texel Buffer Offset Alignment: 4
 			Min Texel Gather Offset: -32
-			Min Texel Offset: -8
-			Min Uniform Buffer Offset Alignment: 64
+			Min Texel Offset: -64
+			Min Uniform Buffer Offset Alignment: 16
 			Mipmap Precision Bits: 8
-			Non Coherent Atom Size: 64
+			Non Coherent Atom Size: 128
 			Optimal Buffer Copy Offset Alignment: 1
 			Optimal Buffer Copy Row Pitch Alignment: 1
-			Point Size Range: 1.000000 : 2047.937500
-			Point Size Granularity: 0.062500
+			Point Size Range: 0.000000 : 8191.875000
+			Point Size Granularity: 0.125000
 			Sampled Image Color Sample Counts: 15
 			Sampled Image Depth Sample Counts: 15
 			Sampled Image Integer Sample Counts: 15
-			Sampled Image Stencil Sample Counts: 31
-			Sparse Address SpaceSize: 1099511627775
+			Sampled Image Stencil Sample Counts: 15
+			Sparse Address SpaceSize: 17562121273344
 			Standard Sample Locations: 1
 			Storage Image Sample Counts: 15
-			Strict Lines: 1
-			Sub Pixel Interpolation Offset Bits: 4
+			Strict Lines: 0
+			Sub Pixel Interpolation Offset Bits: 8
 			Sub Pixel Precision Bits: 8
 			Sub Texel Precision Bits: 8
 			Timestamp Compute and Graphics: 1
-			Timestamp Period: 1.000000
-			Viewport Bounds Range: -65536.000000 : 65536.000000
+			Timestamp Period: 10.000000
+			Viewport Bounds Range: -32768.000000 : 32767.000000
 			Viewport Sub Pixel Bits: 8
-		Pipeline Cache UUID: 91 136 225 21 233 145 99 214 242 138 158 47 8 89 160 140 
+		Pipeline Cache UUID: 53 166 52 113 84 200 95 144 181 22 102 76 144 120 63 203 
 		Sparse Properties: 
 			Residency Aligned Mip Size: 0
 			Residency Non Resident Strict: 1
 			Residency Standard 2D Block Shape: 1
-			Residency Standard 2D Multisample Block Shape: 1
+			Residency Standard 2D Multisample Block Shape: 0
 			Residency Standard 3D Block Shape: 1
-		VendorID: 4318
+		VendorID: 4098
 	 Device Features: 
-		Alpha To One: 1
+		Alpha To One: 0
 		Depth Bias Clamp: 1
 		Depth Bounds: 1
 		Depth Clamp: 1
@@ -214,10 +206,201 @@ Info: Vulkan Physical Devices:
 		Shader Tessellation and Geometry Point Size: 1
 		Shader Uniform Buffer Array Dynamic Indexing: 1
 		Sparse Binding: 1
-		Sparse Residency 16 Samples: 1
-		Sparse Residency 2 Samples: 1
-		Sparse Residency 4 Samples: 1
-		Sparse Residency 8 Samples: 1
+		Sparse Residency 16 Samples: 0
+		Sparse Residency 2 Samples: 0
+		Sparse Residency 4 Samples: 0
+		Sparse Residency 8 Samples: 0
+		Sparse Residency Aliased: 1
+		Sparse Residency Buffer: 1
+		Sparse Residency Image 2D: 1
+		Sparse Residency Image 3D: 1
+		Tessellation Shader: 1
+		Texture Compression ASTC_LDR: 0
+		Texture Compression BC: 1
+		Texture Compression ETC2: 0
+		Variable Multisample Rate: 1
+		Vertex Pipeline Stores and Atomics: 1
+		Wide Lines: 1AMD Radeon(TM) Graphics Device Properties: 
+		API Version: 0.1.3.250
+		DeviceID: 5710
+		Device Type: Integrated GPU
+		Driver Version: 0.2.0.270
+		Limits: 
+			Buffer Image Granularity: 1
+			Discrete Queue Priorities: 2
+			Framebuffer Color Sample Counts: 
+				VK_SAMPLE_COUNT_1_BIT
+				VK_SAMPLE_COUNT_2_BIT
+				VK_SAMPLE_COUNT_4_BIT
+				VK_SAMPLE_COUNT_8_BIT
+			Framebuffer Depth Sample Counts: 
+				VK_SAMPLE_COUNT_1_BIT
+				VK_SAMPLE_COUNT_2_BIT
+				VK_SAMPLE_COUNT_4_BIT
+				VK_SAMPLE_COUNT_8_BIT
+			Framebuffer No Attachment Sample Counts: 
+				VK_SAMPLE_COUNT_1_BIT
+				VK_SAMPLE_COUNT_2_BIT
+				VK_SAMPLE_COUNT_4_BIT
+				VK_SAMPLE_COUNT_8_BIT
+			Framebuffer Stencil Sample Counts: 
+				VK_SAMPLE_COUNT_1_BIT
+				VK_SAMPLE_COUNT_2_BIT
+				VK_SAMPLE_COUNT_4_BIT
+				VK_SAMPLE_COUNT_8_BIT
+			Line Width Granularity: 0.125000
+			Line Width Range: 0.000000 : 8191.875000
+			Max Bound Descriptor Sets: 32
+			Max Clip Distances: 8
+			Max Color Attachments: 8
+			Max Combined Clip and Cull Distances: 8
+			Max Compute Shared Memory Size: 32768
+			Max Compute Work Group Count: 65535 65535 65535
+			Max Compute Work Group Invocations: 1024
+			Max Compute Work Group Size: 1024 1024 1024
+			Max Cull Distances: 8
+			Max Descriptor Set Input Attachments: 4294967295
+			Max Descriptor Set Sampled Images: 4294967295
+			Max Descriptor Set Samplers: 4294967295
+			Max Descriptor Set Storage Buffers: 4294967295
+			Max Descriptor Set Storage Buffers Dynamic: 8
+			Max Descriptor Set Storage Images: 4294967295
+			Max Descriptor Set Storage Uniform Buffers: 4294967295
+			Max Descriptor Set Storage Uniform Buffers Dynamic: 8
+			Max Draw Indexed Index Value: 4294967295
+			Max Draw Indirect Count: 4294967295
+			Max Fragment Combined Output Resources: 4294967295
+			Max Fragment Dual Src Attachments: 1
+			Max Fragment Input Components: 128
+			Max Fragment Output Attachments: 8
+			Max Framebuffer Height: 16384
+			Max Framebuffer Layers: 8192
+			Max Framebuffer Width: 16384
+			Max Geometry Input Components: 128
+			Max Geometry Output Components: 128
+			Max Geometry Output Vertices: 1023
+			Max Geometry Shader Invocations: 126
+			Max Geometry Total Output Components: 4095
+			Max Image Array Layers: 8192
+			Max Image Dimension 1D: 16384
+			Max Image Dimension 2D: 16384
+			Max Image Dimension 3D: 8192
+			Max Image Dimension Cube: 16384
+			Max Interpolation Offset: 1.000000
+			Max Memory Allocation Count: 4096
+			Max PerStage Descriptor Input Attachments: 4294967295
+			Max Per Stage Descriptor Sampled Images: 4294967295
+			Max Per Stage Descriptor Samplers: 4294967295
+			Max Per Stage Descriptor Storage Buffers: 4294967295
+			Max Per Stage Descriptor Storage Images: 4294967295
+			Max Per Stage Descriptor Uniform Buffers: 4294967295
+			Max Per Stage Resources: 4294967295
+			Max Push Constants Size: 128
+			Max Sample Mask Words: 1
+			Max Sampler Allocation Count: 1048576
+			Max Sampler Anisotropy: 16.000000
+			Max Sampler Lod Bias: 15.996094
+			Max Storage Buffer Range: 4294967295
+			Max Tessellation Control Per Patch Output Components: 120
+			Max Tessellation Control Per Vertex Input Components: 128
+			Max Tessellation Control Per Vertex Output Components: 128
+			Max Tessellation Control Total Output Components: 4096
+			Max Tessellation Evaluation Input Components: 128
+			Max Tessellation Evaluation Output Components: 128
+			Max Tessellation Generation Level: 64
+			Max Tessellation Patch Size: 32
+			Max Texel Buffer Elements: 4294967295
+			Max Texel Gather Offset: 31
+			Max Texel Offset: 63
+			Max Uniform Buffer Range: 4294967295
+			Max Vertex Input Attribute Offset: 4294967295
+			Max Vertex Input Attributes: 64
+			Max Vertex Input Bindings: 32
+			Max Vertex Input Bindings Stride: 16383
+			Max Vertex Output Components: 128
+			Max Viewport Dimensions: 16384 : 16384
+			Max Viewports: 16
+			Min Interpolation Offset: -2.000000
+			Min Memory Map Alignment: 64
+			Min Storage Buffer Offset Alignment: 4
+			Min Texel Buffer Offset Alignment: 4
+			Min Texel Gather Offset: -32
+			Min Texel Offset: -64
+			Min Uniform Buffer Offset Alignment: 16
+			Mipmap Precision Bits: 8
+			Non Coherent Atom Size: 128
+			Optimal Buffer Copy Offset Alignment: 1
+			Optimal Buffer Copy Row Pitch Alignment: 1
+			Point Size Range: 0.000000 : 8191.875000
+			Point Size Granularity: 0.125000
+			Sampled Image Color Sample Counts: 15
+			Sampled Image Depth Sample Counts: 15
+			Sampled Image Integer Sample Counts: 15
+			Sampled Image Stencil Sample Counts: 15
+			Sparse Address SpaceSize: 17579301142528
+			Standard Sample Locations: 1
+			Storage Image Sample Counts: 15
+			Strict Lines: 0
+			Sub Pixel Interpolation Offset Bits: 8
+			Sub Pixel Precision Bits: 8
+			Sub Texel Precision Bits: 8
+			Timestamp Compute and Graphics: 1
+			Timestamp Period: 10.000000
+			Viewport Bounds Range: -32768.000000 : 32767.000000
+			Viewport Sub Pixel Bits: 8
+		Pipeline Cache UUID: 144 178 72 231 252 64 87 152 129 107 226 81 96 119 206 159 
+		Sparse Properties: 
+			Residency Aligned Mip Size: 0
+			Residency Non Resident Strict: 1
+			Residency Standard 2D Block Shape: 1
+			Residency Standard 2D Multisample Block Shape: 0
+			Residency Standard 3D Block Shape: 1
+		VendorID: 4098
+	 Device Features: 
+		Alpha To One: 0
+		Depth Bias Clamp: 1
+		Depth Bounds: 1
+		Depth Clamp: 1
+		Draw Indirect First Instance: 1
+		Dual Src Blend: 1
+		Fill Mode Non Solid: 1
+		Fragment Stores and Atomics: 1
+		Full Draw Index Uint32: 1
+		Geometry Shader: 1
+		Image Cube Array: 1
+		Independent Blend: 1
+		Inherited Queries: 1
+		Large Points: 1
+		Logic Op: 1
+		Multi Draw Indirect: 1
+		Multi Viewport: 1
+		Occlusion Query Precise: 1
+		Pipeline Statistics Query: 1
+		Robust Buffer Access: 1
+		Sampler Anisotropy: 1
+		Sample Rate Shading: 1
+		Shader Clip Distance: 1
+		Shader Cull Distance: 1
+		Shader Float64: 1
+		Shader Image Gather Extended: 1
+		Shader Int16: 1
+		Shader Int64: 1
+		Shader Resource Min Lod: 1
+		Shader Resource Residency: 1
+		Shader Sampled Image Array Dynamic Indexing: 1
+		Shader Storage Buffer Array Dynamic Indexing: 1
+		Shader Storage Image Array Dynamic Indexing: 1
+		Shader Storage Image Extended Formats: 1
+		Shader Storage Image Multisample: 1
+		Shader Storage Image Read Without Format: 1
+		Shader Storage Image Write Without Format: 1
+		Shader Tessellation and Geometry Point Size: 1
+		Shader Uniform Buffer Array Dynamic Indexing: 1
+		Sparse Binding: 1
+		Sparse Residency 16 Samples: 0
+		Sparse Residency 2 Samples: 0
+		Sparse Residency 4 Samples: 0
+		Sparse Residency 8 Samples: 0
 		Sparse Residency Aliased: 1
 		Sparse Residency Buffer: 1
 		Sparse Residency Image 2D: 1
@@ -237,21 +420,20 @@ Info: Game Version: 1.0.0
 Success: Engine::SetGameThreadFunc success
 Success: Initialized LightManager
 Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
+Info: Present Mode Immediate available
 Info: Present Mode FIFO available
 Info: Present Mode FIFO Relaxed available
-Info: Present Mode Mailbox available
-Info: Present Mode Immediate available
-Success: Present Mode set to Mailbox
-Info: General: Inserted device layer "VK_LAYER_KHRONOS_validation" (C:\VulkanSDK\1.3.211.0\Bin\.\VkLayer_khronos_validation.dll)
+Warning: Present Mode set to FIFO Relaxed
+Info: General: Inserted device layer "VK_LAYER_KHRONOS_validation" (C:\VulkanSDK\1.3.239.0\Bin\.\VkLayer_khronos_validation.dll)
 Info: General: Inserted device layer "VK_LAYER_OBS_HOOK" (C:\ProgramData\obs-studio-hook\.\graphics-hook64.dll)
-Info: General: Inserted device layer "VK_LAYER_NV_optimus" (C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_1fea8972dc2f0a69\.\nvoglv64.dll)
-Info: General:        Using "NVIDIA GeForce RTX 3090" with driver: "C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_1fea8972dc2f0a69\.\nvoglv64.dll"
-Success: Created logical device using NVIDIA GeForce RTX 3090
-Info: Min sawpchain images: 2
-Info: Max swapchain images: 8
+Info: General: Failed to find vkGetDeviceProcAddr in layer "C:\WINDOWS\System32\DriverStore\FileRepository\u0394441.inf_amd64_57e767cb37419fb0\B394106\.\amdvlk64.dll"
+Info: General:        Using "AMD Radeon RX 6650 XT" with driver: "C:\WINDOWS\System32\DriverStore\FileRepository\u0394441.inf_amd64_57e767cb37419fb0\B394106\.\amdvlk64.dll"
+Success: Created logical device using AMD Radeon RX 6650 XT
+Info: Min sawpchain images: 1
+Info: Max swapchain images: 16
 Info: Image sharing mode set to exclusive for swapchain
-Success: Created swapchain with 3 images
-Success: NVIDIA GeForce RTX 3090 has been chosen as the rendering device.
+Success: Created swapchain with 2 images
+Success: AMD Radeon RX 6650 XT has been chosen as the rendering device.
 Success: Loaded shader Gooch.fragspv
 Success: Loaded shader Gooch.vertspv
 Success: Loaded shader LitTexturedStatic.fragspv
@@ -436,139 +618,6 @@ Warning: Failed to get UserInterfaceItem Coco
 Warning: Failed to get UserInterfaceItem Coco
 Warning: Failed to get UserInterfaceItem Coco
 Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
-Warning: Failed to get UserInterfaceItem Coco
 Success: Created UserInterfaceItem: Coco
 Success: Registered press callback for key code 76
 Success: Registered press callback for key code 87
@@ -579,240 +628,3 @@ Success: Registered press callback for key code 81
 Success: Registered press callback for key code 69
 Success: Registered press callback for key code 341
 Success: Registered press callback for key code 32
-Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
-Info: Present Mode FIFO available
-Info: Present Mode FIFO Relaxed available
-Info: Present Mode Mailbox available
-Info: Present Mode Immediate available
-Success: Present Mode set to Mailbox
-Info: Min sawpchain images: 2
-Info: Max swapchain images: 8
-Info: Image sharing mode set to exclusive for swapchain
-Success: Created swapchain with 3 images
-Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
-Info: Present Mode FIFO available
-Info: Present Mode FIFO Relaxed available
-Info: Present Mode Mailbox available
-Info: Present Mode Immediate available
-Success: Present Mode set to Mailbox
-Info: Min sawpchain images: 2
-Info: Max swapchain images: 8
-Info: Image sharing mode set to exclusive for swapchain
-Success: Created swapchain with 3 images
-Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
-Info: Present Mode FIFO available
-Info: Present Mode FIFO Relaxed available
-Info: Present Mode Mailbox available
-Info: Present Mode Immediate available
-Success: Present Mode set to Mailbox
-Info: Min sawpchain images: 2
-Info: Max swapchain images: 8
-Info: Image sharing mode set to exclusive for swapchain
-Success: Created swapchain with 3 images
-Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
-Info: Present Mode FIFO available
-Info: Present Mode FIFO Relaxed available
-Info: Present Mode Mailbox available
-Info: Present Mode Immediate available
-Success: Present Mode set to Mailbox
-Info: Min sawpchain images: 2
-Info: Max swapchain images: 8
-Info: Image sharing mode set to exclusive for swapchain
-Success: Created swapchain with 3 images
-Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
-Info: Present Mode FIFO available
-Info: Present Mode FIFO Relaxed available
-Info: Present Mode Mailbox available
-Info: Present Mode Immediate available
-Success: Present Mode set to Mailbox
-Info: Min sawpchain images: 2
-Info: Max swapchain images: 8
-Info: Image sharing mode set to exclusive for swapchain
-Success: Created swapchain with 3 images
-Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
-Info: Present Mode FIFO available
-Info: Present Mode FIFO Relaxed available
-Info: Present Mode Mailbox available
-Info: Present Mode Immediate available
-Success: Present Mode set to Mailbox
-Info: Min sawpchain images: 2
-Info: Max swapchain images: 8
-Info: Image sharing mode set to exclusive for swapchain
-Success: Created swapchain with 3 images
-Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
-Info: Present Mode FIFO available
-Info: Present Mode FIFO Relaxed available
-Info: Present Mode Mailbox available
-Info: Present Mode Immediate available
-Success: Present Mode set to Mailbox
-Info: Min sawpchain images: 2
-Info: Max swapchain images: 8
-Info: Image sharing mode set to exclusive for swapchain
-Success: Created swapchain with 3 images
-Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
-Info: Present Mode FIFO available
-Info: Present Mode FIFO Relaxed available
-Info: Present Mode Mailbox available
-Info: Present Mode Immediate available
-Success: Present Mode set to Mailbox
-Info: Min sawpchain images: 2
-Info: Max swapchain images: 8
-Info: Image sharing mode set to exclusive for swapchain
-Success: Created swapchain with 3 images
-Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
-Info: Present Mode FIFO available
-Info: Present Mode FIFO Relaxed available
-Info: Present Mode Mailbox available
-Info: Present Mode Immediate available
-Success: Present Mode set to Mailbox
-Info: Min sawpchain images: 2
-Info: Max swapchain images: 8
-Info: Image sharing mode set to exclusive for swapchain
-Success: Created swapchain with 3 images
-Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
-Info: Present Mode FIFO available
-Info: Present Mode FIFO Relaxed available
-Info: Present Mode Mailbox available
-Info: Present Mode Immediate available
-Success: Present Mode set to Mailbox
-Info: Min sawpchain images: 2
-Info: Max swapchain images: 8
-Info: Image sharing mode set to exclusive for swapchain
-Success: Created swapchain with 3 images
-Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
-Info: Present Mode FIFO available
-Info: Present Mode FIFO Relaxed available
-Info: Present Mode Mailbox available
-Info: Present Mode Immediate available
-Success: Present Mode set to Mailbox
-Info: Min sawpchain images: 2
-Info: Max swapchain images: 8
-Info: Image sharing mode set to exclusive for swapchain
-Success: Created swapchain with 3 images
-Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
-Info: Present Mode FIFO available
-Info: Present Mode FIFO Relaxed available
-Info: Present Mode Mailbox available
-Info: Present Mode Immediate available
-Success: Present Mode set to Mailbox
-Info: Min sawpchain images: 2
-Info: Max swapchain images: 8
-Info: Image sharing mode set to exclusive for swapchain
-Success: Created swapchain with 3 images
-Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
-Info: Present Mode FIFO available
-Info: Present Mode FIFO Relaxed available
-Info: Present Mode Mailbox available
-Info: Present Mode Immediate available
-Success: Present Mode set to Mailbox
-Info: Min sawpchain images: 2
-Info: Max swapchain images: 8
-Info: Image sharing mode set to exclusive for swapchain
-Success: Created swapchain with 3 images
-Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
-Info: Present Mode FIFO available
-Info: Present Mode FIFO Relaxed available
-Info: Present Mode Mailbox available
-Info: Present Mode Immediate available
-Success: Present Mode set to Mailbox
-Info: Min sawpchain images: 2
-Info: Max swapchain images: 8
-Info: Image sharing mode set to exclusive for swapchain
-Success: Created swapchain with 3 images
-Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
-Info: Present Mode FIFO available
-Info: Present Mode FIFO Relaxed available
-Info: Present Mode Mailbox available
-Info: Present Mode Immediate available
-Success: Present Mode set to Mailbox
-Info: Min sawpchain images: 2
-Info: Max swapchain images: 8
-Info: Image sharing mode set to exclusive for swapchain
-Success: Created swapchain with 3 images
-Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
-Info: Present Mode FIFO available
-Info: Present Mode FIFO Relaxed available
-Info: Present Mode Mailbox available
-Info: Present Mode Immediate available
-Success: Present Mode set to Mailbox
-Info: Min sawpchain images: 2
-Info: Max swapchain images: 8
-Info: Image sharing mode set to exclusive for swapchain
-Success: Created swapchain with 3 images
-Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
-Info: Present Mode FIFO available
-Info: Present Mode FIFO Relaxed available
-Info: Present Mode Mailbox available
-Info: Present Mode Immediate available
-Success: Present Mode set to Mailbox
-Info: Min sawpchain images: 2
-Info: Max swapchain images: 8
-Info: Image sharing mode set to exclusive for swapchain
-Success: Created swapchain with 3 images
-Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
-Info: Present Mode FIFO available
-Info: Present Mode FIFO Relaxed available
-Info: Present Mode Mailbox available
-Info: Present Mode Immediate available
-Success: Present Mode set to Mailbox
-Info: Min sawpchain images: 2
-Info: Max swapchain images: 8
-Info: Image sharing mode set to exclusive for swapchain
-Success: Created swapchain with 3 images
-Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
-Info: Present Mode FIFO available
-Info: Present Mode FIFO Relaxed available
-Info: Present Mode Mailbox available
-Info: Present Mode Immediate available
-Success: Present Mode set to Mailbox
-Info: Min sawpchain images: 2
-Info: Max swapchain images: 8
-Info: Image sharing mode set to exclusive for swapchain
-Success: Created swapchain with 3 images
-Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
-Info: Present Mode FIFO available
-Info: Present Mode FIFO Relaxed available
-Info: Present Mode Mailbox available
-Info: Present Mode Immediate available
-Success: Present Mode set to Mailbox
-Info: Min sawpchain images: 2
-Info: Max swapchain images: 8
-Info: Image sharing mode set to exclusive for swapchain
-Success: Created swapchain with 3 images
-Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
-Info: Present Mode FIFO available
-Info: Present Mode FIFO Relaxed available
-Info: Present Mode Mailbox available
-Info: Present Mode Immediate available
-Success: Present Mode set to Mailbox
-Info: Min sawpchain images: 2
-Info: Max swapchain images: 8
-Info: Image sharing mode set to exclusive for swapchain
-Success: Created swapchain with 3 images
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Success: Termiated UserInterfaceManager
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Success: Terminated SceneManager
-Success: Terminated InputManager
-Success: Terminated WindowManager
-Success: Terminated Renderer
-Success: Terminated TimeManager.
-Success: Terminated Engine

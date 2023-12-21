@@ -215,6 +215,45 @@ void Model::CPUSkin(Armature& armature, Pose& pose)
 	}
 }
 
+void Model::SetZforAllVerts(float newZ)
+{
+	for (Vertex& vert : vertices)
+	{
+		const_cast<glm::vec3&>(vert.GetPosition()).z = newZ;
+	}
+}
+
+void Model::FlipTriangleWindingOrder()
+{
+	if (indices.size() % 3 == 0)
+	{
+		int threeCount = 0;
+		unsigned int* one = nullptr;
+		unsigned int* two = nullptr;
+
+		for (unsigned int& index : indices)
+		{
+			switch (threeCount)
+			{
+			case 0:
+				one = &index;
+				break;
+			case 1:
+				two = &index;
+				break;
+			case 2:
+				threeCount = 0;
+				unsigned int tempOne = *one;
+				*one = *two;
+				*two = tempOne;
+				continue;
+			}
+
+			threeCount++;
+		}
+	}
+}
+
 void Model::CPUSkinMatrices(Armature& armature, Pose& pose)
 {
 	unsigned int numVerts = static_cast<unsigned int>(vertices.size());

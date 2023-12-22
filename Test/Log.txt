@@ -618,6 +618,10 @@ Warning: Failed to get UserInterfaceItem Coco
 Warning: Failed to get UserInterfaceItem Coco
 Warning: Failed to get UserInterfaceItem Coco
 Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
+Warning: Failed to get UserInterfaceItem Coco
 Success: Created UserInterfaceItem: Coco
 Success: Registered press callback for key code 76
 Success: Registered press callback for key code 87
@@ -628,3 +632,26 @@ Success: Registered press callback for key code 81
 Success: Registered press callback for key code 69
 Success: Registered press callback for key code 341
 Success: Registered press callback for key code 32
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Success: Termiated UserInterfaceManager
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Success: Terminated SceneManager
+Success: Terminated InputManager
+Success: Terminated WindowManager
+Success: Terminated Renderer
+Success: Terminated TimeManager.
+Success: Terminated Engine

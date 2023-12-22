@@ -89,12 +89,20 @@ void LoadAssets()
 	ModelManager::LoadModel("Dot", "../Engine/Engine/Renderer/Model/Dot.gltf");
 	ModelManager::LoadModel("Plane", "../Engine/Engine/Renderer/Model/Plane.gltf");
 	ModelManager::LoadModel("Bang", "../Engine/Engine/Renderer/Model/Bang.gltf");
+	ModelManager::LoadModel("Quotes", "../Engine/Engine/Renderer/Model/QuotationMarks.gltf");
+	ModelManager::LoadModel("Plus", "../Engine/Engine/Renderer/Model/Plus.gltf");
+	ModelManager::LoadModel("Pound", "../Engine/Engine/Renderer/Model/Pound.gltf");
+	ModelManager::LoadModel("DolarSign", "../Engine/Engine/Renderer/Model/DolarSign.gltf");
+	ModelManager::LoadModel("And", "../Engine/Engine/Renderer/Model/Ampersand.gltf");
 
 	ModelManager::GetModel("Dot")->SetZforAllVerts(0.2f);
 	ModelManager::GetModel("Bang")->SetZforAllVerts(0.2f);
 	ModelManager::GetModel("Plane")->SetZforAllVerts(0.2f);
-	ModelManager::GetModel("Plane")->FlipTriangleWindingOrder();
-	ModelManager::GetModel("Bang")->FlipTriangleWindingOrder();
+	ModelManager::GetModel("Quotes")->SetZforAllVerts(0.2f);
+	ModelManager::GetModel("Pound")->SetZforAllVerts(0.2f);
+	ModelManager::GetModel("Plus")->SetZforAllVerts(0.2f);
+	ModelManager::GetModel("DolarSign")->SetZforAllVerts(0.2f);
+	ModelManager::GetModel("And")->SetZforAllVerts(0.2f);
 
 }
 

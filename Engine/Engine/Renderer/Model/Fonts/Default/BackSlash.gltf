@@ -15,18 +15,12 @@
     "nodes" : [
         {
             "mesh" : 0,
-            "name" : "Plane",
-            "rotation" : [
-                0,
-                0,
-                -0.7071067094802856,
-                0.7071068286895752
-            ]
+            "name" : "\\"
         }
     ],
     "meshes" : [
         {
-            "name" : "Plane.077",
+            "name" : "Plane.050",
             "primitives" : [
                 {
                     "attributes" : {
@@ -45,14 +39,14 @@
             "componentType" : 5126,
             "count" : 4,
             "max" : [
-                50,
-                50.00000762939453,
-                5.9604644775390625e-06
+                0.17677699029445648,
+                0.14851222932338715,
+                -0.0015343052800744772
             ],
             "min" : [
-                -50,
-                -50.00000762939453,
-                -5.9604644775390625e-06
+                -0.1767777055501938,
+                -0.49885329604148865,
+                -0.0015343350823968649
             ],
             "type" : "VEC3"
         },
@@ -104,7 +98,7 @@
     "buffers" : [
         {
             "byteLength" : 140,
-            "uri" : "data:application/octet-stream;base64,/v9HwgIASEIAAEg2AABIQv//R0IAAMi2AABIwv//R8IAAMg2/v9HQgIASMIAAEi2AgDAs/3//7IAAIC/AgDAs/3//7IAAIC/AgDAs/3//7IAAIC/AgDAs/3//7IAAIC//v9/PwAAADQAAIAzAAAAAPz/fz8AAIA/AAAAAP7/fz8AAAEAAwAAAAMAAgA="
+            "uri" : "data:application/octet-stream;base64,BwU1PrNp/76+Gsm63OfUvZcTGD5+G8m6qufUPbNp/77+Gsm6NwU1vpcTGD6+G8m6i7jbM0X2NjIAAIC/i7jbM0X2NjIAAIC/i7jbM0X2NjIAAIC/i7jbM0X2NjIAAIC/AADgNAAAAAAAAAAASOd1P0BCuj2AiyE9QEK6PQAAgD8AAAIAAwAAAAMAAQA="
         }
     ]
 }

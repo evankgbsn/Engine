@@ -19,10 +19,12 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-Skybox::Skybox()
+Skybox::Skybox() :
+	skyBoxGraphicsObject(nullptr)
 {
 	auto callback = [this](GraphicsObject* go) 
 	{
+		this->skyBoxGraphicsObject = go;
 		TransformComponent* transform = GetComponent<TransformComponent>(Component::Type::TRANSFORM);
 		static bool scaled = false;
 		if (!scaled && transform != nullptr && GraphicsObjectManager::Operating())
@@ -37,8 +39,7 @@ Skybox::Skybox()
 			}
 		}
 
-		UserInterfaceManager::CrateUserInterfaceItem(std::string("Coco"), ModelManager::GetModel("And"), TextureManager::GetTexture("Coco"), glm::vec2(100.0f, 600.0f));
-
+		UserInterfaceManager::CrateUserInterfaceItem(std::string("Coco"), ModelManager::GetModel("DefaultRectangleWithDepth"), TextureManager::GetTexture("Coco"), glm::vec2(100.0f, 600.0f));
 	};
 
 	GraphicsObjectManager::CreateTexturedStaticGraphicsObject(ModelManager::GetModel("Skybox"), TextureManager::GetTexture("Skybox"), callback);
@@ -59,16 +60,18 @@ void Skybox::Update()
 		}
 	};
 
-	UserInterfaceItem* cocoImage = UserInterfaceManager::GetUserInterfaceItem("Coco");
-	if (cocoImage != nullptr)
-		cocoImage->Hovered(onHover);
-
-	static glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), 0.001f, glm::vec3(0.0f, 0.0f, 1.0f));
-
-	DirectionalLight* const light = LightManager::GetDirectionalLight("MainDirLight");
-
-	if (light != nullptr)
+	if (skyBoxGraphicsObject != nullptr)
 	{
-		light->SetDirection(glm::vec4(light->GetDirection(), 1.0f)* rotationMatrix);
+		UserInterfaceItem* cocoImage = UserInterfaceManager::GetUserInterfaceItem("Coco");
+		if (cocoImage != nullptr)
+			cocoImage->Hovered(onHover);
+
+		DirectionalLight* const light = LightManager::GetDirectionalLight("MainDirLight");
+
+		static glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), 0.01f, glm::vec3(0.0f, 0.0f, 1.0f));
+		if (light != nullptr)
+		{
+			light->SetDirection(glm::vec4(light->GetDirection(), 1.0f) * rotationMatrix);
+		}
 	}
 }

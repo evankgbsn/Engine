@@ -2,6 +2,7 @@
 
 #include "../../Utils/Logger.h"
 #include "Model.h"
+#include "../../UI/Text.h"
 
 #include <stdexcept>
 
@@ -12,6 +13,7 @@ void ModelManager::Initialize()
 	if (instance == nullptr)
 	{
 		instance = new ModelManager();
+		instance->LoadDefaultModels();
 	}
 }
 
@@ -78,7 +80,7 @@ Model* const ModelManager::GetModel(std::string modelName)
 ModelManager::ModelManager() :
 	models(std::unordered_map<std::string, Model*>())
 {
-	LoadDefaultModels();
+	
 }
 
 ModelManager::~ModelManager()
@@ -98,10 +100,10 @@ void ModelManager::LoadDefaultModels()
 
 	// Default rectangle.
 	std::vector<Vertex> rectangleVertices = {
-		Vertex(glm::vec3(-50.0f, -50.0f, 0.2f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f)),
-		Vertex(glm::vec3(50.0f, -50.0f, 0.2f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.0f, 0.0f)),
-		Vertex(glm::vec3(50.0f, 50.0f, 0.2f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 1.0f)),
-		Vertex(glm::vec3(-50.0f, 50.0f, 0.2f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 1.0f))
+		Vertex(glm::vec3(-1.0f, -1.0f, 0.2f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f)),
+		Vertex(glm::vec3(1.0f, -1.0f, 0.2f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.0f, 0.0f)),
+		Vertex(glm::vec3(1.0f, 1.0f, 0.2f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 1.0f)),
+		Vertex(glm::vec3(-1.0f, 1.0f, 0.2f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 1.0f))
 	};
 
 	std::vector<unsigned int> indices = { 0,1,2,2,3,0 };
@@ -123,4 +125,6 @@ void ModelManager::LoadDefaultModels()
 	std::vector<unsigned int> nullIndices;
 
 	models.insert(std::make_pair(std::string("Null"), new Model(nullVertices, nullIndices)));
+
+	Text::LoadFonts();
 }

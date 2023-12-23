@@ -354,6 +354,9 @@
     <ClInclude Include="Engine\Input\InputManager.h">
       <Filter>Source Files\Engine\Input</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\UI\Text.h">
+      <Filter>Source Files\Engine\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -583,6 +586,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Renderer\GraphicsObjects\2DTransformable.cpp">
       <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\UI\Text.cpp">
+      <Filter>Source Files\Engine\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

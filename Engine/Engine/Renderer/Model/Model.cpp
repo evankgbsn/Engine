@@ -97,6 +97,8 @@ Model::Model(const std::string& path) :
 		cgltf_free(data);
 
 		BakeAnimations();
+
+		Logger::Log(std::string("Loaded model from file path ") + path, Logger::Category::Success);
 	}
 	else
 	{

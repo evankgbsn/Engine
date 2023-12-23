@@ -1,0 +1,104 @@
+{
+    "asset" : {
+        "generator" : "Khronos glTF Blender I/O v3.3.32",
+        "version" : "2.0"
+    },
+    "scene" : 0,
+    "scenes" : [
+        {
+            "name" : "Scene",
+            "nodes" : [
+                0
+            ]
+        }
+    ],
+    "nodes" : [
+        {
+            "mesh" : 0,
+            "name" : "K"
+        }
+    ],
+    "meshes" : [
+        {
+            "name" : "Plane.035",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 0,
+                        "NORMAL" : 1,
+                        "TEXCOORD_0" : 2
+                    },
+                    "indices" : 3
+                }
+            ]
+        }
+    ],
+    "accessors" : [
+        {
+            "bufferView" : 0,
+            "componentType" : 5126,
+            "count" : 70,
+            "max" : [
+                0.10447463393211365,
+                0.15155230462551117,
+                -0.0015343127306550741
+            ],
+            "min" : [
+                -0.23398026823997498,
+                -0.3474349081516266,
+                -0.0015343350823968649
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 1,
+            "componentType" : 5126,
+            "count" : 70,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 2,
+            "componentType" : 5126,
+            "count" : 70,
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 3,
+            "componentType" : 5123,
+            "count" : 108,
+            "type" : "SCALAR"
+        }
+    ],
+    "bufferViews" : [
+        {
+            "buffer" : 0,
+            "byteLength" : 840,
+            "byteOffset" : 0,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 840,
+            "byteOffset" : 840,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 560,
+            "byteOffset" : 1680,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 216,
+            "byteOffset" : 2240,
+            "target" : 34963
+        }
+    ],
+    "buffers" : [
+        {
+            "byteLength" : 2456,
+            "uri" : "data:application/octet-stream;base64,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"
+        }
+    ]
+}

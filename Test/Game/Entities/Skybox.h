@@ -23,6 +23,8 @@ private:
 
 	Skybox& operator=(Skybox&&) = delete;
 
+	GraphicsObject* skyBoxGraphicsObject;
+
 };
 
 

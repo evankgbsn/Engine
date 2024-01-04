@@ -5,6 +5,8 @@
 
 TextureManager* TextureManager::instance = nullptr;
 
+std::unordered_set<std::string> TextureManager::defaultTextureNames = std::unordered_set<std::string>({ "0X00000000", "0XFFFFFFFF", "Grey"});
+
 void TextureManager::Initialize()
 {
 	if (instance == nullptr)
@@ -95,7 +97,7 @@ void TextureManager::UnloadTexture(const std::string& name)
 }
 
 TextureManager::TextureManager() :
-	textures(std::unordered_map<std::string, Texture* const>())
+	textures(std::unordered_map<std::string, Texture*>())
 {
 
 }
@@ -110,4 +112,9 @@ TextureManager::~TextureManager()
 	textures.clear();
 
 	instance = nullptr;
+}
+
+void TextureManager::LoadDefaultTextures()
+{
+	LoadTexture("../Engine/Engine/Renderer/Images/DefaultFontTexture.png", "DefaultFontTexture");
 }

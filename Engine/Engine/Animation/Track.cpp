@@ -300,7 +300,7 @@ inline unsigned int Track<T, N>::FrameIndex(float time, bool isLooping) const
 {
 	if (frames.size() < 2)
 	{
-		return -1;
+		return static_cast<unsigned int>(-1);
 	}
 
 	if (isLooping)

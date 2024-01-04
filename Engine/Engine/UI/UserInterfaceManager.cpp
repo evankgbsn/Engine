@@ -171,8 +171,8 @@ void UserInterfaceManager::OnWindowSizeUpdate(const Window* const window)
 
 		if (window != nullptr)
 		{
-			instance->windowWidth = window->GetWidth();
-			instance->windowHeight = window->GetHeight();
+			instance->windowWidth = static_cast<float>(window->GetWidth());
+			instance->windowHeight = static_cast<float>(window->GetHeight());
 		}
 
 		for (auto& userInterfaceItem : instance->userInterfaceItems)
@@ -196,8 +196,8 @@ UserInterfaceManager::UserInterfaceManager() :
 
 	if (window != nullptr)
 	{
-		windowWidth = previousWindowWidth = window->GetWidth();
-		windowHeight = previousWindowHeight = window->GetHeight();
+		windowWidth = previousWindowWidth = static_cast<float>(window->GetWidth());
+		windowHeight = previousWindowHeight = static_cast<float>(window->GetHeight());
 	}
 }
 

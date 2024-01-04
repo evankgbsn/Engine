@@ -114,7 +114,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>vulkan-1.lib;glfw3.lib;Ws2_32.lib;VulkanMemoryAllocatord.lib;Ws2_32.lib</AdditionalDependencies>
+      <AdditionalDependencies>vulkan-1.lib;glfw3.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Engine/Dependencies/Lib</AdditionalLibraryDirectories>
@@ -141,7 +141,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>vulkan-1.lib;glfw3.lib;Ws2_32.lib;VulkanMemoryAllocator.lib;Ws2_32.lib</AdditionalDependencies>
+      <AdditionalDependencies>vulkan-1.lib;glfw3.lib</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Engine\Dependencies\Lib\</AdditionalLibraryDirectories>
@@ -167,7 +167,6 @@
     <ClInclude Include="Engine\Math\HermiteSpline.h" />
     <ClInclude Include="Engine\Math\Math.h" />
     <ClInclude Include="Engine\Math\Transform.h" />
-    <ClInclude Include="Engine\Network\NetworkManager.h" />
     <ClInclude Include="Engine\Renderer\Cameras\Camera.h" />
     <ClInclude Include="Engine\Renderer\Cameras\CameraManager.h" />
     <ClInclude Include="Engine\Renderer\Commands\CommandManager.h" />
@@ -248,7 +247,6 @@
     <ClCompile Include="Engine\Math\HermiteSpline.cpp" />
     <ClCompile Include="Engine\Math\Math.cpp" />
     <ClCompile Include="Engine\Math\Transform.cpp" />
-    <ClCompile Include="Engine\Network\NetworkManager.cpp" />
     <ClCompile Include="Engine\Renderer\Cameras\Camera.cpp" />
     <ClCompile Include="Engine\Renderer\Cameras\CameraManager.cpp" />
     <ClCompile Include="Engine\Renderer\Commands\CommandManager.cpp" />

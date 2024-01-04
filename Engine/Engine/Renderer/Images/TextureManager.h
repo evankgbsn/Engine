@@ -35,9 +35,13 @@ private:
 
 	TextureManager& operator=(TextureManager&&) = delete;
 
+	void LoadDefaultTextures();
+
 	static TextureManager* instance;
 
-	std::unordered_map<std::string, Texture* const> textures;
+	static std::unordered_set<std::string> defaultTextureNames;
+
+	std::unordered_map<std::string, Texture*> textures;
 };
 
 

@@ -1,93 +1,5 @@
 Success: Initialized TimeManager.
 Success: Initialized SceneManager
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Ampersand.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Asterisk.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/AtSign.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/BackSlash.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/CarrotSign.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/CloseBraket.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/CloseParenthese.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Comma.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/DollarSign.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Eight.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/EqualTo.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/ExclaimationMark.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Five.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/ForwardSlash.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Four.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/GreaterThan.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LessThan.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseA.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseB.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseC.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseD.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseE.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseF.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseG.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseH.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseI.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseJ.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseK.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseL.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseM.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseN.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseO.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseP.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseQ.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseR.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseS.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseT.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseU.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseV.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseW.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseX.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseY.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowerCaseZ.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/MinusSign.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Nine.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/One.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/OpenBraket.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/OpenParenthese.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/PercentSign.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Period.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/PipeMark.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/PlusSign.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/PoundSign.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/QuestionMark.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/QuotationMark.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/SemiColon.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Seven.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Six.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Three.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/TIldaMark.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Two.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseA.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseB.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseC.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseD.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseE.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseF.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseG.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseH.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseI.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseJ.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseK.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseL.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseM.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseN.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseO.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseP.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseQ.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseR.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseS.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseT.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseU.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseV.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseW.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseX.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseY.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UpperCaseZ.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Zero.gltf
 Success: Initialized WindowManager
 Info: Supported Vulkan Instance Extensions: 
 	VK_KHR_device_group_creation
@@ -516,32 +428,10 @@ Info: General: Inserted device layer "VK_LAYER_KHRONOS_validation" (C:\VulkanSDK
 Info: General: Inserted device layer "VK_LAYER_OBS_HOOK" (C:\ProgramData\obs-studio-hook\.\graphics-hook64.dll)
 Info: General: Failed to find vkGetDeviceProcAddr in layer "C:\WINDOWS\System32\DriverStore\FileRepository\u0394441.inf_amd64_57e767cb37419fb0\B394106\.\amdvlk64.dll"
 Info: General:        Using "AMD Radeon RX 6650 XT" with driver: "C:\WINDOWS\System32\DriverStore\FileRepository\u0394441.inf_amd64_57e767cb37419fb0\B394106\.\amdvlk64.dll"
+Info: Validation: Validation Information: [ UNASSIGNED-cache-file-error ] Object 0: handle = 0x1580ebc9430, type = VK_OBJECT_TYPE_DEVICE; | MessageID = 0xf0bb3995 | Cannot open shader validation cache at C:\Users\evang\AppData\Local\Temp/shader_validation_cache.bin for reading (it may not exist yet)
 Success: Created logical device using AMD Radeon RX 6650 XT
 Info: Min sawpchain images: 1
 Info: Max swapchain images: 16
 Info: Image sharing mode set to exclusive for swapchain
 Success: Created swapchain with 2 images
 Success: AMD Radeon RX 6650 XT has been chosen as the rendering device.
-Success: Loaded shader Gooch.fragspv
-Success: Loaded shader Gooch.vertspv
-Success: Loaded shader LitTexturedStatic.fragspv
-Success: Loaded shader LitTexturedStatic.vertspv
-Success: Loaded shader TexturedAnimated.fragspv
-Success: Loaded shader TexturedAnimated.vertspv
-Success: Loaded shader TexturedStatic.fragspv
-Success: Loaded shader TexturedStatic.vertspv
-Success: Created a graphics pipeline
-Success: Created a graphics pipeline
-Success: Created a graphics pipeline
-Success: Created a graphics pipeline
-Success: Created a graphics pipeline
-Success: Created a graphics pipeline
-Success: Created a graphics pipeline
-Success: Created a graphics pipeline
-Success: Initialized UserInterfaceManager
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Woman.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Cruiser.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/CruiserAnim.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/NewBall.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Cube.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Skybox.gltf

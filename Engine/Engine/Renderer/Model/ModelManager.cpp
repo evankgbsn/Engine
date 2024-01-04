@@ -126,5 +126,5 @@ void ModelManager::LoadDefaultModels()
 
 	models.insert(std::make_pair(std::string("Null"), new Model(nullVertices, nullIndices)));
 
-	Text::LoadFonts();
+	//Text::LoadFonts();
 }

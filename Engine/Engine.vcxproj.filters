@@ -330,9 +330,6 @@
     <ClInclude Include="Engine\Renderer\GraphicsObjects\LitTexturedStaticGraphicsObject.h">
       <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Network\NetworkManager.h">
-      <Filter>Source Files\Engine\Network</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Renderer\GraphicsObjects\TexturedStatic2DGraphicsObject.h">
       <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
     </ClInclude>
@@ -565,9 +562,6 @@
     </ClCompile>
     <ClCompile Include="Engine\Renderer\GraphicsObjects\LitTexturedStaticGraphicsObject.cpp">
       <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Network\NetworkManager.cpp">
-      <Filter>Source Files\Engine\Network</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Renderer\GraphicsObjects\TexturedStatic2DGraphicsObject.cpp">
       <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>

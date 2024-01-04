@@ -29,8 +29,6 @@ UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const m
 		float width = UserInterfaceManager::GetWindowWidth();
 		float height = UserInterfaceManager::GetWindowHeight();
 
-		graphicsObject->ScaleObject({ 100.0f, 100.0f });
-
 		graphicsObject->TranslateObject({ (position.x > 0) ? glm::min(position.x, width) : 0.0f, (position.y > 0) ? glm::min(position.y, height) : 0.0f });
 	};
 

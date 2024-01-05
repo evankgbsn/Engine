@@ -39,7 +39,14 @@ Skybox::Skybox() :
 			}
 		}
 
-		UserInterfaceManager::CrateUserInterfaceItem(std::string("Coco"), ModelManager::GetModel("DefaultRectangleWithDepth"), TextureManager::GetTexture("Coco"), glm::vec2(100.0f, 600.0f));
+		UserInterfaceItem* defaultUserInterfaceItem = UserInterfaceManager::CrateUserInterfaceItem(std::string("Default"), ModelManager::GetModel("DefaultAmpersand"), TextureManager::GetTexture("DefaultFontTexture"), glm::vec2(100.0f, 600.0f));
+		
+		std::function<void()> whenTransformReady = [defaultUserInterfaceItem]()
+		{
+			defaultUserInterfaceItem->Scale(100.0f, 100.0f);
+		};
+
+		defaultUserInterfaceItem->TransformReady(whenTransformReady);
 	};
 
 	GraphicsObjectManager::CreateTexturedStaticGraphicsObject(ModelManager::GetModel("Skybox"), TextureManager::GetTexture("Skybox"), callback);
@@ -53,7 +60,7 @@ void Skybox::Update()
 {
 	auto onHover = []()
 	{
-		UserInterfaceItem* cocoImage = UserInterfaceManager::GetUserInterfaceItem("Coco");
+		UserInterfaceItem* cocoImage = UserInterfaceManager::GetUserInterfaceItem("Default");
 		if (cocoImage != nullptr)
 		{
 			cocoImage->Rotate(0.2f);
@@ -62,7 +69,7 @@ void Skybox::Update()
 
 	if (skyBoxGraphicsObject != nullptr)
 	{
-		UserInterfaceItem* cocoImage = UserInterfaceManager::GetUserInterfaceItem("Coco");
+		UserInterfaceItem* cocoImage = UserInterfaceManager::GetUserInterfaceItem("Default");
 		if (cocoImage != nullptr)
 			cocoImage->Hovered(onHover);
 

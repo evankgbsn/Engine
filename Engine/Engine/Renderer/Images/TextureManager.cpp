@@ -12,6 +12,7 @@ void TextureManager::Initialize()
 	if (instance == nullptr)
 	{
 		instance = new TextureManager();
+		instance->LoadDefaultTextures();
 	}
 	else
 	{
@@ -40,6 +41,7 @@ Texture* const TextureManager::LoadTexture(const std::string& filePath, const st
 		{
 			ret = new Texture(filePath, 1);
 			instance->textures.insert(std::make_pair(name, ret));
+			Logger::Log(std::string("Loaded Texture ") + filePath, Logger::Category::Success);
 		}
 		else
 		{

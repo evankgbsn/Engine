@@ -40,11 +40,11 @@ protected:
 
 	Text() = delete;
 
+	void ContainCharacterModels(const std::string& characters, std::vector<Model*>& returnedCharacterModels, std::vector<std::string>& returnedCharacterModelNames) const;
+
 private:
 
-	Model* const CharacterToModel() const;
-
-	void AddCharacterModelsAsUserInterfaceSubItems(const std::vector<std::string>& characterModelNames, const std::vector<Model*>& characterModels);
+	void AddCharacterModelsAsUserInterfaceSubItems(const std::vector<std::string>& characterModelNames, const std::vector<Model*>& characterModels, bool appendOrPrepend = true);
 
 	static std::vector<std::string> fontDirectories;
 

@@ -46,22 +46,32 @@ public:
 	
 	void OnWindowSizeUpdate();
 
+	const glm::vec2& GetTranslation() const;
+
+	bool TransformReady(std::function<void()>& whenTransformReady = emptyFunctionObject);
+
 protected:
 
 private:
 
+	static std::function<void()> emptyFunctionObject;
+
+	bool transformReady;
+
 	UserInterfaceItem() = delete;
-
-	glm::vec2 position;
-
-	float angle;
-
-	TexturedStatic2DGraphicsObject* graphicsObject;
 
 	std::unordered_map<std::string, UserInterfaceItem*> subItems;
 
 	std::string name;
 
+	std::function<void()> whenTransformReady;
+
+	TexturedStatic2DGraphicsObject* graphicsObject;
+
+	glm::vec2 position;
+
+	float angle;
+	
 };
 
 #endif // USERINTERFACEITEM_H

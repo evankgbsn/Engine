@@ -34,7 +34,10 @@ void Text::LoadFonts()
 		{
 			if (dirEntry.path().extension().string() == ".gltf")
 			{
-				Model* const loadedModel = ModelManager::LoadModel(directoryName + dirEntry.path().filename().string(), dirEntry.path().string());
+				std::string modelFilePath = directoryName + dirEntry.path().filename().string();
+				std::string newCharacterModelName(modelFilePath.replace(modelFilePath.begin() + modelFilePath.size() - 5, modelFilePath.end(), ""));
+
+				Model* const loadedModel = ModelManager::LoadModel(newCharacterModelName, dirEntry.path().string());
 
 				if (loadedModel != nullptr)
 				{
@@ -66,7 +69,7 @@ Text::Text(const std::string& initialText, const glm::vec2& initialPosition, con
 
 Text::~Text()
 {
-	for (unsigned int index = static_cast<unsigned int>(characterUserInterfaceItems.size()); index >= 0; index++)
+	for (unsigned int index = static_cast<unsigned int>(characterUserInterfaceItems.size()); index != 0; index--)
 	{
 		delete characterUserInterfaceItems[index];
 	}
@@ -84,42 +87,68 @@ void Text::SetSize(float newSize)
 	size = newSize;
 }
 
+void Text::ContainCharacterModels(const std::string& characters, std::vector<Model*>& returnedCharacterModels, std::vector<std::string>& returnedCharacterModelNames) const
+{
+	std::string characterModelName("");
+
+	for (const auto& character : characters)
+	{
+		returnedCharacterModelNames.push_back(characterModelName = fontName + character);
+		returnedCharacterModels.push_back(ModelManager::GetModel(characterModelName));
+	}
+}
+
 const std::string& Text::Append(const std::string& postfix)
 {
 	std::vector<Model*> charactersAsModels(postfix.size());
 	std::vector<std::string> charactersModelNames(postfix.size());
 
-	std::string characterModelName("");
+	ContainCharacterModels(postfix, charactersAsModels, charactersModelNames);
 
-	for (const auto& character : postfix)
-	{
-		charactersModelNames.push_back(characterModelName = fontName + character);
-		charactersAsModels.push_back(ModelManager::GetModel(characterModelName));
-	}
-
-	AddCharacterModelsAsUserInterfaceSubItems(charactersModelNames, charactersAsModels);
+	AddCharacterModelsAsUserInterfaceSubItems(charactersModelNames, charactersAsModels, true);
 	
-	return characters;
+	return characters = characters + postfix;
 }
 
 const std::string& Text::Prepend(const std::string& prefix)
 {
-	return characters;
+	std::vector<Model*> charactersAsModels(prefix.size());
+	std::vector<std::string> charactersModelNames(prefix.size());
+
+	ContainCharacterModels(prefix, charactersAsModels, charactersModelNames);
+
+	AddCharacterModelsAsUserInterfaceSubItems(charactersModelNames, charactersAsModels, false);
+
+	return characters = prefix + characters;
 }
 
-Model* const Text::CharacterToModel() const
+void Text::AddCharacterModelsAsUserInterfaceSubItems(const std::vector<std::string>& charactersModelName, const std::vector<Model*>& characterModels, bool appendOrPrepend)
 {
-	return nullptr;
-}
+	UserInterfaceItem* firstAppendedCharacterModelAsUserInterfaceSubItem;
+	UserInterfaceItem* lastCreatedTextItem = firstAppendedCharacterModelAsUserInterfaceSubItem = new UserInterfaceItem(charactersModelName[0], characterModels[0], TextureManager::GetTexture("DefaultFontTexture"), { position.x, position.y });
 
-void Text::AddCharacterModelsAsUserInterfaceSubItems(const std::vector<std::string>& charactersModelName, const std::vector<Model*>& characterModels)
-{
-	for (unsigned int i = 0; i < characterModels.size(); i++)
+	for (unsigned int i = 1; i < characterModels.size(); i++)
 	{
 		UserInterfaceItem* characterUserInterfaceItem = new UserInterfaceItem(charactersModelName[i], characterModels[i], TextureManager::GetTexture("DefaultFontTexture"), {(horizontalSpacing * i) + position.x, (verticalSpacing * i) + position.y});
 
 		characterUserInterfaceItems.push_back(characterUserInterfaceItem);
 
 		textItem->AddSubItem(charactersModelName[i], characterUserInterfaceItem);
+
+		lastCreatedTextItem = characterUserInterfaceItem;
+	}
+
+	if (appendOrPrepend)
+	{
+		textItem->AddSubItem(charactersModelName[0], firstAppendedCharacterModelAsUserInterfaceSubItem);
+		return;
+	}
+
+	const std::unordered_map<std::string, UserInterfaceItem*>& subCharacterItems = textItem->GetSubItems();
+
+	glm::vec2 translationIncrementor = textItem->GetTranslation();
+	for (const std::pair<std::string, UserInterfaceItem*>& characterSubItem : subCharacterItems)
+	{
+		characterSubItem.second->Translate(translationIncrementor.x += horizontalSpacing, translationIncrementor.y += verticalSpacing);
 	}
 }

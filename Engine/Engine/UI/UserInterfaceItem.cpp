@@ -15,12 +15,16 @@
 #include "../Renderer/Windows/Window.h"
 #include "../Renderer/Windows/WindowManager.h"
 
+std::function<void()> UserInterfaceItem::emptyFunctionObject = std::function<void()>();
+
 UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const model, Texture* const texture, const glm::vec2& initialPosition) :
+	subItems(std::unordered_map<std::string, UserInterfaceItem*>()),
+	name(itemName),
+	whenTransformReady(std::function<void()>([]() {})),
 	graphicsObject(nullptr),
 	position(initialPosition),
 	angle(0.0f),
-	subItems(std::unordered_map<std::string, UserInterfaceItem*>()),
-	name(itemName)
+	transformReady(false)
 {
 	std::function<void(GraphicsObject*)> graphicsObjectCreationCallback = [this](GraphicsObject* obj)
 	{
@@ -30,6 +34,9 @@ UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const m
 		float height = UserInterfaceManager::GetWindowHeight();
 
 		graphicsObject->TranslateObject({ (position.x > 0) ? glm::min(position.x, width) : 0.0f, (position.y > 0) ? glm::min(position.y, height) : 0.0f });
+
+		this->transformReady = true;
+		whenTransformReady();
 	};
 
 	GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(model, texture, graphicsObjectCreationCallback);
@@ -143,4 +150,17 @@ void UserInterfaceItem::OnWindowSizeUpdate()
 
 		graphicsObject->SetTranslation(position);
 	}
+}
+
+const glm::vec2& UserInterfaceItem::GetTranslation() const
+{
+	static glm::vec2 toNotReturnATemporary(0.0f, 0.0f);
+	toNotReturnATemporary = graphicsObject->GetTranslation();
+	return toNotReturnATemporary;
+}
+
+bool UserInterfaceItem::TransformReady(std::function<void()>& standardFunctionObject)
+{
+	whenTransformReady = standardFunctionObject;
+	return transformReady;
 }

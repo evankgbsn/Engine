@@ -6,6 +6,7 @@
 #include "../Utils/Logger.h"
 #include "../Renderer/Windows/Window.h"
 #include "../Renderer/Windows/WindowManager.h"
+#include "../UI/Text.h"
 
 UserInterfaceManager* UserInterfaceManager::instance = nullptr;
 
@@ -19,6 +20,7 @@ void UserInterfaceManager::Initialize()
 	{
 		instance = new UserInterfaceManager();
 		Logger::Log(std::string("Initialized UserInterfaceManager"), Logger::Category::Success);
+		Text::LoadFonts();
 	}
 	else
 	{

@@ -53,7 +53,7 @@ Text::Text(const std::string& initialText, const glm::vec2& initialPosition, con
 	horizontalSpacing(spacingH),
 	verticalSpacing(spacingV),
 	size(),
-	fontName(),
+	fontName("Default"),
 	characters(),
 	characterUserInterfaceItems(),
 	textItem(nullptr)
@@ -90,11 +90,38 @@ void Text::SetSize(float newSize)
 void Text::ContainCharacterModels(const std::string& characters, std::vector<Model*>& returnedCharacterModels, std::vector<std::string>& returnedCharacterModelNames) const
 {
 	std::string characterModelName("");
+	Model* unassignedModel = nullptr;
 
-	for (const auto& character : characters)
+	std::unordered_set<unsigned int> containerOpenCharacterUSACIIDecimalValues = {40, 60, 91, 123};
+	std::unordered_set<unsigned int> containerCloseCharacterUSACIIDecimalValues = {41, 62, 93, 125};
+
+	for (unsigned int i = 0; i < characters.size(); i++)
 	{
-		returnedCharacterModelNames.push_back(characterModelName = fontName + character);
-		returnedCharacterModels.push_back(ModelManager::GetModel(characterModelName));
+		std::string prefix = "";
+		if ((char)characters.at(i) >= (char)65 && characters.at(i) <= (char)90)
+		{
+			prefix = std::string("Uppercase");
+			const_cast<char&>(characters.at(i)) = (char)std::toupper((char)characters.at(i));
+		}
+		else if ((char)characters.at(i) >= (char)97 && characters.at(i) <= (char)122)
+		{
+			prefix = std::string("Lowercase");
+			const_cast<char&>(characters.at(i)) = (char)std::toupper((char)characters.at(i));
+		}
+		else
+		{
+			if (containerOpenCharacterUSACIIDecimalValues.contains(characters.at(i)))
+			{
+				prefix = "Open";
+			}
+			else if (containerOpenCharacterUSACIIDecimalValues.contains(characters.at(i)))
+			{
+				prefix = "Close";
+			}
+		}
+
+		returnedCharacterModelNames[i] = characterModelName = fontName + prefix + characters.at(i);
+		returnedCharacterModels[i] = ((unassignedModel = ModelManager::GetModel(characterModelName)) != nullptr) ? unassignedModel : ModelManager::GetModel("DefaultRectangleWithDepth");
 	}
 }
 
@@ -125,11 +152,14 @@ const std::string& Text::Prepend(const std::string& prefix)
 void Text::AddCharacterModelsAsUserInterfaceSubItems(const std::vector<std::string>& charactersModelName, const std::vector<Model*>& characterModels, bool appendOrPrepend)
 {
 	UserInterfaceItem* firstAppendedCharacterModelAsUserInterfaceSubItem;
-	UserInterfaceItem* lastCreatedTextItem = firstAppendedCharacterModelAsUserInterfaceSubItem = new UserInterfaceItem(charactersModelName[0], characterModels[0], TextureManager::GetTexture("DefaultFontTexture"), { position.x, position.y });
+	UserInterfaceItem* lastCreatedTextItem = firstAppendedCharacterModelAsUserInterfaceSubItem = new UserInterfaceItem(charactersModelName[0], characterModels[0], TextureManager::GetTexture("DefaultFontTexture"), {position.x, position.y});
+
+	if (textItem == nullptr)
+		textItem = lastCreatedTextItem;
 
 	for (unsigned int i = 1; i < characterModels.size(); i++)
 	{
-		UserInterfaceItem* characterUserInterfaceItem = new UserInterfaceItem(charactersModelName[i], characterModels[i], TextureManager::GetTexture("DefaultFontTexture"), {(horizontalSpacing * i) + position.x, (verticalSpacing * i) + position.y});
+		UserInterfaceItem* characterUserInterfaceItem = new UserInterfaceItem(charactersModelName.at(i), characterModels.at(i), TextureManager::GetTexture("DefaultFontTexture"), {(horizontalSpacing * i) + position.x, (verticalSpacing * i) + position.y});
 
 		characterUserInterfaceItems.push_back(characterUserInterfaceItem);
 

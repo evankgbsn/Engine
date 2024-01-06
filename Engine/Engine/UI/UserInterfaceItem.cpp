@@ -48,7 +48,7 @@ UserInterfaceItem::~UserInterfaceItem()
 
 void UserInterfaceItem::AddSubItem(const std::string& name, UserInterfaceItem* const subItem)
 {
-	if (subItems.find(name) == subItems.end())
+	if (!subItems.contains(name))
 	{
 		subItems[name] = subItem;
 		Logger::Log(std::string(std::string("Added subitem ") + name), Logger::Category::Info);

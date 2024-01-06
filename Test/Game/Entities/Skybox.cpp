@@ -15,6 +15,7 @@
 #include "UI/UserInterfaceManager.h"
 #include "Renderer/Lights/LightManager.h"
 #include "Renderer/Lights/DirectionalLight.h"
+#include "UI/Text.h"
 
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -39,14 +40,18 @@ Skybox::Skybox() :
 			}
 		}
 
-		UserInterfaceItem* defaultUserInterfaceItem = UserInterfaceManager::CrateUserInterfaceItem(std::string("Default"), ModelManager::GetModel("DefaultAmpersand"), TextureManager::GetTexture("DefaultFontTexture"), glm::vec2(100.0f, 600.0f));
-		
+		UserInterfaceItem* defaultUserInterfaceItem = UserInterfaceManager::CrateUserInterfaceItem(std::string("Default"), ModelManager::GetModel("DefaultLowercaseL"), TextureManager::GetTexture("DefaultFontTexture"), glm::vec2(100.0f, 600.0f));
+
 		std::function<void()> whenTransformReady = [defaultUserInterfaceItem]()
 		{
 			defaultUserInterfaceItem->Scale(100.0f, 100.0f);
 		};
-
+		
 		defaultUserInterfaceItem->TransformReady(whenTransformReady);
+
+
+		//Text* textObject = new Text(std::string("Hello"));
+
 	};
 
 	GraphicsObjectManager::CreateTexturedStaticGraphicsObject(ModelManager::GetModel("Skybox"), TextureManager::GetTexture("Skybox"), callback);

@@ -8,6 +8,7 @@
 #include "../Utils/Logger.h"
 
 #include <filesystem>
+#include <unordered_map>
 
 std::vector<std::string> Text::fontDirectories = std::vector<std::string>({ "../Engine/Engine/Renderer/Model/Fonts/Default/" });
 std::unordered_set<std::string> Text::fontPrefixes = std::unordered_set<std::string>();
@@ -37,7 +38,9 @@ void Text::LoadFonts()
 				std::string modelFilePath = directoryName + dirEntry.path().filename().string();
 				std::string newCharacterModelName(modelFilePath.replace(modelFilePath.begin() + modelFilePath.size() - 5, modelFilePath.end(), ""));
 
-				Model* const loadedModel = ModelManager::LoadModel(newCharacterModelName, dirEntry.path().string());
+				Model* loadedModel = ModelManager::LoadModel(newCharacterModelName, dirEntry.path().string());
+
+				loadedModel->FlipTriangleWindingOrder();
 
 				if (loadedModel != nullptr)
 				{
@@ -92,36 +95,79 @@ void Text::ContainCharacterModels(const std::string& characters, std::vector<Mod
 	std::string characterModelName("");
 	Model* unassignedModel = nullptr;
 
-	std::unordered_set<unsigned int> containerOpenCharacterUSACIIDecimalValues = {40, 60, 91, 123};
-	std::unordered_set<unsigned int> containerCloseCharacterUSACIIDecimalValues = {41, 62, 93, 125};
+	std::unordered_set<char> containerOpenCharacterUSACIIDecimalValues = {(char)40, (char)60, (char)91, (char)123};
+	std::unordered_set<char> containerCloseCharacterUSACIIDecimalValues = {(char)41, (char)62, (char)93, (char)125};
+	std::unordered_set<char> containerBeginAndEndCharacterUSACIIDecimalValues = {(char)65, (char)90, (char)97, (char)122};
 
 	for (unsigned int i = 0; i < characters.size(); i++)
 	{
+		const char character = (char)characters.at(i);
+
 		std::string prefix = "";
-		if ((char)characters.at(i) >= (char)65 && characters.at(i) <= (char)90)
-		{
-			prefix = std::string("Uppercase");
-			const_cast<char&>(characters.at(i)) = (char)std::toupper((char)characters.at(i));
-		}
-		else if ((char)characters.at(i) >= (char)97 && characters.at(i) <= (char)122)
+		if (character >= *containerBeginAndEndCharacterUSACIIDecimalValues.find('a') && character <= *containerBeginAndEndCharacterUSACIIDecimalValues.find('z'))
 		{
 			prefix = std::string("Lowercase");
-			const_cast<char&>(characters.at(i)) = (char)std::toupper((char)characters.at(i));
+			const_cast<char&>(character) = std::toupper(character);
+		}
+		else if (character >= *containerBeginAndEndCharacterUSACIIDecimalValues.find('A') && character <= *containerBeginAndEndCharacterUSACIIDecimalValues.find('Z'))
+		{
+			prefix = std::string("Uppercase");
+			const_cast<char&>(character) = std::toupper(character);
 		}
 		else
 		{
-			if (containerOpenCharacterUSACIIDecimalValues.contains(characters.at(i)))
+			if (containerOpenCharacterUSACIIDecimalValues.contains(character))
 			{
 				prefix = "Open";
 			}
-			else if (containerOpenCharacterUSACIIDecimalValues.contains(characters.at(i)))
+			else if (containerCloseCharacterUSACIIDecimalValues.contains(character))
 			{
 				prefix = "Close";
 			}
 		}
 
-		returnedCharacterModelNames[i] = characterModelName = fontName + prefix + characters.at(i);
+		static std::unordered_map<char, std::string> signNames = std::unordered_map<char, std::string>();
+		signNames.insert(std::make_pair('[', std::string("Braket")));
+		signNames.insert(std::make_pair(']', std::string("Braket")));
+		signNames.insert(std::make_pair('(', std::string("Parenthese")));
+		signNames.insert(std::make_pair(')', std::string("Parenthese")));
+		signNames.insert(std::make_pair('<', std::string("MagnitudeEvaluation")));
+		signNames.insert(std::make_pair('>', std::string("MagnitudeEvaluation")));
+		signNames.insert(std::make_pair('?', std::string("Question")));
+		signNames.insert(std::make_pair(';', std::string("SemiColon")));
+		signNames.insert(std::make_pair(':', std::string("Colon")));
+		signNames.insert(std::make_pair('/"', std::string("Quotation")));
+		signNames.insert(std::make_pair('@', std::string("At")));
+		signNames.insert(std::make_pair('&', std::string("Ampersand")));
+		signNames.insert(std::make_pair('*', std::string("Asterisk")));
+		signNames.insert(std::make_pair('\\', std::string("Backward")));
+		signNames.insert(std::make_pair('/', std::string("Forward")));
+		signNames.insert(std::make_pair('|', std::string("Pipe")));
+		signNames.insert(std::make_pair('$', std::string("Dollar")));
+		signNames.insert(std::make_pair(',', std::string("Comma")));
+		signNames.insert(std::make_pair('^', std::string("Carrot")));
+		signNames.insert(std::make_pair('=', std::string("Equal")));
+		signNames.insert(std::make_pair('!', std::string("Exclaimation")));
+		signNames.insert(std::make_pair('.', std::string("Period")));
+		signNames.insert(std::make_pair('%', std::string("Percent")));
+		signNames.insert(std::make_pair('0', std::string("Zero")));
+		signNames.insert(std::make_pair('1', std::string("One")));
+		signNames.insert(std::make_pair('2', std::string("Two")));
+		signNames.insert(std::make_pair('3', std::string("Three")));
+		signNames.insert(std::make_pair('4', std::string("Four")));
+		signNames.insert(std::make_pair('5', std::string("Five")));
+		signNames.insert(std::make_pair('6', std::string("Six")));
+		signNames.insert(std::make_pair('7', std::string("Seven")));
+		signNames.insert(std::make_pair('8', std::string("Eight")));
+		signNames.insert(std::make_pair('9', std::string("Nine")));
+		signNames.insert(std::make_pair('#', std::string("Pound")));
+		signNames.insert(std::make_pair('-', std::string("Minus")));
+		signNames.insert(std::make_pair('+', std::string("Plus")));
+
+		returnedCharacterModelNames[i] = characterModelName = signNames.contains(character) ? fontName + prefix += (*signNames.find(character)).second : fontName + prefix + character;
 		returnedCharacterModels[i] = ((unassignedModel = ModelManager::GetModel(characterModelName)) != nullptr) ? unassignedModel : ModelManager::GetModel("DefaultRectangleWithDepth");
+		//unassignedModel->FlipTriangleWindingOrder();
+
 	}
 }
 

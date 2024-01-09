@@ -16,7 +16,7 @@ public:
 
 	static void LoadFonts();
 
-	Text(const std::string& initialText, const glm::vec2& initialPosition = glm::vec2(100.0f, 600.0f), const std::string& initialFont = "Default", float horizontalSpacing = 5.0f, float verticalSpacing = 5.0f);
+	Text(const std::string& initialText, const glm::vec2& initialPosition = glm::vec2(100.0f, 600.0f), const std::string& initialFont = "Default", float horizontalSpacing = 10.0f, float verticalSpacing = 0.0f);
 
 	~Text();
 

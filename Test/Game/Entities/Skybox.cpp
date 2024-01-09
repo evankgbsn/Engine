@@ -40,17 +40,20 @@ Skybox::Skybox() :
 			}
 		}
 
-		UserInterfaceItem* defaultUserInterfaceItem = UserInterfaceManager::CrateUserInterfaceItem(std::string("Default"), ModelManager::GetModel("DefaultLowercaseL"), TextureManager::GetTexture("DefaultFontTexture"), glm::vec2(100.0f, 600.0f));
+		//UserInterfaceItem* defaultUserInterfaceItem = UserInterfaceManager::CrateUserInterfaceItem(std::string("Default"), ModelManager::GetModel("DefaultLowercaseL"), TextureManager::GetTexture("DefaultFontTexture"), glm::vec2(100.0f, 600.0f));
+		//
+		//std::function<void()> whenTransformReady = [defaultUserInterfaceItem]()
+		//{
+		//	defaultUserInterfaceItem->Scale(100.0f, 100.0f);
+		//};
+		//
+		// 
+		//// Local transforms and global transforms for UserInterfaceItems and UserInterfaceItem SubItems. 
+		// 
+		//defaultUserInterfaceItem->TransformReady(whenTransformReady);
 
-		std::function<void()> whenTransformReady = [defaultUserInterfaceItem]()
-		{
-			defaultUserInterfaceItem->Scale(100.0f, 100.0f);
-		};
-		
-		defaultUserInterfaceItem->TransformReady(whenTransformReady);
 
-
-		//Text* textObject = new Text(std::string("Hello"));
+		Text* textObject = new Text(std::string("AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz123456789/|\\[](),.:;\"<>-+*&^%$#@!="));
 
 	};
 
@@ -65,18 +68,18 @@ void Skybox::Update()
 {
 	auto onHover = []()
 	{
-		UserInterfaceItem* cocoImage = UserInterfaceManager::GetUserInterfaceItem("Default");
-		if (cocoImage != nullptr)
-		{
-			cocoImage->Rotate(0.2f);
-		}
+		//UserInterfaceItem* cocoImage = UserInterfaceManager::GetUserInterfaceItem("Default");
+		//if (cocoImage != nullptr)
+		//{
+		//	cocoImage->Rotate(0.2f);
+		//}
 	};
 
 	if (skyBoxGraphicsObject != nullptr)
 	{
-		UserInterfaceItem* cocoImage = UserInterfaceManager::GetUserInterfaceItem("Default");
-		if (cocoImage != nullptr)
-			cocoImage->Hovered(onHover);
+		//UserInterfaceItem* cocoImage = UserInterfaceManager::GetUserInterfaceItem("Default");
+		//if (cocoImage != nullptr)
+		//	cocoImage->Hovered(onHover);
 
 		DirectionalLight* const light = LightManager::GetDirectionalLight("MainDirLight");
 

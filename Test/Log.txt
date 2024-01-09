@@ -458,8 +458,9 @@ Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Defau
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Backward.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Carrot.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/CloseBraket.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/CloseMagnitudeComparisonSymbol.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/CloseMagnitudeEvaluation.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/CloseParenthese.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Colon.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Comma.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Dollar.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Eight.gltf
@@ -498,7 +499,7 @@ Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Defau
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Nine.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/One.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/OpenBraket.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/OpenMagnitudeComparisonSymbol.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/OpenMagnitudeEvaluation.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/OpenParenthese.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Percent.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Period.gltf
@@ -556,7 +557,92 @@ Success: Loaded model from file path ../Engine/Engine/Renderer/Model/NewBall.glt
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Cube.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Skybox.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Human.gltf
-Success: Created UserInterfaceItem: Default
+Info: Added subitem DefaultLowercaseA
+Info: Added subitem DefaultUppercaseB
+Info: Added subitem DefaultLowercaseB
+Info: Added subitem DefaultUppercaseC
+Info: Added subitem DefaultLowercaseC
+Info: Added subitem DefaultUppercaseD
+Info: Added subitem DefaultLowercaseD
+Info: Added subitem DefaultUppercaseE
+Info: Added subitem DefaultLowercaseE
+Info: Added subitem DefaultUppercaseF
+Info: Added subitem DefaultLowercaseF
+Info: Added subitem DefaultUppercaseG
+Info: Added subitem DefaultLowercaseG
+Info: Added subitem DefaultUppercaseH
+Info: Added subitem DefaultLowercaseH
+Info: Added subitem DefaultUppercaseI
+Info: Added subitem DefaultLowercaseI
+Info: Added subitem DefaultUppercaseJ
+Info: Added subitem DefaultLowercaseJ
+Info: Added subitem DefaultUppercaseK
+Info: Added subitem DefaultLowercaseK
+Info: Added subitem DefaultUppercaseL
+Info: Added subitem DefaultLowercaseL
+Info: Added subitem DefaultUppercaseM
+Info: Added subitem DefaultLowercaseM
+Info: Added subitem DefaultUppercaseN
+Info: Added subitem DefaultLowercaseN
+Info: Added subitem DefaultUppercaseO
+Info: Added subitem DefaultLowercaseO
+Info: Added subitem DefaultUppercaseP
+Info: Added subitem DefaultLowercaseP
+Info: Added subitem DefaultUppercaseQ
+Info: Added subitem DefaultLowercaseQ
+Info: Added subitem DefaultUppercaseR
+Info: Added subitem DefaultLowercaseR
+Info: Added subitem DefaultUppercaseS
+Info: Added subitem DefaultLowercaseS
+Info: Added subitem DefaultUppercaseT
+Info: Added subitem DefaultLowercaseT
+Info: Added subitem DefaultUppercaseU
+Info: Added subitem DefaultLowercaseU
+Info: Added subitem DefaultUppercaseV
+Info: Added subitem DefaultLowercaseV
+Info: Added subitem DefaultUppercaseW
+Info: Added subitem DefaultLowercaseW
+Info: Added subitem DefaultUppercaseX
+Info: Added subitem DefaultLowercaseX
+Info: Added subitem DefaultUppercaseY
+Info: Added subitem DefaultLowercaseY
+Info: Added subitem DefaultUppercaseZ
+Info: Added subitem DefaultLowercaseZ
+Info: Added subitem DefaultOne
+Info: Added subitem DefaultTwo
+Info: Added subitem DefaultThree
+Info: Added subitem DefaultFour
+Info: Added subitem DefaultFive
+Info: Added subitem DefaultSix
+Info: Added subitem DefaultSeven
+Info: Added subitem DefaultEight
+Info: Added subitem DefaultNine
+Info: Added subitem DefaultForward
+Info: Added subitem DefaultPipe
+Info: Added subitem DefaultBackward
+Info: Added subitem DefaultOpenBraket
+Info: Added subitem DefaultCloseBraket
+Info: Added subitem DefaultOpenParenthese
+Info: Added subitem DefaultCloseParenthese
+Info: Added subitem DefaultComma
+Info: Added subitem DefaultPeriod
+Info: Added subitem DefaultColon
+Info: Added subitem DefaultSemiColon
+Info: Added subitem DefaultQuotation
+Info: Added subitem DefaultOpenMagnitudeEvaluation
+Info: Added subitem DefaultCloseMagnitudeEvaluation
+Info: Added subitem DefaultMinus
+Info: Added subitem DefaultPlus
+Info: Added subitem DefaultAsterisk
+Info: Added subitem DefaultAmpersand
+Info: Added subitem DefaultCarrot
+Info: Added subitem DefaultPercent
+Info: Added subitem DefaultDollar
+Info: Added subitem DefaultPound
+Info: Added subitem DefaultAt
+Info: Added subitem DefaultExclaimation
+Info: Added subitem DefaultEqual
+Info: Added subitem DefaultUppercaseA
 Success: Registered press callback for key code 76
 Success: Registered press callback for key code 87
 Success: Registered press callback for key code 65
@@ -570,8 +656,8 @@ Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initia
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Success: Termiated UserInterfaceManager
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()

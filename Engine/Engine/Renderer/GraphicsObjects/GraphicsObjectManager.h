@@ -88,6 +88,8 @@ private:
 
 	void CreateQueuedGraphicsObjects();
 
+	void ToggleQueuedGraphicsObjects();
+
 	void ConvertPipelineForQueuedGraphicsObjects();
 
 	bool IsPipelineFromShader(const std::string& pipelineKey);
@@ -157,6 +159,8 @@ private:
 	std::list<std::function<void()>> graphicsObjectCreateQueue;
 
 	std::list<std::function<void()>> graphicsObjectPipelineConversionQueue;
+
+	std::list<std::function<void()>> graphicsObjectToggleQueue;
 };
 
 #endif // GRAPHICSOBJECTMANAGER_H

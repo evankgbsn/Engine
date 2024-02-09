@@ -176,6 +176,16 @@ void GraphicsObjectManager::CreateQueuedGraphicsObjects()
 	graphicsObjectCreateQueue.clear();
 }
 
+void GraphicsObjectManager::ToggleQueuedGraphicsObjects()
+{
+	for (const auto& toggleGraphicsObjectFunction : graphicsObjectToggleQueue)
+	{
+		toggleGraphicsObjectFunction();
+	}
+
+	graphicsObjectToggleQueue.clear();
+}
+
 void GraphicsObjectManager::ConvertPipelineForQueuedGraphicsObjects()
 {
 	for (const auto& graphicsConversionFunction : graphicsObjectPipelineConversionQueue)
@@ -464,10 +474,9 @@ const std::vector<GraphicsObject*>& GraphicsObjectManager::GetTexturedAnimatedGr
 
 void GraphicsObjectManager::ToggleGraphicsObjectDraw(GraphicsObject* const graphicsObjectToToggle, ObjectTypes::GraphicsObjectType type)
 {
-	// Dont forget draw mutex for thread safety.
-
-	auto getGraphicsObjectTypeContainerAndIndex = [](GraphicsObject* const graphicsObject, ObjectTypes::GraphicsObjectType& type, unsigned int& index) -> const std::vector<GraphicsObject*>&
+	auto findGraphicsObjectAndRemoveFromDrawVector = [](GraphicsObject* const graphicsObject, const ObjectTypes::GraphicsObjectType& type)
 	{
+		unsigned int index = 0;
 		auto isWireframeLambda = [&index, graphicsObject](const std::vector<GraphicsObject*>& graphicsObjectContainer) -> bool
 		{
 			for (unsigned int i = 0; i < graphicsObjectContainer.size(); i++)
@@ -478,90 +487,96 @@ void GraphicsObjectManager::ToggleGraphicsObjectDraw(GraphicsObject* const graph
 					return false;
 				}
 			}
+
+			return true;
 		};
 
-		auto disableGraphicsObject = [&index](std::vector<GraphicsObject*>& graphicsObjectContainer, std::list<GraphicsObject*>& disabledGraphicsObjectContainer)
+		auto isDisabledLambda = [graphicsObject](std::list<GraphicsObject*>& graphicsObjectDisabledContainer, std::list<GraphicsObject*>::iterator& outIt) -> bool
 		{
-			disabledGraphicsObjectContainer.push_back(instance->texturedStaticGraphicsObjects[index]);
-			graphicsObjectContainer[index] = nullptr;
+			for (std::list<GraphicsObject*>::iterator it = graphicsObjectDisabledContainer.begin(); it != graphicsObjectDisabledContainer.end(); it++)
+			{
+				if (*it == graphicsObject)
+				{
+					outIt = it;
+					return true;
+				}
+			}
+
+			return false;
+		};
+
+		auto insertFromDisabledListAddToDrawVectorLambda = [graphicsObject](std::vector<GraphicsObject*>& drawVector, std::list<GraphicsObject*> disableList, std::list<GraphicsObject*>::iterator graphicsObjectToRemoveFromDisableListIterator)
+		{
+			for (std::vector<GraphicsObject*>::iterator drawVectorIterator = drawVector.begin(); drawVectorIterator != drawVector.end(); drawVectorIterator++)
+			{
+				if (*drawVectorIterator == nullptr)
+				{
+					*drawVectorIterator = graphicsObject;
+					disableList.erase(graphicsObjectToRemoveFromDisableListIterator);
+				}
+			}
+		};
+
+		auto toggleGraphicsObject = [&index, isWireframeLambda, isDisabledLambda, insertFromDisabledListAddToDrawVectorLambda](std::vector<GraphicsObject*>& graphicsObjectContainer, std::list<GraphicsObject*>& graphicsObjectDisableList, std::vector<GraphicsObject*>& graphicsObjectWireFrameContainer, std::list<GraphicsObject*>& graphicsObjectWireFrameDisableList)
+		{
+			std::list<GraphicsObject*>::iterator outIt;
+			if (isWireframeLambda(graphicsObjectContainer))
+			{
+				if (isDisabledLambda(graphicsObjectWireFrameDisableList, outIt))
+				{
+					insertFromDisabledListAddToDrawVectorLambda(graphicsObjectWireFrameContainer, graphicsObjectWireFrameDisableList, outIt);
+				}
+				else
+				{
+					graphicsObjectWireFrameDisableList.push_back(graphicsObjectWireFrameContainer[index]);
+					graphicsObjectWireFrameContainer[index] = nullptr;
+				}
+			}
+			else
+			{
+				if (isDisabledLambda(graphicsObjectWireFrameDisableList, outIt))
+				{
+					insertFromDisabledListAddToDrawVectorLambda(graphicsObjectContainer, graphicsObjectDisableList, outIt);
+				}
+				else
+				{
+					graphicsObjectDisableList.push_back(graphicsObjectContainer[index]);
+					graphicsObjectContainer[index] = nullptr;
+				}
+			}
 		};
 
 		switch (type)
 		{
 		case ObjectTypes::GraphicsObjectType::TexturedStatic:
-			
-			if (isWireframeLambda(instance->texturedStaticGraphicsObjects))
-			{
-				disableGraphicsObject(instance->texturedStaticGraphicsObjects, instance->disabledTexturedStaticGraphicsObjects);
-			}
-			else
-			{
-				disableGraphicsObject(instance->texturedStaticGraphicsObjectsWireFrame, instance->disabledTexturedStaticGraphicsObjectsWireFrame);
-			}
-
+			toggleGraphicsObject(instance->texturedStaticGraphicsObjects, instance->disabledTexturedStaticGraphicsObjects, instance->texturedStaticGraphicsObjectsWireFrame, instance->disabledTexturedStaticGraphicsObjectsWireFrame);
 			break;
-			
 		case ObjectTypes::GraphicsObjectType::LitTexturedStatic:
-			
-			if (isWireframeLambda(instance->litTexturedStaticGraphicsObjects))
-			{
-				disableGraphicsObject(instance->litTexturedStaticGraphicsObjects, instance->disabledLitTexturedStaticGraphicsObjects);
-			}
-			else
-			{
-				disableGraphicsObject(instance->litTexturedStaticGraphicsObjectsWireFrame, instance->disabledLitTexturedStaticGraphicsObjectsWireFrame);
-			}
-
+			toggleGraphicsObject(instance->litTexturedStaticGraphicsObjects, instance->disabledLitTexturedStaticGraphicsObjects, instance->litTexturedStaticGraphicsObjectsWireFrame, instance->disabledLitTexturedStaticGraphicsObjectsWireFrame);
 			break;
-			
 		case ObjectTypes::GraphicsObjectType::AnimatedTextured:
-			
-			if (isWireframeLambda(instance->animatedTexturedGraphicsObjects))
-			{
-				disableGraphicsObject(instance->animatedTexturedGraphicsObjects, instance->disabledAnimatedTexturedGraphicsObjects);
-			}
-			else
-			{
-				disableGraphicsObject(instance->animatedTexturedGraphicsObjectsWireFrame, instance->disabledAnimatedTexturedGraphicsObjectsWireFrame);
-			}
-
+			toggleGraphicsObject(instance->animatedTexturedGraphicsObjects, instance->disabledAnimatedTexturedGraphicsObjects, instance->animatedTexturedGraphicsObjectsWireFrame, instance->disabledAnimatedTexturedGraphicsObjectsWireFrame);
 			break;
-			
 		case ObjectTypes::GraphicsObjectType::TexturedStatic2D:
-			
-			if (isWireframeLambda(instance->texturedStatic2DGraphicsObjects))
-			{
-				disableGraphicsObject(instance->texturedStatic2DGraphicsObjects, instance->disabledTexturedStatic2DGraphicsObjects);
-			}
-			else
-			{
-				disableGraphicsObject(instance->texturedStatic2DGraphicsObjectsWireFrame, instance->disabledTexturedStatic2DGraphicsObjectsWireFrame);
-			}
-
+			toggleGraphicsObject(instance->texturedStatic2DGraphicsObjects, instance->disabledTexturedStatic2DGraphicsObjects, instance->texturedStatic2DGraphicsObjectsWireFrame, instance->disabledTexturedStatic2DGraphicsObjectsWireFrame);
 			break;
-			
 		case ObjectTypes::GraphicsObjectType::Gooch:
-			
-			if (isWireframeLambda(instance->goochGraphicsObjects))
-			{
-				disableGraphicsObject(instance->goochGraphicsObjects, instance->disabledGoochGraphicsObjects);
-			}
-			else
-			{
-				disableGraphicsObject(instance->goochGraphicsObjectsWireFrame, instance->disabledGoochGraphicsObjectsWireFrame);
-			}
-
+			toggleGraphicsObject(instance->goochGraphicsObjects, instance->disabledGoochGraphicsObjects, instance->goochGraphicsObjectsWireFrame, instance->disabledGoochGraphicsObjectsWireFrame);
 			break;
-
 		default:
 			break;
 		}
 	};
 
-	if (instance != nullptr)
+	std::function<void()> toggleGraphicsObject = [findGraphicsObjectAndRemoveFromDrawVector, graphicsObjectToToggle, type]()
 	{
-		
-	}
+		if (instance != nullptr)
+		{
+			findGraphicsObjectAndRemoveFromDrawVector(graphicsObjectToToggle, type);
+		}
+	};
+
+	instance->graphicsObjectToggleQueue.push_back(toggleGraphicsObject);
 }
 
 void GraphicsObjectManager::ExecutePendingCommands()
@@ -570,6 +585,7 @@ void GraphicsObjectManager::ExecutePendingCommands()
 		return;
 	
 	instance->CreateQueuedGraphicsObjects();
+	instance->ToggleQueuedGraphicsObjects();
 	instance->ConvertPipelineForQueuedGraphicsObjects();
 }
 

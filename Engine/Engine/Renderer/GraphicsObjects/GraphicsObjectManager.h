@@ -4,6 +4,7 @@
 #include "GraphicsObjectTypes.h"
 
 #include <vector>
+#include <list>
 #include <unordered_map>
 #include <string>
 #include <vulkan/vulkan.h>
@@ -50,6 +51,8 @@ public:
 	static const std::vector<GraphicsObject*>& GetTexturedStaticGraphicsObjets();
 
 	static const std::vector<GraphicsObject*>& GetTexturedAnimatedGraphicsObjects();
+
+	static void ToggleGraphicsObjectDraw(GraphicsObject* const graphicsObjectToToggle, ObjectTypes::GraphicsObjectType type);
 
 	static void ExecutePendingCommands();
 
@@ -105,23 +108,43 @@ private:
 
 	std::vector<GraphicsObject*> texturedStaticGraphicsObjects;
 
+	std::list<GraphicsObject*> disabledTexturedStaticGraphicsObjects;
+
 	std::vector<GraphicsObject*> texturedStaticGraphicsObjectsWireFrame;
+
+	std::list<GraphicsObject*> disabledTexturedStaticGraphicsObjectsWireFrame;
 
 	std::vector<GraphicsObject*> animatedTexturedGraphicsObjects;
 
+	std::list<GraphicsObject*> disabledAnimatedTexturedGraphicsObjects;
+
 	std::vector<GraphicsObject*> animatedTexturedGraphicsObjectsWireFrame;
+
+	std::list<GraphicsObject*> disabledAnimatedTexturedGraphicsObjectsWireFrame;
 
 	std::vector<GraphicsObject*> goochGraphicsObjects;
 
+	std::list<GraphicsObject*>  disabledGoochGraphicsObjects;
+
 	std::vector<GraphicsObject*> goochGraphicsObjectsWireFrame;
+
+	std::list<GraphicsObject*> disabledGoochGraphicsObjectsWireFrame;
 
 	std::vector<GraphicsObject*> litTexturedStaticGraphicsObjects;
 
+	std::list<GraphicsObject*> disabledLitTexturedStaticGraphicsObjects;
+
 	std::vector<GraphicsObject*> litTexturedStaticGraphicsObjectsWireFrame;
+
+	std::list<GraphicsObject*> disabledLitTexturedStaticGraphicsObjectsWireFrame;
 
 	std::vector<GraphicsObject*> texturedStatic2DGraphicsObjects;
 
+	std::list<GraphicsObject*> disabledTexturedStatic2DGraphicsObjects;
+
 	std::vector<GraphicsObject*> texturedStatic2DGraphicsObjectsWireFrame;
+
+	std::list<GraphicsObject*> disabledTexturedStatic2DGraphicsObjectsWireFrame;
 
 	const Window& window;
 

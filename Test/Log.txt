@@ -676,7 +676,10 @@ Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initia
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Success: Termiated UserInterfaceManager
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()

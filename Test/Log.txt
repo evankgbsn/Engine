@@ -30,10 +30,10 @@ Success: Created the vulkan instance
 Success: Created the vulkan debug messenger
 Info: Vulkan Physical Devices: 
 	AMD Radeon RX 6650 XT Device Properties: 
-		API Version: 0.1.3.250
+		API Version: 0.1.3.270
 		DeviceID: 29679
 		Device Type: Discrete GPU
-		Driver Version: 0.2.0.270
+		Driver Version: 0.2.0.294
 		Limits: 
 			Buffer Image Granularity: 1
 			Discrete Queue Priorities: 2
@@ -64,7 +64,7 @@ Info: Vulkan Physical Devices:
 			Max Color Attachments: 8
 			Max Combined Clip and Cull Distances: 8
 			Max Compute Shared Memory Size: 32768
-			Max Compute Work Group Count: 65535 65535 65535
+			Max Compute Work Group Count: 4294967295 65535 65535
 			Max Compute Work Group Invocations: 1024
 			Max Compute Work Group Size: 1024 1024 1024
 			Max Cull Distances: 8
@@ -146,7 +146,7 @@ Info: Vulkan Physical Devices:
 			Sampled Image Depth Sample Counts: 15
 			Sampled Image Integer Sample Counts: 15
 			Sampled Image Stencil Sample Counts: 15
-			Sparse Address SpaceSize: 17562121273344
+			Sparse Address SpaceSize: 140707423584256
 			Standard Sample Locations: 1
 			Storage Image Sample Counts: 15
 			Strict Lines: 0
@@ -157,7 +157,7 @@ Info: Vulkan Physical Devices:
 			Timestamp Period: 10.000000
 			Viewport Bounds Range: -32768.000000 : 32767.000000
 			Viewport Sub Pixel Bits: 8
-		Pipeline Cache UUID: 53 166 52 113 84 200 95 144 181 22 102 76 144 120 63 203 
+		Pipeline Cache UUID: 64 68 188 106 42 103 82 119 174 230 197 16 225 255 190 17 
 		Sparse Properties: 
 			Residency Aligned Mip Size: 0
 			Residency Non Resident Strict: 1
@@ -221,10 +221,10 @@ Info: Vulkan Physical Devices:
 		Variable Multisample Rate: 1
 		Vertex Pipeline Stores and Atomics: 1
 		Wide Lines: 1AMD Radeon(TM) Graphics Device Properties: 
-		API Version: 0.1.3.250
+		API Version: 0.1.3.270
 		DeviceID: 5710
 		Device Type: Integrated GPU
-		Driver Version: 0.2.0.270
+		Driver Version: 0.2.0.294
 		Limits: 
 			Buffer Image Granularity: 1
 			Discrete Queue Priorities: 2
@@ -255,7 +255,7 @@ Info: Vulkan Physical Devices:
 			Max Color Attachments: 8
 			Max Combined Clip and Cull Distances: 8
 			Max Compute Shared Memory Size: 32768
-			Max Compute Work Group Count: 65535 65535 65535
+			Max Compute Work Group Count: 4294967295 65535 65535
 			Max Compute Work Group Invocations: 1024
 			Max Compute Work Group Size: 1024 1024 1024
 			Max Cull Distances: 8
@@ -337,7 +337,7 @@ Info: Vulkan Physical Devices:
 			Sampled Image Depth Sample Counts: 15
 			Sampled Image Integer Sample Counts: 15
 			Sampled Image Stencil Sample Counts: 15
-			Sparse Address SpaceSize: 17579301142528
+			Sparse Address SpaceSize: 140724603453440
 			Standard Sample Locations: 1
 			Storage Image Sample Counts: 15
 			Strict Lines: 0
@@ -348,7 +348,7 @@ Info: Vulkan Physical Devices:
 			Timestamp Period: 10.000000
 			Viewport Bounds Range: -32768.000000 : 32767.000000
 			Viewport Sub Pixel Bits: 8
-		Pipeline Cache UUID: 144 178 72 231 252 64 87 152 129 107 226 81 96 119 206 159 
+		Pipeline Cache UUID: 193 111 79 57 85 60 89 83 135 232 76 198 51 190 9 98 
 		Sparse Properties: 
 			Residency Aligned Mip Size: 0
 			Residency Non Resident Strict: 1
@@ -426,13 +426,13 @@ Info: Present Mode FIFO Relaxed available
 Warning: Present Mode set to FIFO Relaxed
 Info: General: Inserted device layer "VK_LAYER_KHRONOS_validation" (C:\VulkanSDK\1.3.239.0\Bin\.\VkLayer_khronos_validation.dll)
 Info: General: Inserted device layer "VK_LAYER_OBS_HOOK" (C:\ProgramData\obs-studio-hook\.\graphics-hook64.dll)
-Info: General: Failed to find vkGetDeviceProcAddr in layer "C:\WINDOWS\System32\DriverStore\FileRepository\u0394441.inf_amd64_57e767cb37419fb0\B394106\.\amdvlk64.dll"
-Info: General:        Using "AMD Radeon RX 6650 XT" with driver: "C:\WINDOWS\System32\DriverStore\FileRepository\u0394441.inf_amd64_57e767cb37419fb0\B394106\.\amdvlk64.dll"
+Info: General: Failed to find vkGetDeviceProcAddr in layer "C:\WINDOWS\System32\DriverStore\FileRepository\u0399879.inf_amd64_85af875c6f6cd815\B399690\.\amdvlk64.dll"
+Info: General:        Using "AMD Radeon RX 6650 XT" with driver: "C:\WINDOWS\System32\DriverStore\FileRepository\u0399879.inf_amd64_85af875c6f6cd815\B399690\.\amdvlk64.dll"
 Success: Created logical device using AMD Radeon RX 6650 XT
-Info: Min sawpchain images: 1
+Info: Min sawpchain images: 2
 Info: Max swapchain images: 16
 Info: Image sharing mode set to exclusive for swapchain
-Success: Created swapchain with 2 images
+Success: Created swapchain with 3 images
 Success: AMD Radeon RX 6650 XT has been chosen as the rendering device.
 Success: Loaded Texture ../Engine/Engine/Renderer/Images/DefaultFontTexture.png
 Success: Loaded shader Gooch.fragspv
@@ -652,6 +652,26 @@ Success: Registered press callback for key code 81
 Success: Registered press callback for key code 69
 Success: Registered press callback for key code 341
 Success: Registered press callback for key code 32
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()

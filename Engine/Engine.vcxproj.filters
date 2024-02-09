@@ -118,6 +118,9 @@
     <Filter Include="Source Files\Engine\Input">
       <UniqueIdentifier>{f35f24b1-0459-4874-9bd8-46618887dc50}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\UI\Editor">
+      <UniqueIdentifier>{3658250c-e752-43ec-bd0b-827eca88e869}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -354,6 +357,12 @@
     <ClInclude Include="Engine\UI\Text.h">
       <Filter>Source Files\Engine\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\UI\Editor\Editor.h">
+      <Filter>Source Files\Engine\UI\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\UI\Editor\FeatureSearchTool.h">
+      <Filter>Source Files\Engine\UI\Editor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -583,6 +592,12 @@
     </ClCompile>
     <ClCompile Include="Engine\UI\Text.cpp">
       <Filter>Source Files\Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\UI\Editor\Editor.cpp">
+      <Filter>Source Files\Engine\UI\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\UI\Editor\FeatureSearchTool.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

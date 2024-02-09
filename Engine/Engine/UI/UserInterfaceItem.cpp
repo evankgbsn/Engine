@@ -24,7 +24,8 @@ UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const m
 	graphicsObject(nullptr),
 	position(initialPosition),
 	angle(0.0f),
-	transformReady(false)
+	transformReady(false),
+	currentVisibility(Visibility::Visible)
 {
 	std::function<void(GraphicsObject*)> graphicsObjectCreationCallback = [this](GraphicsObject* obj)
 	{
@@ -106,10 +107,6 @@ void UserInterfaceItem::Hovered(std::function<void()> onHover) const
 
 		const std::vector<Vertex>& vertices = modelToTest->GetVertices();
 
-		static glm::vec4 triangleVerts[3] = { glm::vec4(0.0f), glm::vec4(0.0f), glm::vec4(0.0f)};
-
-		//const Window* const window = WindowManager::GetWindow("MainWindow");
-
 		// Compute shader?
 		if (Math::PointIn2DModel(modelToTest, view, projection, modelMat4, position, glm::vec2(UserInterfaceManager::GetWindowWidth(), UserInterfaceManager::GetWindowHeight())))
 		{
@@ -165,4 +162,35 @@ bool UserInterfaceItem::TransformReady(std::function<void()>& standardFunctionOb
 {
 	whenTransformReady = standardFunctionObject;
 	return transformReady;
+}
+
+UserInterfaceItem::Visibility UserInterfaceItem::InquireVisibility(UserInterfaceItem::Visibility set)
+{
+	currentVisibility = set;
+
+	switch (set)
+	{
+	case Visibility::Default:
+		break;
+	case Visibility::Visible:
+	case Visibility::Invisible:
+		UpdateGraphicsObjectsVisibilty();
+		break;
+	default:
+		break;
+	}
+
+	return currentVisibility;
+}
+
+void UserInterfaceItem::UpdateGraphicsObjectsVisibilty()
+{
+	if (currentVisibility == Visibility::Visible)
+	{
+
+	}
+	else
+	{
+
+	}
 }

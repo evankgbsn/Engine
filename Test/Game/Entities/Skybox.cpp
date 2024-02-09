@@ -52,7 +52,6 @@ Skybox::Skybox() :
 		// 
 		//defaultUserInterfaceItem->TransformReady(whenTransformReady);
 
-
 		Text* textObject = new Text(std::string("AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz123456789/|\\[](),.:;\"<>-+*&^%$#@!="));
 
 	};

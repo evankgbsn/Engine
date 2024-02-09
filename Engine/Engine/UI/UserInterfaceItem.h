@@ -16,6 +16,15 @@ class UserInterfaceItem
 
 public:
 
+	enum class Visibility
+	{
+		Visible,
+		Invisible,
+		Default
+	};
+
+public:
+
 	UserInterfaceItem(const std::string& name, Model* const model, Texture* const texture, const glm::vec2& initialPosition);
 
 	~UserInterfaceItem();
@@ -50,15 +59,19 @@ public:
 
 	bool TransformReady(std::function<void()>& whenTransformReady = emptyFunctionObject);
 
+	Visibility InquireVisibility(Visibility set = Visibility::Default);
+
 protected:
 
 private:
 
+	UserInterfaceItem() = delete;
+
+	void UpdateGraphicsObjectsVisibilty();
+
 	static std::function<void()> emptyFunctionObject;
 
 	bool transformReady;
-
-	UserInterfaceItem() = delete;
 
 	std::unordered_map<std::string, UserInterfaceItem*> subItems;
 
@@ -71,7 +84,8 @@ private:
 	glm::vec2 position;
 
 	float angle;
-	
+
+	Visibility currentVisibility;
 };
 
 #endif // USERINTERFACEITEM_H

@@ -222,6 +222,8 @@
     <ClInclude Include="Engine\System\System.h" />
     <ClInclude Include="Engine\System\TransformSystem.h" />
     <ClInclude Include="Engine\Time\TimeManager.h" />
+    <ClInclude Include="Engine\UI\Editor\Editor.h" />
+    <ClInclude Include="Engine\UI\Editor\FeatureSearchTool.h" />
     <ClInclude Include="Engine\UI\Text.h" />
     <ClInclude Include="Engine\UI\UserInterfaceItem.h" />
     <ClInclude Include="Engine\UI\UserInterfaceManager.h" />
@@ -300,6 +302,8 @@
     <ClCompile Include="Engine\System\System.cpp" />
     <ClCompile Include="Engine\System\TransformSystem.cpp" />
     <ClCompile Include="Engine\Time\TimeManager.cpp" />
+    <ClCompile Include="Engine\UI\Editor\Editor.cpp" />
+    <ClCompile Include="Engine\UI\Editor\FeatureSearchTool.cpp" />
     <ClCompile Include="Engine\UI\Text.cpp" />
     <ClCompile Include="Engine\UI\UserInterfaceItem.cpp" />
     <ClCompile Include="Engine\UI\UserInterfaceManager.cpp" />

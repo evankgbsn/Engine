@@ -49,6 +49,8 @@ public:
 
 	virtual const Image* const GetImage(unsigned int binding) const;
 
+	ObjectTypes::GraphicsObjectType GetGraphicsObjectType() const;
+
 protected:
 
 	void InitializeDescriptorSets();

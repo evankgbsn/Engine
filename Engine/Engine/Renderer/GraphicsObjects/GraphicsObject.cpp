@@ -105,6 +105,11 @@ const Image* const GraphicsObject::GetImage(unsigned int binding) const
 	return nullptr;
 }
 
+ObjectTypes::GraphicsObjectType GraphicsObject::GetGraphicsObjectType() const
+{
+	return type;
+}
+
 void GraphicsObject::InitializeDescriptorSets()
 {
 	CreateUniformBuffers();

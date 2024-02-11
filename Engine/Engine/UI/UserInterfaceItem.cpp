@@ -25,7 +25,8 @@ UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const m
 	position(initialPosition),
 	angle(0.0f),
 	transformReady(false),
-	currentVisibility(Visibility::Visible)
+	currentVisibility(Visibility::Visible),
+	graphicsObjectReadyCallbacks(std::list<std::function<void()>>())
 {
 	std::function<void(GraphicsObject*)> graphicsObjectCreationCallback = [this](GraphicsObject* obj)
 	{
@@ -40,6 +41,13 @@ UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const m
 
 		this->transformReady = true;
 		whenTransformReady();
+
+		for (std::function<void()>& callback : graphicsObjectReadyCallbacks)
+		{
+			callback();
+		}
+
+		graphicsObjectReadyCallbacks.clear();
 	};
 
 	GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(model, texture, graphicsObjectCreationCallback);
@@ -166,31 +174,26 @@ bool UserInterfaceItem::TransformReady(std::function<void()>& standardFunctionOb
 
 UserInterfaceItem::Visibility UserInterfaceItem::InquireVisibility(UserInterfaceItem::Visibility set)
 {
-	currentVisibility = set;
+	// Still need to handle subitems.
 
-	switch (set)
+	std::function<void()> inquireVisibilityCallback = [set, this]()
 	{
-	case Visibility::Default:
-		break;
-	case Visibility::Visible:
-	case Visibility::Invisible:
-		UpdateGraphicsObjectsVisibilty();
-		break;
-	default:
-		break;
-	}
+		currentVisibility = set;
+
+		switch (set)
+		{
+		case Visibility::Default:
+			break;
+		case Visibility::Visible:
+		case Visibility::Invisible:
+			GraphicsObjectManager::ToggleGraphicsObjectDraw(graphicsObject, graphicsObject->GetGraphicsObjectType());
+			break;
+		default:
+			break;
+		}
+	};
+
+	graphicsObjectReadyCallbacks.push_back(inquireVisibilityCallback);
 
 	return currentVisibility;
-}
-
-void UserInterfaceItem::UpdateGraphicsObjectsVisibilty()
-{
-	if (currentVisibility == Visibility::Visible)
-	{
-
-	}
-	else
-	{
-
-	}
 }

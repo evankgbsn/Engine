@@ -175,17 +175,17 @@ private:
 #define KEY_KP_ENTER           335
 #define KEY_KP_EQUAL           336
 #define KEY_LEFT_SHIFT         340
-#define KEY_LEFT_CTRL       341
+#define KEY_LEFT_CTRL		   341
 #define KEY_LEFT_ALT           342
 #define KEY_LEFT_SUPER         343
 #define KEY_RIGHT_SHIFT        344
-#define KEY_RIGHT_CTRL      345
+#define KEY_RIGHT_CTRL		   345
 #define KEY_RIGHT_ALT          346
 #define KEY_RIGHT_SUPER        347
 #define KEY_MENU               348
 
-#define KEY_RELEASE           0
-#define KEY_PRESS             1
+#define KEY_RELEASE            0
+#define KEY_PRESS              1
 #define KEY_PRESSED            2
 
 #endif // INPUTMANAGER_H

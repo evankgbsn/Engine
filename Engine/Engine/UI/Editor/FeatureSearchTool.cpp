@@ -22,9 +22,16 @@ FeatureSearchTool::FeatureSearchTool() :
 	if (mainWindow != nullptr)
 	{
 		cursorPosition = mainWindow->GetCursorPosition();
-	}
 
-	featureSearchBackground = UserInterfaceManager::CrateUserInterfaceItem(std::string("FeatureSearchBackground"), ModelManager::GetModel("DefaultRectangelWithDepth"), TextureManager::GetTexture("Woman"), cursorPosition);
+		featureSearchBackground = UserInterfaceManager::CrateUserInterfaceItem("FeatureSearchToolBackground", ModelManager::GetModel("DefaultRectangleWithDepth"), TextureManager::GetTexture("Woman"), { 300.0f, 300.0f });
+
+		std::function<void()> whenReady = [this]()
+		{
+			//featureSearchBackground->Scale(100.0f, 100.0f);
+		};
+
+		featureSearchBackground->TransformReady(whenReady);
+	}
 }
 
 FeatureSearchTool::~FeatureSearchTool()
@@ -33,7 +40,12 @@ FeatureSearchTool::~FeatureSearchTool()
 
 void FeatureSearchTool::Enable()
 {
+	featureSearchBackground->InquireVisibility(UserInterfaceItem::Visibility::Visible);
+}
 
+void FeatureSearchTool::Disable()
+{
+	featureSearchBackground->InquireVisibility(UserInterfaceItem::Visibility::Invisible);
 }
 
 void FeatureSearchTool::InitializeFeatureNamesSet()
@@ -45,7 +57,6 @@ void FeatureSearchTool::InitializeFeatureNamesSet()
 
 void FeatureSearchTool::LoadFeatureSearchToolModels() const
 {
-	//ModelManager::LoadModel();
 }
 
 void FeatureSearchTool::UpdateUserInterfaceItemsVisibility()

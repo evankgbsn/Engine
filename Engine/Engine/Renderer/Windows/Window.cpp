@@ -38,6 +38,7 @@
 #include "../Images/TextureManager.h"
 #include "../../Input/InputManager.h"
 #include "../../UI/UserInterfaceManager.h"
+#include "../../UI/Editor/Editor.h"
 
 #include "glm/gtc/matrix_transform.hpp"
 

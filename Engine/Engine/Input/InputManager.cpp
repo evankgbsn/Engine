@@ -214,6 +214,18 @@ void InputManager::ProcessKeyEvents() const
 							(*func)();
 						}
 					}
+
+					//if (state)
+					//{
+					//case GLFW_PRESS:
+					//	break;
+					//case GLFW_RELEASE:
+					//	break;
+					//case GLFW_REPEAT:
+					//	break;
+					//default:
+					//	break;
+					//}
 				}
 			}
 		}

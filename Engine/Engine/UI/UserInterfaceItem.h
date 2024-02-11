@@ -67,8 +67,6 @@ private:
 
 	UserInterfaceItem() = delete;
 
-	void UpdateGraphicsObjectsVisibilty();
-
 	static std::function<void()> emptyFunctionObject;
 
 	bool transformReady;
@@ -86,6 +84,8 @@ private:
 	float angle;
 
 	Visibility currentVisibility;
+
+	std::list<std::function<void()>> graphicsObjectReadyCallbacks;
 };
 
 #endif // USERINTERFACEITEM_H

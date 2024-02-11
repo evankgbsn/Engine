@@ -2,6 +2,7 @@
 #define EDITOR_H
 
 class UserInterfaceItem;
+class FeatureSearchTool;
 
 class Editor
 {
@@ -11,6 +12,14 @@ public:
 	static void Initialize();
 	
 	static void Terminate();
+
+	static bool Operating();
+
+	static void Open();
+
+	static void Close();
+
+	static bool IsOpen();
 
 	Editor(const Editor&) = delete;
 
@@ -28,6 +37,11 @@ private:
 
 	static Editor* instance;
 
+	FeatureSearchTool* const featureSearchTool;
+
+	bool operating;
+
+	bool open;
 };
 
 

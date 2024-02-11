@@ -8,6 +8,7 @@
 #include "Scene/SceneManager.h"
 #include "Network/NetworkManager.h"
 #include "Input/InputManager.h"
+#include "UI/Editor/Editor.h"
 
 Engine* Engine::instance = nullptr;
 
@@ -19,6 +20,7 @@ void Engine::Initialize(const std::string& gameName, const Version& gameVersion)
 		instance = new Engine(gameName, gameVersion);
 		Renderer::Initialize();
 		InputManager::Initialize();
+		instance->InitializeEditor();
 		Logger::Log(std::string("Initialized Engine"), Logger::Category::Success);
 		Logger::Log(std::string("Engine Version: ") + instance->engineVersion.ToString());
 		Logger::Log(std::string("Game Version: ") + instance->gameVersion.ToString());
@@ -120,7 +122,8 @@ Engine::Engine(const std::string& gn, const Version& gv) :
 	gameName(gn),
 	gameVersion(gv),
 	engineVersion(Version(1,0,0)),
-	spawnedGameThreads(std::unordered_map<void(*)(), std::thread*>())
+	spawnedGameThreads(std::unordered_map<void(*)(), std::thread*>()),
+	toggleEditorFunction(nullptr)
 {
 	TimeManager::Initialize();
 	//NetworkManager::Initialize();
@@ -129,6 +132,11 @@ Engine::Engine(const std::string& gn, const Version& gv) :
 
 Engine::~Engine()
 {
+	if (toggleEditorFunction != nullptr)
+	{
+		delete toggleEditorFunction;
+	}
+
 	for (std::pair<void(* const)(), std::thread*>& thread : spawnedGameThreads)
 	{
 		if(thread.second->joinable())
@@ -158,4 +166,22 @@ void Engine::SpawnAndDetachGameThread()
 void Engine::LoadAssets()
 {
 	loadAssetsFunc();
+}
+
+void Engine::InitializeEditor()
+{
+	toggleEditorFunction = new std::function<void()> ([]()
+	{
+		if (!Editor::Operating())
+		{
+			Editor::Initialize();
+		}
+
+		//if (Editor::IsOpen())
+		//	Editor::Close();
+		//else
+		//	Editor::Open();
+	});
+
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_PAUSE, toggleEditorFunction);
 }

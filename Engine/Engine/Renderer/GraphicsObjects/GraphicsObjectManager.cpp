@@ -322,7 +322,7 @@ void GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(Model* const mo
 		if (model != nullptr && texture != nullptr)
 		{
 			newGraphicsObject = new TexturedStatic2DGraphicsObject(model, texture);
-			instance->texturedStaticGraphicsObjects.push_back(newGraphicsObject);
+			instance->texturedStatic2DGraphicsObjects.push_back(newGraphicsObject);
 			callback(newGraphicsObject);
 		}
 	};

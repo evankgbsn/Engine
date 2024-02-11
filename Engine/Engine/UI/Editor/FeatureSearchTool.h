@@ -26,6 +26,8 @@ public:
 
 	void Enable();
 
+	void Disable();
+
 private:
 	
 	void InitializeFeatureNamesSet();

@@ -5,6 +5,7 @@
 #include <mutex>
 #include <thread>
 #include <unordered_map>
+#include <functional>
 
 class Engine
 {
@@ -70,6 +71,8 @@ private:
 
 	void LoadAssets();
 
+	void InitializeEditor();
+
 	// The single instance of the Engine class.
 	static Engine* instance;
 
@@ -91,6 +94,8 @@ private:
 	std::unordered_map<void(*)(), std::thread*> spawnedGameThreads;
 
 	void(*loadAssetsFunc)() = nullptr;
+
+	std::function<void()>* toggleEditorFunction = nullptr;
 };
 
 #endif // ENGINE_H

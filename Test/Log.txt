@@ -13,10 +13,15 @@ Info: Supported Vulkan Instance Extensions:
 	VK_EXT_debug_report
 	VK_EXT_debug_utils
 	VK_EXT_swapchain_colorspace
+	VK_KHR_display
+	VK_KHR_get_display_properties2
+	VK_KHR_surface_protected_capabilities
+	VK_EXT_direct_mode_display
+	VK_NV_external_memory_capabilities
 	VK_KHR_portability_enumeration
-	VK_LUNARG_direct_driver_loading
 Info: Supported Vulkan Instance Layers: 
 	VK_LAYER_AMD_switchable_graphics
+	VK_LAYER_NV_optimus
 	VK_LAYER_OBS_HOOK
 	VK_LAYER_OBS_HOOK
 	VK_LAYER_LUNARG_api_dump
@@ -29,13 +34,13 @@ Info: Supported Vulkan Instance Layers:
 Success: Created the vulkan instance
 Success: Created the vulkan debug messenger
 Info: Vulkan Physical Devices: 
-	AMD Radeon RX 6650 XT Device Properties: 
-		API Version: 0.1.3.270
-		DeviceID: 29679
+	NVIDIA GeForce RTX 3060 Laptop GPU Device Properties: 
+		API Version: 0.1.3.236
+		DeviceID: 9504
 		Device Type: Discrete GPU
-		Driver Version: 0.2.0.294
+		Driver Version: 4.19.272.0
 		Limits: 
-			Buffer Image Granularity: 1
+			Buffer Image Granularity: 1024
 			Discrete Queue Priorities: 2
 			Framebuffer Color Sample Counts: 
 				VK_SAMPLE_COUNT_1_BIT
@@ -52,121 +57,123 @@ Info: Vulkan Physical Devices:
 				VK_SAMPLE_COUNT_2_BIT
 				VK_SAMPLE_COUNT_4_BIT
 				VK_SAMPLE_COUNT_8_BIT
+				VK_SAMPLE_COUNT_16_BIT
 			Framebuffer Stencil Sample Counts: 
 				VK_SAMPLE_COUNT_1_BIT
 				VK_SAMPLE_COUNT_2_BIT
 				VK_SAMPLE_COUNT_4_BIT
 				VK_SAMPLE_COUNT_8_BIT
-			Line Width Granularity: 0.125000
-			Line Width Range: 0.000000 : 8191.875000
+				VK_SAMPLE_COUNT_16_BIT
+			Line Width Granularity: 0.062500
+			Line Width Range: 1.000000 : 64.000000
 			Max Bound Descriptor Sets: 32
 			Max Clip Distances: 8
 			Max Color Attachments: 8
 			Max Combined Clip and Cull Distances: 8
-			Max Compute Shared Memory Size: 32768
-			Max Compute Work Group Count: 4294967295 65535 65535
+			Max Compute Shared Memory Size: 49152
+			Max Compute Work Group Count: 2147483647 65535 65535
 			Max Compute Work Group Invocations: 1024
-			Max Compute Work Group Size: 1024 1024 1024
+			Max Compute Work Group Size: 1024 1024 64
 			Max Cull Distances: 8
-			Max Descriptor Set Input Attachments: 4294967295
-			Max Descriptor Set Sampled Images: 4294967295
-			Max Descriptor Set Samplers: 4294967295
-			Max Descriptor Set Storage Buffers: 4294967295
-			Max Descriptor Set Storage Buffers Dynamic: 8
-			Max Descriptor Set Storage Images: 4294967295
-			Max Descriptor Set Storage Uniform Buffers: 4294967295
-			Max Descriptor Set Storage Uniform Buffers Dynamic: 8
+			Max Descriptor Set Input Attachments: 1048576
+			Max Descriptor Set Sampled Images: 1048576
+			Max Descriptor Set Samplers: 1048576
+			Max Descriptor Set Storage Buffers: 1048576
+			Max Descriptor Set Storage Buffers Dynamic: 16
+			Max Descriptor Set Storage Images: 1048576
+			Max Descriptor Set Storage Uniform Buffers: 1048576
+			Max Descriptor Set Storage Uniform Buffers Dynamic: 15
 			Max Draw Indexed Index Value: 4294967295
 			Max Draw Indirect Count: 4294967295
 			Max Fragment Combined Output Resources: 4294967295
 			Max Fragment Dual Src Attachments: 1
 			Max Fragment Input Components: 128
 			Max Fragment Output Attachments: 8
-			Max Framebuffer Height: 16384
-			Max Framebuffer Layers: 8192
-			Max Framebuffer Width: 16384
+			Max Framebuffer Height: 32768
+			Max Framebuffer Layers: 2048
+			Max Framebuffer Width: 32768
 			Max Geometry Input Components: 128
 			Max Geometry Output Components: 128
-			Max Geometry Output Vertices: 1023
-			Max Geometry Shader Invocations: 126
-			Max Geometry Total Output Components: 4095
-			Max Image Array Layers: 8192
-			Max Image Dimension 1D: 16384
-			Max Image Dimension 2D: 16384
-			Max Image Dimension 3D: 8192
-			Max Image Dimension Cube: 16384
-			Max Interpolation Offset: 1.000000
+			Max Geometry Output Vertices: 1024
+			Max Geometry Shader Invocations: 32
+			Max Geometry Total Output Components: 1024
+			Max Image Array Layers: 2048
+			Max Image Dimension 1D: 32768
+			Max Image Dimension 2D: 32768
+			Max Image Dimension 3D: 16384
+			Max Image Dimension Cube: 32768
+			Max Interpolation Offset: 0.437500
 			Max Memory Allocation Count: 4096
-			Max PerStage Descriptor Input Attachments: 4294967295
-			Max Per Stage Descriptor Sampled Images: 4294967295
-			Max Per Stage Descriptor Samplers: 4294967295
-			Max Per Stage Descriptor Storage Buffers: 4294967295
-			Max Per Stage Descriptor Storage Images: 4294967295
-			Max Per Stage Descriptor Uniform Buffers: 4294967295
+			Max PerStage Descriptor Input Attachments: 1048576
+			Max Per Stage Descriptor Sampled Images: 1048576
+			Max Per Stage Descriptor Samplers: 1048576
+			Max Per Stage Descriptor Storage Buffers: 1048576
+			Max Per Stage Descriptor Storage Images: 1048576
+			Max Per Stage Descriptor Uniform Buffers: 1048576
 			Max Per Stage Resources: 4294967295
-			Max Push Constants Size: 128
+			Max Push Constants Size: 256
 			Max Sample Mask Words: 1
-			Max Sampler Allocation Count: 1048576
+			Max Sampler Allocation Count: 4000
 			Max Sampler Anisotropy: 16.000000
-			Max Sampler Lod Bias: 15.996094
+			Max Sampler Lod Bias: 15.000000
 			Max Storage Buffer Range: 4294967295
 			Max Tessellation Control Per Patch Output Components: 120
 			Max Tessellation Control Per Vertex Input Components: 128
 			Max Tessellation Control Per Vertex Output Components: 128
-			Max Tessellation Control Total Output Components: 4096
+			Max Tessellation Control Total Output Components: 4216
 			Max Tessellation Evaluation Input Components: 128
 			Max Tessellation Evaluation Output Components: 128
 			Max Tessellation Generation Level: 64
 			Max Tessellation Patch Size: 32
-			Max Texel Buffer Elements: 4294967295
+			Max Texel Buffer Elements: 134217728
 			Max Texel Gather Offset: 31
-			Max Texel Offset: 63
-			Max Uniform Buffer Range: 4294967295
-			Max Vertex Input Attribute Offset: 4294967295
-			Max Vertex Input Attributes: 64
+			Max Texel Offset: 7
+			Max Uniform Buffer Range: 65536
+			Max Vertex Input Attribute Offset: 2047
+			Max Vertex Input Attributes: 32
 			Max Vertex Input Bindings: 32
-			Max Vertex Input Bindings Stride: 16383
+			Max Vertex Input Bindings Stride: 2048
 			Max Vertex Output Components: 128
-			Max Viewport Dimensions: 16384 : 16384
+			Max Viewport Dimensions: 32768 : 32768
 			Max Viewports: 16
-			Min Interpolation Offset: -2.000000
+			Min Interpolation Offset: -0.500000
 			Min Memory Map Alignment: 64
-			Min Storage Buffer Offset Alignment: 4
-			Min Texel Buffer Offset Alignment: 4
+			Min Storage Buffer Offset Alignment: 16
+			Min Texel Buffer Offset Alignment: 16
 			Min Texel Gather Offset: -32
-			Min Texel Offset: -64
-			Min Uniform Buffer Offset Alignment: 16
+			Min Texel Offset: -8
+			Min Uniform Buffer Offset Alignment: 64
 			Mipmap Precision Bits: 8
-			Non Coherent Atom Size: 128
+			Non Coherent Atom Size: 64
 			Optimal Buffer Copy Offset Alignment: 1
 			Optimal Buffer Copy Row Pitch Alignment: 1
-			Point Size Range: 0.000000 : 8191.875000
-			Point Size Granularity: 0.125000
+			Point Size Range: 1.000000 : 2047.937500
+			Point Size Granularity: 0.062500
 			Sampled Image Color Sample Counts: 15
 			Sampled Image Depth Sample Counts: 15
 			Sampled Image Integer Sample Counts: 15
-			Sampled Image Stencil Sample Counts: 15
-			Sparse Address SpaceSize: 140707423584256
+			Sampled Image Stencil Sample Counts: 31
+			Sparse Address SpaceSize: 1099511627775
 			Standard Sample Locations: 1
 			Storage Image Sample Counts: 15
-			Strict Lines: 0
-			Sub Pixel Interpolation Offset Bits: 8
+			Strict Lines: 1
+			Sub Pixel Interpolation Offset Bits: 4
 			Sub Pixel Precision Bits: 8
 			Sub Texel Precision Bits: 8
 			Timestamp Compute and Graphics: 1
-			Timestamp Period: 10.000000
-			Viewport Bounds Range: -32768.000000 : 32767.000000
+			Timestamp Period: 1.000000
+			Viewport Bounds Range: -65536.000000 : 65536.000000
 			Viewport Sub Pixel Bits: 8
-		Pipeline Cache UUID: 64 68 188 106 42 103 82 119 174 230 197 16 225 255 190 17 
+		Pipeline Cache UUID: 221 203 162 51 113 185 12 224 198 34 124 228 92 3 70 237 
 		Sparse Properties: 
 			Residency Aligned Mip Size: 0
 			Residency Non Resident Strict: 1
 			Residency Standard 2D Block Shape: 1
-			Residency Standard 2D Multisample Block Shape: 0
+			Residency Standard 2D Multisample Block Shape: 1
 			Residency Standard 3D Block Shape: 1
-		VendorID: 4098
+		VendorID: 4318
 	 Device Features: 
-		Alpha To One: 0
+		Alpha To One: 1
 		Depth Bias Clamp: 1
 		Depth Bounds: 1
 		Depth Clamp: 1
@@ -206,10 +213,10 @@ Info: Vulkan Physical Devices:
 		Shader Tessellation and Geometry Point Size: 1
 		Shader Uniform Buffer Array Dynamic Indexing: 1
 		Sparse Binding: 1
-		Sparse Residency 16 Samples: 0
-		Sparse Residency 2 Samples: 0
-		Sparse Residency 4 Samples: 0
-		Sparse Residency 8 Samples: 0
+		Sparse Residency 16 Samples: 1
+		Sparse Residency 2 Samples: 1
+		Sparse Residency 4 Samples: 1
+		Sparse Residency 8 Samples: 1
 		Sparse Residency Aliased: 1
 		Sparse Residency Buffer: 1
 		Sparse Residency Image 2D: 1
@@ -221,10 +228,10 @@ Info: Vulkan Physical Devices:
 		Variable Multisample Rate: 1
 		Vertex Pipeline Stores and Atomics: 1
 		Wide Lines: 1AMD Radeon(TM) Graphics Device Properties: 
-		API Version: 0.1.3.270
-		DeviceID: 5710
+		API Version: 0.1.3.217
+		DeviceID: 5761
 		Device Type: Integrated GPU
-		Driver Version: 0.2.0.294
+		Driver Version: 0.2.0.233
 		Limits: 
 			Buffer Image Granularity: 1
 			Discrete Queue Priorities: 2
@@ -254,8 +261,8 @@ Info: Vulkan Physical Devices:
 			Max Clip Distances: 8
 			Max Color Attachments: 8
 			Max Combined Clip and Cull Distances: 8
-			Max Compute Shared Memory Size: 32768
-			Max Compute Work Group Count: 4294967295 65535 65535
+			Max Compute Shared Memory Size: 65536
+			Max Compute Work Group Count: 65535 65535 65535
 			Max Compute Work Group Invocations: 1024
 			Max Compute Work Group Size: 1024 1024 1024
 			Max Cull Distances: 8
@@ -279,7 +286,7 @@ Info: Vulkan Physical Devices:
 			Max Geometry Input Components: 128
 			Max Geometry Output Components: 128
 			Max Geometry Output Vertices: 1023
-			Max Geometry Shader Invocations: 126
+			Max Geometry Shader Invocations: 127
 			Max Geometry Total Output Components: 4095
 			Max Image Array Layers: 8192
 			Max Image Dimension 1D: 16384
@@ -337,7 +344,7 @@ Info: Vulkan Physical Devices:
 			Sampled Image Depth Sample Counts: 15
 			Sampled Image Integer Sample Counts: 15
 			Sampled Image Stencil Sample Counts: 15
-			Sparse Address SpaceSize: 140724603453440
+			Sparse Address SpaceSize: 17579301142528
 			Standard Sample Locations: 1
 			Storage Image Sample Counts: 15
 			Strict Lines: 0
@@ -348,7 +355,7 @@ Info: Vulkan Physical Devices:
 			Timestamp Period: 10.000000
 			Viewport Bounds Range: -32768.000000 : 32767.000000
 			Viewport Sub Pixel Bits: 8
-		Pipeline Cache UUID: 193 111 79 57 85 60 89 83 135 232 76 198 51 190 9 98 
+		Pipeline Cache UUID: 91 72 172 23 50 193 94 150 162 126 220 149 107 83 177 190 
 		Sparse Properties: 
 			Residency Aligned Mip Size: 0
 			Residency Non Resident Strict: 1
@@ -420,20 +427,23 @@ Info: Game Version: 1.0.0
 Success: Engine::SetGameThreadFunc success
 Success: Initialized LightManager
 Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
-Info: Present Mode Immediate available
 Info: Present Mode FIFO available
 Info: Present Mode FIFO Relaxed available
-Warning: Present Mode set to FIFO Relaxed
+Info: Present Mode Mailbox available
+Info: Present Mode Immediate available
+Success: Present Mode set to Mailbox
 Info: General: Inserted device layer "VK_LAYER_KHRONOS_validation" (C:\VulkanSDK\1.3.239.0\Bin\.\VkLayer_khronos_validation.dll)
 Info: General: Inserted device layer "VK_LAYER_OBS_HOOK" (C:\ProgramData\obs-studio-hook\.\graphics-hook64.dll)
-Info: General: Failed to find vkGetDeviceProcAddr in layer "C:\WINDOWS\System32\DriverStore\FileRepository\u0399879.inf_amd64_85af875c6f6cd815\B399690\.\amdvlk64.dll"
-Info: General:        Using "AMD Radeon RX 6650 XT" with driver: "C:\WINDOWS\System32\DriverStore\FileRepository\u0399879.inf_amd64_85af875c6f6cd815\B399690\.\amdvlk64.dll"
-Success: Created logical device using AMD Radeon RX 6650 XT
+Info: General: Inserted device layer "VK_LAYER_NV_optimus" (C:\WINDOWS\System32\DriverStore\FileRepository\nvam.inf_amd64_02c0ef7507ca16d0\.\nvoglv64.dll)
+Info: General: Failed to find vkGetDeviceProcAddr in layer "C:\WINDOWS\System32\DriverStore\FileRepository\u0383113.inf_amd64_9242eb4af0e982f6\B383140\.\amdvlk64.dll"
+Info: General:        Using "NVIDIA GeForce RTX 3060 Laptop GPU" with driver: "C:\WINDOWS\System32\DriverStore\FileRepository\nvam.inf_amd64_02c0ef7507ca16d0\.\nvoglv64.dll"
+
+Success: Created logical device using NVIDIA GeForce RTX 3060 Laptop GPU
 Info: Min sawpchain images: 2
-Info: Max swapchain images: 16
+Info: Max swapchain images: 8
 Info: Image sharing mode set to exclusive for swapchain
 Success: Created swapchain with 3 images
-Success: AMD Radeon RX 6650 XT has been chosen as the rendering device.
+Success: NVIDIA GeForce RTX 3060 Laptop GPU has been chosen as the rendering device.
 Success: Loaded Texture ../Engine/Engine/Renderer/Images/DefaultFontTexture.png
 Success: Loaded shader Gooch.fragspv
 Success: Loaded shader Gooch.vertspv
@@ -452,256 +462,3 @@ Success: Created a graphics pipeline
 Success: Created a graphics pipeline
 Success: Created a graphics pipeline
 Success: Initialized UserInterfaceManager
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Ampersand.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Asterisk.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/At.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Backward.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Carrot.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/CloseBraket.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/CloseMagnitudeEvaluation.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/CloseParenthese.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Colon.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Comma.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Dollar.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Eight.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Equal.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Exclaimation.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Five.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Forward.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Four.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseA.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseB.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseC.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseD.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseE.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseF.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseG.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseH.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseI.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseJ.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseK.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseL.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseM.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseN.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseO.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseP.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseQ.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseR.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseS.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseT.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseU.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseV.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseW.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseX.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseY.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseZ.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Minus.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Nine.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/One.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/OpenBraket.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/OpenMagnitudeEvaluation.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/OpenParenthese.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Percent.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Period.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Pipe.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Plus.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Pound.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Question.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Quotation.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/SemiColon.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Seven.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Six.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Three.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Tilda.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Two.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseA.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseB.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseC.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseD.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseE.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseF.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseG.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseH.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseI.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseJ.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseK.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseL.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseM.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseN.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseO.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseP.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseQ.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseR.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseS.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseT.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseU.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseV.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseW.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseX.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseY.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseZ.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Zero.gltf
-Success: Loaded Texture ../Engine/Engine/Renderer/Images/Woman.png
-Success: Loaded Texture ../Engine/Engine/Renderer/Images/Woman1.png
-Success: Loaded Texture ../Engine/Engine/Renderer/Images/Woman2.png
-Success: Loaded Texture ../Engine/Engine/Renderer/Images/Woman3.png
-Success: Loaded Texture ../Engine/Engine/Renderer/Images/Cruiser.png
-Success: Loaded Texture ../Engine/Engine/Renderer/Images/VikingRoom.png
-Success: Loaded Texture ../Engine/Engine/Renderer/Images/HumanStatic.png
-Success: Loaded Texture ../Engine/Engine/Renderer/Images/Skybox2.png
-Success: Loaded Texture ../Engine/Engine/Renderer/Images/Coco.png
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Woman.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Cruiser.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/CruiserAnim.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/NewBall.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Cube.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Skybox.gltf
-Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Human.gltf
-Success: Registered press callback for key code 284
-Info: Added subitem DefaultLowercaseA
-Info: Added subitem DefaultUppercaseB
-Info: Added subitem DefaultLowercaseB
-Info: Added subitem DefaultUppercaseC
-Info: Added subitem DefaultLowercaseC
-Info: Added subitem DefaultUppercaseD
-Info: Added subitem DefaultLowercaseD
-Info: Added subitem DefaultUppercaseE
-Info: Added subitem DefaultLowercaseE
-Info: Added subitem DefaultUppercaseF
-Info: Added subitem DefaultLowercaseF
-Info: Added subitem DefaultUppercaseG
-Info: Added subitem DefaultLowercaseG
-Info: Added subitem DefaultUppercaseH
-Info: Added subitem DefaultLowercaseH
-Info: Added subitem DefaultUppercaseI
-Info: Added subitem DefaultLowercaseI
-Info: Added subitem DefaultUppercaseJ
-Info: Added subitem DefaultLowercaseJ
-Info: Added subitem DefaultUppercaseK
-Info: Added subitem DefaultLowercaseK
-Info: Added subitem DefaultUppercaseL
-Info: Added subitem DefaultLowercaseL
-Info: Added subitem DefaultUppercaseM
-Info: Added subitem DefaultLowercaseM
-Info: Added subitem DefaultUppercaseN
-Info: Added subitem DefaultLowercaseN
-Info: Added subitem DefaultUppercaseO
-Info: Added subitem DefaultLowercaseO
-Info: Added subitem DefaultUppercaseP
-Info: Added subitem DefaultLowercaseP
-Info: Added subitem DefaultUppercaseQ
-Info: Added subitem DefaultLowercaseQ
-Info: Added subitem DefaultUppercaseR
-Info: Added subitem DefaultLowercaseR
-Info: Added subitem DefaultUppercaseS
-Info: Added subitem DefaultLowercaseS
-Info: Added subitem DefaultUppercaseT
-Info: Added subitem DefaultLowercaseT
-Info: Added subitem DefaultUppercaseU
-Info: Added subitem DefaultLowercaseU
-Info: Added subitem DefaultUppercaseV
-Info: Added subitem DefaultLowercaseV
-Info: Added subitem DefaultUppercaseW
-Info: Added subitem DefaultLowercaseW
-Info: Added subitem DefaultUppercaseX
-Info: Added subitem DefaultLowercaseX
-Info: Added subitem DefaultUppercaseY
-Info: Added subitem DefaultLowercaseY
-Info: Added subitem DefaultUppercaseZ
-Info: Added subitem DefaultLowercaseZ
-Info: Added subitem DefaultOne
-Info: Added subitem DefaultTwo
-Info: Added subitem DefaultThree
-Info: Added subitem DefaultFour
-Info: Added subitem DefaultFive
-Info: Added subitem DefaultSix
-Info: Added subitem DefaultSeven
-Info: Added subitem DefaultEight
-Info: Added subitem DefaultNine
-Info: Added subitem DefaultForward
-Info: Added subitem DefaultPipe
-Info: Added subitem DefaultBackward
-Info: Added subitem DefaultOpenBraket
-Info: Added subitem DefaultCloseBraket
-Info: Added subitem DefaultOpenParenthese
-Info: Added subitem DefaultCloseParenthese
-Info: Added subitem DefaultComma
-Info: Added subitem DefaultPeriod
-Info: Added subitem DefaultColon
-Info: Added subitem DefaultSemiColon
-Info: Added subitem DefaultQuotation
-Info: Added subitem DefaultOpenMagnitudeEvaluation
-Info: Added subitem DefaultCloseMagnitudeEvaluation
-Info: Added subitem DefaultMinus
-Info: Added subitem DefaultPlus
-Info: Added subitem DefaultAsterisk
-Info: Added subitem DefaultAmpersand
-Info: Added subitem DefaultCarrot
-Info: Added subitem DefaultPercent
-Info: Added subitem DefaultDollar
-Info: Added subitem DefaultPound
-Info: Added subitem DefaultAt
-Info: Added subitem DefaultExclaimation
-Info: Added subitem DefaultEqual
-Info: Added subitem DefaultUppercaseA
-Success: Registered press callback for key code 76
-Success: Registered press callback for key code 87
-Success: Registered press callback for key code 65
-Success: Registered press callback for key code 83
-Success: Registered press callback for key code 68
-Success: Registered press callback for key code 81
-Success: Registered press callback for key code 69
-Success: Registered press callback for key code 341
-Success: Registered press callback for key code 32
-Success: Created UserInterfaceItem: FeatureSearchToolBackground
-Success: Initialzed Editor
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Success: Termiated UserInterfaceManager
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Success: Terminated SceneManager
-Success: Terminated InputManager
-Success: Terminated WindowManager
-Success: Terminated Renderer
-Success: Terminated TimeManager.
-Success: Terminated Engine

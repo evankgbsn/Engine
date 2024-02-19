@@ -263,7 +263,7 @@ void NetworkManager::InitializeWinsockClient()
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_protocol = IPPROTO_TCP;
 
-	char ip[14] = "192.168.1.110";
+	char ip[14] = "127.0.0.1";
 	//int count = scanf_s("%9s", &ip, (unsigned int)_countof(ip));
 
 	iResult = getaddrinfo(ip, clientPort, &hints, &result);

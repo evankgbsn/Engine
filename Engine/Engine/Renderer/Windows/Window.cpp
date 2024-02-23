@@ -4,6 +4,7 @@
 #include <unordered_set>
 #include <stdexcept>
 #include <chrono>
+#include <unordered_set>
 
 #include <GLFW/glfw3.h>
 
@@ -541,7 +542,36 @@ bool Window::GetCursorMoved(glm::vec2& outNewPosition) const
 
 int Window::GetKey(int keyCode) const
 {
-	return glfwGetKey(window, keyCode);
+	static std::unordered_set<int> pressedKeys = {};
+	static std::unordered_set<int> releasedKeys = {};
+
+	int getKeyResult = glfwGetKey(window, keyCode);
+
+	if (getKeyResult == KEY_PRESS)
+	{
+
+		if(!pressedKeys.contains(keyCode))
+			pressedKeys.insert(keyCode);
+
+		if (releasedKeys.contains(keyCode))
+			releasedKeys.erase(releasedKeys.find(keyCode));
+		else
+			getKeyResult = KEY_PRESSED;
+
+	}
+	else if (getKeyResult == KEY_RELEASE)
+	{
+		if(!releasedKeys.contains(keyCode))
+			releasedKeys.insert(keyCode);
+
+		if (pressedKeys.contains(keyCode))
+			pressedKeys.erase(pressedKeys.find(keyCode));
+		else
+			getKeyResult = KEY_RELEASED;
+
+	}
+	
+	return getKeyResult;
 }
 
 void Window::Draw()

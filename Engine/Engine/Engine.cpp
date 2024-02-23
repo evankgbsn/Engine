@@ -176,12 +176,15 @@ void Engine::InitializeEditor()
 		{
 			Editor::Initialize();
 		}
-
-		//if (Editor::IsOpen())
-		//	Editor::Close();
-		//else
-		//	Editor::Open();
+		else if (Editor::IsOpen())
+		{
+			Editor::Close();
+		}
+		else
+		{
+			Editor::Open();
+		}
 	});
 
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_PAUSE, toggleEditorFunction);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_ESCAPE, toggleEditorFunction);
 }

@@ -462,3 +462,246 @@ Success: Created a graphics pipeline
 Success: Created a graphics pipeline
 Success: Created a graphics pipeline
 Success: Initialized UserInterfaceManager
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Ampersand.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Asterisk.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/At.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Backward.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Carrot.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/CloseBraket.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/CloseMagnitudeEvaluation.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/CloseParenthese.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Colon.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Comma.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Dollar.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Eight.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Equal.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Exclaimation.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Five.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Forward.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Four.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseA.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseB.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseC.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseD.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseE.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseF.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseG.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseH.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseI.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseJ.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseK.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseL.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseM.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseN.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseO.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseP.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseQ.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseR.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseS.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseT.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseU.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseV.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseW.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseX.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseY.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/LowercaseZ.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Minus.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Nine.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/One.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/OpenBraket.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/OpenMagnitudeEvaluation.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/OpenParenthese.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Percent.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Period.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Pipe.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Plus.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Pound.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Question.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Quotation.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/SemiColon.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Seven.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Six.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Three.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Tilda.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Two.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseA.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseB.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseC.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseD.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseE.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseF.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseG.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseH.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseI.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseJ.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseK.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseL.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseM.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseN.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseO.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseP.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseQ.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseR.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseS.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseT.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseU.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseV.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseW.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseX.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseY.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/UppercaseZ.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Fonts/Default/Zero.gltf
+Success: Loaded Texture ../Engine/Engine/Renderer/Images/Woman.png
+Success: Loaded Texture ../Engine/Engine/Renderer/Images/Woman1.png
+Success: Loaded Texture ../Engine/Engine/Renderer/Images/Woman2.png
+Success: Loaded Texture ../Engine/Engine/Renderer/Images/Woman3.png
+Success: Loaded Texture ../Engine/Engine/Renderer/Images/Cruiser.png
+Success: Loaded Texture ../Engine/Engine/Renderer/Images/VikingRoom.png
+Success: Loaded Texture ../Engine/Engine/Renderer/Images/HumanStatic.png
+Success: Loaded Texture ../Engine/Engine/Renderer/Images/Skybox2.png
+Success: Loaded Texture ../Engine/Engine/Renderer/Images/Coco.png
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Woman.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Cruiser.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/CruiserAnim.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/NewBall.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Cube.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Skybox.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Human.gltf
+Success: Registered press callback for key code 256
+Info: Added subitem DefaultLowercaseA
+Info: Added subitem DefaultUppercaseB
+Info: Added subitem DefaultLowercaseB
+Info: Added subitem DefaultUppercaseC
+Info: Added subitem DefaultLowercaseC
+Info: Added subitem DefaultUppercaseD
+Info: Added subitem DefaultLowercaseD
+Info: Added subitem DefaultUppercaseE
+Info: Added subitem DefaultLowercaseE
+Info: Added subitem DefaultUppercaseF
+Info: Added subitem DefaultLowercaseF
+Info: Added subitem DefaultUppercaseG
+Info: Added subitem DefaultLowercaseG
+Info: Added subitem DefaultUppercaseH
+Info: Added subitem DefaultLowercaseH
+Info: Added subitem DefaultUppercaseI
+Info: Added subitem DefaultLowercaseI
+Info: Added subitem DefaultUppercaseJ
+Info: Added subitem DefaultLowercaseJ
+Info: Added subitem DefaultUppercaseK
+Info: Added subitem DefaultLowercaseK
+Info: Added subitem DefaultUppercaseL
+Info: Added subitem DefaultLowercaseL
+Info: Added subitem DefaultUppercaseM
+Info: Added subitem DefaultLowercaseM
+Info: Added subitem DefaultUppercaseN
+Info: Added subitem DefaultLowercaseN
+Info: Added subitem DefaultUppercaseO
+Info: Added subitem DefaultLowercaseO
+Info: Added subitem DefaultUppercaseP
+Info: Added subitem DefaultLowercaseP
+Info: Added subitem DefaultUppercaseQ
+Info: Added subitem DefaultLowercaseQ
+Info: Added subitem DefaultUppercaseR
+Info: Added subitem DefaultLowercaseR
+Info: Added subitem DefaultUppercaseS
+Info: Added subitem DefaultLowercaseS
+Info: Added subitem DefaultUppercaseT
+Info: Added subitem DefaultLowercaseT
+Info: Added subitem DefaultUppercaseU
+Info: Added subitem DefaultLowercaseU
+Info: Added subitem DefaultUppercaseV
+Info: Added subitem DefaultLowercaseV
+Info: Added subitem DefaultUppercaseW
+Info: Added subitem DefaultLowercaseW
+Info: Added subitem DefaultUppercaseX
+Info: Added subitem DefaultLowercaseX
+Info: Added subitem DefaultUppercaseY
+Info: Added subitem DefaultLowercaseY
+Info: Added subitem DefaultUppercaseZ
+Info: Added subitem DefaultLowercaseZ
+Info: Added subitem DefaultOne
+Info: Added subitem DefaultTwo
+Info: Added subitem DefaultThree
+Info: Added subitem DefaultFour
+Info: Added subitem DefaultFive
+Info: Added subitem DefaultSix
+Info: Added subitem DefaultSeven
+Info: Added subitem DefaultEight
+Info: Added subitem DefaultNine
+Info: Added subitem DefaultForward
+Info: Added subitem DefaultPipe
+Info: Added subitem DefaultBackward
+Info: Added subitem DefaultOpenBraket
+Info: Added subitem DefaultCloseBraket
+Info: Added subitem DefaultOpenParenthese
+Info: Added subitem DefaultCloseParenthese
+Info: Added subitem DefaultComma
+Info: Added subitem DefaultPeriod
+Info: Added subitem DefaultColon
+Info: Added subitem DefaultSemiColon
+Info: Added subitem DefaultQuotation
+Info: Added subitem DefaultOpenMagnitudeEvaluation
+Info: Added subitem DefaultCloseMagnitudeEvaluation
+Info: Added subitem DefaultMinus
+Info: Added subitem DefaultPlus
+Info: Added subitem DefaultAsterisk
+Info: Added subitem DefaultAmpersand
+Info: Added subitem DefaultCarrot
+Info: Added subitem DefaultPercent
+Info: Added subitem DefaultDollar
+Info: Added subitem DefaultPound
+Info: Added subitem DefaultAt
+Info: Added subitem DefaultExclaimation
+Info: Added subitem DefaultEqual
+Info: Added subitem DefaultUppercaseA
+Success: Created UserInterfaceItem: FeatureSearchToolBackground
+Success: Initialzed Editor
+Info: Opened Editor
+Info: Closed Editor
+Info: Opened Editor
+Info: Closed Editor
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Success: Termiated UserInterfaceManager
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Success: Terminated SceneManager
+Success: Terminated InputManager
+Success: Terminated WindowManager
+Success: Terminated Renderer
+Success: Terminated TimeManager.
+Success: Terminated Engine

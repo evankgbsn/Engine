@@ -187,5 +187,6 @@ private:
 #define KEY_RELEASE            0
 #define KEY_PRESS              1
 #define KEY_PRESSED            2
+#define KEY_RELEASED		   3
 
 #endif // INPUTMANAGER_H

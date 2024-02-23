@@ -239,13 +239,13 @@ void SetInput()
 		cam.Rotate(cam.GetUpVector(), -rotSpeed);
 	});
 
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_L, lPress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_W, wPress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_A, aPress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_S, sPress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_D, dPress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_Q, qPress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_E, ePress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_LEFT_CTRL, lctrPress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_SPACE, spacePress);
+	//InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_L, lPress);
+	//InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_W, wPress);
+	//InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_A, aPress);
+	//InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_S, sPress);
+	//InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_D, dPress);
+	//InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_Q, qPress);
+	//InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_E, ePress);
+	//InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_LEFT_CTRL, lctrPress);
+	//InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_SPACE, spacePress);
 }

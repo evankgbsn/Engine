@@ -64,7 +64,7 @@ bool Editor::IsOpen()
 Editor::Editor() :
 	featureSearchTool(new FeatureSearchTool()),
 	operating(true),
-	open(false)
+	open(true)
 {
 
 }

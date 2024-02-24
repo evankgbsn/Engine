@@ -26,7 +26,8 @@ UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const m
 	angle(0.0f),
 	transformReady(false),
 	currentVisibility(Visibility::Visible),
-	graphicsObjectReadyCallbacks(std::list<std::function<void()>>())
+	graphicsObjectReadyCallbacks(std::list<std::function<void()>>()),
+	ready(false)
 {
 	std::function<void(GraphicsObject*)> graphicsObjectCreationCallback = [this](GraphicsObject* obj)
 	{
@@ -48,6 +49,8 @@ UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const m
 		}
 
 		graphicsObjectReadyCallbacks.clear();
+
+		ready = true;
 	};
 
 	GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(model, texture, graphicsObjectCreationCallback);
@@ -193,7 +196,14 @@ UserInterfaceItem::Visibility UserInterfaceItem::InquireVisibility(UserInterface
 		}
 	};
 
-	graphicsObjectReadyCallbacks.push_back(inquireVisibilityCallback);
+	if (ready)
+	{
+		inquireVisibilityCallback();
+	}
+	else
+	{
+		graphicsObjectReadyCallbacks.push_back(inquireVisibilityCallback);
+	}
 
 	return currentVisibility;
 }

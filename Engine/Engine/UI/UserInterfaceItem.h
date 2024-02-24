@@ -86,6 +86,8 @@ private:
 	Visibility currentVisibility;
 
 	std::list<std::function<void()>> graphicsObjectReadyCallbacks;
+
+	bool ready;
 };
 
 #endif // USERINTERFACEITEM_H

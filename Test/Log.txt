@@ -656,24 +656,27 @@ Info: Added subitem DefaultEqual
 Info: Added subitem DefaultUppercaseA
 Success: Created UserInterfaceItem: FeatureSearchToolBackground
 Success: Initialzed Editor
+Info: Closed Editor
+Info: Opened Editor
+Info: Closed Editor
 Info: Opened Editor
 Info: Closed Editor
 Info: Opened Editor
 Info: Closed Editor
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Info: Opened Editor
+Info: Closed Editor
+Info: Opened Editor
+Info: Closed Editor
+Info: Opened Editor
+Info: Closed Editor
+Info: Opened Editor
+Info: Closed Editor
+Info: Opened Editor
+Info: Closed Editor
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Success: Termiated UserInterfaceManager
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()

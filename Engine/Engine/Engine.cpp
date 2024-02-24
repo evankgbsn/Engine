@@ -172,11 +172,13 @@ void Engine::InitializeEditor()
 {
 	toggleEditorFunction = new std::function<void()> ([]()
 	{
+		bool editorOpen = Editor::IsOpen();
+
 		if (!Editor::Operating())
 		{
 			Editor::Initialize();
 		}
-		else if (Editor::IsOpen())
+		else if (editorOpen)
 		{
 			Editor::Close();
 		}

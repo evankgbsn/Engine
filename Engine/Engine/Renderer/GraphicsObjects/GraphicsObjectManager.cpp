@@ -477,18 +477,19 @@ void GraphicsObjectManager::ToggleGraphicsObjectDraw(GraphicsObject* const graph
 	auto findGraphicsObjectAndRemoveFromDrawVector = [](GraphicsObject* const graphicsObject, const ObjectTypes::GraphicsObjectType& type)
 	{
 		unsigned int index = 0;
-		auto isWireframeLambda = [&index, graphicsObject](const std::vector<GraphicsObject*>& graphicsObjectContainer) -> bool
+		auto inCollectionLambda = [&index, graphicsObject](const std::vector<GraphicsObject*>& graphicsObjectContainer) -> bool
 		{
-			for (unsigned int i = 0; i < graphicsObjectContainer.size(); i++)
+			unsigned int size = graphicsObjectContainer.size();
+			for (unsigned int i = 0; i < size; i++)
 			{
 				if (graphicsObjectContainer[i] == graphicsObject)
 				{
 					index = i;
-					return false;
+					return true;
 				}
 			}
 
-			return true;
+			return false;
 		};
 
 		auto isDisabledLambda = [graphicsObject](std::list<GraphicsObject*>& graphicsObjectDisabledContainer, std::list<GraphicsObject*>::iterator& outIt) -> bool
@@ -505,44 +506,52 @@ void GraphicsObjectManager::ToggleGraphicsObjectDraw(GraphicsObject* const graph
 			return false;
 		};
 
-		auto insertFromDisabledListAddToDrawVectorLambda = [graphicsObject](std::vector<GraphicsObject*>& drawVector, std::list<GraphicsObject*> disableList, std::list<GraphicsObject*>::iterator graphicsObjectToRemoveFromDisableListIterator)
+		auto insertFromDisabledListAddToDrawVectorLambda = [graphicsObject](std::vector<GraphicsObject*>& drawVector, std::list<GraphicsObject*>& disableList, std::list<GraphicsObject*>::iterator graphicsObjectToRemoveFromDisableListIterator)
 		{
-			for (std::vector<GraphicsObject*>::iterator drawVectorIterator = drawVector.begin(); drawVectorIterator != drawVector.end(); drawVectorIterator++)
+			for (unsigned int i = 0; i < drawVector.size(); i++)
 			{
-				if (*drawVectorIterator == nullptr)
+				GraphicsObject* drawVectorTmp = drawVector[i];
+				GraphicsObject* graphicsObjectToRemove = graphicsObject;
+				if (drawVector[i] == nullptr)
 				{
-					*drawVectorIterator = graphicsObject;
-					disableList.erase(graphicsObjectToRemoveFromDisableListIterator);
+					drawVector[i] = graphicsObject;
+					disableList.remove(graphicsObject);
 				}
 			}
 		};
 
-		auto toggleGraphicsObject = [&index, isWireframeLambda, isDisabledLambda, insertFromDisabledListAddToDrawVectorLambda](std::vector<GraphicsObject*>& graphicsObjectContainer, std::list<GraphicsObject*>& graphicsObjectDisableList, std::vector<GraphicsObject*>& graphicsObjectWireFrameContainer, std::list<GraphicsObject*>& graphicsObjectWireFrameDisableList)
+		auto toggleGraphicsObject = [&index, inCollectionLambda, isDisabledLambda, insertFromDisabledListAddToDrawVectorLambda](std::vector<GraphicsObject*>& graphicsObjectContainer, std::list<GraphicsObject*>& graphicsObjectDisableList, std::vector<GraphicsObject*>& graphicsObjectWireFrameContainer, std::list<GraphicsObject*>& graphicsObjectWireFrameDisableList)
 		{
 			std::list<GraphicsObject*>::iterator outIt;
-			if (isWireframeLambda(graphicsObjectContainer))
+			std::list<GraphicsObject*>::iterator outItWireframe;
+
+			bool isDisabledGraphicsObject = isDisabledLambda(graphicsObjectDisableList, outIt);
+			bool isDisabledGraphicsObjectWireFrame = isDisabledLambda(graphicsObjectWireFrameDisableList, outItWireframe);
+
+			bool inCollectionWireFrame = inCollectionLambda(graphicsObjectWireFrameContainer);
+			bool inCollection = inCollectionLambda(graphicsObjectContainer);
+
+			bool isWireframe = !isDisabledGraphicsObjectWireFrame && inCollectionWireFrame || isDisabledGraphicsObjectWireFrame;
+			bool notWireframe = !isDisabledGraphicsObject && inCollection || isDisabledGraphicsObject;
+
+			
+			if (isWireframe && isDisabledGraphicsObjectWireFrame)
 			{
-				if (isDisabledLambda(graphicsObjectWireFrameDisableList, outIt))
-				{
-					insertFromDisabledListAddToDrawVectorLambda(graphicsObjectWireFrameContainer, graphicsObjectWireFrameDisableList, outIt);
-				}
-				else
-				{
-					graphicsObjectWireFrameDisableList.push_back(graphicsObjectWireFrameContainer[index]);
-					graphicsObjectWireFrameContainer[index] = nullptr;
-				}
+				insertFromDisabledListAddToDrawVectorLambda(graphicsObjectWireFrameContainer, graphicsObjectWireFrameDisableList, outItWireframe);
 			}
-			else
+			else if(notWireframe && isDisabledGraphicsObject)
 			{
-				if (isDisabledLambda(graphicsObjectWireFrameDisableList, outIt))
-				{
-					insertFromDisabledListAddToDrawVectorLambda(graphicsObjectContainer, graphicsObjectDisableList, outIt);
-				}
-				else
-				{
-					graphicsObjectDisableList.push_back(graphicsObjectContainer[index]);
-					graphicsObjectContainer[index] = nullptr;
-				}
+				insertFromDisabledListAddToDrawVectorLambda(graphicsObjectContainer, graphicsObjectDisableList, outIt);
+			}
+			else if (isWireframe && !isDisabledGraphicsObjectWireFrame)
+			{
+				graphicsObjectWireFrameDisableList.push_back(graphicsObjectWireFrameContainer[index]);
+				graphicsObjectWireFrameContainer[index] = nullptr;
+			}
+			else if (notWireframe && !isDisabledGraphicsObject)
+			{
+				graphicsObjectDisableList.push_back(graphicsObjectContainer[index]);
+				graphicsObjectContainer[index] = nullptr;
 			}
 		};
 

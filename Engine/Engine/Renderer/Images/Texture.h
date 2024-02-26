@@ -30,6 +30,10 @@ public:
 
 	unsigned int GetBinding() const;
 
+	int GetWidth() const;
+
+	int GetHeight() const;
+
 private:
 
 	void LoadTexture();

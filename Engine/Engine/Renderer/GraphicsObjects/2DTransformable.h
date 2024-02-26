@@ -5,7 +5,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <functional>
-#include <list>
+#include <vector>
+#include <chrono>
 
 class Graphics2DTransformable
 {
@@ -15,19 +16,24 @@ protected:
 	
 	void TransformObject();
 
-	virtual void Translate(const std::function<void()>& translationFunction)
+	virtual void OrderedTranslate(const std::function<void()>& translationFunction)
 	{
-		translationQueue.push_back(translationFunction);
+		orderedTranslationQueue.push_back(std::make_pair(std::chrono::high_resolution_clock().now().time_since_epoch().count(), translationFunction));
 	};
 	
-	virtual void Rotate(const std::function<void()>& rotationFunction)
+	virtual void OrderedRotate(const std::function<void()>& rotationFunction)
 	{
-		rotationQueue.push_back(rotationFunction);
+		orderedRotationQueue.push_back(std::make_pair(std::chrono::high_resolution_clock::now().time_since_epoch().count(), rotationFunction));
 	};
 
-	virtual void Scale(const std::function<void()>& scaleFunction)
+	virtual void OrderedScale(const std::function<void()>& scaleFunction)
 	{
-		scaleQueue.push_back(scaleFunction);
+		orderedScaleQueue.push_back(std::make_pair(std::chrono::high_resolution_clock::now().time_since_epoch().count(), scaleFunction));
+	};
+
+	virtual void UnorderedTransform(const std::function<void()>& translationFunction)
+	{
+		unorderedTransformQueue.push_back(std::make_pair(std::chrono::high_resolution_clock().now().time_since_epoch().count(), translationFunction));
 	};
 
 	virtual glm::vec2 GetTranslation() const = 0;
@@ -42,12 +48,13 @@ protected:
 
 private:
 
-	std::list<std::function<void()>> translationQueue;
+	std::vector<std::pair<long long, std::function<void()>>> orderedTranslationQueue;
 
-	std::list<std::function<void()>> rotationQueue;
+	std::vector<std::pair<long long, std::function<void()>>> orderedRotationQueue;
 
-	std::list<std::function<void()>> scaleQueue;
+	std::vector<std::pair<long long, std::function<void()>>> orderedScaleQueue;
 
+	std::vector<std::pair<long long, std::function<void()>>> unorderedTransformQueue;
 };
 
 #endif

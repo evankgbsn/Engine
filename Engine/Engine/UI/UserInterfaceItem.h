@@ -52,6 +52,8 @@ public:
 	void Rotate(float angle);
 
 	void Translate(float x, float y);
+
+	void SetPosition(float x, float y);
 	
 	void OnWindowSizeUpdate();
 
@@ -60,6 +62,8 @@ public:
 	bool TransformReady(std::function<void()>& whenTransformReady = emptyFunctionObject);
 
 	Visibility InquireVisibility(Visibility set = Visibility::Default);
+
+	glm::vec2 GetTextureDimensions() const;
 
 protected:
 
@@ -88,6 +92,8 @@ private:
 	std::list<std::function<void()>> graphicsObjectReadyCallbacks;
 
 	bool ready;
+
+	const Texture* texture;
 };
 
 #endif // USERINTERFACEITEM_H

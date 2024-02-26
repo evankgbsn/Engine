@@ -519,9 +519,6 @@ glm::vec2 Window::GetCursorPosition() const
 	double cursorX, cursorY;
 	glfwGetCursorPos(window, &cursorX, &cursorY);
 
-	int windowX, windowY;
-	glfwGetWindowPos(window, &windowX, &windowY);
-
 	return glm::vec2(static_cast<float>(cursorX),static_cast<float>(cursorY));
 }
 

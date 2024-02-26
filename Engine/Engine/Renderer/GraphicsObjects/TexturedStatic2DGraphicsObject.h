@@ -31,6 +31,12 @@ public:
 
 	void ScaleObject(const glm::vec2& scale);
 
+	void TranslateObjectUnordered(const glm::vec2& translation);
+
+	void RotateObjectUnordered(const float& rotation);
+
+	void ScaleObjectUnordered(const glm::vec2& scale);
+
 	void Update() override;
 
 	glm::vec2 GetTranslation() const override;
@@ -42,6 +48,8 @@ public:
 	glm::mat4 GetModelMat4() const;
 
 	void SetTranslation(const glm::vec2& newTranslation) override;
+
+	const Texture* const GetTexture() const;
 
 private:
 	

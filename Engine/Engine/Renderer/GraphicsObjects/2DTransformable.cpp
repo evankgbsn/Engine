@@ -2,24 +2,32 @@
 
 void Graphics2DTransformable::TransformObject()
 {
-	for (const auto& translationFunction : translationQueue)
+	for (const auto& translationFunction : orderedTranslationQueue)
 	{
-		translationFunction();
+		translationFunction.second();
 	}
 
-	translationQueue.clear();
+	orderedTranslationQueue.clear();
 
-	for (const auto& rotationFunction : rotationQueue)
+	for (const auto& rotationFunction : orderedRotationQueue)
 	{
-		rotationFunction();
+		rotationFunction.second();
 	}
 
-	rotationQueue.clear();
+	orderedRotationQueue.clear();
 
-	for (const auto& scaleFunction : scaleQueue)
+	for (const auto& scaleFunction : orderedScaleQueue)
 	{
-		scaleFunction();
+		scaleFunction.second();
 	}
 
-	scaleQueue.clear();
+	orderedScaleQueue.clear();
+	
+	for (const auto& transformFunction : unorderedTransformQueue)
+	{
+		transformFunction.second();
+	}
+
+	unorderedTransformQueue.clear();
+
 }

@@ -41,6 +41,16 @@ unsigned int Texture::GetBinding() const
 	return image->Binding();
 }
 
+int Texture::GetWidth() const
+{
+	return width;
+}
+
+int Texture::GetHeight() const
+{
+	return height;
+}
+
 void Texture::LoadTexture()
 {
 	stbi_uc* pixels = stbi_load(path.c_str(), &width, &height, &channels, STBI_rgb_alpha);

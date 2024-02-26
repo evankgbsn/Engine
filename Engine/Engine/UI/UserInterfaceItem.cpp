@@ -14,10 +14,11 @@
 #include "../Math/Math.h"
 #include "../Renderer/Windows/Window.h"
 #include "../Renderer/Windows/WindowManager.h"
+#include "../Renderer/Images/Texture.h"
 
 std::function<void()> UserInterfaceItem::emptyFunctionObject = std::function<void()>();
 
-UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const model, Texture* const texture, const glm::vec2& initialPosition) :
+UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const model, Texture* const tex, const glm::vec2& initialPosition) :
 	subItems(std::unordered_map<std::string, UserInterfaceItem*>()),
 	name(itemName),
 	whenTransformReady(std::function<void()>([]() {})),
@@ -27,7 +28,8 @@ UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const m
 	transformReady(false),
 	currentVisibility(Visibility::Visible),
 	graphicsObjectReadyCallbacks(std::list<std::function<void()>>()),
-	ready(false)
+	ready(false),
+	texture(tex)
 {
 	std::function<void(GraphicsObject*)> graphicsObjectCreationCallback = [this](GraphicsObject* obj)
 	{
@@ -37,8 +39,6 @@ UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const m
 		float height = UserInterfaceManager::GetWindowHeight();
 
 		graphicsObject->TranslateObject({ (position.x > 0) ? glm::min(position.x, width) : 0.0f, (position.y > 0) ? glm::min(position.y, height) : 0.0f });
-
-		graphicsObject->ScaleObject({25.0f, 25.0f });
 
 		this->transformReady = true;
 		whenTransformReady();
@@ -53,7 +53,7 @@ UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const m
 		ready = true;
 	};
 
-	GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(model, texture, graphicsObjectCreationCallback);
+	GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(model, tex, graphicsObjectCreationCallback);
 }
 
 UserInterfaceItem::~UserInterfaceItem()
@@ -144,6 +144,16 @@ void UserInterfaceItem::Translate(float x, float y)
 	graphicsObject->TranslateObject({ x, y });
 }
 
+void UserInterfaceItem::SetPosition(float x, float y)
+{
+	glm::vec2 scale = graphicsObject->GetScale();
+	graphicsObject->ScaleObjectUnordered({1.0f / scale.x, 1.0f / scale.y});
+	glm::vec2 translation = graphicsObject->GetTranslation();
+	graphicsObject->TranslateObjectUnordered({ translation.x, translation.y });
+	graphicsObject->TranslateObjectUnordered({ x, y });
+	graphicsObject->ScaleObjectUnordered(scale);
+}
+
 void UserInterfaceItem::OnWindowSizeUpdate()
 {
 	if (graphicsObject != nullptr)
@@ -206,4 +216,9 @@ UserInterfaceItem::Visibility UserInterfaceItem::InquireVisibility(UserInterface
 	}
 
 	return currentVisibility;
+}
+
+glm::vec2 UserInterfaceItem::GetTextureDimensions() const
+{
+	return glm::vec2(static_cast<float>(texture->GetWidth()), static_cast<float>(texture->GetHeight()));
 }

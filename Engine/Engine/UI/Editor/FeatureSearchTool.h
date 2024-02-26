@@ -36,6 +36,8 @@ private:
 
 	void UpdateUserInterfaceItemsVisibility();
 
+	void SetPositionToCursorPosition();
+
 	std::unordered_set<std::string> featureNamesSet;
 
 	UserInterfaceItem* featureSearchBackground;

@@ -6,6 +6,7 @@
 #include "../../Renderer/Images/TextureManager.h"
 #include "../../Renderer/Windows/WindowManager.h"
 #include "../../Renderer/Windows/Window.h"
+#include "../Editor/Editor.h"
 #include "../Text.h"
 
 FeatureSearchTool::FeatureSearchTool() :
@@ -14,24 +15,15 @@ FeatureSearchTool::FeatureSearchTool() :
 	featureSearchBarText(nullptr)
 {
 	InitializeFeatureNamesSet();
-	
-	Window* const mainWindow = WindowManager::GetWindow("MainWindow");
 
-	glm::vec2 cursorPosition(0.0f);
+	featureSearchBackground = UserInterfaceManager::CrateUserInterfaceItem("FeatureSearchToolBackground", ModelManager::GetModel("DefaultRectangleWithDepth"), TextureManager::GetTexture("Woman"), { 0,0 });
 
-	if (mainWindow != nullptr)
+	std::function<void()> whenFeatureSearchToolBackgroundReady = [this]()
 	{
-		cursorPosition = mainWindow->GetCursorPosition();
+		SetPositionToCursorPosition();
+	};
 
-		featureSearchBackground = UserInterfaceManager::CrateUserInterfaceItem("FeatureSearchToolBackground", ModelManager::GetModel("DefaultRectangleWithDepth"), TextureManager::GetTexture("Woman"), { 300.0f, 300.0f });
-
-		std::function<void()> whenReady = [this]()
-		{
-			//featureSearchBackground->Scale(100.0f, 100.0f);
-		};
-
-		featureSearchBackground->TransformReady(whenReady);
-	}
+	featureSearchBackground->TransformReady(whenFeatureSearchToolBackgroundReady);
 }
 
 FeatureSearchTool::~FeatureSearchTool()
@@ -41,6 +33,7 @@ FeatureSearchTool::~FeatureSearchTool()
 void FeatureSearchTool::Enable()
 {
 	featureSearchBackground->InquireVisibility(UserInterfaceItem::Visibility::Visible);
+	SetPositionToCursorPosition();
 }
 
 void FeatureSearchTool::Disable()
@@ -61,4 +54,39 @@ void FeatureSearchTool::LoadFeatureSearchToolModels() const
 
 void FeatureSearchTool::UpdateUserInterfaceItemsVisibility()
 {
+}
+
+void FeatureSearchTool::SetPositionToCursorPosition()
+{
+	Window* const mainWindow = WindowManager::GetWindow("MainWindow");
+
+	if (mainWindow != nullptr)
+	{
+		glm::vec2 cursorPosition(mainWindow->GetCursorPosition());
+
+
+		float windowOpenLocationX = glm::min(static_cast<float>(cursorPosition.x), static_cast<float>(mainWindow->GetWidth()));
+
+		float windowHeight = static_cast<float>(mainWindow->GetHeight());
+		cursorPosition.y = windowHeight - cursorPosition.y;
+
+		float windowOpenLocationY = glm::min(static_cast<float>(cursorPosition.y), static_cast<float>(windowHeight));
+
+		glm::vec2 imageTextureDimensions = featureSearchBackground->GetTextureDimensions();
+
+
+		static bool calledOnce = true;
+
+		if (calledOnce)
+		{
+			featureSearchBackground->Scale(imageTextureDimensions.x, imageTextureDimensions.y);
+			featureSearchBackground->SetPosition(windowOpenLocationX, windowOpenLocationY);
+			calledOnce = false;
+		}
+		else
+		{
+			featureSearchBackground->SetPosition(windowOpenLocationX, windowOpenLocationY);
+		}
+
+	}
 }

@@ -112,9 +112,9 @@ void ModelManager::LoadDefaultModels()
 
 	// Default triangle
 	std::vector<Vertex> triangleVertices = {
-		Vertex(glm::vec3(-100.0f, -100.0f, 0.2f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f)),
-		Vertex(glm::vec3(-100.0f, 100.0f, 0.2f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.0f, 0.0f)),
-		Vertex(glm::vec3(100.0f, 100.0f, 0.2f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 1.0f))
+		Vertex(glm::vec3(-1.0f, -1.0f, 0.2f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f)),
+		Vertex(glm::vec3(-1.0f, 1.0f, 0.2f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.0f, 0.0f)),
+		Vertex(glm::vec3(1.0f, 1.0f, 0.2f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 1.0f))
 	};
 
 	std::vector<unsigned int> triangleIndices = { 0,2,1 };

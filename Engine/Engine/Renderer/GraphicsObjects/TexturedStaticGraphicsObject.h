@@ -27,15 +27,9 @@ public:
 
 	void Update() override;
 
-	void Translate(const glm::vec3& translation) override;
-
-	void Scale(const glm::vec3& scale) override;
-
 protected:
 
 	// Graphics3DTransformable
-
-	void Rotate(float angle, const glm::vec3& axis) override;
 
 	glm::vec3 GetTranslation() const override;
 

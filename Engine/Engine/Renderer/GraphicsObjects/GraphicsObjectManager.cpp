@@ -479,8 +479,8 @@ void GraphicsObjectManager::ToggleGraphicsObjectDraw(GraphicsObject* const graph
 		unsigned int index = 0;
 		auto inCollectionLambda = [&index, graphicsObject](const std::vector<GraphicsObject*>& graphicsObjectContainer) -> bool
 		{
-			unsigned int size = graphicsObjectContainer.size();
-			for (unsigned int i = 0; i < size; i++)
+			size_t size = graphicsObjectContainer.size();
+			for (size_t i = 0; i < size; i++)
 			{
 				if (graphicsObjectContainer[i] == graphicsObject)
 				{

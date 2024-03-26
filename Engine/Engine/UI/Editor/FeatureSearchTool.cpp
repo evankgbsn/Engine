@@ -16,7 +16,8 @@ FeatureSearchTool::FeatureSearchTool() :
 {
 	InitializeFeatureNamesSet();
 
-	featureSearchBackground = UserInterfaceManager::CrateUserInterfaceItem("FeatureSearchToolBackground", ModelManager::GetModel("DefaultRectangleWithDepth"), TextureManager::GetTexture("Woman"), { 0,0 });
+	Texture* const backgroundTexture = TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/FeatureSearchToolBackground.png", "FeatureSearchToolBackground");
+	featureSearchBackground = UserInterfaceManager::CrateUserInterfaceItem("FeatureSearchToolBackground", ModelManager::GetModel("DefaultRectangleWithDepth"), backgroundTexture, { 0,0 });
 
 	std::function<void()> whenFeatureSearchToolBackgroundReady = [this]()
 	{
@@ -89,4 +90,8 @@ void FeatureSearchTool::SetPositionToCursorPosition()
 		}
 
 	}
+}
+
+void FeatureSearchTool::EnableInput()
+{
 }

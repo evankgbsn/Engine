@@ -51,11 +51,11 @@ void Text::LoadFonts()
 	}
 }
 
-Text::Text(const std::string& initialText, const glm::vec2& initialPosition, const std::string& initialFont, float spacingH, float spacingV) :
+Text::Text(const std::string& initialText, const glm::vec2& initialPosition, const float& initialSize, const std::string& initialFont, float spacingH, float spacingV) :
 	position(initialPosition),
 	horizontalSpacing(spacingH),
 	verticalSpacing(spacingV),
-	size(),
+	size(initialSize),
 	fontName("Default"),
 	characters(),
 	characterUserInterfaceItems(),
@@ -68,6 +68,8 @@ Text::Text(const std::string& initialText, const glm::vec2& initialPosition, con
 		Logger::Log(std::string("No fonts available for Text instance."), Logger::Category::Error);
 
 	Append(initialText);
+
+	SetSize(size);
 }
 
 Text::~Text()
@@ -87,6 +89,13 @@ float Text::GetSize() const
 
 void Text::SetSize(float newSize)
 {
+	const std::unordered_map<std::string, UserInterfaceItem*>& subCharacterItems = textItem->GetSubItems();
+
+	for (const std::pair<std::string, UserInterfaceItem*>& characterSubItem : subCharacterItems)
+	{
+		characterSubItem.second->Scale(newSize, newSize);
+	}
+
 	size = newSize;
 }
 
@@ -193,6 +202,20 @@ const std::string& Text::Prepend(const std::string& prefix)
 	AddCharacterModelsAsUserInterfaceSubItems(charactersModelNames, charactersAsModels, false);
 
 	return characters = prefix + characters;
+}
+
+void Text::SetPosition(const glm::vec2& newPosition)
+{
+}
+
+void Text::SetVisibility(UserInterfaceItem::Visibility newVisibility)
+{
+	const std::unordered_map<std::string, UserInterfaceItem*>& subCharacterItems = textItem->GetSubItems();
+
+	for (const std::pair<std::string, UserInterfaceItem*>& characterSubItem : subCharacterItems)
+	{
+		characterSubItem.second->InquireVisibility(newVisibility);
+	}
 }
 
 void Text::AddCharacterModelsAsUserInterfaceSubItems(const std::vector<std::string>& charactersModelName, const std::vector<Model*>& characterModels, bool appendOrPrepend)

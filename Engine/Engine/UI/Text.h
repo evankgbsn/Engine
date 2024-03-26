@@ -1,6 +1,8 @@
 #ifndef TEXT_H
 #define TEXT_H
 
+#include "UserInterfaceItem.h"
+
 #include <string>
 #include <vector>
 #include <unordered_set>
@@ -16,7 +18,7 @@ public:
 
 	static void LoadFonts();
 
-	Text(const std::string& initialText, const glm::vec2& initialPosition = glm::vec2(100.0f, 600.0f), const std::string& initialFont = "Default", float horizontalSpacing = 10.0f, float verticalSpacing = 0.0f);
+	Text(const std::string& initialText, const glm::vec2& initialPosition = glm::vec2(100.0f, 600.0f), const float& initialSize = 25.0f, const std::string& initialFont = "Default", float horizontalSpacing = 10.0f, float verticalSpacing = 0.0f);
 
 	~Text();
 
@@ -35,6 +37,10 @@ public:
 	const std::string& Append(const std::string& postfix);
 
 	const std::string& Prepend(const std::string& prefix);
+
+	void SetPosition(const glm::vec2& newPosition);
+
+	void SetVisibility(UserInterfaceItem::Visibility visibility);
 
 protected:
 

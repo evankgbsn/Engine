@@ -18,7 +18,7 @@
 
 std::function<void()> UserInterfaceItem::emptyFunctionObject = std::function<void()>();
 
-UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const model, Texture* const tex, const glm::vec2& initialPosition) :
+UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const model, Texture* const tex, const glm::vec2& initialPosition, const glm::vec2& initialScale) :
 	subItems(std::unordered_map<std::string, UserInterfaceItem*>()),
 	name(itemName),
 	whenTransformReady(std::function<void()>([]() {})),
@@ -29,7 +29,8 @@ UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const m
 	currentVisibility(Visibility::Visible),
 	graphicsObjectReadyCallbacks(std::list<std::function<void()>>()),
 	ready(false),
-	texture(tex)
+	texture(tex),
+	scale(initialScale)
 {
 	std::function<void(GraphicsObject*)> graphicsObjectCreationCallback = [this](GraphicsObject* obj)
 	{
@@ -39,6 +40,7 @@ UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const m
 		float height = UserInterfaceManager::GetWindowHeight();
 
 		graphicsObject->TranslateObject({ (position.x > 0) ? glm::min(position.x, width) : 0.0f, (position.y > 0) ? glm::min(position.y, height) : 0.0f });
+		graphicsObject->ScaleObject(scale);
 
 		this->transformReady = true;
 		whenTransformReady();
@@ -131,17 +133,45 @@ void UserInterfaceItem::Hovered(std::function<void()> onHover) const
 
 void UserInterfaceItem::Scale(float x, float y)
 {
-	graphicsObject->ScaleObject(glm::vec2(x, y));
+	std::function<void()> graphicsObjectReadyCallback = [this, x, y]() { graphicsObject->ScaleObject(glm::vec2(x, y)); };
+	
+	if (ready)
+	{
+		graphicsObjectReadyCallback();
+	}
+	else
+	{
+		graphicsObjectReadyCallbacks.push_back(graphicsObjectReadyCallback);
+	}
 }
 
 void UserInterfaceItem::Rotate(float angle)
 {
-	graphicsObject->RotateObject(angle);
+	std::function<void()> graphicsObjectReadyCallback = [this, angle]() { graphicsObject->RotateObject(angle); };
+	
+	if (ready)
+	{
+		graphicsObjectReadyCallback();
+	}
+	else
+	{
+		graphicsObjectReadyCallbacks.push_back(graphicsObjectReadyCallback);
+	}
 }
 
 void UserInterfaceItem::Translate(float x, float y)
 {
-	graphicsObject->TranslateObject({ x, y });
+	std::function<void()> graphicsObjectReadyCallback = [this, x, y]() { graphicsObject->TranslateObject({ x, y }); };
+	
+	if (ready)
+	{
+		graphicsObjectReadyCallback();
+	}
+	else
+	{
+		graphicsObjectReadyCallbacks.push_back(graphicsObjectReadyCallback);
+	}
+
 }
 
 void UserInterfaceItem::SetPosition(float x, float y)

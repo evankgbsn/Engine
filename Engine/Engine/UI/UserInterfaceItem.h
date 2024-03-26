@@ -25,7 +25,7 @@ public:
 
 public:
 
-	UserInterfaceItem(const std::string& name, Model* const model, Texture* const texture, const glm::vec2& initialPosition);
+	UserInterfaceItem(const std::string& name, Model* const model, Texture* const texture, const glm::vec2& initialPosition, const glm::vec2& initialScale = glm::vec2(1.0f, 1.0f));
 
 	~UserInterfaceItem();
 
@@ -84,6 +84,8 @@ private:
 	TexturedStatic2DGraphicsObject* graphicsObject;
 
 	glm::vec2 position;
+
+	glm::vec2 scale;
 
 	float angle;
 

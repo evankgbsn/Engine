@@ -38,6 +38,8 @@ private:
 
 	void SetPositionToCursorPosition();
 
+	void EnableInput();
+
 	std::unordered_set<std::string> featureNamesSet;
 
 	UserInterfaceItem* featureSearchBackground;

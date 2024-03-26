@@ -8,19 +8,69 @@ class Graphics3DTransformable
 {
 public:
 
+	virtual void Translate(const glm::vec3& t)
+	{
+		translation = glm::translate(translation, t);
+	};
+
+	virtual void Rotate(float angle, const glm::vec3& axis)
+	{
+		float angleInRadians = angle / 57.2957795f;
+		rotation = glm::rotate(rotation, angleInRadians, axis);
+	};
+
+	virtual void Scale(const glm::vec3& s)
+	{
+		scale = glm::scale(scale, s);
+	};
+
+	virtual void SetTranslation(const glm::vec3& t)
+	{
+		translation = glm::mat4(1.0f);
+		translation = glm::translate(translation, t);
+	};
+
+	virtual void SetRotation(const glm::mat4& newRotation)
+	{
+		rotation = newRotation;
+	};
+
+	virtual void SetScale(const glm::vec3& s)
+	{
+		scale = glm::mat4(1.0f);
+		scale = glm::scale(scale, s);
+	};
+
+	virtual glm::vec3 GetTranslation() const
+	{
+		return translation[3];
+	};
+
+	virtual glm::vec3 GetScale() const
+	{
+		return glm::vec3(scale[0][0], scale[1][1], scale[2][2]);
+	};
+
+	virtual glm::mat4 GetRotation() const
+	{
+		return rotation;
+	};
+
 protected:
 
-	virtual void Translate(const glm::vec3&) = 0;
+	Graphics3DTransformable() :
+		translation(1.0f),
+		rotation(1.0f),
+		scale(1.0f)
+	{
 
-	virtual void Scale(const glm::vec3&) = 0;
+	}
 
-	virtual void Rotate(float angle, const glm::vec3& axis) = 0;
+	glm::mat4 translation;
 
-	virtual glm::vec3 GetTranslation() const = 0;
+	glm::mat4 rotation;
 
-	virtual glm::vec3 GetScale() const = 0;
-
-	virtual glm::mat4 GetRotation() const = 0;
+	glm::mat4 scale;
 
 private:
 

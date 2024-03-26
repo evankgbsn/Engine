@@ -41,9 +41,11 @@ std::function<void()>* lctrPress = nullptr;
 std::function<void()>* spacePress = nullptr;
 std::function<void()>* qPress = nullptr;
 std::function<void()>* ePress = nullptr;
-
-
 std::function<void()>* lPress = nullptr;
+
+std::function<void()>* tPress = nullptr;
+std::function<void()>* yPress = nullptr;
+std::function<void()>* uPress = nullptr;
 
 static HeapProfiling heapProfiling;
 
@@ -78,6 +80,7 @@ void LoadAssets()
 	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/HumanStatic.png", "Human");
 	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Skybox2.png", "Skybox");
 	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Coco.png", "Coco");
+	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/grid.png", "Grid");
 
 	ModelManager::LoadModel("Woman", "../Engine/Engine/Renderer/Model/Woman.gltf");
 	ModelManager::LoadModel("Cruiser", "../Engine/Engine/Renderer/Model/Cruiser.gltf");
@@ -103,23 +106,23 @@ void StressTest()
 	unsigned int clipNum = 0;
 	unsigned int womanTextureNum;
 
-	for (unsigned int i = 0; i < 10; i++)
-	{
-		for (unsigned int j = 0; j < 10; j++)
-		{
-			for (unsigned int k = 0; k < 10; k++)
-			{
-				if (clipNum > 9)
-					clipNum = 0;
-	
-				womanTextureNum = rand() % 5;
+	int count = 25;
 
-				auto animationCreationCallback = [translationScalar, i, j, k](GraphicsObject* go)
+	for (int i = 0; i < count; i++)
+	{
+		for (int j = 0; j < count; j++)
+		{
+			if (clipNum > 9)
+				clipNum = 0;
+
+			womanTextureNum = rand() % 5;
+
+			auto animationCreationCallback = [translationScalar, i, j, count](GraphicsObject* go)
 				{
 					TexturedAnimatedGraphicsObject* ago = static_cast<TexturedAnimatedGraphicsObject*>(go);
 					if (go != nullptr)
 					{
-						ago->Translate(glm::vec3(i * translationScalar, j * translationScalar, k * translationScalar));
+						ago->Translate(glm::vec3(i * translationScalar + -count*3, 0.0f, j * translationScalar + -count*3));
 						ago->SetClip(8);
 						ago->SetAnimationSpeed(1.0f);
 					}
@@ -130,12 +133,43 @@ void StressTest()
 					}
 
 				};
-				//std::this_thread::sleep_for(std::chrono::milliseconds(10));
-				GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), TextureManager::GetTexture("Woman2"), animationCreationCallback);
-				
-			}
+			//std::this_thread::sleep_for(std::chrono::milliseconds(10));
+			GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), TextureManager::GetTexture("Woman2"), animationCreationCallback);
+
 		}
 	}
+
+	
+
+	GraphicsObjectManager::CreateTexturedStaticGraphicsObject(ModelManager::GetModel("DefaultRectangleWithDepth"), TextureManager::GetTexture("Grid"),
+	[](GraphicsObject* go) 
+	{
+		TexturedStaticGraphicsObject* tsgo = static_cast<TexturedStaticGraphicsObject*>(go);
+		tsgo->Scale({ 100.0f, 100.0f, 0.0f});
+		tsgo->Rotate(-90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+
+		tPress = new std::function<void()>([tsgo]()
+		{
+			float rotSpeed = 1.0f * TimeManager::DeltaTime();
+			tsgo->Rotate(rotSpeed, glm::vec3(1.0f, 0.0f, 0.0f));
+		});
+
+		yPress = new std::function<void()>([tsgo]()
+		{
+			float rotSpeed = 1.0f * TimeManager::DeltaTime();
+			tsgo->Rotate(rotSpeed, glm::vec3(0.0f, 1.0f, 0.0f));
+		});
+
+		uPress = new std::function<void()>([tsgo]()
+		{
+			float rotSpeed = 1.0f * TimeManager::DeltaTime();
+			tsgo->Rotate(rotSpeed, glm::vec3(0.0f, 0.0f, 1.0f));
+		});
+
+		InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_T, tPress);
+		InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_Y, yPress);
+		InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_U, uPress);
+	});
 
 	SetInput();
 }
@@ -238,14 +272,15 @@ void SetInput()
 		float rotSpeed = 2.0f * TimeManager::DeltaTime();
 		cam.Rotate(cam.GetUpVector(), -rotSpeed);
 	});
+	
 
-	//InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_L, lPress);
-	//InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_W, wPress);
-	//InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_A, aPress);
-	//InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_S, sPress);
-	//InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_D, dPress);
-	//InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_Q, qPress);
-	//InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_E, ePress);
-	//InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_LEFT_CTRL, lctrPress);
-	//InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_SPACE, spacePress);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_L, lPress);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_W, wPress);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_A, aPress);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_S, sPress);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_D, dPress);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_Q, qPress);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_E, ePress);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_LEFT_CTRL, lctrPress);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_SPACE, spacePress);
 }

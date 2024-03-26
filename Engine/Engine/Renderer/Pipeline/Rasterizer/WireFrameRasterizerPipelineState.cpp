@@ -3,7 +3,7 @@
 WireFrameRasterizerPipelineState::WireFrameRasterizerPipelineState()
 {
 	createInfo.polygonMode = VK_POLYGON_MODE_LINE;
-	createInfo.lineWidth = 4.0f;
+	createInfo.lineWidth = 1.0f;
 }
 
 WireFrameRasterizerPipelineState::~WireFrameRasterizerPipelineState()

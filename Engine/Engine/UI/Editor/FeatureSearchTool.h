@@ -56,6 +56,9 @@ private:
 
 	std::function<void(int)>* characterInputFunction;
 
+	std::function<void(int)>* characterInputFunctionShiftHeld;
+
+	std::function<void(int)>* characterInputFunctionShiftRelease;
 };
 
 #endif // FEATURESEARCHTOOL_H

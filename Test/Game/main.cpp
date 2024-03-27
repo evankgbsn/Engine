@@ -172,13 +172,6 @@ void StressTest()
 		InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_U, uPress);
 	});
 
-	//GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(ModelManager::GetModel("DefaultRectangleWithDepth"), TextureManager::GetTexture("Woman"), [](GraphicsObject* go)
-	//{
-	//	TexturedStatic2DGraphicsObject* tsgo = static_cast<TexturedStatic2DGraphicsObject*>(go);
-	//	tsgo->ScaleObject({ 300.0f, 300.0f });
-	//	tsgo->TranslateObject({ 500.0f, 500.0f });
-	//});
-
 	SetInput();
 }
 

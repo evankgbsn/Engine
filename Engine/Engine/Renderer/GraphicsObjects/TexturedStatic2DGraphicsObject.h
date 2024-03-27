@@ -25,13 +25,17 @@ public:
 
 	TexturedStatic2DGraphicsObject& operator=(TexturedStatic2DGraphicsObject&&) = delete;
 
-	void TranslateObject(const glm::vec2& translation);
+	void SetZOrder(float newZ = 0.0f);
+
+	float GetZOrder() const;
+
+	void TranslateObject(const glm::vec2& translation, float zOrder = 0.0f);
 
 	void RotateObject(const float& rotation);
 
 	void ScaleObject(const glm::vec2& scale);
 
-	void TranslateObjectUnordered(const glm::vec2& translation);
+	void TranslateObjectUnordered(const glm::vec2& translation, float zOrder = 0.0f);
 
 	void RotateObjectUnordered(const float& rotation);
 

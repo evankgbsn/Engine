@@ -51,8 +51,9 @@ void Text::LoadFonts()
 	}
 }
 
-Text::Text(const std::string& initialText, const glm::vec2& initialPosition, const float& initialSize, const std::string& initialFont, float spacingH, float spacingV) :
+Text::Text(const std::string& initialText, const glm::vec2& initialPosition, float zOrder, const float& initialSize, const std::string& initialFont, float spacingH, float spacingV) :
 	position(initialPosition),
+	cursor(glm::vec2(position.x, position.y)),
 	horizontalSpacing(spacingH),
 	verticalSpacing(spacingV),
 	size(initialSize),
@@ -68,9 +69,7 @@ Text::Text(const std::string& initialText, const glm::vec2& initialPosition, con
 	if (fontName.empty())
 		Logger::Log(std::string("No fonts available for Text instance."), Logger::Category::Error);
 
-	Append(initialText);
-
-	SetSize(size);
+	Append(initialText, zOrder);
 }
 
 Text::~Text()
@@ -186,12 +185,10 @@ void Text::ContainCharacterModels(const std::string& characters, std::vector<Mod
 
 		returnedCharacterModelNames[i] = characterModelName = signNames.contains(character) ? fontName + prefix += (*signNames.find(character)).second : fontName + prefix + character;
 		returnedCharacterModels[i] = ((unassignedModel = ModelManager::GetModel(characterModelName)) != nullptr) ? unassignedModel : ModelManager::GetModel("DefaultRectangleWithDepth");
-		//unassignedModel->FlipTriangleWindingOrder();
-
 	}
 }
 
-const std::string& Text::Append(const std::string& postfix)
+const std::string& Text::Append(const std::string& postfix, float zOrder)
 {
 	if (!postfix.empty())
 	{
@@ -200,7 +197,7 @@ const std::string& Text::Append(const std::string& postfix)
 
 		ContainCharacterModels(postfix, charactersAsModels, charactersModelNames);
 
-		AddCharacterModelsAsUserInterfaceSubItems(charactersModelNames, charactersAsModels, true);
+		AddCharacterModelsAsUserInterfaceSubItems(charactersModelNames, charactersAsModels, zOrder, true);
 	}
 	
 	return characters = characters + postfix;
@@ -220,6 +217,14 @@ const std::string& Text::Prepend(const std::string& prefix)
 
 void Text::SetPosition(const glm::vec2& newPosition)
 {
+	unsigned int i = 0;
+	for (UserInterfaceItem* item : characterUserInterfaceItems)
+	{
+		item->SetPosition(newPosition.x + horizontalSpacing * i++, newPosition.y);
+	}
+
+	cursor.x = newPosition.x + horizontalSpacing * characterUserInterfaceItems.size();
+	cursor.y = newPosition.y;
 }
 
 void Text::SetVisibility(UserInterfaceItem::Visibility newVisibility)
@@ -238,7 +243,25 @@ void Text::SetVisibility(UserInterfaceItem::Visibility newVisibility)
 	}
 }
 
-void Text::AddCharacterModelsAsUserInterfaceSubItems(const std::vector<std::string>& charactersModelName, const std::vector<Model*>& characterModels, bool appendOrPrepend)
+void Text::SetZOrder(float newZ)
+{
+	for (UserInterfaceItem* item : characterUserInterfaceItems)
+	{
+		item->SetZOrder(newZ);
+	}
+}
+
+float Text::GetZOrder() const
+{
+	if (!characterUserInterfaceItems.empty())
+	{
+		return characterUserInterfaceItems[0]->GetZOrder();
+	}
+
+	return 10.0f;
+}
+
+void Text::AddCharacterModelsAsUserInterfaceSubItems(const std::vector<std::string>& charactersModelName, const std::vector<Model*>& characterModels, float z, bool appendOrPrepend)
 {
 	auto createSubItemName = [this, &charactersModelName](unsigned int index) -> std::string
 		{
@@ -251,17 +274,21 @@ void Text::AddCharacterModelsAsUserInterfaceSubItems(const std::vector<std::stri
 	std::string firstCharacterName = createSubItemName(0);
 
 	UserInterfaceItem* firstAppendedCharacterModelAsUserInterfaceSubItem;
-	UserInterfaceItem* lastCreatedTextItem = firstAppendedCharacterModelAsUserInterfaceSubItem = new UserInterfaceItem(charactersModelName[0], characterModels[0], TextureManager::GetTexture("DefaultFontTexture"), {position.x, position.y});
+	UserInterfaceItem* lastCreatedTextItem = firstAppendedCharacterModelAsUserInterfaceSubItem = new UserInterfaceItem(charactersModelName[0], characterModels[0], TextureManager::GetTexture("DefaultFontTexture"), z, cursor, {size, size});
 
 	if (textItem == nullptr)
 		textItem = lastCreatedTextItem;	
 
+	characterUserInterfaceItems.push_back(lastCreatedTextItem);
+
 	for (unsigned int i = 1; i < characterModels.size(); i++)
 	{
+		cursor.x += horizontalSpacing;
+		cursor.y += verticalSpacing;
 
 		std::string subItemName = createSubItemName(i);
 
-		UserInterfaceItem* characterUserInterfaceItem = new UserInterfaceItem(subItemName, characterModels.at(i), TextureManager::GetTexture("DefaultFontTexture"), {(horizontalSpacing * i) + position.x, (verticalSpacing * i) + position.y});
+		UserInterfaceItem* characterUserInterfaceItem = new UserInterfaceItem(subItemName, characterModels.at(i), TextureManager::GetTexture("DefaultFontTexture"), z, cursor, {size, size});
 
 		characterUserInterfaceItems.push_back(characterUserInterfaceItem);
 
@@ -269,6 +296,9 @@ void Text::AddCharacterModelsAsUserInterfaceSubItems(const std::vector<std::stri
 
 		lastCreatedTextItem = characterUserInterfaceItem;
 	}
+
+	cursor.x += horizontalSpacing;
+	cursor.y += verticalSpacing;
 
 	if (appendOrPrepend)
 	{

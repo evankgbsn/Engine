@@ -25,7 +25,7 @@ public:
 
 public:
 
-	UserInterfaceItem(const std::string& name, Model* const model, Texture* const texture, const glm::vec2& initialPosition, const glm::vec2& initialScale = glm::vec2(1.0f, 1.0f));
+	UserInterfaceItem(const std::string& name, Model* const model, Texture* const texture, float zOrder, const glm::vec2& initialPosition, const glm::vec2& initialScale = glm::vec2(1.0f, 1.0f));
 
 	~UserInterfaceItem();
 
@@ -67,6 +67,10 @@ public:
 
 	glm::vec2 GetTextureDimensions() const;
 
+	void SetZOrder(float newZ = 0.0f);
+
+	float GetZOrder() const;
+
 protected:
 
 private:
@@ -98,6 +102,8 @@ private:
 	bool ready;
 
 	const Texture* texture;
+
+	float zOrder;
 };
 
 #endif // USERINTERFACEITEM_H

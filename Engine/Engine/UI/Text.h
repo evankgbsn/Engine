@@ -18,7 +18,7 @@ public:
 
 	static void LoadFonts();
 
-	Text(const std::string& initialText, const glm::vec2& initialPosition = glm::vec2(100.0f, 600.0f), const float& initialSize = 25.0f, const std::string& initialFont = "Default", float horizontalSpacing = 10.0f, float verticalSpacing = 0.0f);
+	Text(const std::string& initialText, const glm::vec2& initialPosition = glm::vec2(100.0f, 600.0f), float zOrder = 10.0f, const float& initialSize = 25.0f, const std::string& initialFont = "Default", float horizontalSpacing = 10.0f, float verticalSpacing = 0.0f);
 
 	~Text();
 
@@ -34,13 +34,17 @@ public:
 
 	void SetSize(float newSize);
 
-	const std::string& Append(const std::string& postfix);
+	const std::string& Append(const std::string& postfix, float zOrder = 10.0f);
 
 	const std::string& Prepend(const std::string& prefix);
 
 	void SetPosition(const glm::vec2& newPosition);
 
 	void SetVisibility(UserInterfaceItem::Visibility visibility);
+
+	void SetZOrder(float newZ);
+
+	float GetZOrder() const;
 
 protected:
 
@@ -50,7 +54,7 @@ protected:
 
 private:
 
-	void AddCharacterModelsAsUserInterfaceSubItems(const std::vector<std::string>& characterModelNames, const std::vector<Model*>& characterModels, bool appendOrPrepend = true);
+	void AddCharacterModelsAsUserInterfaceSubItems(const std::vector<std::string>& characterModelNames, const std::vector<Model*>& characterModels, float z, bool appendOrPrepend = true);
 
 	static std::vector<std::string> fontDirectories;
 
@@ -60,6 +64,8 @@ private:
 
 	glm::vec2 position;
 
+	glm::vec2 cursor;
+	
 	float horizontalSpacing;
 
 	float verticalSpacing;

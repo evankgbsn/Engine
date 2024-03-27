@@ -400,28 +400,50 @@ Success: Registered pressed callback for key code 89
 Success: Registered pressed callback for key code 85
 Success: Created UserInterfaceItem: FeatureSearchToolBackground
 Success: Initialized Editor
-Info: Closed Editor
-Success: Deregistered press callback for key code 79
-Info: Opened Editor
+Success: Registered press callback for key code 65
+Success: Registered press callback for key code 66
+Success: Registered press callback for key code 67
+Success: Registered press callback for key code 68
+Success: Registered press callback for key code 69
+Success: Registered press callback for key code 70
+Success: Registered press callback for key code 71
+Success: Registered press callback for key code 72
+Success: Registered press callback for key code 73
+Success: Registered press callback for key code 74
+Success: Registered press callback for key code 75
+Success: Registered press callback for key code 76
+Success: Registered press callback for key code 77
+Success: Registered press callback for key code 78
 Success: Registered press callback for key code 79
-Info: Closed Editor
-Success: Deregistered press callback for key code 79
-Info: Opened Editor
-Success: Registered press callback for key code 79
-Info: Closed Editor
-Success: Deregistered press callback for key code 79
-Info: Opened Editor
-Success: Registered press callback for key code 79
-Info: Closed Editor
-Success: Deregistered press callback for key code 79
-Info: Opened Editor
-Success: Registered press callback for key code 79
-Info: Closed Editor
-Success: Deregistered press callback for key code 79
-Info: Opened Editor
-Success: Registered press callback for key code 79
-Info: Closed Editor
-Success: Deregistered press callback for key code 79
+Success: Registered press callback for key code 80
+Success: Registered press callback for key code 81
+Success: Registered press callback for key code 82
+Success: Registered press callback for key code 83
+Success: Registered press callback for key code 84
+Success: Registered press callback for key code 85
+Success: Registered press callback for key code 86
+Success: Registered press callback for key code 87
+Success: Registered press callback for key code 88
+Success: Registered press callback for key code 89
+Success: Registered press callback for key code 90
+Success: Registered press callback for key code 32
+Success: Registered press callback for key code 340
+Success: Registered release callback for key code 340
+Info: Added subitem DefaultUppercaseH1
+Info: Added subitem DefaultLowercaseE1
+Info: Added subitem DefaultLowercaseL1
+Info: Added subitem DefaultLowercaseL2
+Info: Added subitem DefaultLowercaseO1
+Info: Added subitem DefaultUppercaseT1
+Info: Added subitem DefaultLowercaseH1
+Info: Added subitem DefaultLowercaseI1
+Info: Added subitem DefaultLowercaseS1
+Info: Added subitem DefaultUppercaseI1
+Info: Added subitem DefaultLowercaseS2
+Info: Added subitem DefaultUppercaseE1
+Info: Added subitem DefaultLowercaseV1
+Info: Added subitem DefaultLowercaseA1
+Info: Added subitem DefaultLowercaseN1
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Success: Termiated UserInterfaceManager

@@ -58,6 +58,8 @@ private:
 	
 	std::unordered_map<int, std::list<std::function<void(int keyCode)>*>> registeredKeyPressedEvents;
 
+	std::unordered_map<int, std::list<std::function<void(int keyCode)>*>> registeredKeyReleasedEvents;
+
 	std::unordered_set<int> keysPressed;
 };
 

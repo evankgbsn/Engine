@@ -41,7 +41,7 @@ void UserInterfaceManager::Terminate()
 	}
 }
 
-UserInterfaceItem* const UserInterfaceManager::CrateUserInterfaceItem(const std::string& name, Model* const model, Texture* const texture, const glm::vec2& position, const glm::vec2& scale)
+UserInterfaceItem* const UserInterfaceManager::CrateUserInterfaceItem(const std::string& name, Model* const model, Texture* const texture, float zOrder, const glm::vec2& position, const glm::vec2& scale)
 {
 	std::lock_guard<std::mutex> guard(instanceMutex);
 
@@ -51,7 +51,7 @@ UserInterfaceItem* const UserInterfaceManager::CrateUserInterfaceItem(const std:
 		if (itemIterator == instance->userInterfaceItems.end())
 		{
 			Logger::Log(std::string("Created UserInterfaceItem: ") + name, Logger::Category::Success);
-			return instance->userInterfaceItems[name] = new UserInterfaceItem(name, model, texture, position, scale);
+			return instance->userInterfaceItems[name] = new UserInterfaceItem(name, model, texture, zOrder, position, scale);
 		}
 		else
 		{

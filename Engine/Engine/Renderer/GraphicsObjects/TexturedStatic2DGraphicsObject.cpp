@@ -21,11 +21,27 @@ TexturedStatic2DGraphicsObject::~TexturedStatic2DGraphicsObject()
 {
 }
 
-void TexturedStatic2DGraphicsObject::TranslateObject(const glm::vec2& translation)
+void TexturedStatic2DGraphicsObject::SetZOrder(float newZ)
 {
-	std::function<void()> translationFunction = std::function<void()>([translation, this]()
+	std::function<void()> translationFunction = std::function<void()>([newZ, this]()
 	{
-		mvp.model = glm::translate(mvp.model, glm::vec3(-translation.x, -translation.y, 0.0f));
+		mvp.model = glm::translate(mvp.model, glm::vec3(0.0f, 0.0f, -mvp.model[3].z));
+		mvp.model = glm::translate(mvp.model, glm::vec3(0.0f, 0.0f, newZ));
+	});
+
+	UnorderedTransform(translationFunction);
+}
+
+float TexturedStatic2DGraphicsObject::GetZOrder() const
+{
+	return mvp.model[3].z;
+}
+
+void TexturedStatic2DGraphicsObject::TranslateObject(const glm::vec2& translation, float zOrder)
+{
+	std::function<void()> translationFunction = std::function<void()>([translation, zOrder, this]()
+	{
+		mvp.model[3] += glm::vec4(-translation.x, -translation.y, zOrder, 0.0f);
 	});
 
 	OrderedTranslate(translationFunction);
@@ -53,11 +69,11 @@ void TexturedStatic2DGraphicsObject::ScaleObject(const glm::vec2& scale)
 	OrderedScale(scaleFunction);
 }
 
-void TexturedStatic2DGraphicsObject::TranslateObjectUnordered(const glm::vec2& translation)
+void TexturedStatic2DGraphicsObject::TranslateObjectUnordered(const glm::vec2& translation, float zOrder)
 {
-	std::function<void()> translationFunction = std::function<void()>([translation, this]()
+	std::function<void()> translationFunction = std::function<void()>([translation, zOrder, this]()
 	{
-		mvp.model = glm::translate(mvp.model, glm::vec3(-translation.x, -translation.y, 0.0f));
+		mvp.model = glm::translate(mvp.model, glm::vec3(-translation.x, -translation.y, zOrder));
 	});
 
 	UnorderedTransform(translationFunction);

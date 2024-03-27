@@ -86,7 +86,7 @@ public:
 
 	bool GetCursorMoved(glm::vec2& outNewPosition) const;
 
-	int GetKey(int keyCode) const;
+	int GetKey(int keyCode, bool clearFrameKeyStates = false) const;
 
 	bool framebufferResized;
 

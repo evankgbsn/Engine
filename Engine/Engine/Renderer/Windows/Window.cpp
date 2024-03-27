@@ -537,38 +537,54 @@ bool Window::GetCursorMoved(glm::vec2& outNewPosition) const
 	return false;
 }
 
-int Window::GetKey(int keyCode) const
+int Window::GetKey(int keyCode, bool clearFrameKeyStates) const
 {
+	
+
 	static std::unordered_set<int> pressedKeys = {};
 	static std::unordered_set<int> releasedKeys = {};
 
-	int getKeyResult = glfwGetKey(window, keyCode);
-
-	if (getKeyResult == KEY_PRESS)
-	{
-
-		if(!pressedKeys.contains(keyCode))
-			pressedKeys.insert(keyCode);
-
-		if (releasedKeys.contains(keyCode))
-			releasedKeys.erase(releasedKeys.find(keyCode));
-		else
-			getKeyResult = KEY_PRESSED;
-
-	}
-	else if (getKeyResult == KEY_RELEASE)
-	{
-		if(!releasedKeys.contains(keyCode))
-			releasedKeys.insert(keyCode);
-
-		if (pressedKeys.contains(keyCode))
-			pressedKeys.erase(pressedKeys.find(keyCode));
-		else
-			getKeyResult = KEY_RELEASED;
-
-	}
+	static std::unordered_map<int, int> keyStatesForThisFrame;
 	
-	return getKeyResult;
+	if (clearFrameKeyStates)
+	{
+		keyStatesForThisFrame.clear();
+		return -1;
+	}
+
+	if (keyStatesForThisFrame.find(keyCode) != keyStatesForThisFrame.end())
+	{
+		return keyStatesForThisFrame[keyCode];
+	}
+	else
+	{
+		int getKeyResult = glfwGetKey(window, keyCode);
+
+		if (getKeyResult == KEY_PRESS)
+		{
+
+			if (!pressedKeys.contains(keyCode))
+				pressedKeys.insert(keyCode);
+
+			if (releasedKeys.contains(keyCode))
+				releasedKeys.erase(releasedKeys.find(keyCode));
+			else
+				getKeyResult = KEY_PRESSED;
+
+		}
+		else if (getKeyResult == KEY_RELEASE)
+		{
+			if (!releasedKeys.contains(keyCode))
+				releasedKeys.insert(keyCode);
+
+			if (pressedKeys.contains(keyCode))
+				pressedKeys.erase(pressedKeys.find(keyCode));
+			else
+				getKeyResult = KEY_RELEASED;
+		}
+
+		return keyStatesForThisFrame[keyCode] = getKeyResult;
+	}
 }
 
 void Window::Draw()

@@ -109,6 +109,7 @@ void InputManager::RegisterCallbackForKeyState(int state, int keyCode, std::func
 	static const std::string pressedSuccessLog("Registered pressed callback for key code ");
 	static const std::string pressSuccessLog("Registered press callback for key code ");
 	static const std::string releaseSuccessLog("Registered release callback for key code ");
+	static const std::string releasedSuccessLog("Registered released callback for key code ");
 
 	std::function<void()> inputRegisterFunctionToQueue = [state, registerCallbackForKeyState]()
 	{
@@ -116,14 +117,17 @@ void InputManager::RegisterCallbackForKeyState(int state, int keyCode, std::func
 		{
 			switch (state)
 			{
-			case GLFW_PRESS:
+			case KEY_PRESS:
 				registerCallbackForKeyState(instance->registeredKeyPressEvents, pressSuccessLog);
 				break;
-			case GLFW_RELEASE:
+			case KEY_RELEASE:
 				registerCallbackForKeyState(instance->registeredKeyReleaseEvents, releaseSuccessLog);
 				break;
-			case GLFW_REPEAT:
+			case KEY_PRESSED:
 				registerCallbackForKeyState(instance->registeredKeyPressedEvents, pressedSuccessLog);
+				break;
+			case KEY_RELEASED:
+				registerCallbackForKeyState(instance->registeredKeyReleasedEvents, releasedSuccessLog);
 				break;
 			default:
 				break;
@@ -176,14 +180,17 @@ void InputManager::DeregisterCallbackForKeyState(int state, int keyCode, std::fu
 		{
 			switch (state)
 			{
-			case GLFW_PRESS:
+			case KEY_PRESS:
 				deregisterCallbackForKeyState(instance->registeredKeyPressEvents, pressSuccessLog);
 				break;
-			case GLFW_RELEASE:
+			case KEY_RELEASE:
 				deregisterCallbackForKeyState(instance->registeredKeyReleaseEvents, releaseSuccessLog);
 				break;
-			case GLFW_REPEAT:
+			case KEY_PRESSED:
 				deregisterCallbackForKeyState(instance->registeredKeyPressedEvents, releaseSuccessLog);
+				break;
+			case KEY_RELEASED:
+				deregisterCallbackForKeyState(instance->registeredKeyReleasedEvents, releaseSuccessLog);
 				break;
 			default:
 				break;
@@ -196,11 +203,11 @@ void InputManager::DeregisterCallbackForKeyState(int state, int keyCode, std::fu
 
 void InputManager::ProcessKeyEvents() const
 {
-	std::function<void(int state, const std::unordered_map<int, std::list<std::function<void(int keyCode)>*>>&)> processKeyEvents = [](int state, const std::unordered_map<int, std::list<std::function<void(int keyCode)>*>>& map)
+	const Window* const mainWindow = WindowManager::GetWindow(std::string("MainWindow"));
+	std::function<void(int state, const std::unordered_map<int, std::list<std::function<void(int keyCode)>*>>&)> processKeyEvents = [mainWindow](int state, const std::unordered_map<int, std::list<std::function<void(int keyCode)>*>>& map)
 	{
 		if (instance != nullptr)
 		{
-			const Window* const mainWindow = WindowManager::GetWindow(std::string("MainWindow"));
 			for (const auto& keyCallbacks : map)
 			{
 				int keyState = mainWindow->GetKey(keyCallbacks.first);
@@ -221,9 +228,12 @@ void InputManager::ProcessKeyEvents() const
 
 	if (instance != nullptr)
 	{
-		processKeyEvents(GLFW_PRESS, instance->registeredKeyPressEvents);
-		processKeyEvents(GLFW_RELEASE, instance->registeredKeyReleaseEvents);
-		processKeyEvents(GLFW_REPEAT, instance->registeredKeyPressedEvents);
+		processKeyEvents(KEY_RELEASE, instance->registeredKeyReleaseEvents);
+		processKeyEvents(KEY_PRESS, instance->registeredKeyPressEvents);
+		processKeyEvents(KEY_PRESSED, instance->registeredKeyPressedEvents);
+		processKeyEvents(KEY_RELEASED, instance->registeredKeyReleasedEvents);
+
+		mainWindow->GetKey(KEY_0, true);
 	}
 }
 

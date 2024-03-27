@@ -110,43 +110,43 @@ private:
 
 	std::vector<GraphicsObject*> texturedStaticGraphicsObjects;
 
-	std::list<GraphicsObject*> disabledTexturedStaticGraphicsObjects;
+	std::list<std::pair<GraphicsObject*, unsigned int>> disabledTexturedStaticGraphicsObjects;
 
 	std::vector<GraphicsObject*> texturedStaticGraphicsObjectsWireFrame;
 
-	std::list<GraphicsObject*> disabledTexturedStaticGraphicsObjectsWireFrame;
+	std::list<std::pair<GraphicsObject*, unsigned int>> disabledTexturedStaticGraphicsObjectsWireFrame;
 
 	std::vector<GraphicsObject*> animatedTexturedGraphicsObjects;
 
-	std::list<GraphicsObject*> disabledAnimatedTexturedGraphicsObjects;
+	std::list<std::pair<GraphicsObject*, unsigned int>> disabledAnimatedTexturedGraphicsObjects;
 
 	std::vector<GraphicsObject*> animatedTexturedGraphicsObjectsWireFrame;
 
-	std::list<GraphicsObject*> disabledAnimatedTexturedGraphicsObjectsWireFrame;
+	std::list<std::pair<GraphicsObject*, unsigned int>> disabledAnimatedTexturedGraphicsObjectsWireFrame;
 
 	std::vector<GraphicsObject*> goochGraphicsObjects;
 
-	std::list<GraphicsObject*>  disabledGoochGraphicsObjects;
+	std::list<std::pair<GraphicsObject*, unsigned int>>  disabledGoochGraphicsObjects;
 
 	std::vector<GraphicsObject*> goochGraphicsObjectsWireFrame;
 
-	std::list<GraphicsObject*> disabledGoochGraphicsObjectsWireFrame;
+	std::list<std::pair<GraphicsObject*, unsigned int>> disabledGoochGraphicsObjectsWireFrame;
 
 	std::vector<GraphicsObject*> litTexturedStaticGraphicsObjects;
 
-	std::list<GraphicsObject*> disabledLitTexturedStaticGraphicsObjects;
+	std::list<std::pair<GraphicsObject*, unsigned int>> disabledLitTexturedStaticGraphicsObjects;
 
 	std::vector<GraphicsObject*> litTexturedStaticGraphicsObjectsWireFrame;
 
-	std::list<GraphicsObject*> disabledLitTexturedStaticGraphicsObjectsWireFrame;
+	std::list<std::pair<GraphicsObject*, unsigned int>> disabledLitTexturedStaticGraphicsObjectsWireFrame;
 
 	std::vector<GraphicsObject*> texturedStatic2DGraphicsObjects;
 
-	std::list<GraphicsObject*> disabledTexturedStatic2DGraphicsObjects;
+	std::list<std::pair<GraphicsObject*, unsigned int>> disabledTexturedStatic2DGraphicsObjects;
 
 	std::vector<GraphicsObject*> texturedStatic2DGraphicsObjectsWireFrame;
 
-	std::list<GraphicsObject*> disabledTexturedStatic2DGraphicsObjectsWireFrame;
+	std::list<std::pair<GraphicsObject*, unsigned int>> disabledTexturedStatic2DGraphicsObjectsWireFrame;
 
 	const Window& window;
 

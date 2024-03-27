@@ -18,7 +18,7 @@
 
 std::function<void()> UserInterfaceItem::emptyFunctionObject = std::function<void()>();
 
-UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const model, Texture* const tex, const glm::vec2& initialPosition, const glm::vec2& initialScale) :
+UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const model, Texture* const tex, float z, const glm::vec2& initialPosition, const glm::vec2& initialScale) :
 	subItems(std::unordered_map<std::string, UserInterfaceItem*>()),
 	name(itemName),
 	whenTransformReady(std::function<void()>([]() {})),
@@ -30,7 +30,8 @@ UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const m
 	graphicsObjectReadyCallbacks(std::list<std::function<void()>>()),
 	ready(false),
 	texture(tex),
-	scale(initialScale)
+	scale(initialScale),
+	zOrder(z)
 {
 	std::function<void(GraphicsObject*)> graphicsObjectCreationCallback = [this](GraphicsObject* obj)
 	{
@@ -51,6 +52,8 @@ UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const m
 		}
 
 		graphicsObjectReadyCallbacks.clear();
+
+		graphicsObject->SetZOrder(zOrder);
 
 		ready = true;
 	};
@@ -188,6 +191,7 @@ void UserInterfaceItem::SetPosition(float x, float y)
 	graphicsObject->TranslateObjectUnordered({ translation.x, translation.y });
 	graphicsObject->TranslateObjectUnordered({ x, y });
 	graphicsObject->ScaleObjectUnordered(scale);
+	graphicsObject->SetZOrder(zOrder);
 }
 
 void UserInterfaceItem::OnWindowSizeUpdate()
@@ -265,4 +269,15 @@ UserInterfaceItem::Visibility UserInterfaceItem::InquireVisibility(UserInterface
 glm::vec2 UserInterfaceItem::GetTextureDimensions() const
 {
 	return glm::vec2(static_cast<float>(texture->GetWidth()), static_cast<float>(texture->GetHeight()));
+}
+
+void UserInterfaceItem::SetZOrder(float newZ)
+{
+	graphicsObject->SetZOrder(newZ);
+	zOrder = newZ;
+}
+
+float UserInterfaceItem::GetZOrder() const
+{
+	return graphicsObject->GetZOrder();
 }

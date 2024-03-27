@@ -72,14 +72,6 @@ Editor::Editor() :
 	operating(true),
 	open(true)
 {
-	UserInterfaceItem* item = new UserInterfaceItem("TestTextBox", ModelManager::GetModel("DefaultRectangleWithDepth"), TextureManager::GetTexture("Woman"), { 300.0f, 300.0f });
-
-	//GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(ModelManager::GetModel("DefaultRectangleWithDepth"), TextureManager::GetTexture("Woman"), [](GraphicsObject* go)
-	//{
-	//	TexturedStatic2DGraphicsObject* tsgo = static_cast<TexturedStatic2DGraphicsObject*>(go);
-	//	tsgo->ScaleObject({ 300.0f, 300.0f });
-	//	tsgo->TranslateObject({ 500.0f, 500.0f });
-	//});
 }
 
 Editor::~Editor()

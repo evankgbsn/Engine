@@ -492,11 +492,11 @@ void GraphicsObjectManager::ToggleGraphicsObjectDraw(GraphicsObject* const graph
 			return false;
 		};
 
-		auto isDisabledLambda = [graphicsObject](std::list<GraphicsObject*>& graphicsObjectDisabledContainer, std::list<GraphicsObject*>::iterator& outIt) -> bool
+		auto isDisabledLambda = [graphicsObject](std::list<std::pair<GraphicsObject*, unsigned int>>& graphicsObjectDisabledContainer, std::list<std::pair<GraphicsObject*, unsigned int>>::iterator& outIt) -> bool
 		{
-			for (std::list<GraphicsObject*>::iterator it = graphicsObjectDisabledContainer.begin(); it != graphicsObjectDisabledContainer.end(); it++)
+			for (std::list<std::pair<GraphicsObject*, unsigned int>>::iterator it = graphicsObjectDisabledContainer.begin(); it != graphicsObjectDisabledContainer.end(); it++)
 			{
-				if (*it == graphicsObject)
+				if (it->first == graphicsObject)
 				{
 					outIt = it;
 					return true;
@@ -506,24 +506,16 @@ void GraphicsObjectManager::ToggleGraphicsObjectDraw(GraphicsObject* const graph
 			return false;
 		};
 
-		auto insertFromDisabledListAddToDrawVectorLambda = [graphicsObject](std::vector<GraphicsObject*>& drawVector, std::list<GraphicsObject*>& disableList, std::list<GraphicsObject*>::iterator graphicsObjectToRemoveFromDisableListIterator)
+		auto insertFromDisabledListAddToDrawVectorLambda = [graphicsObject](std::vector<GraphicsObject*>& drawVector, std::list<std::pair<GraphicsObject*, unsigned int>>& disableList, std::list<std::pair<GraphicsObject*, unsigned int>>::iterator graphicsObjectToRemoveFromDisableListIterator)
 		{
-			for (unsigned int i = 0; i < drawVector.size(); i++)
-			{
-				GraphicsObject* drawVectorTmp = drawVector[i];
-				GraphicsObject* graphicsObjectToRemove = graphicsObject;
-				if (drawVector[i] == nullptr)
-				{
-					drawVector[i] = graphicsObject;
-					disableList.remove(graphicsObject);
-				}
-			}
+				drawVector[graphicsObjectToRemoveFromDisableListIterator->second] = graphicsObjectToRemoveFromDisableListIterator->first;
+				disableList.erase(graphicsObjectToRemoveFromDisableListIterator);
 		};
 
-		auto toggleGraphicsObject = [&index, inCollectionLambda, isDisabledLambda, insertFromDisabledListAddToDrawVectorLambda](std::vector<GraphicsObject*>& graphicsObjectContainer, std::list<GraphicsObject*>& graphicsObjectDisableList, std::vector<GraphicsObject*>& graphicsObjectWireFrameContainer, std::list<GraphicsObject*>& graphicsObjectWireFrameDisableList)
+		auto toggleGraphicsObject = [&index, inCollectionLambda, isDisabledLambda, insertFromDisabledListAddToDrawVectorLambda](std::vector<GraphicsObject*>& graphicsObjectContainer, std::list<std::pair<GraphicsObject*, unsigned int>>& graphicsObjectDisableList, std::vector<GraphicsObject*>& graphicsObjectWireFrameContainer, std::list<std::pair<GraphicsObject*, unsigned int>>& graphicsObjectWireFrameDisableList)
 		{
-			std::list<GraphicsObject*>::iterator outIt;
-			std::list<GraphicsObject*>::iterator outItWireframe;
+			std::list<std::pair<GraphicsObject*, unsigned int>>::iterator outIt;
+			std::list<std::pair<GraphicsObject*, unsigned int>>::iterator outItWireframe;
 
 			bool isDisabledGraphicsObject = isDisabledLambda(graphicsObjectDisableList, outIt);
 			bool isDisabledGraphicsObjectWireFrame = isDisabledLambda(graphicsObjectWireFrameDisableList, outItWireframe);
@@ -545,12 +537,12 @@ void GraphicsObjectManager::ToggleGraphicsObjectDraw(GraphicsObject* const graph
 			}
 			else if (isWireframe && !isDisabledGraphicsObjectWireFrame)
 			{
-				graphicsObjectWireFrameDisableList.push_back(graphicsObjectWireFrameContainer[index]);
+				graphicsObjectWireFrameDisableList.push_back(std::make_pair(graphicsObjectWireFrameContainer[index], static_cast<unsigned int>(index)));
 				graphicsObjectWireFrameContainer[index] = nullptr;
 			}
 			else if (notWireframe && !isDisabledGraphicsObject)
 			{
-				graphicsObjectDisableList.push_back(graphicsObjectContainer[index]);
+				graphicsObjectDisableList.push_back(std::make_pair(graphicsObjectContainer[index], static_cast<unsigned int>(index)));
 				graphicsObjectContainer[index] = nullptr;
 			}
 		};
@@ -688,17 +680,17 @@ bool GraphicsObjectManager::Operating()
 
 GraphicsObjectManager::GraphicsObjectManager(const Window& w) :
 	texturedStaticGraphicsObjects(std::vector<GraphicsObject*>()),
-	disabledTexturedStaticGraphicsObjects(std::list<GraphicsObject*>()),
+	disabledTexturedStaticGraphicsObjects(std::list<std::pair<GraphicsObject*, unsigned int>>()),
 	texturedStaticGraphicsObjectsWireFrame(std::vector<GraphicsObject*>()),
-	disabledTexturedStaticGraphicsObjectsWireFrame(std::list<GraphicsObject*>()),
+	disabledTexturedStaticGraphicsObjectsWireFrame(std::list<std::pair<GraphicsObject*, unsigned int>>()),
 	animatedTexturedGraphicsObjects(std::vector<GraphicsObject*>()),
-	disabledAnimatedTexturedGraphicsObjects(std::list<GraphicsObject*>()),
+	disabledAnimatedTexturedGraphicsObjects(std::list<std::pair<GraphicsObject*, unsigned int>>()),
 	goochGraphicsObjects(std::vector<GraphicsObject*>()),
-	disabledGoochGraphicsObjects(std::list<GraphicsObject*>()),
+	disabledGoochGraphicsObjects(std::list<std::pair<GraphicsObject*, unsigned int>>()),
 	litTexturedStaticGraphicsObjects(std::vector<GraphicsObject*>()),
-	disabledLitTexturedStaticGraphicsObjects(std::list<GraphicsObject*>()),
+	disabledLitTexturedStaticGraphicsObjects(std::list<std::pair<GraphicsObject*, unsigned int>>()),
 	texturedStatic2DGraphicsObjects(std::vector<GraphicsObject*>()),
-	disabledTexturedStatic2DGraphicsObjects(std::list<GraphicsObject*>()),
+	disabledTexturedStatic2DGraphicsObjects(std::list<std::pair<GraphicsObject*, unsigned int>>()),
 	window(w)
 {
 	DescriptorSetManager::Initialize();
@@ -733,11 +725,11 @@ GraphicsObjectManager::~GraphicsObjectManager()
 	deleteGraphicsObjectArray(litTexturedStaticGraphicsObjectsWireFrame);
 	deleteGraphicsObjectArray(texturedStatic2DGraphicsObjectsWireFrame);
 
-	auto deleteGraphicsObjectList = [](std::list<GraphicsObject*>& goList)
+	auto deleteGraphicsObjectList = [](std::list<std::pair<GraphicsObject*, unsigned int>>& goList)
 	{
-		for (std::list<GraphicsObject*>::iterator it = goList.begin(); it != goList.end(); it++)
+		for (std::list<std::pair<GraphicsObject*, unsigned int>>::iterator it = goList.begin(); it != goList.end(); it++)
 		{
-			GraphicsObject* go = *it;
+			GraphicsObject* go = it->first;
 			if (go != nullptr)
 			{
 				delete go;

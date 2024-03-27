@@ -369,6 +369,7 @@ Success: Loaded Texture ../Engine/Engine/Renderer/Images/HumanStatic.png
 Success: Loaded Texture ../Engine/Engine/Renderer/Images/Skybox2.png
 Success: Loaded Texture ../Engine/Engine/Renderer/Images/Coco.png
 Success: Loaded Texture ../Engine/Engine/Renderer/Images/grid.png
+Success: Loaded Texture ../Engine/Engine/Renderer/Images/FeatureSearchToolBackground.png
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Woman.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Cruiser.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/CruiserAnim.gltf
@@ -377,92 +378,14 @@ Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Cube.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Skybox.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Human.gltf
 Success: Registered press callback for key code 256
-Info: Added subitem DefaultLowercaseA
-Info: Added subitem DefaultUppercaseB
-Info: Added subitem DefaultLowercaseB
-Info: Added subitem DefaultUppercaseC
-Info: Added subitem DefaultLowercaseC
-Info: Added subitem DefaultUppercaseD
-Info: Added subitem DefaultLowercaseD
-Info: Added subitem DefaultUppercaseE
-Info: Added subitem DefaultLowercaseE
-Info: Added subitem DefaultUppercaseF
-Info: Added subitem DefaultLowercaseF
-Info: Added subitem DefaultUppercaseG
-Info: Added subitem DefaultLowercaseG
-Info: Added subitem DefaultUppercaseH
-Info: Added subitem DefaultLowercaseH
-Info: Added subitem DefaultUppercaseI
-Info: Added subitem DefaultLowercaseI
-Info: Added subitem DefaultUppercaseJ
-Info: Added subitem DefaultLowercaseJ
-Info: Added subitem DefaultUppercaseK
-Info: Added subitem DefaultLowercaseK
-Info: Added subitem DefaultUppercaseL
-Info: Added subitem DefaultLowercaseL
-Info: Added subitem DefaultUppercaseM
-Info: Added subitem DefaultLowercaseM
-Info: Added subitem DefaultUppercaseN
-Info: Added subitem DefaultLowercaseN
-Info: Added subitem DefaultUppercaseO
-Info: Added subitem DefaultLowercaseO
-Info: Added subitem DefaultUppercaseP
-Info: Added subitem DefaultLowercaseP
-Info: Added subitem DefaultUppercaseQ
-Info: Added subitem DefaultLowercaseQ
-Info: Added subitem DefaultUppercaseR
-Info: Added subitem DefaultLowercaseR
-Info: Added subitem DefaultUppercaseS
-Info: Added subitem DefaultLowercaseS
-Info: Added subitem DefaultUppercaseT
-Info: Added subitem DefaultLowercaseT
-Info: Added subitem DefaultUppercaseU
-Info: Added subitem DefaultLowercaseU
-Info: Added subitem DefaultUppercaseV
-Info: Added subitem DefaultLowercaseV
-Info: Added subitem DefaultUppercaseW
-Info: Added subitem DefaultLowercaseW
-Info: Added subitem DefaultUppercaseX
-Info: Added subitem DefaultLowercaseX
-Info: Added subitem DefaultUppercaseY
-Info: Added subitem DefaultLowercaseY
-Info: Added subitem DefaultUppercaseZ
-Info: Added subitem DefaultLowercaseZ
-Info: Added subitem DefaultOne
-Info: Added subitem DefaultTwo
-Info: Added subitem DefaultThree
-Info: Added subitem DefaultFour
-Info: Added subitem DefaultFive
-Info: Added subitem DefaultSix
-Info: Added subitem DefaultSeven
-Info: Added subitem DefaultEight
-Info: Added subitem DefaultNine
-Info: Added subitem DefaultForward
-Info: Added subitem DefaultPipe
-Info: Added subitem DefaultBackward
-Info: Added subitem DefaultOpenBraket
-Info: Added subitem DefaultCloseBraket
-Info: Added subitem DefaultOpenParenthese
-Info: Added subitem DefaultCloseParenthese
-Info: Added subitem DefaultComma
-Info: Added subitem DefaultPeriod
-Info: Added subitem DefaultColon
-Info: Added subitem DefaultSemiColon
-Info: Added subitem DefaultQuotation
-Info: Added subitem DefaultOpenMagnitudeEvaluation
-Info: Added subitem DefaultCloseMagnitudeEvaluation
-Info: Added subitem DefaultMinus
-Info: Added subitem DefaultPlus
-Info: Added subitem DefaultAsterisk
-Info: Added subitem DefaultAmpersand
-Info: Added subitem DefaultCarrot
-Info: Added subitem DefaultPercent
-Info: Added subitem DefaultDollar
-Info: Added subitem DefaultPound
-Info: Added subitem DefaultAt
-Info: Added subitem DefaultExclaimation
-Info: Added subitem DefaultEqual
-Info: Added subitem DefaultUppercaseA
+Info: Added subitem DefaultLowercaseO1
+Info: Added subitem DefaultUppercaseO2
+Info: Added subitem DefaultLowercaseO2
+Info: Added subitem DefaultUppercaseO3
+Info: Added subitem DefaultLowercaseO3
+Info: Added subitem DefaultUppercaseO4
+Info: Added subitem DefaultLowercaseO4
+Info: Added subitem DefaultUppercaseO1
 Success: Registered pressed callback for key code 76
 Success: Registered pressed callback for key code 87
 Success: Registered pressed callback for key code 65
@@ -475,6 +398,30 @@ Success: Registered pressed callback for key code 32
 Success: Registered pressed callback for key code 84
 Success: Registered pressed callback for key code 89
 Success: Registered pressed callback for key code 85
+Success: Created UserInterfaceItem: FeatureSearchToolBackground
+Success: Initialized Editor
+Info: Closed Editor
+Success: Deregistered press callback for key code 79
+Info: Opened Editor
+Success: Registered press callback for key code 79
+Info: Closed Editor
+Success: Deregistered press callback for key code 79
+Info: Opened Editor
+Success: Registered press callback for key code 79
+Info: Closed Editor
+Success: Deregistered press callback for key code 79
+Info: Opened Editor
+Success: Registered press callback for key code 79
+Info: Closed Editor
+Success: Deregistered press callback for key code 79
+Info: Opened Editor
+Success: Registered press callback for key code 79
+Info: Closed Editor
+Success: Deregistered press callback for key code 79
+Info: Opened Editor
+Success: Registered press callback for key code 79
+Info: Closed Editor
+Success: Deregistered press callback for key code 79
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Success: Termiated UserInterfaceManager

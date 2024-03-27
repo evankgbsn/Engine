@@ -59,7 +59,8 @@ Text::Text(const std::string& initialText, const glm::vec2& initialPosition, con
 	fontName("Default"),
 	characters(),
 	characterUserInterfaceItems(),
-	textItem(nullptr)
+	textItem(nullptr),
+	modelNameCounts(std::unordered_map<std::string, unsigned int>())
 {
 	if (fontPrefixes.find(initialFont) == fontPrefixes.end())
 		fontPrefixes.size() > 0 ? fontName = *fontPrefixes.begin() : fontName = "";
@@ -89,14 +90,23 @@ float Text::GetSize() const
 
 void Text::SetSize(float newSize)
 {
-	const std::unordered_map<std::string, UserInterfaceItem*>& subCharacterItems = textItem->GetSubItems();
-
-	for (const std::pair<std::string, UserInterfaceItem*>& characterSubItem : subCharacterItems)
+	if (!characters.empty())
 	{
-		characterSubItem.second->Scale(newSize, newSize);
-	}
+		const std::unordered_map<std::string, UserInterfaceItem*>& subCharacterItems = textItem->GetSubItems();
 
-	size = newSize;
+		for (const std::pair<std::string, UserInterfaceItem*>& characterSubItem : subCharacterItems)
+		{
+			glm::vec2 currentScale = characterSubItem.second->GetScale();
+
+			float scaleX = 1.0f / currentScale.x;
+			float scaleY = 1.0f / currentScale.y;
+
+			characterSubItem.second->Scale(scaleX, scaleY);
+			characterSubItem.second->Scale(newSize, newSize);
+		}
+
+		size = newSize;
+	}
 }
 
 void Text::ContainCharacterModels(const std::string& characters, std::vector<Model*>& returnedCharacterModels, std::vector<std::string>& returnedCharacterModelNames) const
@@ -135,43 +145,44 @@ void Text::ContainCharacterModels(const std::string& characters, std::vector<Mod
 			}
 		}
 
-		static std::unordered_map<char, std::string> signNames = std::unordered_map<char, std::string>();
-		signNames.insert(std::make_pair('[', std::string("Braket")));
-		signNames.insert(std::make_pair(']', std::string("Braket")));
-		signNames.insert(std::make_pair('(', std::string("Parenthese")));
-		signNames.insert(std::make_pair(')', std::string("Parenthese")));
-		signNames.insert(std::make_pair('<', std::string("MagnitudeEvaluation")));
-		signNames.insert(std::make_pair('>', std::string("MagnitudeEvaluation")));
-		signNames.insert(std::make_pair('?', std::string("Question")));
-		signNames.insert(std::make_pair(';', std::string("SemiColon")));
-		signNames.insert(std::make_pair(':', std::string("Colon")));
-		signNames.insert(std::make_pair('/"', std::string("Quotation")));
-		signNames.insert(std::make_pair('@', std::string("At")));
-		signNames.insert(std::make_pair('&', std::string("Ampersand")));
-		signNames.insert(std::make_pair('*', std::string("Asterisk")));
-		signNames.insert(std::make_pair('\\', std::string("Backward")));
-		signNames.insert(std::make_pair('/', std::string("Forward")));
-		signNames.insert(std::make_pair('|', std::string("Pipe")));
-		signNames.insert(std::make_pair('$', std::string("Dollar")));
-		signNames.insert(std::make_pair(',', std::string("Comma")));
-		signNames.insert(std::make_pair('^', std::string("Carrot")));
-		signNames.insert(std::make_pair('=', std::string("Equal")));
-		signNames.insert(std::make_pair('!', std::string("Exclaimation")));
-		signNames.insert(std::make_pair('.', std::string("Period")));
-		signNames.insert(std::make_pair('%', std::string("Percent")));
-		signNames.insert(std::make_pair('0', std::string("Zero")));
-		signNames.insert(std::make_pair('1', std::string("One")));
-		signNames.insert(std::make_pair('2', std::string("Two")));
-		signNames.insert(std::make_pair('3', std::string("Three")));
-		signNames.insert(std::make_pair('4', std::string("Four")));
-		signNames.insert(std::make_pair('5', std::string("Five")));
-		signNames.insert(std::make_pair('6', std::string("Six")));
-		signNames.insert(std::make_pair('7', std::string("Seven")));
-		signNames.insert(std::make_pair('8', std::string("Eight")));
-		signNames.insert(std::make_pair('9', std::string("Nine")));
-		signNames.insert(std::make_pair('#', std::string("Pound")));
-		signNames.insert(std::make_pair('-', std::string("Minus")));
-		signNames.insert(std::make_pair('+', std::string("Plus")));
+		static std::unordered_map<char, std::string> signNames = std::unordered_map<char, std::string>({
+			std::make_pair('[', std::string("Braket")),
+			std::make_pair(']', std::string("Braket")),
+			std::make_pair('(', std::string("Parenthese")),
+			std::make_pair(')', std::string("Parenthese")),
+			std::make_pair('<', std::string("MagnitudeEvaluation")),
+			std::make_pair('>', std::string("MagnitudeEvaluation")),
+			std::make_pair('?', std::string("Question")),
+			std::make_pair(';', std::string("SemiColon")),
+			std::make_pair(':', std::string("Colon")),
+			std::make_pair('/"', std::string("Quotation")),
+			std::make_pair('@', std::string("At")),
+			std::make_pair('&', std::string("Ampersand")),
+			std::make_pair('*', std::string("Asterisk")),
+			std::make_pair('\\', std::string("Backward")),
+			std::make_pair('/', std::string("Forward")),
+			std::make_pair('|', std::string("Pipe")),
+			std::make_pair('$', std::string("Dollar")),
+			std::make_pair(',', std::string("Comma")),
+			std::make_pair('^', std::string("Carrot")),
+			std::make_pair('=', std::string("Equal")),
+			std::make_pair('!', std::string("Exclaimation")),
+			std::make_pair('.', std::string("Period")),
+			std::make_pair('%', std::string("Percent")),
+			std::make_pair('0', std::string("Zero")),
+			std::make_pair('1', std::string("One")),
+			std::make_pair('2', std::string("Two")),
+			std::make_pair('3', std::string("Three")),
+			std::make_pair('4', std::string("Four")),
+			std::make_pair('5', std::string("Five")),
+			std::make_pair('6', std::string("Six")),
+			std::make_pair('7', std::string("Seven")),
+			std::make_pair('8', std::string("Eight")),
+			std::make_pair('9', std::string("Nine")),
+			std::make_pair('#', std::string("Pound")),
+			std::make_pair('-', std::string("Minus")),
+			std::make_pair('+', std::string("Plus"))
+		});
 
 		returnedCharacterModelNames[i] = characterModelName = signNames.contains(character) ? fontName + prefix += (*signNames.find(character)).second : fontName + prefix + character;
 		returnedCharacterModels[i] = ((unassignedModel = ModelManager::GetModel(characterModelName)) != nullptr) ? unassignedModel : ModelManager::GetModel("DefaultRectangleWithDepth");
@@ -182,12 +193,15 @@ void Text::ContainCharacterModels(const std::string& characters, std::vector<Mod
 
 const std::string& Text::Append(const std::string& postfix)
 {
-	std::vector<Model*> charactersAsModels(postfix.size());
-	std::vector<std::string> charactersModelNames(postfix.size());
+	if (!postfix.empty())
+	{
+		std::vector<Model*> charactersAsModels(postfix.size());
+		std::vector<std::string> charactersModelNames(postfix.size());
 
-	ContainCharacterModels(postfix, charactersAsModels, charactersModelNames);
+		ContainCharacterModels(postfix, charactersAsModels, charactersModelNames);
 
-	AddCharacterModelsAsUserInterfaceSubItems(charactersModelNames, charactersAsModels, true);
+		AddCharacterModelsAsUserInterfaceSubItems(charactersModelNames, charactersAsModels, true);
+	}
 	
 	return characters = characters + postfix;
 }
@@ -210,36 +224,55 @@ void Text::SetPosition(const glm::vec2& newPosition)
 
 void Text::SetVisibility(UserInterfaceItem::Visibility newVisibility)
 {
-	const std::unordered_map<std::string, UserInterfaceItem*>& subCharacterItems = textItem->GetSubItems();
-
-	for (const std::pair<std::string, UserInterfaceItem*>& characterSubItem : subCharacterItems)
+	if (textItem != nullptr)
 	{
-		characterSubItem.second->InquireVisibility(newVisibility);
+		const std::unordered_map<std::string, UserInterfaceItem*>& subCharacterItems = textItem->GetSubItems();
+
+		if (!subCharacterItems.empty())
+		{
+			for (const std::pair<std::string, UserInterfaceItem*>& characterSubItem : subCharacterItems)
+			{
+				characterSubItem.second->InquireVisibility(newVisibility);
+			}
+		}
 	}
 }
 
 void Text::AddCharacterModelsAsUserInterfaceSubItems(const std::vector<std::string>& charactersModelName, const std::vector<Model*>& characterModels, bool appendOrPrepend)
 {
+	auto createSubItemName = [this, &charactersModelName](unsigned int index) -> std::string
+		{
+			modelNameCounts[charactersModelName.at(index)]++;
+			char itoaChar[] = { '\0', '\0' , '\0' , '\0' , '\0' };
+			_itoa_s(modelNameCounts[charactersModelName.at(index)], itoaChar, 10);
+			return charactersModelName.at(index) + itoaChar;
+		};
+
+	std::string firstCharacterName = createSubItemName(0);
+
 	UserInterfaceItem* firstAppendedCharacterModelAsUserInterfaceSubItem;
 	UserInterfaceItem* lastCreatedTextItem = firstAppendedCharacterModelAsUserInterfaceSubItem = new UserInterfaceItem(charactersModelName[0], characterModels[0], TextureManager::GetTexture("DefaultFontTexture"), {position.x, position.y});
 
 	if (textItem == nullptr)
-		textItem = lastCreatedTextItem;
+		textItem = lastCreatedTextItem;	
 
 	for (unsigned int i = 1; i < characterModels.size(); i++)
 	{
-		UserInterfaceItem* characterUserInterfaceItem = new UserInterfaceItem(charactersModelName.at(i), characterModels.at(i), TextureManager::GetTexture("DefaultFontTexture"), {(horizontalSpacing * i) + position.x, (verticalSpacing * i) + position.y});
+
+		std::string subItemName = createSubItemName(i);
+
+		UserInterfaceItem* characterUserInterfaceItem = new UserInterfaceItem(subItemName, characterModels.at(i), TextureManager::GetTexture("DefaultFontTexture"), {(horizontalSpacing * i) + position.x, (verticalSpacing * i) + position.y});
 
 		characterUserInterfaceItems.push_back(characterUserInterfaceItem);
 
-		textItem->AddSubItem(charactersModelName[i], characterUserInterfaceItem);
+		textItem->AddSubItem(subItemName, characterUserInterfaceItem);
 
 		lastCreatedTextItem = characterUserInterfaceItem;
 	}
 
 	if (appendOrPrepend)
 	{
-		textItem->AddSubItem(charactersModelName[0], firstAppendedCharacterModelAsUserInterfaceSubItem);
+		textItem->AddSubItem(firstCharacterName, firstAppendedCharacterModelAsUserInterfaceSubItem);
 		return;
 	}
 

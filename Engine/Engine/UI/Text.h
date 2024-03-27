@@ -70,6 +70,8 @@ private:
 
 	std::string characters;
 
+	std::unordered_map<std::string, unsigned int> modelNameCounts;
+
 	std::vector<UserInterfaceItem*> characterUserInterfaceItems;
 
 	UserInterfaceItem* textItem;

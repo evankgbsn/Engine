@@ -3,6 +3,10 @@
 
 #include <string>
 #include <unordered_set>
+#include <unordered_map>
+#include <functional>
+
+#include <glm/glm.hpp>
 
 class UserInterfaceItem;
 class Text;
@@ -40,11 +44,18 @@ private:
 
 	void EnableInput();
 
+	void DisableInput();
+
+	glm::vec2 GetWindowOpenLocation() const;
+
 	std::unordered_set<std::string> featureNamesSet;
 
 	UserInterfaceItem* featureSearchBackground;
 
-	Text* const featureSearchBarText;
+	Text* featureSearchBarText;
+
+	std::function<void(int)>* characterInputFunction;
+
 };
 
 #endif // FEATURESEARCHTOOL_H

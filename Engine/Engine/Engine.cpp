@@ -170,7 +170,7 @@ void Engine::LoadAssets()
 
 void Engine::InitializeEditor()
 {
-	toggleEditorFunction = new std::function<void()> ([]()
+	toggleEditorFunction = new std::function<void(int)> ([](int keyCode)
 	{
 		bool editorOpen = Editor::IsOpen();
 

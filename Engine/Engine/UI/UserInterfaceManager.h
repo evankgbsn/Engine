@@ -20,7 +20,7 @@ public:
 
 	static void Terminate();
 
-	static UserInterfaceItem* const CrateUserInterfaceItem(const std::string& name, Model* const model, Texture* const texture, const glm::vec2& position);
+	static UserInterfaceItem* const CrateUserInterfaceItem(const std::string& name, Model* const model, Texture* const texture, const glm::vec2& position, const glm::vec2& scale = glm::vec2(1.0f, 1.0f));
 
 	static void DestroyUserInterfaceItem(const std::string& name, bool subItems);
 

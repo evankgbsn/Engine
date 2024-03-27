@@ -95,7 +95,7 @@ private:
 
 	void(*loadAssetsFunc)() = nullptr;
 
-	std::function<void()>* toggleEditorFunction = nullptr;
+	std::function<void(int keyCode)>* toggleEditorFunction = nullptr;
 };
 
 #endif // ENGINE_H

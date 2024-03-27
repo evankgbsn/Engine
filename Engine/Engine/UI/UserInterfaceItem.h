@@ -53,6 +53,8 @@ public:
 
 	void Translate(float x, float y);
 
+	glm::vec2 GetScale() const;
+
 	void SetPosition(float x, float y);
 	
 	void OnWindowSizeUpdate();

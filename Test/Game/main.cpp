@@ -33,19 +33,19 @@ public:
 	};
 };
 
-std::function<void()>* wPress = nullptr;
-std::function<void()>* aPress = nullptr;
-std::function<void()>* sPress = nullptr;
-std::function<void()>* dPress = nullptr;
-std::function<void()>* lctrPress = nullptr;
-std::function<void()>* spacePress = nullptr;
-std::function<void()>* qPress = nullptr;
-std::function<void()>* ePress = nullptr;
-std::function<void()>* lPress = nullptr;
+std::function<void(int)>* wPress = nullptr;
+std::function<void(int)>* aPress = nullptr;
+std::function<void(int)>* sPress = nullptr;
+std::function<void(int)>* dPress = nullptr;
+std::function<void(int)>* lctrPress = nullptr;
+std::function<void(int)>* spacePress = nullptr;
+std::function<void(int)>* qPress = nullptr;
+std::function<void(int)>* ePress = nullptr;
+std::function<void(int)>* lPress = nullptr;
 
-std::function<void()>* tPress = nullptr;
-std::function<void()>* yPress = nullptr;
-std::function<void()>* uPress = nullptr;
+std::function<void(int)>* tPress = nullptr;
+std::function<void(int)>* yPress = nullptr;
+std::function<void(int)>* uPress = nullptr;
 
 static HeapProfiling heapProfiling;
 
@@ -81,6 +81,7 @@ void LoadAssets()
 	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Skybox2.png", "Skybox");
 	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Coco.png", "Coco");
 	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/grid.png", "Grid");
+	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/FeatureSearchToolBackground.png", "FeatureSearchToolBackground");
 
 	ModelManager::LoadModel("Woman", "../Engine/Engine/Renderer/Model/Woman.gltf");
 	ModelManager::LoadModel("Cruiser", "../Engine/Engine/Renderer/Model/Cruiser.gltf");
@@ -148,19 +149,19 @@ void StressTest()
 		tsgo->Scale({ 100.0f, 100.0f, 0.0f});
 		tsgo->Rotate(-90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
 
-		tPress = new std::function<void()>([tsgo]()
+		tPress = new std::function<void(int)>([tsgo](int keyCode)
 		{
 			float rotSpeed = 1.0f * TimeManager::DeltaTime();
 			tsgo->Rotate(rotSpeed, glm::vec3(1.0f, 0.0f, 0.0f));
 		});
 
-		yPress = new std::function<void()>([tsgo]()
+		yPress = new std::function<void(int)>([tsgo](int keyCode)
 		{
 			float rotSpeed = 1.0f * TimeManager::DeltaTime();
 			tsgo->Rotate(rotSpeed, glm::vec3(0.0f, 1.0f, 0.0f));
 		});
 
-		uPress = new std::function<void()>([tsgo]()
+		uPress = new std::function<void(int)>([tsgo](int keyCode)
 		{
 			float rotSpeed = 1.0f * TimeManager::DeltaTime();
 			tsgo->Rotate(rotSpeed, glm::vec3(0.0f, 0.0f, 1.0f));
@@ -171,10 +172,17 @@ void StressTest()
 		InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_U, uPress);
 	});
 
+	//GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(ModelManager::GetModel("DefaultRectangleWithDepth"), TextureManager::GetTexture("Woman"), [](GraphicsObject* go)
+	//{
+	//	TexturedStatic2DGraphicsObject* tsgo = static_cast<TexturedStatic2DGraphicsObject*>(go);
+	//	tsgo->ScaleObject({ 300.0f, 300.0f });
+	//	tsgo->TranslateObject({ 500.0f, 500.0f });
+	//});
+
 	SetInput();
 }
 
-std::vector<std::function<void()>**> keyList = { &wPress, &aPress, &dPress, &lctrPress, &qPress, &ePress };
+std::vector<std::function<void(int)>**> keyList = { &wPress, &aPress, &dPress, &lctrPress, &qPress, &ePress };
 
 void Game()
 {
@@ -203,7 +211,7 @@ void Game()
 		}
 	};
 
-	for (std::function<void()>** keyPressFunction : keyList)
+	for (std::function<void(int)>** keyPressFunction : keyList)
 	{
 		if (*keyPressFunction != nullptr)
 		{
@@ -217,56 +225,56 @@ void Game()
 
 void SetInput()
 {
-	wPress = new std::function<void()>([]()
+	wPress = new std::function<void(int)>([](int keyCode)
 	{
 		Camera& cam = CameraManager::GetCamera("MainCamera");
 		float speed = 4.0f * TimeManager::DeltaTime();
 		cam.Translate(cam.GetForwardVector() * speed);
 	});
 
-	aPress = new std::function<void()>([]()
+	aPress = new std::function<void(int)>([](int keyCode)
 	{
 		Camera& cam = CameraManager::GetCamera("MainCamera");
 		float speed = 4.0f * TimeManager::DeltaTime();
 		cam.Translate(cam.GetRightVector() * -speed);
 	});
 
-	sPress = new std::function<void()>([]()
+	sPress = new std::function<void(int)>([](int keyCode)
 	{
 		Camera& cam = CameraManager::GetCamera("MainCamera");
 		float speed = 4.0f * TimeManager::DeltaTime();
 		cam.Translate(cam.GetForwardVector() * -speed);
 	});
 
-	dPress = new std::function<void()>([]()
+	dPress = new std::function<void(int)>([](int keyCode)
 	{
 		Camera& cam = CameraManager::GetCamera("MainCamera");
 		float speed = 4.0f * TimeManager::DeltaTime();
 		cam.Translate(cam.GetRightVector() * speed);
 	});
 
-	lctrPress = new std::function<void()>([]()
+	lctrPress = new std::function<void(int)>([](int keyCode)
 	{
 		Camera& cam = CameraManager::GetCamera("MainCamera");
 		float speed = 4.0f * TimeManager::DeltaTime();
 		cam.Translate(glm::vec3(0.0f, -speed, 0.0f));
 	});
 
-	spacePress = new std::function<void()>([]()
+	spacePress = new std::function<void(int)>([](int keyCode)
 	{
 		Camera& cam = CameraManager::GetCamera("MainCamera");
 		float speed = 4.0f * TimeManager::DeltaTime();
 		cam.Translate(glm::vec3(0.0f, speed, 0.0f));
 	});
 
-	qPress = new std::function<void()>([]()
+	qPress = new std::function<void(int)>([](int keyCode)
 	{
 		Camera& cam = CameraManager::GetCamera("MainCamera");
 		float rotSpeed = 2.0f * TimeManager::DeltaTime();
 		cam.Rotate(cam.GetUpVector(), rotSpeed);
 	});
 
-	ePress = new std::function<void()>([]()
+	ePress = new std::function<void(int)>([](int keyCode)
 	{
 		Camera& cam = CameraManager::GetCamera("MainCamera");
 		float rotSpeed = 2.0f * TimeManager::DeltaTime();

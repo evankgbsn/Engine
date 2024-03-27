@@ -174,6 +174,12 @@ void UserInterfaceItem::Translate(float x, float y)
 
 }
 
+glm::vec2 UserInterfaceItem::GetScale() const
+{
+	// Assumiong the graphics object has been created. Adding callbacks for these might be nessecary.
+	return (graphicsObject != nullptr) ? graphicsObject->GetScale() : glm::vec2(1.0f, 1.0f);
+}
+
 void UserInterfaceItem::SetPosition(float x, float y)
 {
 	glm::vec2 scale = graphicsObject->GetScale();
@@ -211,7 +217,15 @@ const glm::vec2& UserInterfaceItem::GetTranslation() const
 
 bool UserInterfaceItem::TransformReady(std::function<void()>& standardFunctionObject)
 {
-	whenTransformReady = standardFunctionObject;
+	if (!transformReady)
+	{
+		whenTransformReady = standardFunctionObject;
+	}
+	else
+	{
+		standardFunctionObject();
+	}
+
 	return transformReady;
 }
 

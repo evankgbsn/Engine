@@ -30,6 +30,8 @@ public:
 
 private:
 
+	float frameTimeAdvance;
+
 	float playback;
 
 	float speed;

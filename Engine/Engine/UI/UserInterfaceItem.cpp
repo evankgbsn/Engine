@@ -63,6 +63,7 @@ UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const m
 
 UserInterfaceItem::~UserInterfaceItem()
 {
+	GraphicsObjectManager::DeleteGraphicsObject(graphicsObject);
 }
 
 void UserInterfaceItem::AddSubItem(const std::string& name, UserInterfaceItem* const subItem)
@@ -215,7 +216,8 @@ void UserInterfaceItem::OnWindowSizeUpdate()
 const glm::vec2& UserInterfaceItem::GetTranslation() const
 {
 	static glm::vec2 toNotReturnATemporary(0.0f, 0.0f);
-	toNotReturnATemporary = graphicsObject->GetTranslation();
+	if(graphicsObject != nullptr)
+		toNotReturnATemporary = graphicsObject->GetTranslation();
 	return toNotReturnATemporary;
 }
 

@@ -78,6 +78,11 @@ void FeatureSearchTool::EnableInput()
 {
 	static bool shiftHeld = false;
 
+	characterInputFunctionBackspace = new std::function<void(int)>([this](int keyCode)
+	{
+		featureSearchBarText->Backspace();
+	});
+
 	characterInputFunctionShiftHeld = new std::function<void(int)>([](int keyCode)
 	{
 		shiftHeld = true;
@@ -90,7 +95,7 @@ void FeatureSearchTool::EnableInput()
 
 	characterInputFunction = new std::function<void(int)>([this](int keyCode) 
 	{
-		int upperOrLower = ((shiftHeld) ? 0 : 32);
+		int upperOrLower = ((shiftHeld || keyCode == 32) ? 0 : 32);
 		featureSearchBarText->Append(std::string() + (char)(keyCode + upperOrLower), 8.9f);
 	});
 
@@ -125,6 +130,7 @@ void FeatureSearchTool::EnableInput()
 	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_LEFT_SHIFT, characterInputFunctionShiftHeld);
 	InputManager::RegisterCallbackForKeyState(KEY_RELEASE, KEY_LEFT_SHIFT, characterInputFunctionShiftRelease);
 
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_BACKSPACE, characterInputFunctionBackspace);
 }
 
 void FeatureSearchTool::DisableInput()
@@ -160,9 +166,12 @@ void FeatureSearchTool::DisableInput()
 	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_LEFT_SHIFT, characterInputFunctionShiftHeld);
 	InputManager::DeregisterCallbackForKeyState(KEY_RELEASE, KEY_LEFT_SHIFT, characterInputFunctionShiftRelease);
 
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_BACKSPACE, characterInputFunctionBackspace);
+
 	delete characterInputFunction;
 	delete characterInputFunctionShiftHeld;
 	delete characterInputFunctionShiftRelease;
+	delete characterInputFunctionBackspace;
 }
 
 glm::vec2 FeatureSearchTool::GetWindowOpenLocation() const

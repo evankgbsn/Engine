@@ -23,6 +23,9 @@ TexturedAnimatedGraphicsObject::TexturedAnimatedGraphicsObject(Model* const m, T
 	mvp.model = glm::mat4(1.0f);
 	shaderName = "TexturedAnimated";
 	InitializeDescriptorSets();
+
+	dirLight = LightManager::GetDirectionalLight("MainDirLight");
+	cam = &CameraManager::GetCamera("MainCamera");
 }
 
 TexturedAnimatedGraphicsObject::~TexturedAnimatedGraphicsObject()
@@ -55,10 +58,8 @@ void TexturedAnimatedGraphicsObject::CreateUniformBuffers()
 
 void TexturedAnimatedGraphicsObject::Update()
 {
-	const Camera& cam = CameraManager::GetCamera("MainCamera");
-
-	mvp.view = cam.GetView();
-	mvp.projection = cam.GetProjection();
+	mvp.view = cam->GetView();
+	mvp.projection = cam->GetProjection();
 	mvp.projection[1][1] *= -1;
 
 	for (unsigned int i = 0; i < model->GetArmature()->GetInvBindPose().size(); i++)
@@ -67,8 +68,6 @@ void TexturedAnimatedGraphicsObject::Update()
 	}
 
 	animation->Update(anim.pose);
-
-	DirectionalLight* dirLight = LightManager::GetDirectionalLight("MainDirLight");
 
 	light.color = glm::vec4(dirLight->GetColor(), 1.0f);
 	light.direction = glm::vec4(dirLight->GetDirection(), 0.0f);

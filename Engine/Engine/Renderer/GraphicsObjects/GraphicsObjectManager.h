@@ -64,6 +64,8 @@ public:
 
 	static bool Operating();
 
+	static void DeleteGraphicsObject(GraphicsObject* go);
+
 private:
 
 	GraphicsObjectManager() = delete;
@@ -88,6 +90,8 @@ private:
 
 	void CreateQueuedGraphicsObjects();
 
+	void DeleteQueuedGraphicsObjects();
+
 	void ToggleQueuedGraphicsObjects();
 
 	void ConvertPipelineForQueuedGraphicsObjects();
@@ -107,6 +111,8 @@ private:
 	std::mutex enqueueGoochMutex;
 
 	std::mutex enqueuelitStaticMutex;
+
+	std::mutex updateMutex;
 
 	std::vector<GraphicsObject*> texturedStaticGraphicsObjects;
 
@@ -157,6 +163,8 @@ private:
 	static const std::string shaderDirectoryName;
 
 	std::list<std::function<void()>> graphicsObjectCreateQueue;
+
+	std::list<std::function<void()>> graphicsObjectDeleteQueue;
 
 	std::list<std::function<void()>> graphicsObjectPipelineConversionQueue;
 

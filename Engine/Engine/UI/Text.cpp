@@ -192,12 +192,19 @@ const std::string& Text::Append(const std::string& postfix, float zOrder)
 {
 	if (!postfix.empty())
 	{
-		std::vector<Model*> charactersAsModels(postfix.size());
-		std::vector<std::string> charactersModelNames(postfix.size());
+		if (postfix == " ")
+		{
+			cursor.x += horizontalSpacing;
+		}
+		else
+		{
+			std::vector<Model*> charactersAsModels(postfix.size());
+			std::vector<std::string> charactersModelNames(postfix.size());
 
-		ContainCharacterModels(postfix, charactersAsModels, charactersModelNames);
+			ContainCharacterModels(postfix, charactersAsModels, charactersModelNames);
 
-		AddCharacterModelsAsUserInterfaceSubItems(charactersModelNames, charactersAsModels, zOrder, true);
+			AddCharacterModelsAsUserInterfaceSubItems(charactersModelNames, charactersAsModels, zOrder, true);
+		}
 	}
 	
 	return characters = characters + postfix;
@@ -240,6 +247,8 @@ void Text::SetVisibility(UserInterfaceItem::Visibility newVisibility)
 				characterSubItem.second->InquireVisibility(newVisibility);
 			}
 		}
+
+		textItem->InquireVisibility(newVisibility);
 	}
 }
 
@@ -259,6 +268,30 @@ float Text::GetZOrder() const
 	}
 
 	return 10.0f;
+}
+
+void Text::Backspace()
+{
+	if (characters.size() > 0)
+	{
+		if (!characterUserInterfaceItems.empty() && characters.at(characters.size() - 1) != ' ')
+		{
+			delete characterUserInterfaceItems.at(characterUserInterfaceItems.size() - 1);
+			characterUserInterfaceItems.erase(std::next(characterUserInterfaceItems.begin(), characterUserInterfaceItems.size() - 1));
+		}
+		
+		cursor.x += -horizontalSpacing;
+
+		if (characters.size() == 1)
+		{
+			textItem = nullptr;
+		}
+
+		std::string charactersBefore = characters;
+
+		characters.erase(std::next(characters.begin(), characters.size() - 1));
+		Logger::Log(characters + " : " + charactersBefore, Logger::Category::Warning);
+	}
 }
 
 void Text::AddCharacterModelsAsUserInterfaceSubItems(const std::vector<std::string>& charactersModelName, const std::vector<Model*>& characterModels, float z, bool appendOrPrepend)
@@ -300,7 +333,7 @@ void Text::AddCharacterModelsAsUserInterfaceSubItems(const std::vector<std::stri
 	cursor.x += horizontalSpacing;
 	cursor.y += verticalSpacing;
 
-	if (appendOrPrepend)
+	if (appendOrPrepend && textItem != lastCreatedTextItem)
 	{
 		textItem->AddSubItem(firstCharacterName, firstAppendedCharacterModelAsUserInterfaceSubItem);
 		return;

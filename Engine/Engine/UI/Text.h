@@ -46,6 +46,8 @@ public:
 
 	float GetZOrder() const;
 
+	void Backspace();
+
 protected:
 
 	Text() = delete;

@@ -107,7 +107,7 @@ void StressTest()
 	unsigned int clipNum = 0;
 	unsigned int womanTextureNum;
 
-	int count = 25;
+	int count = 10;
 
 	for (int i = 0; i < count; i++)
 	{
@@ -125,7 +125,7 @@ void StressTest()
 					{
 						ago->Translate(glm::vec3(i * translationScalar + -count*3, 0.0f, j * translationScalar + -count*3));
 						ago->SetClip(8);
-						ago->SetAnimationSpeed(1.0f);
+						ago->SetAnimationSpeed(5.0f);
 					}
 
 					if (i == j)

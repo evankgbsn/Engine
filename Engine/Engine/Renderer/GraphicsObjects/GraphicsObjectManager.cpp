@@ -176,6 +176,16 @@ void GraphicsObjectManager::CreateQueuedGraphicsObjects()
 	graphicsObjectCreateQueue.clear();
 }
 
+void GraphicsObjectManager::DeleteQueuedGraphicsObjects()
+{
+	for (const auto& graphicsDeleteFunction : graphicsObjectDeleteQueue)
+	{
+		graphicsDeleteFunction();
+	}
+
+	graphicsObjectDeleteQueue.clear();
+}
+
 void GraphicsObjectManager::ToggleQueuedGraphicsObjects()
 {
 	for (const auto& toggleGraphicsObjectFunction : graphicsObjectToggleQueue)
@@ -584,10 +594,11 @@ void GraphicsObjectManager::ExecutePendingCommands()
 {
 	if (instance == nullptr)
 		return;
-	
+
 	instance->CreateQueuedGraphicsObjects();
 	instance->ToggleQueuedGraphicsObjects();
 	instance->ConvertPipelineForQueuedGraphicsObjects();
+	instance->DeleteQueuedGraphicsObjects();
 }
 
 void GraphicsObjectManager::UpdateObjects()
@@ -597,6 +608,7 @@ void GraphicsObjectManager::UpdateObjects()
 
 	auto updateObjects = [](std::vector<GraphicsObject*>& goArray)
 	{
+		std::lock_guard<std::mutex> guard(instance->updateMutex);
 		std::for_each(std::execution::par, goArray.begin(), goArray.end(),
 			[](GraphicsObject* obj)
 			{
@@ -676,6 +688,41 @@ const ShaderPipelineStage* const GraphicsObjectManager::GetShaderPipelineStage(c
 bool GraphicsObjectManager::Operating()
 {
 	return shouldUpdate;
+}
+
+void GraphicsObjectManager::DeleteGraphicsObject(GraphicsObject* go)
+{
+	if (instance == nullptr)
+	{
+		Logger::Log(std::string("Calling GraphicsObjectManager::DeleteGraphicsObject() before GraphicsObjectManager::Initialize()"), Logger::Category::Warning);
+		return;
+	}
+
+
+	auto deleteObjectFromDrawVector = [go](std::mutex& queueMutex, std::vector<GraphicsObject*>& graphicsObjects)
+	{
+		std::lock_guard<std::mutex> guard(queueMutex);
+		for (GraphicsObject*& obj : graphicsObjects)
+		{
+			if (obj == go)
+			{
+				delete obj;
+				obj = nullptr;
+				return;
+			}
+		}
+	};
+
+	auto deleteFunc = [deleteObjectFromDrawVector]()
+	{
+		std::lock_guard<std::mutex> guard(instance->updateMutex);
+		deleteObjectFromDrawVector(instance->enqueueStatic2DMutex, instance->texturedStatic2DGraphicsObjects);
+		deleteObjectFromDrawVector(instance->enqueueAnimatedMutex, instance->animatedTexturedGraphicsObjects);
+		deleteObjectFromDrawVector(instance->enqueuelitStaticMutex, instance->litTexturedStaticGraphicsObjects);
+		deleteObjectFromDrawVector(instance->enqueueGoochMutex, instance->goochGraphicsObjects);
+	};
+
+	instance->graphicsObjectDeleteQueue.push_back(deleteFunc);
 }
 
 GraphicsObjectManager::GraphicsObjectManager(const Window& w) :

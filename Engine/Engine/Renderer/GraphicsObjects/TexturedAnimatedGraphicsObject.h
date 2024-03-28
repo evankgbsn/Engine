@@ -10,6 +10,8 @@ class Armature;
 class Model;
 class Texture;
 class Animation;
+class Camera;
+class DirectionalLight;
 
 class TexturedAnimatedGraphicsObject : public GraphicsObject, public Graphics3DTransformable
 {
@@ -87,6 +89,10 @@ protected:
 	Texture* texture;
 
 	float shouldUpdateAnim = 0;
+
+	DirectionalLight* dirLight;
+
+	Camera* cam;
 
 private:
 

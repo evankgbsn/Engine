@@ -3,6 +3,8 @@
 
 #include "Entity/GameObject.h"
 
+class GraphicsObject;
+
 class Skybox : public GameObject
 {
 public:

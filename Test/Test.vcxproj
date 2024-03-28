@@ -139,10 +139,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Game\Entities\Player.cpp" />
     <ClCompile Include="Game\Entities\Skybox.cpp" />
     <ClCompile Include="Game\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\Entities\Player.h" />
     <ClInclude Include="Game\Entities\Skybox.h" />
   </ItemGroup>
   <ItemGroup>

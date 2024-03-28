@@ -378,22 +378,25 @@ Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Cube.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Skybox.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Human.gltf
 Success: Registered press callback for key code 256
-Success: Registered pressed callback for key code 76
 Success: Registered pressed callback for key code 87
 Success: Registered pressed callback for key code 65
 Success: Registered pressed callback for key code 83
 Success: Registered pressed callback for key code 68
-Success: Registered pressed callback for key code 81
-Success: Registered pressed callback for key code 69
-Success: Registered pressed callback for key code 341
-Success: Registered pressed callback for key code 32
+Success: Registered release callback for key code 87
+Success: Registered release callback for key code 65
+Success: Registered release callback for key code 83
+Success: Registered release callback for key code 68
+Success: Registered press callback for key code 87
+Success: Registered press callback for key code 65
+Success: Registered press callback for key code 83
+Success: Registered press callback for key code 68
+Success: Registered press callback for key code 32
+Success: Registered release callback for key code 32
 Success: Registered pressed callback for key code 84
 Success: Registered pressed callback for key code 89
 Success: Registered pressed callback for key code 85
-Success: Termiated UserInterfaceManager
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
+Warning: Termiated UserInterfaceManager
+Warning: Termiated UserInterfaceManagerCalling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()

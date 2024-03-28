@@ -21,6 +21,7 @@
 #include "Time/TimeManager.h"
 
 #include "Entities/Skybox.h"
+#include "Entities/Player.h"
 
 #include <cstdio>
 
@@ -53,6 +54,7 @@ void StressTest();
 void LoadAssets();
 void Game();
 void SetInput();
+void AddGrid();
 
 
 
@@ -142,35 +144,7 @@ void StressTest()
 
 	
 
-	GraphicsObjectManager::CreateTexturedStaticGraphicsObject(ModelManager::GetModel("DefaultRectangleWithDepth"), TextureManager::GetTexture("Grid"),
-	[](GraphicsObject* go) 
-	{
-		TexturedStaticGraphicsObject* tsgo = static_cast<TexturedStaticGraphicsObject*>(go);
-		tsgo->Scale({ 100.0f, 100.0f, 0.0f});
-		tsgo->Rotate(-90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
-
-		tPress = new std::function<void(int)>([tsgo](int keyCode)
-		{
-			float rotSpeed = 1.0f * TimeManager::DeltaTime();
-			tsgo->Rotate(rotSpeed, glm::vec3(1.0f, 0.0f, 0.0f));
-		});
-
-		yPress = new std::function<void(int)>([tsgo](int keyCode)
-		{
-			float rotSpeed = 1.0f * TimeManager::DeltaTime();
-			tsgo->Rotate(rotSpeed, glm::vec3(0.0f, 1.0f, 0.0f));
-		});
-
-		uPress = new std::function<void(int)>([tsgo](int keyCode)
-		{
-			float rotSpeed = 1.0f * TimeManager::DeltaTime();
-			tsgo->Rotate(rotSpeed, glm::vec3(0.0f, 0.0f, 1.0f));
-		});
-
-		InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_T, tPress);
-		InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_Y, yPress);
-		InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_U, uPress);
-	});
+	
 
 	SetInput();
 }
@@ -179,18 +153,23 @@ std::vector<std::function<void(int)>**> keyList = { &wPress, &aPress, &dPress, &
 
 void Game()
 {
-	StressTest();
+	//StressTest();
+	AddGrid();
 
 	Scene* mainScene = SceneManager::CreateScene("Main");
 	TransformSystem* transformSystem = new TransformSystem();
 	Skybox* skyboxGameObject = new Skybox();
+	Player* playerGameObject = new Player();
 
 	TransformComponent* skyboxTransform = transformSystem->CreateComponent();
+	//TransformComponent* playerTransform = transformSystem->CreateComponent();
 	
 	skyboxGameObject->AddComponent(skyboxTransform->GetType(), skyboxTransform);
+	//playerGameObject->AddComponent(playerTransform->GetType(), playerTransform);
 	mainScene->AddEntity("Skybox", skyboxGameObject);
+	mainScene->AddEntity("Player", playerGameObject);
 	mainScene->AddSystem("Transform", transformSystem);
-	
+
 	float frame = TimeManager::SecondsSinceStart();
 
 	while (Engine::Operating())
@@ -200,6 +179,7 @@ void Game()
 		{	
 			transformSystem->Operate();
 			skyboxGameObject->Update();
+			playerGameObject->Update();
 			frame = TimeManager::SecondsSinceStart();
 		}
 	};
@@ -212,6 +192,7 @@ void Game()
 		}
 	}
 
+	delete playerGameObject;
 	delete transformSystem;
 	delete skyboxGameObject;
 }
@@ -284,4 +265,37 @@ void SetInput()
 	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_E, ePress);
 	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_LEFT_CTRL, lctrPress);
 	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_SPACE, spacePress);
+}
+
+void AddGrid()
+{
+	GraphicsObjectManager::CreateTexturedStaticGraphicsObject(ModelManager::GetModel("DefaultRectangleWithDepth"), TextureManager::GetTexture("Grid"),
+		[](GraphicsObject* go)
+		{
+			TexturedStaticGraphicsObject* tsgo = static_cast<TexturedStaticGraphicsObject*>(go);
+			tsgo->Scale({ 100.0f, 100.0f, 0.0f });
+			tsgo->Rotate(-90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+
+			tPress = new std::function<void(int)>([tsgo](int keyCode)
+				{
+					float rotSpeed = 1.0f * TimeManager::DeltaTime();
+					tsgo->Rotate(rotSpeed, glm::vec3(1.0f, 0.0f, 0.0f));
+				});
+
+			yPress = new std::function<void(int)>([tsgo](int keyCode)
+				{
+					float rotSpeed = 1.0f * TimeManager::DeltaTime();
+					tsgo->Rotate(rotSpeed, glm::vec3(0.0f, 1.0f, 0.0f));
+				});
+
+			uPress = new std::function<void(int)>([tsgo](int keyCode)
+				{
+					float rotSpeed = 1.0f * TimeManager::DeltaTime();
+					tsgo->Rotate(rotSpeed, glm::vec3(0.0f, 0.0f, 1.0f));
+				});
+
+			InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_T, tPress);
+			InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_Y, yPress);
+			InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_U, uPress);
+		});
 }

@@ -4,7 +4,6 @@
 #include "Entity.h"
 
 class Component;
-class GraphicsObject;
 
 class GameObject : public Entity
 {

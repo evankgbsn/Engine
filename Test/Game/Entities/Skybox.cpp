@@ -39,22 +39,6 @@ Skybox::Skybox() :
 				scaled = true;
 			}
 		}
-
-		//UserInterfaceItem* defaultUserInterfaceItem = UserInterfaceManager::CrateUserInterfaceItem(std::string("Default"), ModelManager::GetModel("DefaultLowercaseL"), TextureManager::GetTexture("DefaultFontTexture"), glm::vec2(100.0f, 600.0f));
-		//
-		//std::function<void()> whenTransformReady = [defaultUserInterfaceItem]()
-		//{
-		//	defaultUserInterfaceItem->Scale(100.0f, 100.0f);
-		//};
-		//
-		// 
-		//// Local transforms and global transforms for UserInterfaceItems and UserInterfaceItem SubItems. 
-		// 
-		//defaultUserInterfaceItem->TransformReady(whenTransformReady);
-
-		//Text* textObject = new Text(std::string("AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz123456789/|\\[](),.:;\"<>-+*&^%$#@!="), glm::vec2(100.0f, 600.0f), 25.0f);
-		Text* textObject = new Text(std::string("OoOoOoOo"));
-
 	};
 
 	GraphicsObjectManager::CreateTexturedStaticGraphicsObject(ModelManager::GetModel("Skybox"), TextureManager::GetTexture("Skybox"), callback);
@@ -66,21 +50,8 @@ Skybox::~Skybox()
 
 void Skybox::Update()
 {
-	auto onHover = []()
-	{
-		//UserInterfaceItem* cocoImage = UserInterfaceManager::GetUserInterfaceItem("Default");
-		//if (cocoImage != nullptr)
-		//{
-		//	cocoImage->Rotate(0.2f);
-		//}
-	};
-
 	if (skyBoxGraphicsObject != nullptr)
 	{
-		//UserInterfaceItem* cocoImage = UserInterfaceManager::GetUserInterfaceItem("Default");
-		//if (cocoImage != nullptr)
-		//	cocoImage->Hovered(onHover);
-
 		DirectionalLight* const light = LightManager::GetDirectionalLight("MainDirLight");
 
 		static glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), 0.01f, glm::vec3(0.0f, 0.0f, 1.0f));

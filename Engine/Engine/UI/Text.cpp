@@ -224,13 +224,21 @@ const std::string& Text::Prepend(const std::string& prefix)
 
 void Text::SetPosition(const glm::vec2& newPosition)
 {
-	unsigned int i = 0;
-	for (UserInterfaceItem* item : characterUserInterfaceItems)
+	float xSpacing = 0.0f;
+	unsigned int index = 0U;
+	for (unsigned int i = 0; i < characters.size(); i++)
 	{
-		item->SetPosition(newPosition.x + horizontalSpacing * i++, newPosition.y);
+		if (characters.at(i) != ' ')
+		{
+			UserInterfaceItem* item = characterUserInterfaceItems[index++];
+			item->SetPosition(newPosition.x + xSpacing, newPosition.y);
+		}
+
+		xSpacing += horizontalSpacing;
+
 	}
 
-	cursor.x = newPosition.x + horizontalSpacing * characterUserInterfaceItems.size();
+	cursor.x = newPosition.x + xSpacing;
 	cursor.y = newPosition.y;
 }
 
@@ -276,7 +284,20 @@ void Text::Backspace()
 	{
 		if (!characterUserInterfaceItems.empty() && characters.at(characters.size() - 1) != ' ')
 		{
-			delete characterUserInterfaceItems.at(characterUserInterfaceItems.size() - 1);
+			UserInterfaceItem* itemToRemove = characterUserInterfaceItems.at(characterUserInterfaceItems.size() - 1);
+
+			std::string subItemName;
+
+			for (const std::pair<std::string, UserInterfaceItem*>& subItem : textItem->GetSubItems())
+			{
+				if (subItem.second == itemToRemove)
+				{
+					subItemName = subItem.first;
+				}
+			}
+
+			textItem->RemoveSubItem(subItemName);
+			delete itemToRemove;
 			characterUserInterfaceItems.erase(std::next(characterUserInterfaceItems.begin(), characterUserInterfaceItems.size() - 1));
 		}
 		

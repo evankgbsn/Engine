@@ -125,7 +125,7 @@ void StressTest()
 					{
 						ago->Translate(glm::vec3(i * translationScalar + -count*3, 0.0f, j * translationScalar + -count*3));
 						ago->SetClip(8);
-						ago->SetAnimationSpeed(5.0f);
+						ago->SetAnimationSpeed(2.0f);
 					}
 
 					if (i == j)

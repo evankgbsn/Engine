@@ -88,13 +88,13 @@ void InputManager::WhenCursorMoved(std::function<void(const glm::vec2& newCursor
 	EnqueueInputCall(getCursorPosition);
 }
 
-void InputManager::RegisterCallbackForKeyState(int state, int keyCode, std::function<void(int keyCode)>* callback)
+void InputManager::RegisterCallbackForKeyState(int state, int keyCode, std::function<void(int keyCode)>* callback, const std::string& name)
 {
-	auto registerCallbackForKeyState = [keyCode, callback](std::unordered_map<int, std::list<std::function<void(int keyCode)>*>>& map, const std::string& successLog)
+	auto registerCallbackForKeyState = [keyCode, callback, name](std::unordered_map<int, std::unordered_map<std::string, std::function<void(int keyCode)>*>>& map, const std::string& successLog)
 	{
 		if (instance != nullptr)
 		{
-			map[keyCode].push_back(callback);
+			map[keyCode][name] = callback;
 
 			char stringBuffer[5] = { '\0','\0','\0','\0','\0' };
 			_itoa_s(keyCode, stringBuffer, 10);
@@ -138,25 +138,19 @@ void InputManager::RegisterCallbackForKeyState(int state, int keyCode, std::func
 	EnqueueInputCall(inputRegisterFunctionToQueue);
 }
 
-void InputManager::DeregisterCallbackForKeyState(int state, int keyCode, std::function<void(int keyCode)>* callback)
+void InputManager::DeregisterCallbackForKeyState(int state, int keyCode, const std::string& name)
 {
-	auto deregisterCallbackForKeyState = [keyCode, callback](std::unordered_map<int, std::list<std::function<void(int keyCode)>*>>& map, const std::string& successLog)
+	auto deregisterCallbackForKeyState = [keyCode, name](std::unordered_map<int, std::unordered_map<std::string, std::function<void(int keyCode)>*>>& map, const std::string& successLog)
 	{
 		if (instance != nullptr)
 		{
-			if (map.find(keyCode) != map.end())
+			const auto& registeredKeys = map.find(keyCode);
+			if (registeredKeys != map.end())
 			{
-				std::list<std::function<void(int keyCode)>*>& registeredCallbacksForKey = map[keyCode];
-				std::list <std::function<void(int keyCode)>*>::iterator it = registeredCallbacksForKey.begin();
-
-				for (it; it != registeredCallbacksForKey.end(); it)
+				const auto& registeredKeyCallback = registeredKeys->second.find(name);
+				if (registeredKeyCallback != registeredKeys->second.end())
 				{
-					const std::function<void(int keyCode)>* const registeredCallback = *it;
-
-					if (registeredCallback == callback)
-					{
-						it = registeredCallbacksForKey.erase(it);
-					}
+					registeredKeys->second.erase(registeredKeyCallback);
 				}
 			}
 
@@ -204,7 +198,7 @@ void InputManager::DeregisterCallbackForKeyState(int state, int keyCode, std::fu
 void InputManager::ProcessKeyEvents() const
 {
 	const Window* const mainWindow = WindowManager::GetWindow(std::string("MainWindow"));
-	std::function<void(int state, const std::unordered_map<int, std::list<std::function<void(int keyCode)>*>>&)> processKeyEvents = [mainWindow](int state, const std::unordered_map<int, std::list<std::function<void(int keyCode)>*>>& map)
+	std::function<void(int state, const std::unordered_map<int, std::unordered_map<std::string, std::function<void(int keyCode)>*>>&)> processKeyEvents = [mainWindow](int state, const std::unordered_map<int, std::unordered_map<std::string, std::function<void(int keyCode)>*>>& map)
 	{
 		if (instance != nullptr)
 		{
@@ -214,11 +208,11 @@ void InputManager::ProcessKeyEvents() const
 
 				if (keyState == state)
 				{
-					for (const std::function<void(int keyCode)>* const func : keyCallbacks.second)
+					for (const auto& func : keyCallbacks.second)
 					{
-						if (func != nullptr)
+						if (func.second != nullptr)
 						{
-							(*func)(keyCallbacks.first);
+							(*func.second)(keyCallbacks.first);
 						}
 					}
 				}

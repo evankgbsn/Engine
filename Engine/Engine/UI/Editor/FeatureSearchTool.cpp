@@ -99,75 +99,75 @@ void FeatureSearchTool::EnableInput()
 		featureSearchBarText->Append(std::string() + (char)(keyCode + upperOrLower), 8.9f);
 	});
 
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_A, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_B, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_C, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_D, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_E, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_F, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_G, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_H, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_I, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_J, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_K, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_L, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_M, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_N, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_O, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_P, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_Q, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_R, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_S, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_T, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_U, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_V, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_W, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_X, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_Y, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_Z, characterInputFunction);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_SPACE, characterInputFunction);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_A, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_B, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_C, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_D, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_E, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_F, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_G, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_H, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_I, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_J, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_K, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_L, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_M, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_N, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_O, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_P, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_Q, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_R, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_S, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_T, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_U, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_V, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_W, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_X, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_Y, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_Z, characterInputFunction, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_SPACE, characterInputFunction, "Type");
 
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_LEFT_SHIFT, characterInputFunctionShiftHeld);
-	InputManager::RegisterCallbackForKeyState(KEY_RELEASE, KEY_LEFT_SHIFT, characterInputFunctionShiftRelease);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_LEFT_SHIFT, characterInputFunctionShiftHeld, "Type");
+	InputManager::RegisterCallbackForKeyState(KEY_RELEASE, KEY_LEFT_SHIFT, characterInputFunctionShiftRelease, "Type");
 
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_BACKSPACE, characterInputFunctionBackspace);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_BACKSPACE, characterInputFunctionBackspace, "Type");
 }
 
 void FeatureSearchTool::DisableInput()
 {
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_A, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_B, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_C, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_D, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_E, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_F, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_G, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_H, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_I, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_J, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_K, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_L, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_M, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_N, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_O, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_P, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_Q, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_R, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_S, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_T, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_U, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_V, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_W, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_X, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_Y, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_Z, characterInputFunction);
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_SPACE, characterInputFunction);
-
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_LEFT_SHIFT, characterInputFunctionShiftHeld);
-	InputManager::DeregisterCallbackForKeyState(KEY_RELEASE, KEY_LEFT_SHIFT, characterInputFunctionShiftRelease);
-
-	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_BACKSPACE, characterInputFunctionBackspace);
-
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_A, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_B, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_C, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_D, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_E, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_F, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_G, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_H, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_I, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_J, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_K, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_L, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_M, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_N, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_O, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_P, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_Q, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_R, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_S, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_T, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_U, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_V, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_W, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_X, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_Y, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_Z, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_SPACE, "Type");
+	
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_LEFT_SHIFT, "Type");
+	InputManager::DeregisterCallbackForKeyState(KEY_RELEASE, KEY_LEFT_SHIFT, "Type");
+	
+	InputManager::DeregisterCallbackForKeyState(KEY_PRESS, KEY_BACKSPACE, "Type");
+	
 	delete characterInputFunction;
 	delete characterInputFunctionShiftHeld;
 	delete characterInputFunctionShiftRelease;

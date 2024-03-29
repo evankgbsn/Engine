@@ -22,9 +22,9 @@ public:
 
 	static void WhenCursorMoved(std::function<void(const glm::vec2& newCursorPosition)> callback);
 
-	static void RegisterCallbackForKeyState(int state, int keyCode, std::function<void(int keyCode)>* const callback);
+	static void RegisterCallbackForKeyState(int state, int keyCode, std::function<void(int keyCode)>* const callback, const std::string& name);
 
-	static void DeregisterCallbackForKeyState(int state, int keyCode, std::function<void(int keyCode)>* const callback);
+	static void DeregisterCallbackForKeyState(int state, int keyCode, const std::string& name);
 
 	static void Update();
 
@@ -52,13 +52,13 @@ private:
 
 	std::list<std::function<void()>> inputQueue;
 
-	std::unordered_map<int, std::list<std::function<void(int keyCode)>*>> registeredKeyPressEvents;
+	std::unordered_map<int, std::unordered_map<std::string, std::function<void(int keyCode)>*>> registeredKeyPressEvents;
 
-	std::unordered_map<int, std::list<std::function<void(int keyCode)>*>> registeredKeyReleaseEvents;
+	std::unordered_map<int, std::unordered_map<std::string, std::function<void(int keyCode)>*>> registeredKeyReleaseEvents;
 	
-	std::unordered_map<int, std::list<std::function<void(int keyCode)>*>> registeredKeyPressedEvents;
+	std::unordered_map<int, std::unordered_map<std::string, std::function<void(int keyCode)>*>> registeredKeyPressedEvents;
 
-	std::unordered_map<int, std::list<std::function<void(int keyCode)>*>> registeredKeyReleasedEvents;
+	std::unordered_map<int, std::unordered_map<std::string, std::function<void(int keyCode)>*>> registeredKeyReleasedEvents;
 
 	std::unordered_set<int> keysPressed;
 };

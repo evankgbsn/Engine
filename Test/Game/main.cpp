@@ -256,15 +256,15 @@ void SetInput()
 	});
 	
 
-	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_L, lPress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_W, wPress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_A, aPress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_S, sPress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_D, dPress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_Q, qPress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_E, ePress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_LEFT_CTRL, lctrPress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_SPACE, spacePress);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_L, lPress, "CameraMoveFromMain");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_W, wPress, "CameraMoveFromMain");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_A, aPress, "CameraMoveFromMain");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_S, sPress, "CameraMoveFromMain");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_D, dPress, "CameraMoveFromMain");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_Q, qPress, "CameraMoveFromMain");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_E, ePress, "CameraMoveFromMain");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_LEFT_CTRL, lctrPress, "CameraMoveFromMain");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_SPACE, spacePress, "CameraMoveFromMain");
 }
 
 void AddGrid()
@@ -294,8 +294,8 @@ void AddGrid()
 					tsgo->Rotate(rotSpeed, glm::vec3(0.0f, 0.0f, 1.0f));
 				});
 
-			InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_T, tPress);
-			InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_Y, yPress);
-			InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_U, uPress);
+			InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_T, tPress, "PlaneMove");
+			InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_Y, yPress, "PlaneMove");
+			InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_U, uPress, "PlaneMove");
 		});
 }

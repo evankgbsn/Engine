@@ -37,19 +37,6 @@ public:
 
 	void SetClip(unsigned int clipIndex);
 
-	// START Graphics3DTransformable
-	void Translate(const glm::vec3&) override;
-
-	void Scale(const glm::vec3&) override;
-
-	void Rotate(float angle, const glm::vec3&) override;
-
-	glm::vec3 GetTranslation() const override;
-
-	glm::vec3 GetScale() const override;
-
-	glm::mat4 GetRotation() const override;
-
 protected:
 
 	struct MVPUniformBuffer

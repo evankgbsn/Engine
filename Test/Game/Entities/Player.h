@@ -32,15 +32,30 @@ private:
 
 	float moveSpeed;
 
-	std::function<void(int)>*  wPress;
-	std::function<void(int)>*  aPress;
-	std::function<void(int)>*  sPress;
-	std::function<void(int)>*  dPress;
+	bool movementInProgress;
+
+	unsigned int direction = 5;
+
+	std::function<void(int)>* wPress;
+
+	std::function<void(int)>* aPress;
+
+	std::function<void(int)>* sPress;
+
+	std::function<void(int)>* dPress;
+
+	std::function<void(int)>* wPressed;
+
+	std::function<void(int)>* aPressed;
+
+	std::function<void(int)>* sPressed;
+
+	std::function<void(int)>* dPressed;
 
 	std::function<void(int)>* setClipOnMoveRelease;
-	std::function<void(int)>* setClipOnMovePress;
-	
-	std::function<void(int)>* setClipOnJumpPress;
+
+	std::function<void(int)>* setClipOnJumpPress;   
+
 };
 
 #endif // PLAYER_H

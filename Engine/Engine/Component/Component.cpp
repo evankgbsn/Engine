@@ -7,7 +7,8 @@ unsigned long Component::componentIdIterative = 1;
 Component::Component(Type type) :
 	componentId(0),
 	componentType(type),
-	commandQueueMutex()
+	commandQueueMutex(),
+	commands(std::list<std::function<void()>>())
 {
 	std::lock_guard<std::mutex> guard(componentIdIterativeMutex);
 	componentId = componentIdIterative++;
@@ -24,14 +25,17 @@ Component::Type Component::GetType() const
 
 void Component::Operate()
 {
-	std::lock_guard<std::mutex> guard(commandQueueMutex);
-	
-	for (const auto& command : commands)
+	if (commands.size() > 0)
 	{
-		command();
-	}
+		std::lock_guard<std::mutex> guard(commandQueueMutex);
 
-	commands.clear();
+		for (const auto& command : commands)
+		{
+			command();
+		}
+
+		commands.clear();
+	}
 }
 
 void Component::QueueCommand(const std::function<void()>& command)

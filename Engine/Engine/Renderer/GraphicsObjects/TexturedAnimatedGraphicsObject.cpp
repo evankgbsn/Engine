@@ -17,7 +17,7 @@
 TexturedAnimatedGraphicsObject::TexturedAnimatedGraphicsObject(Model* const m, Texture* const tex) :
 	GraphicsObject(m),
 	texture(tex),
-	animation(new Animation(model->GetBakedAnimation(0)))
+	animation()
 {
 	type = ObjectTypes::GraphicsObjectType::AnimatedTextured;
 	mvp.model = glm::mat4(1.0f);
@@ -26,6 +26,8 @@ TexturedAnimatedGraphicsObject::TexturedAnimatedGraphicsObject(Model* const m, T
 
 	dirLight = LightManager::GetDirectionalLight("MainDirLight");
 	cam = &CameraManager::GetCamera("MainCamera");
+
+	animation = new Animation(model->GetBakedAnimation(0));
 }
 
 TexturedAnimatedGraphicsObject::~TexturedAnimatedGraphicsObject()
@@ -58,6 +60,8 @@ void TexturedAnimatedGraphicsObject::CreateUniformBuffers()
 
 void TexturedAnimatedGraphicsObject::Update()
 {
+	mvp.model = translation * rotation * scale;
+
 	mvp.view = cam->GetView();
 	mvp.projection = cam->GetProjection();
 	mvp.projection[1][1] *= -1;
@@ -93,37 +97,4 @@ void TexturedAnimatedGraphicsObject::SetClip(unsigned int clipIndex)
 	Animation* oldAnimation = animation;
 	animation = new Animation(model->GetBakedAnimation(clipIndex));
 	delete oldAnimation;
-}
-
-void TexturedAnimatedGraphicsObject::Translate(const glm::vec3& translation)
-{
-	mvp.model = glm::translate(mvp.model, translation);
-}
-
-void TexturedAnimatedGraphicsObject::Scale(const glm::vec3& scale)
-{
-}
-
-void TexturedAnimatedGraphicsObject::Rotate(float angle, const glm::vec3& axis)
-{
-}
-
-glm::vec3 TexturedAnimatedGraphicsObject::GetTranslation() const
-{
-	return mvp.model[3];
-}
-
-glm::vec3 TexturedAnimatedGraphicsObject::GetScale() const
-{
-	return glm::vec3(glm::length(mvp.model[0]), glm::length(mvp.model[1]), glm::length(mvp.model[2]));
-}
-
-glm::mat4 TexturedAnimatedGraphicsObject::GetRotation() const
-{
-	return glm::mat4(
-		glm::normalize(mvp.model[0]),
-		glm::normalize(mvp.model[1]),
-		glm::normalize(mvp.model[2]),
-		glm::vec4(0.0f)
-	);
 }

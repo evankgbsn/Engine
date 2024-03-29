@@ -13,7 +13,14 @@ Player::Player() :
 	aPress(nullptr),
 	sPress(nullptr),
 	dPress(nullptr),
-	moveSpeed(0.005f)
+	wPressed(nullptr),
+	aPressed(nullptr),
+	sPressed(nullptr),
+	dPressed(nullptr),
+	setClipOnMoveRelease(nullptr),
+	setClipOnJumpPress(nullptr),
+	moveSpeed(0.005f),
+	movementInProgress(false)
 {
 	auto onGraphicsObjectCreate = [this](GraphicsObject* go)
 	{
@@ -32,69 +39,138 @@ Player::Player() :
 		{
 			glm::vec3 translation = player->GetTranslation();
 			cam.SetTarget(translation);
-			//cam.SetPosition(translation + glm::vec3(0.0f, 10.0f, -15.0f));
+			cam.SetPosition(translation + glm::vec3(0.0f, 10.0f, -15.0f));
 		}
 	};
 
+	wPressed = new std::function<void(int)>([this, setCamera](int keyCode)
+	{
+		if(movementInProgress && direction == 0)
+		{
+			player->Translate(glm::vec3(0.0f, 0.0f, moveSpeed));
+			player->SetRotation(glm::mat4(1.0f));
+			setCamera();
+		}
+	});
+
+	aPressed = new std::function<void(int)>([this, setCamera](int keyCode)
+	{
+		if (movementInProgress && direction == 1)
+		{
+			player->Translate(glm::vec3(moveSpeed, 0.0f, 0.0f));
+			setCamera();
+		}
+	});
+
+	sPressed = new std::function<void(int)>([this, setCamera](int keyCode)
+	{
+		if (movementInProgress and direction == 2)
+		{
+			player->Translate(glm::vec3(0.0f, 0.0f, -moveSpeed));
+			setCamera();
+		}
+	});
+
+	dPressed = new std::function<void(int)>([this, setCamera](int keyCode)
+	{
+		if (movementInProgress and direction == 3)
+		{
+			player->Translate(glm::vec3(-moveSpeed, 0.0f, 0.0f));
+			setCamera();
+		}
+	});
+
 	wPress = new std::function<void(int)>([this, setCamera](int keyCode)
 	{
-		player->Translate(glm::vec3(0.0f, 0.0f, moveSpeed));
-		player->SetRotation(glm::mat4(1.0f));
-		setCamera();
+		if(!movementInProgress)
+		{
+			player->SetClip(0);
+			player->SetRotation(glm::mat4(1.0f));
+			setCamera();
+			movementInProgress = true;
+			direction = 0;
+		}
 	});
 
 	aPress = new std::function<void(int)>([this, setCamera](int keyCode)
 	{
-		player->Translate(glm::vec3(moveSpeed, 0.0f, 0.0f));
-		setCamera();
+		if(!movementInProgress)
+		{
+			player->SetClip(0);
+			player->SetRotation(glm::rotate(glm::mat4(1.0f), 1.57f, glm::vec3(0.0f, 1.0f, 0.0f)));
+			movementInProgress = true;
+			direction = 1;
+		}
 	});
-	
+
 	sPress = new std::function<void(int)>([this, setCamera](int keyCode)
 	{
-		player->Translate(glm::vec3(0.0f, 0.0f, -moveSpeed));
-		player->SetRotation(glm::rotate(player->GetRotation(), 3.1415f, glm::vec3(0.0f, 1.0f, 0.0f)));
-		setCamera();
+		if(!movementInProgress)
+		{
+			player->SetClip(0);
+			player->SetRotation(glm::rotate(glm::mat4(1.0f), 3.1415f, glm::vec3(0.0f, 1.0f, 0.0f)));
+			movementInProgress = true;
+			direction = 2;
+		}
 	});
 
 	dPress = new std::function<void(int)>([this, setCamera](int keyCode)
 	{
-		player->Translate(glm::vec3(-moveSpeed, 0.0f, 0.0f));
-		setCamera();
+		if(!movementInProgress)
+		{
+			player->SetRotation(glm::rotate(glm::mat4(1.0f), -1.57f, glm::vec3(0.0f, 1.0f, 0.0f)));
+			player->SetClip(0);
+			movementInProgress = true;
+			direction = 3;
+		}
 	});
 
 	setClipOnMoveRelease = new std::function<void(int)>([this, setCamera](int keyCode)
 	{
-		player->SetClip(5);
+		player->SetClip(4);
+
+		movementInProgress = false;
 	});
 
-	setClipOnMovePress = new std::function<void(int)>([this, setCamera](int keyCode)
-	{
-		player->SetClip(0);
-	});
-	
 	setClipOnJumpPress = new std::function<void(int)>([this, setCamera](int keyCode)
 	{
-		player->SetClip(8);
+		if (!movementInProgress)
+		{
+			player->SetClip(8);
+		}
 	});
 
-	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_W, wPress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_A, aPress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_S, sPress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_D, dPress);
-	InputManager::RegisterCallbackForKeyState(KEY_RELEASE, KEY_W, setClipOnMoveRelease);
-	InputManager::RegisterCallbackForKeyState(KEY_RELEASE, KEY_A, setClipOnMoveRelease);
-	InputManager::RegisterCallbackForKeyState(KEY_RELEASE, KEY_S, setClipOnMoveRelease);
-	InputManager::RegisterCallbackForKeyState(KEY_RELEASE, KEY_D, setClipOnMoveRelease);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_W, setClipOnMovePress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_A, setClipOnMovePress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_S, setClipOnMovePress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_D, setClipOnMovePress);
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_SPACE, setClipOnJumpPress);
-	InputManager::RegisterCallbackForKeyState(KEY_RELEASE, KEY_SPACE, setClipOnMoveRelease);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_W, wPress, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_A, aPress, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_S, sPress, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_D, dPress, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_W, wPressed, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_A, aPressed, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_S, sPressed, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_D, dPressed, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_RELEASE, KEY_W, setClipOnMoveRelease, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_RELEASE, KEY_A, setClipOnMoveRelease, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_RELEASE, KEY_S, setClipOnMoveRelease, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_RELEASE, KEY_D, setClipOnMoveRelease, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_SPACE, setClipOnJumpPress, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_RELEASE, KEY_SPACE, setClipOnMoveRelease, "CharacterMovement");
 }
 
 Player::~Player()
 {
+	delete wPress;
+	delete aPress;
+	delete sPress;
+	delete dPress;
+
+	delete wPressed;
+	delete aPressed;
+	delete sPressed;
+	delete dPressed;
+	
+	delete setClipOnMoveRelease;
+	
+	delete setClipOnJumpPress;
 }
 
 void Player::Update()

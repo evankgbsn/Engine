@@ -188,5 +188,5 @@ void Engine::InitializeEditor()
 		}
 	});
 
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_ESCAPE, toggleEditorFunction);
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_ESCAPE, toggleEditorFunction, "ToggleEditor");
 }

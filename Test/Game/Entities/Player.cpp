@@ -2,12 +2,14 @@
 
 #include "Renderer/GraphicsObjects/GraphicsObjectManager.h"
 #include "Renderer/GraphicsObjects/TexturedAnimatedGraphicsObject.h"
+#include "Renderer/GraphicsObjects/ColoredStaticGraphicsObject.h"
 #include "Renderer/Model/ModelManager.h"
 #include "Renderer/Cameras/CameraManager.h"
 #include "Renderer/Cameras/Camera.h"
 #include "Renderer/Images/TextureManager.h"
 #include "Input/InputManager.h"
 #include "Collision/BoundingSphere.h"
+#include "Collision/AxisAlignedBoundingBox.h"
 
 Player::Player() :
 	wPress(nullptr),
@@ -26,12 +28,12 @@ Player::Player() :
 	model = ModelManager::GetModel("Woman");
 	texture = TextureManager::GetTexture("Woman2");
 
-	auto onGraphicsObjectCreate = [this](GraphicsObject* go)
+	auto onGraphicsObjectCreate = [this](TexturedAnimatedGraphicsObject* go)
 		{
-			graphics = static_cast<TexturedAnimatedGraphicsObject*>(go);
+			graphics = go;
 			graphics->SetClip(0);
 			graphics->SetAnimationSpeed(1.0f);
-			//graphics->Scale({2.0f, 2.0f, 2.0f});
+			graphics->Scale({2.0f, 2.0f, 2.0f});
 	};
 
 	GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(model, texture, onGraphicsObjectCreate);
@@ -42,17 +44,24 @@ Player::Player() :
 	collisionVolume->Initialize(model);
 
 
-	glm::mat4 collisionTransform(glm::mat4(1.0f));
+	glm::mat4 collisionTransform = glm::mat4(1.0f);
 
-	collisionTransform = glm::translate(collisionTransform, { 20.0f, 0.0f, 20.0f });
+	collisionTransform = glm::scale(collisionTransform, { 2.0f, 2.0f, 2.0f });
 
-	randomCollisionVolume = new BoundingSphere([](Entity* owner) {}, this, model, collisionTransform);
+	randomCollisionSphere = new BoundingSphere([](Entity* owner) {}, this, ModelManager::GetModel("Human"), collisionTransform);
+
+	randomCollisionBox = new AxisAlignedBoundingBox([](Entity*) {}, this, ModelManager::GetModel("Human"), collisionTransform);
+
+	GraphicsObjectManager::CreateColoredStaticGraphicsObject(ModelManager::GetModel("Human"), { 0.0f, 0.0f, 0.0f, 1.0f }, [this](ColoredStaticGraphicsObject* go) { testObj = go;  go->Scale({ 2.0f, 2.0f, 2.0f }); });
+
+
 }
 
 Player::~Player()
 {
 	delete collisionVolume;
-	delete randomCollisionVolume;
+	delete randomCollisionSphere;
+	delete randomCollisionBox;
 
 	delete wPress;
 	delete aPress;
@@ -75,7 +84,7 @@ void Player::Update()
 	{
 		collisionVolume->ComputeData(model, graphics->GetTransform());
 
-		if (collisionVolume->Intersect(*randomCollisionVolume))
+		if (collisionVolume->Intersect(*randomCollisionSphere))
 		{
 			collisionVolume->SetColor({ 1.0f, 0.0f, 0.0f, 1.0f });
 		}
@@ -84,6 +93,9 @@ void Player::Update()
 			collisionVolume->SetColor({ 0.0f, 0.5f, 0.5f, 1.0f });
 		}
 	}
+
+	if(testObj != nullptr)
+		randomCollisionSphere->ComputeData(ModelManager::GetModel("Human"), testObj->GetTransform());
 }
 
 void Player::RegisterInput()
@@ -96,7 +108,7 @@ void Player::RegisterInput()
 			{
 				glm::vec3 translation = graphics->GetTranslation();
 				cam.SetTarget(translation);
-				cam.SetPosition(translation + glm::vec3(0.0f, 30.0f, -1.0f));
+				//cam.SetPosition(translation + glm::vec3(0.0f, 30.0f, -1.0f));
 			}
 		};
 

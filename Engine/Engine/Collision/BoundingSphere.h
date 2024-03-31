@@ -110,6 +110,8 @@ private:
 	*/
 	float radius;
 
+	float scalar;
+
 	ColoredStaticGraphicsObject* boundingSphereVolume;
 
 	Model* ownerModel;

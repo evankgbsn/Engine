@@ -13,7 +13,8 @@ BoundingSphere::BoundingSphere(std::function<void(Entity*)> callback, Entity* o,
 	CollisionVolume(callback, owner),
 	center(),
 	originalCenter(),
-	radius(),
+	radius(0.0f),
+	scalar(1.0f),
 	boundingSphereVolume(nullptr),
 	ownerModel(m),
 	owner(o)
@@ -40,7 +41,7 @@ const glm::vec3& BoundingSphere::GetCenter() const
 
 float BoundingSphere::GetRadius() const
 {
-	return radius;
+	return radius * scalar;
 }
 
 void BoundingSphere::ComputeData(Model* model, const glm::mat4& matrix)
@@ -52,17 +53,23 @@ void BoundingSphere::ComputeData(Model* model, const glm::mat4& matrix)
 	float scaleZ = glm::length(matrix[2]);
 
 	// Bounding Spheres only support uniform scale at the moment.
-	glm::mat4 rotation(1.0f);
-	rotation[0] = (matrix[0] / scaleX);
-	rotation[1] = (matrix[1] / scaleY);
-	rotation[2] = (matrix[2] / scaleX);
+	glm::mat4 rotation = glm::mat4(1.0f);
+	rotation[0] = matrix[0] / scaleX;
+	rotation[1] = matrix[1] / scaleY;
+	rotation[2] = matrix[2] / scaleX;
 
-	glm::mat4 scale(1.0f);
+	glm::mat4 scale = glm::mat4(1.0f);
 	scale =  glm::scale(scale, { radius, radius, radius });
 
-	glm::mat4 translation(1.0f);
+	glm::mat4 scale0 = glm::mat4(1.0f);
+	scale0 = glm::scale(scale0, { scaleX, scaleY, scaleZ });
+
+	scale = scale * scale0;
+
+	glm::mat4 translation = glm::mat4(1.0f);
 	translation = glm::translate(translation, center);
 
+	scalar = scaleX;
 
 	if(boundingSphereVolume != nullptr)
 		boundingSphereVolume->SetTransform(translation * rotation * scale);
@@ -115,14 +122,30 @@ void BoundingSphere::Initialize(Model* model, const glm::mat4&)
 
 	// Determine which axis has greatest range.
 	int axis = 0; // x = 0, y = 1, z = 2
-	float max = 0, cur = 0;
+	float max = 0.0f;
+	float cur = 0.0f;
+	
+	glm::vec3 xVec = minX->GetPosition() - maxX->GetPosition();
+	cur = glm::length(xVec);
 
-	if ((cur = glm::length((minX->GetPosition() - maxX->GetPosition()))) >= max) { axis = 0; max = cur; }
-	if ((cur = glm::length((minY->GetPosition() - maxY->GetPosition()))) >= max) { axis = 1; max = cur; }
-	if ((cur = glm::length((minZ->GetPosition() - maxZ->GetPosition()))) >= max) { axis = 2; max = cur; }
+	if (cur >= max)
+		axis = 0; max = cur; 
+
+
+	glm::vec3 yVec = minY->GetPosition() - maxY->GetPosition();
+	cur = glm::length(yVec);
+
+	if (cur >= max) 
+		axis = 1; max = cur;
+
+	glm::vec3 zVec = minZ->GetPosition() - maxZ->GetPosition();
+	cur = glm::length(zVec);
+
+	if (cur >= max)
+		axis = 2; max = cur;
 
 	// Determine center and radius.
-	this->radius = max / 2;
+	this->radius = max / 2.0f;
 	switch (axis)
 	{
 	case 0:
@@ -148,11 +171,6 @@ void BoundingSphere::Initialize(Model* model, const glm::mat4&)
 		}
 	}
 	originalCenter = center;
-
-	if (boundingSphereVolume != nullptr)
-	{
-		boundingSphereVolume->Scale({ radius, radius, radius });
-	}
 }
 
 void BoundingSphere::SetColor(const glm::vec4& newColor)

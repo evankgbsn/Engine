@@ -6,7 +6,9 @@
 #include<functional>
 
 class TexturedAnimatedGraphicsObject;
+class ColoredStaticGraphicsObject;
 class BoundingSphere;
+class AxisAlignedBoundingBox;
 class Model;
 class Texture;
 
@@ -35,9 +37,13 @@ private:
 
 	TexturedAnimatedGraphicsObject* graphics;
 
+	ColoredStaticGraphicsObject* testObj;
+
 	BoundingSphere* collisionVolume;
 
-	BoundingSphere* randomCollisionVolume;
+	BoundingSphere* randomCollisionSphere;
+
+	AxisAlignedBoundingBox* randomCollisionBox;
 
 	Model* model;
 

@@ -1,21 +1,30 @@
 #include "AxisAlignedBoundingBox.h"
 
 #include "../Renderer/GraphicsObjects/GraphicsObjectManager.h"
+#include "../Renderer/GraphicsObjects/ColoredStaticGraphicsObject.h"
 #include "../Renderer/Model/ModelManager.h"
 #include "../Renderer/Model/Model.h"
 #include "../Renderer/Images/TextureManager.h"
 #include "../Math/Math.h"
 
-AxisAlignedBoundingBox::AxisAlignedBoundingBox(std::function<void(Entity*)> callback, Entity* owner) :
+AxisAlignedBoundingBox::AxisAlignedBoundingBox(std::function<void(Entity*)> callback, Entity* o, Model* model, const glm::mat4& initialTransform) :
 	CollisionVolume(callback, owner),
 	min(glm::vec3()),
 	max(glm::vec3()),
 	center(glm::vec3()),
 	world(glm::mat4(1.0f)),
-	boundingBoxVisualization(nullptr)
+	boundingBoxVisualization(nullptr),
+	owner(o),
+	ownerModel(model)
 {
 
-	GraphicsObjectManager::CreateTexturedStaticGraphicsObject(ModelManager::GetModel("Cube"), TextureManager::GetTexture("DefaultFontTexture"), [](GraphicsObject* go) {});
+	GraphicsObjectManager::CreateColoredStaticGraphicsObject(ModelManager::GetModel("Cube"), {0.0f, 0.5f, 0.5f, 1.0f}, [this, initialTransform](ColoredStaticGraphicsObject* go) 
+	{
+		boundingBoxVisualization = go;
+		GraphicsObjectManager::WireFrame(go, ObjectTypes::GraphicsObjectType::ColoredStatic);
+		Initialize(ownerModel, initialTransform);
+		boundingBoxVisualization->SetScale({ glm::max(min.x, max.x) - glm::min(min.x, max.x), glm::max(min.y, max.y) - glm::min(min.y, max.y), glm::max(min.z, max.z) - glm::min(min.z, max.z) });
+	});
 
 }
 
@@ -50,6 +59,8 @@ void AxisAlignedBoundingBox::SetMin(glm::vec3 newMin)
 	newWorld[3] = glm::vec4(center, 1.0f);
 
 	world = newWorld;
+
+	UpdateVisualization();
 }
 
 void AxisAlignedBoundingBox::SetMax(glm::vec3 newMax)
@@ -64,6 +75,8 @@ void AxisAlignedBoundingBox::SetMax(glm::vec3 newMax)
 	newWorld[3] = glm::vec4(center, 1.0f);
 
 	world = newWorld;
+
+	UpdateVisualization();
 }
 
 void AxisAlignedBoundingBox::ComputeData(Model* model, const glm::mat4& mat)
@@ -96,6 +109,8 @@ void AxisAlignedBoundingBox::ComputeData(Model* model, const glm::mat4& mat)
 	newWorld[3] = glm::vec4(center, 1.0f);
 
 	world = newWorld;
+
+	UpdateVisualization();
 }
 
 bool AxisAlignedBoundingBox::Intersect(const CollisionVolume& other) const
@@ -155,4 +170,12 @@ void AxisAlignedBoundingBox::Initialize(Model* model, const glm::mat4& mat)
 glm::mat4& AxisAlignedBoundingBox::GetWorld() const
 {
 	return const_cast<glm::mat4&>(world);
+}
+
+void AxisAlignedBoundingBox::UpdateVisualization()
+{
+	if (boundingBoxVisualization != nullptr)
+	{
+		boundingBoxVisualization->SetScale({ glm::max(min.x, max.x) - glm::min(min.x, max.x), glm::max(min.y, max.y) - glm::min(min.y, max.y), glm::max(min.z, max.z) - glm::min(min.z, max.z) });
+	}
 }

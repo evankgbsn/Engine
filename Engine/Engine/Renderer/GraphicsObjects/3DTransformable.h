@@ -64,7 +64,9 @@ public:
 		float scaleY = glm::length(newTransform[1]);
 		float scaleZ = glm::length(newTransform[2]);
 
-		scale = glm::scale(glm::mat4(1.0f), glm::vec3(scaleX, scaleY, scaleZ));
+		scale[0] = glm::vec4(scaleX, 0.0f, 0.0f, 0.0f);
+		scale[1] = glm::vec4(0.0f, scaleY, 0.0f, 0.0f);
+		scale[2] = glm::vec4(0.0f, 0.0f, scaleZ, 0.0f);
 
 		rotation = glm::mat4(1.0f);
 

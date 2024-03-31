@@ -2,9 +2,12 @@
 #define AXISALIGNEDBOUNDINGBOX_H
 
 #include "CollisionVolume.h"
-#include "../Renderer/GraphicsObjects/TexturedStaticGraphicsObject.h"
 
 #include <glm/glm.hpp>
+
+class Model;
+class Entity;
+class ColoredStaticGraphicsObject;
 
 /**
 	A class that represents the axis aligned bounding box collider.
@@ -18,7 +21,7 @@ public:
 	/**
 		The constructor
 	*/
-	AxisAlignedBoundingBox(std::function<void(Entity*)> callback, Entity* owner);
+	AxisAlignedBoundingBox(std::function<void(Entity*)> callback, Entity* owner, Model* ownerModel, const glm::mat4& initialTransform);
 
 	/**
 		The destructor
@@ -109,6 +112,8 @@ private:
 	*/
 	AxisAlignedBoundingBox& operator=(AxisAlignedBoundingBox&&) = delete;
 
+	void UpdateVisualization();
+
 
 public:
 
@@ -134,7 +139,11 @@ private:
 	*/
 	glm::mat4 world;
 
-	TexturedStaticGraphicsObject* boundingBoxVisualization;
+	ColoredStaticGraphicsObject* boundingBoxVisualization;
+
+	Entity* owner;
+
+	Model* ownerModel;
 
 };
 

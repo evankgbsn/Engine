@@ -1,5 +1,5 @@
-#ifndef Entity_H
-#define Entity_H
+#ifndef ENTITY_H
+#define ENTITY_H
 
 #include "../Component/Component.h"
 
@@ -50,8 +50,6 @@ private:
 
 };
 
-#endif // Entity_H
-
 template<typename T>
 inline T* Entity::GetComponent(Component::Type componentType) const
 {
@@ -65,3 +63,5 @@ inline T* Entity::GetComponent(Component::Type componentType) const
 
 	return nullptr;
 }
+
+#endif // Entity_H

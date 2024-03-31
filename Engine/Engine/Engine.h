@@ -51,6 +51,8 @@ public:
 
 	static void SetLoadAssetsFunc(void(*newLoadAssetsFunc)());
 
+	static void SignalEngineTermination();
+
 private:
 
 	Engine() = delete;

@@ -13,17 +13,19 @@ public:
 
 	~TransformComponent();
 
-	TransformComponent(const TransformComponent& other) : Component(other.GetType()), rotation(other.rotation), transform(other.transform) {};
+	TransformComponent(const TransformComponent& other);
 
 	TransformComponent& operator=(const TransformComponent&) = default;
 
-	TransformComponent(TransformComponent&& other) : Component(other.GetType()), rotation(other.rotation), transform(other.transform) {};
+	TransformComponent(TransformComponent&& other);
 
 	TransformComponent& operator=(TransformComponent&&) = default;
 
 	void SetTranslation(const glm::vec3& newPosition);
 
 	void SetRotation(const glm::vec3& newRotation);
+
+	void SetRotation(const glm::mat4& newRotation);
 
 	void SetScale(const glm::vec3& newScale);
 

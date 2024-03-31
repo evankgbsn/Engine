@@ -237,6 +237,7 @@ Success: Initialized Engine
 Info: Engine Version: 1.0.0
 Info: Game Version: 1.0.0
 Success: Engine::SetGameThreadFunc success
+Success: Active camera set to: MainCamera
 Success: Initialized LightManager
 Success: Using VK_FORMAT_B8G8R8A8_SRGB format with VK_COLOR_SPACE_SRGB_NONLINEAR_KHR color space.
 Info: Present Mode FIFO available
@@ -255,6 +256,8 @@ Info: Image sharing mode set to exclusive for swapchain
 Success: Created swapchain with 3 images
 Success: NVIDIA GeForce RTX 3090 has been chosen as the rendering device.
 Success: Loaded Texture ../Engine/Engine/Renderer/Images/DefaultFontTexture.png
+Success: Loaded shader ColoredStatic.fragspv
+Success: Loaded shader ColoredStatic.vertspv
 Success: Loaded shader Gooch.fragspv
 Success: Loaded shader Gooch.vertspv
 Success: Loaded shader LitTexturedStatic.fragspv
@@ -263,6 +266,8 @@ Success: Loaded shader TexturedAnimated.fragspv
 Success: Loaded shader TexturedAnimated.vertspv
 Success: Loaded shader TexturedStatic.fragspv
 Success: Loaded shader TexturedStatic.vertspv
+Success: Created a graphics pipeline
+Success: Created a graphics pipeline
 Success: Created a graphics pipeline
 Success: Created a graphics pipeline
 Success: Created a graphics pipeline
@@ -379,6 +384,8 @@ Success: Loaded model from file path ../Engine/Engine/Renderer/Model/NewBall.glt
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Cube.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Skybox.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Human.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/HomeModel.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Sphere.gltf
 Success: Registered press callback for key code 256
 Success: Registered press callback for key code 87
 Success: Registered press callback for key code 65
@@ -397,13 +404,7 @@ Success: Registered release callback for key code 32
 Success: Registered pressed callback for key code 84
 Success: Registered pressed callback for key code 89
 Success: Registered pressed callback for key code 85
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Success: Termiated UserInterfaceManager
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
-Warning: Calling LightManager::GetDirectionalLight() before LightManager::Initialize()
 Success: Terminated SceneManager
 Success: Terminated InputManager
 Success: Terminated WindowManager

@@ -1,5 +1,5 @@
-#ifndef TransformSystem_H
-#define TransformSystem_H
+#ifndef TRANSFORMSYSTEM_H
+#define TRANSFORMSYSTEM_H
 
 #include "System.h"
 
@@ -22,4 +22,4 @@ private:
 	std::vector<TransformComponent> transformComponents;
 };
 
-#endif //TransformSystem_H
+#endif //TRANSFORMSYSTEM_H

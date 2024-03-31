@@ -12,18 +12,6 @@ public:
 
 	~LitTexturedStaticGraphicsObject();
 
-	void Translate(const glm::vec3& translation) override;
-
-	void Rotate(float angle, const glm::vec3& axis) override;
-
-	void Scale(const glm::vec3& scale) override;
-
-	glm::vec3 GetTranslation() const override;
-
-	glm::mat4 GetRotation() const override;
-
-	glm::vec3 GetScale() const override;
-
 protected:
 
 private:

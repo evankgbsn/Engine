@@ -22,36 +22,6 @@ LitTexturedStaticGraphicsObject::~LitTexturedStaticGraphicsObject()
 {
 }
 
-void LitTexturedStaticGraphicsObject::Translate(const glm::vec3& translation)
-{
-
-}
-
-void LitTexturedStaticGraphicsObject::Rotate(float angle, const glm::vec3& axis)
-{
-
-}
-
-void LitTexturedStaticGraphicsObject::Scale(const glm::vec3& scale)
-{
-
-}
-
-glm::vec3 LitTexturedStaticGraphicsObject::GetTranslation() const
-{
-	return glm::vec3();
-}
-
-glm::mat4 LitTexturedStaticGraphicsObject::GetRotation() const
-{
-	return glm::mat4();
-}
-
-glm::vec3 LitTexturedStaticGraphicsObject::GetScale() const
-{
-	return glm::vec3();
-}
-
 void LitTexturedStaticGraphicsObject::CreateTextures()
 {
 	textures.push_back(texture);
@@ -71,7 +41,9 @@ void LitTexturedStaticGraphicsObject::CreateUniformBuffers()
 
 void LitTexturedStaticGraphicsObject::Update()
 {
-	const Camera& cam = CameraManager::GetCamera("MainCamera");
+	const Camera& cam = CameraManager::GetActiveCamera();
+
+	mvp.model = translation * rotation * scale;
 
 	mvp.view = cam.GetView();
 	mvp.projection = cam.GetProjection();

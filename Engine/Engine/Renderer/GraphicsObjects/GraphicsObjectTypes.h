@@ -9,7 +9,8 @@ namespace ObjectTypes
 		TexturedStatic,
 		LitTexturedStatic,
 		Gooch,
-		AnimatedTextured
+		AnimatedTextured,
+		ColoredStatic
 	};
 };
 

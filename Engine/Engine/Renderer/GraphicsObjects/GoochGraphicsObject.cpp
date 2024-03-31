@@ -6,37 +6,6 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-void GoochGraphicsObject::Translate(const glm::vec3& translation)
-{
-	mvp.model = glm::translate(mvp.model, translation);
-}
-
-void GoochGraphicsObject::Scale(const glm::vec3&)
-{
-}
-
-void GoochGraphicsObject::Rotate(float angle, const glm::vec3& axis)
-{
-}
-
-extern glm::vec3 vec3DefaultReturn;
-extern glm::mat4 mat4DefaultReturn;
-
-glm::vec3 GoochGraphicsObject::GetTranslation() const
-{
-	return vec3DefaultReturn;
-}
-
-glm::vec3 GoochGraphicsObject::GetScale() const
-{
-	return vec3DefaultReturn;
-}
-
-glm::mat4 GoochGraphicsObject::GetRotation() const
-{
-	return mat4DefaultReturn;
-}
-
 void GoochGraphicsObject::CreateUniformBuffers()
 {
 	UniformBuffer* mvpUniformBuffer = new UniformBuffer(sizeof(mvp), 0);
@@ -52,7 +21,7 @@ void GoochGraphicsObject::CreateTextures()
 
 void GoochGraphicsObject::Update()
 {
-	const Camera& cam = CameraManager::GetCamera("MainCamera");
+	const Camera& cam = CameraManager::GetActiveCamera();
 
 	mvp.view = cam.GetView();
 	mvp.projection = cam.GetProjection();

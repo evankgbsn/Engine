@@ -56,6 +56,28 @@ public:
 		return rotation;
 	};
 
+	virtual void SetTransform(const glm::mat4& newTransform)
+	{
+		translation = glm::translate(glm::mat4(1.0f), glm::vec3(newTransform[3]));
+		
+		float scaleX = glm::length(newTransform[0]);
+		float scaleY = glm::length(newTransform[1]);
+		float scaleZ = glm::length(newTransform[2]);
+
+		scale = glm::scale(glm::mat4(1.0f), glm::vec3(scaleX, scaleY, scaleZ));
+
+		rotation = glm::mat4(1.0f);
+
+		rotation[0] = newTransform[0] / scaleX;
+		rotation[1] = newTransform[1] / scaleY;
+		rotation[2] = newTransform[2] / scaleZ;
+	};
+
+	virtual const glm::mat4& GetTransform()
+	{
+		return transformation = translation * scale * rotation;
+	};
+
 protected:
 
 	Graphics3DTransformable() :
@@ -71,6 +93,8 @@ protected:
 	glm::mat4 rotation;
 
 	glm::mat4 scale;
+
+	glm::mat4 transformation;
 
 private:
 

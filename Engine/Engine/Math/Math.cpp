@@ -1,5 +1,7 @@
 #include "Math.h"
 
+#include "glm/gtc/matrix_access.hpp"
+#include "glm/gtx/projection.hpp"
 
 
 glm::vec3 Math::Lerp(const glm::vec3& p0, const glm::vec3& p1, float t)
@@ -91,4 +93,162 @@ float Math::ChangeRange(float currentBegin, float currentEnd, float newBegin, fl
 	float newRange = (newEnd - newBegin);
 
 	return (((value - currentBegin) * newRange) / oldRange) + newBegin;
+}
+
+bool Math::Intersect(const BoundingSphere& sphere1, const BoundingSphere& sphere2)
+{
+	float radius1 = sphere1.GetRadius();
+	float radius2 = sphere2.GetRadius();
+
+	glm::vec3 center1 = sphere1.GetCenter();
+	glm::vec3 center2 = sphere2.GetCenter();
+
+	float length = glm::length(center1 - center2);
+
+	return (length < (radius1 + radius2));
+}
+
+bool Math::Intersect(const BoundingSphere& sphere, const AxisAlignedBoundingBox& AABB)
+{
+	return  glm::length((glm::vec3(sphere.GetCenter()) - glm::clamp(glm::vec3(sphere.GetCenter()), AABB.GetMin(), AABB.GetMax()))) <= sphere.GetRadius();
+}
+
+bool Math::Intersect(const AxisAlignedBoundingBox& AABB1, const AxisAlignedBoundingBox& AABB2)
+{
+	return
+		(AABB1.GetMax().x > AABB2.GetMin().x) &&
+		(AABB2.GetMax().x > AABB1.GetMin().x) &&
+		(AABB1.GetMax().y > AABB2.GetMin().y) &&
+		(AABB2.GetMax().y > AABB1.GetMin().y) &&
+		(AABB1.GetMax().z > AABB2.GetMin().z) &&
+		(AABB2.GetMax().z > AABB1.GetMin().z);
+}
+
+bool Math::Intersect(const CollisionVolume& volume1, const CollisionVolume& volume2)
+{
+	return volume1.Intersect(volume2);
+}
+
+bool Math::Intersect(const OrientedBoundingBox& box1, const OrientedBoundingBox& box2)
+{
+
+	// Grab the uniform scale factor.
+	float box1Scale = glm::length(glm::column(box1.GetWorld(), 0));
+	float box2Scale = glm::length(glm::column(box2.GetWorld(), 0));
+
+	// The normals of both obbs
+	glm::vec3 normals[] = {
+
+		glm::normalize(glm::column(box1.GetWorld(), 0)),
+		glm::normalize(glm::column(box1.GetWorld(), 1)),
+		glm::normalize(glm::column(box1.GetWorld(), 2)),
+		glm::normalize(glm::column(box2.GetWorld(), 0)),
+		glm::normalize(glm::column(box2.GetWorld(), 1)),
+		glm::normalize(glm::column(box2.GetWorld(), 2))
+
+	};
+
+	unsigned int count = 0;
+
+	// test on seperating axes.
+	for (int x = 0; x < 6; x++)
+	{
+		for (int y = x; ++y < 6;)
+		{
+			glm::vec3 seperatingAxis = glm::cross(normals[x], normals[y]);
+
+			if (glm::length(seperatingAxis) > FLT_EPSILON)
+			{
+				float centerToCenterProjLength = glm::length(glm::proj((box1.GetCenter() - box2.GetCenter()), seperatingAxis));
+
+
+				glm::vec3 seperatingAxisInObb1 = glm::inverse(box1.GetWorld()) * glm::vec4(seperatingAxis, 0);
+				float maxProjObb1 = abs(seperatingAxisInObb1.x * box1.GetMax().x) + abs(seperatingAxisInObb1.y * box1.GetMax().y) + abs(seperatingAxisInObb1.z * box1.GetMax().z);
+				maxProjObb1 /= glm::length(seperatingAxis);
+				maxProjObb1 *= box1Scale * box1Scale;
+
+				glm::vec3 seperatingAxisInObb2 = glm::inverse(box2.GetWorld()) * glm::vec4(seperatingAxis, 0);
+				float maxProjObb2 = abs(seperatingAxisInObb2.x * box2.GetMax().x) + abs(seperatingAxisInObb2.y * box2.GetMax().y) + abs(seperatingAxisInObb2.z * box2.GetMax().z);
+				maxProjObb2 /= glm::length(seperatingAxis);
+				maxProjObb2 *= box2Scale * box2Scale;
+
+				if (centerToCenterProjLength >= maxProjObb1 + maxProjObb2)
+				{
+					return false;
+				}
+			}
+			count++;
+		}
+	}
+
+	return true;
+
+}
+
+bool Math::Intersect(const OrientedBoundingBox& box1, const AxisAlignedBoundingBox& box2)
+{
+	// Grab the uniform scale factor.
+	float box1Scale = glm::length(glm::column(box1.GetWorld(), 0));
+	float box2Scale = glm::length(glm::column(box2.GetWorld(), 0));
+
+	glm::vec3 box2LocalMax = glm::inverse(box2.GetWorld()) * glm::vec4(box2.GetMax(), 1.0f);
+	glm::vec3 box2LocalMin = glm::inverse(box2.GetWorld()) * glm::vec4(box2.GetMin(), 1.0f);
+
+	// The normals of both obbs
+	glm::vec3 normals[] = {
+
+		glm::normalize(glm::column(box1.GetWorld(), 0)),
+		glm::normalize(glm::column(box1.GetWorld(), 1)),
+		glm::normalize(glm::column(box1.GetWorld(), 2)),
+		glm::normalize(glm::column(box2.GetWorld(), 0)),
+		glm::normalize(glm::column(box2.GetWorld(), 1)),
+		glm::normalize(glm::column(box2.GetWorld(), 2))
+
+	};
+
+	unsigned int count = 0;
+
+	// test on seperating axis.
+	for (int x = 0; x < 6; x++)
+	{
+		for (int y = x; ++y < 6;)
+		{
+			glm::vec3 seperatingAxis = glm::cross(normals[x], normals[y]);
+
+			if (glm::length(seperatingAxis) * glm::length(seperatingAxis) > FLT_EPSILON)
+			{
+				float centerToCenterProjLength = glm::length(glm::proj((box1.GetCenter() - box2.GetCenter()), seperatingAxis));
+
+				glm::vec3 seperatingAxisInObb1 = glm::inverse(box1.GetWorld()) * glm::vec4(seperatingAxis, 0);
+				float maxProjObb1 = abs(seperatingAxisInObb1.x * box1.GetMax().x) + abs(seperatingAxisInObb1.y * box1.GetMax().y) + abs(seperatingAxisInObb1.z * box1.GetMax().z);
+				maxProjObb1 /= glm::length(seperatingAxis);
+				maxProjObb1 *= box1Scale * box1Scale;
+
+				glm::vec3 seperatingAxisInObb2 = glm::inverse(box2.GetWorld()) * glm::vec4(seperatingAxis, 0);
+				float maxProjObb2 = abs(seperatingAxisInObb2.x * box2LocalMax.x) + abs(seperatingAxisInObb2.y * box2LocalMax.y) + abs(seperatingAxisInObb2.z * box2LocalMax.z);
+				maxProjObb2 /= glm::length(seperatingAxis);
+				maxProjObb2 *= box2Scale * box2Scale;
+
+				if (centerToCenterProjLength >= maxProjObb1 + maxProjObb2)
+				{
+					return false;
+				}
+			}
+			count++;
+		}
+	}
+
+	return true;
+}
+
+bool Math::Intersect(const OrientedBoundingBox& box, const BoundingSphere& sphere)
+{
+	glm::mat4 inverse = glm::inverse(box.GetWorld());
+	glm::vec4 center = glm::vec4(glm::vec3(sphere.GetCenter()), 1.0f);
+
+	glm::vec4 obbLocalSphereCenter = inverse * center;
+	glm::vec4 obbLocalClampedSphereCenter = glm::clamp(obbLocalSphereCenter, glm::vec4(box.GetMin(), 1.0f), glm::vec4(box.GetMax(), 1.0f));
+	glm::vec4 worldClampedSphereCenter = box.GetWorld() * obbLocalClampedSphereCenter;
+
+	return  glm::length(center - worldClampedSphereCenter) <= sphere.GetRadius();
 }

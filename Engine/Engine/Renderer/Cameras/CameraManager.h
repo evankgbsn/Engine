@@ -22,6 +22,10 @@ public:
 
 	static void DestroyCamera(const std::string& cameraName);
 
+	static void SetActiveCamera(const std::string& name);
+
+	static Camera& GetActiveCamera();
+
 private:
 
 	CameraManager();
@@ -39,6 +43,8 @@ private:
 	static CameraManager* instance;
 
 	std::unordered_map<std::string, Camera* const> cameras;
+
+	Camera* activeCamera = nullptr;
 
 };
 

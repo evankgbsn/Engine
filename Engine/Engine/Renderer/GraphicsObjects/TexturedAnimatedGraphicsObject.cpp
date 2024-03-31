@@ -25,7 +25,6 @@ TexturedAnimatedGraphicsObject::TexturedAnimatedGraphicsObject(Model* const m, T
 	InitializeDescriptorSets();
 
 	dirLight = LightManager::GetDirectionalLight("MainDirLight");
-	cam = &CameraManager::GetCamera("MainCamera");
 
 	animation = new Animation(model->GetBakedAnimation(0));
 }
@@ -60,6 +59,8 @@ void TexturedAnimatedGraphicsObject::CreateUniformBuffers()
 
 void TexturedAnimatedGraphicsObject::Update()
 {
+	Camera* cam = &CameraManager::GetActiveCamera();
+
 	mvp.model = translation * rotation * scale;
 
 	mvp.view = cam->GetView();

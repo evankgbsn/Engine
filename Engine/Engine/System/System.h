@@ -1,5 +1,5 @@
-#ifndef System_H
-#define System_H
+#ifndef SYSTEM_H
+#define SYSTEM_H
 
 #include "../Component/Component.h"
 
@@ -52,8 +52,6 @@ private:
 	static std::unordered_map<unsigned long, System* const> systems;
 };
 
-#endif // System_H
-
 template<typename T>
 inline T* const System::CreateComponent(std::vector<T>& inComponentsVector)
 {
@@ -63,3 +61,5 @@ inline T* const System::CreateComponent(std::vector<T>& inComponentsVector)
 	*newComponent = &inComponentsVector[inComponentsVector.size() - 1];
 	return &inComponentsVector[inComponentsVector.size() - 1];
 }
+
+#endif // System_H

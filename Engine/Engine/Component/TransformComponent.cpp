@@ -10,6 +10,15 @@ TransformComponent::TransformComponent() :
 {
 }
 
+TransformComponent::TransformComponent(const TransformComponent& other) : Component(other.GetType()), rotation(other.rotation), transform(other.transform)
+{
+}
+
+TransformComponent::TransformComponent(TransformComponent&& other) : Component(other.GetType()), rotation(other.rotation), transform(other.transform)
+{
+
+}
+
 TransformComponent::~TransformComponent()
 {
 }
@@ -45,6 +54,11 @@ void TransformComponent::SetRotation(const glm::vec3& newRotation)
 	};
 
 	QueueCommand(function);
+}
+
+void TransformComponent::SetRotation(const glm::mat4& newRotation)
+{
+	rotation = newRotation;
 }
 
 void TransformComponent::SetScale(const glm::vec3& newScale)

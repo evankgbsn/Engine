@@ -43,6 +43,8 @@ std::function<void(int)>* spacePress = nullptr;
 std::function<void(int)>* qPress = nullptr;
 std::function<void(int)>* ePress = nullptr;
 std::function<void(int)>* lPress = nullptr;
+std::function<void(int)>* cPress = nullptr;
+std::function<void(int)>* zPress = nullptr;
 
 std::function<void(int)>* tPress = nullptr;
 std::function<void(int)>* yPress = nullptr;
@@ -92,6 +94,8 @@ void LoadAssets()
 	ModelManager::LoadModel("Cube", "../Engine/Engine/Renderer/Model/Cube.gltf");
 	ModelManager::LoadModel("Skybox", "../Engine/Engine/Renderer/Model/Skybox.gltf");
 	ModelManager::LoadModel("Human", "../Engine/Engine/Renderer/Model/Human.gltf");
+	ModelManager::LoadModel("Home", "../Engine/Engine/Renderer/Model/HomeModel.gltf");
+	ModelManager::LoadModel("Sphere", "../Engine/Engine/Renderer/Model/Sphere.gltf");
 }
 
 void StressTest()
@@ -104,43 +108,43 @@ void StressTest()
 		TextureManager::GetTexture("Woman")
 	};
 
-	const float translationScalar = 7.0f;
-	srand(static_cast<unsigned int>(std::chrono::high_resolution_clock::now().time_since_epoch().count()));
-	unsigned int clipNum = 0;
-	unsigned int womanTextureNum;
+	//const float translationScalar = 7.0f;
+	//srand(static_cast<unsigned int>(std::chrono::high_resolution_clock::now().time_since_epoch().count()));
+	//unsigned int clipNum = 0;
+	//unsigned int womanTextureNum;
+	//
+	//int count = 10;
 
-	int count = 10;
-
-	for (int i = 0; i < count; i++)
-	{
-		for (int j = 0; j < count; j++)
-		{
-			if (clipNum > 9)
-				clipNum = 0;
-
-			womanTextureNum = rand() % 5;
-
-			auto animationCreationCallback = [translationScalar, i, j, count](GraphicsObject* go)
-				{
-					TexturedAnimatedGraphicsObject* ago = static_cast<TexturedAnimatedGraphicsObject*>(go);
-					if (go != nullptr)
-					{
-						ago->Translate(glm::vec3(i * translationScalar + -count*3, 0.0f, j * translationScalar + -count*3));
-						ago->SetClip(8);
-						ago->SetAnimationSpeed(2.0f);
-					}
-
-					if (i == j)
-					{
-						GraphicsObjectManager::WireFrame(go, ObjectTypes::GraphicsObjectType::AnimatedTextured);
-					}
-
-				};
-			//std::this_thread::sleep_for(std::chrono::milliseconds(10));
-			GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), TextureManager::GetTexture("Woman2"), animationCreationCallback);
-
-		}
-	}
+	//for (int i = 0; i < count; i++)
+	//{
+	//	for (int j = 0; j < count; j++)
+	//	{
+	//		if (clipNum > 9)
+	//			clipNum = 0;
+	//
+	//		womanTextureNum = rand() % 5;
+	//
+	//		auto animationCreationCallback = [translationScalar, i, j, count](GraphicsObject* go)
+	//			{
+	//				TexturedAnimatedGraphicsObject* ago = static_cast<TexturedAnimatedGraphicsObject*>(go);
+	//				if (go != nullptr)
+	//				{
+	//					ago->Translate(glm::vec3(i * translationScalar + -count*3, 0.0f, j * translationScalar + -count*3));
+	//					ago->SetClip(8);
+	//					ago->SetAnimationSpeed(2.0f);
+	//				}
+	//
+	//				if (i == j)
+	//				{
+	//					GraphicsObjectManager::WireFrame(go, ObjectTypes::GraphicsObjectType::AnimatedTextured);
+	//				}
+	//
+	//			};
+	//		//std::this_thread::sleep_for(std::chrono::milliseconds(10));
+	//		GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), TextureManager::GetTexture("Woman2"), animationCreationCallback);
+	//
+	//	}
+	//}
 
 	
 
@@ -157,18 +161,11 @@ void Game()
 	AddGrid();
 
 	Scene* mainScene = SceneManager::CreateScene("Main");
-	TransformSystem* transformSystem = new TransformSystem();
 	Skybox* skyboxGameObject = new Skybox();
 	Player* playerGameObject = new Player();
 
-	TransformComponent* skyboxTransform = transformSystem->CreateComponent();
-	//TransformComponent* playerTransform = transformSystem->CreateComponent();
-	
-	skyboxGameObject->AddComponent(skyboxTransform->GetType(), skyboxTransform);
-	//playerGameObject->AddComponent(playerTransform->GetType(), playerTransform);
 	mainScene->AddEntity("Skybox", skyboxGameObject);
 	mainScene->AddEntity("Player", playerGameObject);
-	mainScene->AddSystem("Transform", transformSystem);
 
 	float frame = TimeManager::SecondsSinceStart();
 
@@ -177,7 +174,6 @@ void Game()
 		float frameTime = 0.0016f;
 		if ((TimeManager::SecondsSinceStart() - frame) > frameTime)
 		{	
-			transformSystem->Operate();
 			skyboxGameObject->Update();
 			playerGameObject->Update();
 			frame = TimeManager::SecondsSinceStart();
@@ -193,7 +189,6 @@ void Game()
 	}
 
 	delete playerGameObject;
-	delete transformSystem;
 	delete skyboxGameObject;
 }
 
@@ -256,7 +251,25 @@ void SetInput()
 	});
 	
 
+	zPress = new std::function<void(int)>([](int keyCode)
+	{
+		Camera& cam = CameraManager::GetCamera("MainCamera");
+		float rotSpeed = 2.0f * TimeManager::DeltaTime();
+		cam.Rotate(cam.GetRightVector(), -rotSpeed);
+	});
+
+	cPress = new std::function<void(int)>([](int keyCode)
+	{
+		Camera& cam = CameraManager::GetCamera("MainCamera");
+		float rotSpeed = 2.0f * TimeManager::DeltaTime();
+		cam.Rotate(cam.GetRightVector(), rotSpeed);
+	});
+
+
+
 	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_L, lPress, "CameraMoveFromMain");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_C, cPress, "CameraMoveFromMain");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_Z, zPress, "CameraMoveFromMain");
 	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_W, wPress, "CameraMoveFromMain");
 	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_A, aPress, "CameraMoveFromMain");
 	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_S, sPress, "CameraMoveFromMain");

@@ -6,6 +6,7 @@ TransformSystem::TransformSystem() :
     System(Component::Type::TRANSFORM),
     transformComponents(std::vector<TransformComponent>())
 {
+    transformComponents.reserve(10000);
 }
 
 TransformSystem::~TransformSystem()

@@ -6,7 +6,7 @@
 
 void TexturedStaticGraphicsObject::Update()
 {
-	const Camera& cam = CameraManager::GetCamera("MainCamera");
+	const Camera& cam = CameraManager::GetActiveCamera();
 
 	mvp.model = translation * rotation * scale;
 
@@ -15,24 +15,6 @@ void TexturedStaticGraphicsObject::Update()
 	mvp.projection[1][1] *= -1;
 
 	uniformBuffers[0]->SetData(&mvp);
-}
-
-glm::vec3 vec3DefaultReturn;
-glm::mat4 mat4DefaultReturn;
-
-glm::vec3 TexturedStaticGraphicsObject::GetTranslation() const
-{
-	return vec3DefaultReturn;
-}
-
-glm::vec3 TexturedStaticGraphicsObject::GetScale() const
-{
-	return vec3DefaultReturn;
-}
-
-glm::mat4 TexturedStaticGraphicsObject::GetRotation() const
-{
-	return mat4DefaultReturn;
 }
 
 void TexturedStaticGraphicsObject::CreateTextures()

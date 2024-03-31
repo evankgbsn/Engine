@@ -29,14 +29,6 @@ public:
 
 protected:
 
-	// Graphics3DTransformable
-
-	glm::vec3 GetTranslation() const override;
-
-	glm::vec3 GetScale() const override;
-
-	glm::mat4 GetRotation() const override;
-
 	struct MVPUniformBuffer
 	{
 		glm::mat4 model;

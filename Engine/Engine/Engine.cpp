@@ -46,7 +46,7 @@ void Engine::Start()
 {
 	if (instance != nullptr)
 	{
-		Window& mainWindow = WindowManager::CreateManagedWindow(1280, 720, "MainWindow");
+		Window& mainWindow = WindowManager::CreateManagedWindow(1920, 1080, "MainWindow");
 		mainWindow.Initialize();
 
 		instance->LoadAssets();
@@ -55,7 +55,7 @@ void Engine::Start()
 		while (instance->shouldUpdate)
 		{
 			TimeManager::RecordUpdateTime();
-			instance->shouldUpdate = Renderer::Update();
+			Renderer::Update();
 		};
 	}
 }
@@ -116,6 +116,11 @@ void Engine::SetLoadAssetsFunc(void(*newLoadAssetsFunc)())
 	{
 		instance->loadAssetsFunc = newLoadAssetsFunc;
 	}
+}
+
+void Engine::SignalEngineTermination()
+{
+	instance->shouldUpdate = false;
 }
 
 Engine::Engine(const std::string& gn, const Version& gv) :

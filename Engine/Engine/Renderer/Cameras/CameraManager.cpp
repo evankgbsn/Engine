@@ -100,6 +100,32 @@ void CameraManager::DestroyCamera(const std::string& cameraName)
 	}
 }
 
+void CameraManager::SetActiveCamera(const std::string& name)
+{
+	if (instance != nullptr)
+	{
+		instance->activeCamera = &GetCamera(name);
+		
+		Logger::Log(std::string("Active camera set to: ") + name, Logger::Category::Success);
+	}
+	else
+	{
+		Logger::Log(std::string("Calling CameraManager::SetActiveCamera() before CameraManager::Initialze()"), Logger::Category::Warning);
+	}
+}
+
+Camera& CameraManager::GetActiveCamera()
+{
+	if (instance != nullptr)
+	{
+		return *instance->activeCamera;
+	}
+	else
+	{
+		Logger::Log(std::string("Calling CameraManager::GetActiveCamera() before CameraManager::Initialize()"), Logger::Category::Warning);
+	}
+}
+
 CameraManager::CameraManager() :
 	cameras(std::unordered_map<std::string, Camera* const>())
 {

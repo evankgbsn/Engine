@@ -2,6 +2,7 @@
 
 #include "Renderer/GraphicsObjects/GraphicsObjectManager.h"
 #include "Renderer/GraphicsObjects/TexturedStaticGraphicsObject.h"
+#include "Renderer/GraphicsObjects/LitTexturedStaticGraphicsObject.h"
 #include "Renderer/Model/ModelManager.h"
 #include "Renderer/Images/TextureManager.h"
 #include "Component/TransformComponent.h"
@@ -16,6 +17,7 @@
 #include "Renderer/Lights/LightManager.h"
 #include "Renderer/Lights/DirectionalLight.h"
 #include "UI/Text.h"
+#include "Collision/BoundingSphere.h"
 
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -26,11 +28,9 @@ Skybox::Skybox() :
 	auto callback = [this](GraphicsObject* go) 
 	{
 		this->skyBoxGraphicsObject = go;
-		TransformComponent* transform = GetComponent<TransformComponent>(Component::Type::TRANSFORM);
 		static bool scaled = false;
-		if (!scaled && transform != nullptr && GraphicsObjectManager::Operating())
+		if (!scaled && GraphicsObjectManager::Operating())
 		{
-			transform->SetScale(glm::vec3(100.0f, 100.0f, 100.0f));
 			TexturedStaticGraphicsObject* ts = static_cast<TexturedStaticGraphicsObject*>(go);
 
 			if (ts != nullptr)
@@ -42,6 +42,10 @@ Skybox::Skybox() :
 	};
 
 	GraphicsObjectManager::CreateTexturedStaticGraphicsObject(ModelManager::GetModel("Skybox"), TextureManager::GetTexture("Skybox"), callback);
+
+	
+	
+
 }
 
 Skybox::~Skybox()

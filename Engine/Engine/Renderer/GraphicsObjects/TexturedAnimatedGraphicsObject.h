@@ -79,8 +79,6 @@ protected:
 
 	DirectionalLight* dirLight;
 
-	Camera* cam;
-
 private:
 
 };

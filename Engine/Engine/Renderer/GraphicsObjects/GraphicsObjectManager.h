@@ -14,8 +14,10 @@
 
 class GraphicsObject;
 class TexturedStaticGraphicsObject;
+class TexturedStatic2DGraphicsObject;
 class TexturedAnimatedGraphicsObject;
 class LitTexturedStaticGraphicsObject;
+class ColoredStaticGraphicsObject;
 class GoochGraphicsObject;
 class Model;
 class DescriptorSetLayout;
@@ -34,15 +36,17 @@ public:
 
 	static void Terminate();
 
-	static void CreateTexturedStaticGraphicsObject(Model* const model, Texture* const texture, std::function<void(GraphicsObject*)> callback);
+	static void CreateTexturedStaticGraphicsObject(Model* const model, Texture* const texture, std::function<void(TexturedStaticGraphicsObject*)> callback);
 
-	static void CreateTexturedAnimatedGraphicsObject(Model* const model, Texture* const texture, std::function<void(GraphicsObject*)> callback);
+	static void CreateTexturedAnimatedGraphicsObject(Model* const model, Texture* const texture, std::function<void(TexturedAnimatedGraphicsObject*)> callback);
 
-	static void CreateGoochGraphicsObject(Model* const model, Texture* const texture, std::function<void(GraphicsObject*)> callback);
+	static void CreateGoochGraphicsObject(Model* const model, Texture* const texture, std::function<void(GoochGraphicsObject*)> callback);
 
-	static void CreateLitTexturedStaticGraphicsObject(Model* const model, Texture* const texture, std::function<void(GraphicsObject*)> callback);
+	static void CreateLitTexturedStaticGraphicsObject(Model* const model, Texture* const texture, std::function<void(LitTexturedStaticGraphicsObject*)> callback);
 
-	static void CreateTexturedStatic2DGraphicsObject(Model* const model, Texture* const texture, std::function<void(GraphicsObject*)> callback);
+	static void CreateTexturedStatic2DGraphicsObject(Model* const model, Texture* const texture, std::function<void(TexturedStatic2DGraphicsObject*)> callback);
+
+	static void CreateColoredStaticGraphicsObject(Model* const model, const glm::vec4& color, std::function<void(ColoredStaticGraphicsObject*)> callback);
 
 	static void WireFrame(GraphicsObject* obj, ObjectTypes::GraphicsObjectType type);
 
@@ -110,7 +114,9 @@ private:
 
 	std::mutex enqueueGoochMutex;
 
-	std::mutex enqueuelitStaticMutex;
+	std::mutex enqueueLitStaticMutex;
+
+	std::mutex enqueueColoredStaticMutex;
 
 	std::mutex updateMutex;
 
@@ -153,6 +159,14 @@ private:
 	std::vector<GraphicsObject*> texturedStatic2DGraphicsObjectsWireFrame;
 
 	std::list<std::pair<GraphicsObject*, unsigned int>> disabledTexturedStatic2DGraphicsObjectsWireFrame;
+
+	std::vector<GraphicsObject*> coloredStaticGraphicsObjects;
+
+	std::list<std::pair<GraphicsObject*, unsigned int>> disabledColoredStaticGraphicsObjects;
+
+	std::vector<GraphicsObject*> coloredStaticGraphicsObjectsWireFrame;
+
+	std::list<std::pair<GraphicsObject*, unsigned int>> disabledColoredStaticGraphicsObjectsWireFrame;
 
 	const Window& window;
 

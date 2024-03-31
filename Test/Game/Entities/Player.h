@@ -6,6 +6,9 @@
 #include<functional>
 
 class TexturedAnimatedGraphicsObject;
+class BoundingSphere;
+class Model;
+class Texture;
 
 class Player : public GameObject
 {
@@ -28,7 +31,17 @@ private:
 
 	Player operator=(Player&&) = delete;
 
-	TexturedAnimatedGraphicsObject* player;
+	void RegisterInput();
+
+	TexturedAnimatedGraphicsObject* graphics;
+
+	BoundingSphere* collisionVolume;
+
+	BoundingSphere* randomCollisionVolume;
+
+	Model* model;
+
+	Texture* texture;
 
 	float moveSpeed;
 

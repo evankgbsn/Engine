@@ -7,6 +7,7 @@
 #include "Renderer/Cameras/Camera.h"
 #include "Renderer/Images/TextureManager.h"
 #include "Input/InputManager.h"
+#include "Collision/BoundingSphere.h"
 
 Player::Player() :
 	wPress(nullptr),
@@ -22,142 +23,37 @@ Player::Player() :
 	moveSpeed(0.005f),
 	movementInProgress(false)
 {
+	model = ModelManager::GetModel("Woman");
+	texture = TextureManager::GetTexture("Woman2");
+
 	auto onGraphicsObjectCreate = [this](GraphicsObject* go)
-	{
-		player = static_cast<TexturedAnimatedGraphicsObject*>(go);
-		player->SetClip(0);
-		player->SetAnimationSpeed(1.0f);
+		{
+			graphics = static_cast<TexturedAnimatedGraphicsObject*>(go);
+			graphics->SetClip(0);
+			graphics->SetAnimationSpeed(1.0f);
+			//graphics->Scale({2.0f, 2.0f, 2.0f});
 	};
 
-	GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), TextureManager::GetTexture("Woman2"), onGraphicsObjectCreate);
+	GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(model, texture, onGraphicsObjectCreate);
 
-	auto setCamera = [this]()
-	{
-		Camera& cam = CameraManager::GetCamera("MainCamera");
+	RegisterInput();
 
-		if (player != nullptr)
-		{
-			glm::vec3 translation = player->GetTranslation();
-			cam.SetTarget(translation);
-			cam.SetPosition(translation + glm::vec3(0.0f, 10.0f, -15.0f));
-		}
-	};
+	collisionVolume = new BoundingSphere([](Entity* owner) {}, this, model, glm::mat4(1.0f));
+	collisionVolume->Initialize(model);
 
-	wPressed = new std::function<void(int)>([this, setCamera](int keyCode)
-	{
-		if(movementInProgress && direction == 0)
-		{
-			player->Translate(glm::vec3(0.0f, 0.0f, moveSpeed));
-			player->SetRotation(glm::mat4(1.0f));
-			setCamera();
-		}
-	});
 
-	aPressed = new std::function<void(int)>([this, setCamera](int keyCode)
-	{
-		if (movementInProgress && direction == 1)
-		{
-			player->Translate(glm::vec3(moveSpeed, 0.0f, 0.0f));
-			setCamera();
-		}
-	});
+	glm::mat4 collisionTransform(glm::mat4(1.0f));
 
-	sPressed = new std::function<void(int)>([this, setCamera](int keyCode)
-	{
-		if (movementInProgress and direction == 2)
-		{
-			player->Translate(glm::vec3(0.0f, 0.0f, -moveSpeed));
-			setCamera();
-		}
-	});
+	collisionTransform = glm::translate(collisionTransform, { 20.0f, 0.0f, 20.0f });
 
-	dPressed = new std::function<void(int)>([this, setCamera](int keyCode)
-	{
-		if (movementInProgress and direction == 3)
-		{
-			player->Translate(glm::vec3(-moveSpeed, 0.0f, 0.0f));
-			setCamera();
-		}
-	});
-
-	wPress = new std::function<void(int)>([this, setCamera](int keyCode)
-	{
-		if(!movementInProgress)
-		{
-			player->SetClip(0);
-			player->SetRotation(glm::mat4(1.0f));
-			setCamera();
-			movementInProgress = true;
-			direction = 0;
-		}
-	});
-
-	aPress = new std::function<void(int)>([this, setCamera](int keyCode)
-	{
-		if(!movementInProgress)
-		{
-			player->SetClip(0);
-			player->SetRotation(glm::rotate(glm::mat4(1.0f), 1.57f, glm::vec3(0.0f, 1.0f, 0.0f)));
-			movementInProgress = true;
-			direction = 1;
-		}
-	});
-
-	sPress = new std::function<void(int)>([this, setCamera](int keyCode)
-	{
-		if(!movementInProgress)
-		{
-			player->SetClip(0);
-			player->SetRotation(glm::rotate(glm::mat4(1.0f), 3.1415f, glm::vec3(0.0f, 1.0f, 0.0f)));
-			movementInProgress = true;
-			direction = 2;
-		}
-	});
-
-	dPress = new std::function<void(int)>([this, setCamera](int keyCode)
-	{
-		if(!movementInProgress)
-		{
-			player->SetRotation(glm::rotate(glm::mat4(1.0f), -1.57f, glm::vec3(0.0f, 1.0f, 0.0f)));
-			player->SetClip(0);
-			movementInProgress = true;
-			direction = 3;
-		}
-	});
-
-	setClipOnMoveRelease = new std::function<void(int)>([this, setCamera](int keyCode)
-	{
-		player->SetClip(4);
-
-		movementInProgress = false;
-	});
-
-	setClipOnJumpPress = new std::function<void(int)>([this, setCamera](int keyCode)
-	{
-		if (!movementInProgress)
-		{
-			player->SetClip(8);
-		}
-	});
-
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_W, wPress, "CharacterMovement");
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_A, aPress, "CharacterMovement");
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_S, sPress, "CharacterMovement");
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_D, dPress, "CharacterMovement");
-	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_W, wPressed, "CharacterMovement");
-	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_A, aPressed, "CharacterMovement");
-	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_S, sPressed, "CharacterMovement");
-	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_D, dPressed, "CharacterMovement");
-	InputManager::RegisterCallbackForKeyState(KEY_RELEASE, KEY_W, setClipOnMoveRelease, "CharacterMovement");
-	InputManager::RegisterCallbackForKeyState(KEY_RELEASE, KEY_A, setClipOnMoveRelease, "CharacterMovement");
-	InputManager::RegisterCallbackForKeyState(KEY_RELEASE, KEY_S, setClipOnMoveRelease, "CharacterMovement");
-	InputManager::RegisterCallbackForKeyState(KEY_RELEASE, KEY_D, setClipOnMoveRelease, "CharacterMovement");
-	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_SPACE, setClipOnJumpPress, "CharacterMovement");
-	InputManager::RegisterCallbackForKeyState(KEY_RELEASE, KEY_SPACE, setClipOnMoveRelease, "CharacterMovement");
+	randomCollisionVolume = new BoundingSphere([](Entity* owner) {}, this, model, collisionTransform);
 }
 
 Player::~Player()
 {
+	delete collisionVolume;
+	delete randomCollisionVolume;
+
 	delete wPress;
 	delete aPress;
 	delete sPress;
@@ -175,7 +71,144 @@ Player::~Player()
 
 void Player::Update()
 {
-	
+	if (graphics != nullptr)
+	{
+		collisionVolume->ComputeData(model, graphics->GetTransform());
 
-	
+		if (collisionVolume->Intersect(*randomCollisionVolume))
+		{
+			collisionVolume->SetColor({ 1.0f, 0.0f, 0.0f, 1.0f });
+		}
+		else
+		{
+			collisionVolume->SetColor({ 0.0f, 0.5f, 0.5f, 1.0f });
+		}
+	}
+}
+
+void Player::RegisterInput()
+{
+	auto setCamera = [this]()
+		{
+			Camera& cam = CameraManager::GetCamera("MainCamera");
+
+			if (graphics != nullptr)
+			{
+				glm::vec3 translation = graphics->GetTranslation();
+				cam.SetTarget(translation);
+				cam.SetPosition(translation + glm::vec3(0.0f, 30.0f, -1.0f));
+			}
+		};
+
+	wPressed = new std::function<void(int)>([this, setCamera](int keyCode)
+		{
+			if (movementInProgress && direction == 0)
+			{
+				graphics->Translate(glm::vec3(0.0f, 0.0f, moveSpeed));
+				graphics->SetRotation(glm::mat4(1.0f));
+				setCamera();
+			}
+		});
+
+	aPressed = new std::function<void(int)>([this, setCamera](int keyCode)
+		{
+			if (movementInProgress && direction == 1)
+			{
+				graphics->Translate(glm::vec3(moveSpeed, 0.0f, 0.0f));
+				setCamera();
+			}
+		});
+
+	sPressed = new std::function<void(int)>([this, setCamera](int keyCode)
+		{
+			if (movementInProgress and direction == 2)
+			{
+				graphics->Translate(glm::vec3(0.0f, 0.0f, -moveSpeed));
+				setCamera();
+			}
+		});
+
+	dPressed = new std::function<void(int)>([this, setCamera](int keyCode)
+		{
+			if (movementInProgress and direction == 3)
+			{
+				graphics->Translate(glm::vec3(-moveSpeed, 0.0f, 0.0f));
+				setCamera();
+			}
+		});
+
+	wPress = new std::function<void(int)>([this, setCamera](int keyCode)
+		{
+			if (!movementInProgress)
+			{
+				graphics->SetClip(0);
+				graphics->SetRotation(glm::mat4(1.0f));
+				setCamera();
+				movementInProgress = true;
+				direction = 0;
+			}
+		});
+
+	aPress = new std::function<void(int)>([this, setCamera](int keyCode)
+		{
+			if (!movementInProgress)
+			{
+				graphics->SetClip(0);
+				graphics->SetRotation(glm::rotate(glm::mat4(1.0f), 1.57f, glm::vec3(0.0f, 1.0f, 0.0f)));
+				movementInProgress = true;
+				direction = 1;
+			}
+		});
+
+	sPress = new std::function<void(int)>([this, setCamera](int keyCode)
+		{
+			if (!movementInProgress)
+			{
+				graphics->SetClip(0);
+				graphics->SetRotation(glm::rotate(glm::mat4(1.0f), 3.1415f, glm::vec3(0.0f, 1.0f, 0.0f)));
+				movementInProgress = true;
+				direction = 2;
+			}
+		});
+
+	dPress = new std::function<void(int)>([this, setCamera](int keyCode)
+		{
+			if (!movementInProgress)
+			{
+				graphics->SetRotation(glm::rotate(glm::mat4(1.0f), -1.57f, glm::vec3(0.0f, 1.0f, 0.0f)));
+				graphics->SetClip(0);
+				movementInProgress = true;
+				direction = 3;
+			}
+		});
+
+	setClipOnMoveRelease = new std::function<void(int)>([this, setCamera](int keyCode)
+		{
+			graphics->SetClip(4);
+
+			movementInProgress = false;
+		});
+
+	setClipOnJumpPress = new std::function<void(int)>([this, setCamera](int keyCode)
+		{
+			if (!movementInProgress)
+			{
+				graphics->SetClip(8);
+			}
+		});
+
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_W, wPress, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_A, aPress, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_S, sPress, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_D, dPress, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_W, wPressed, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_A, aPressed, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_S, sPressed, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_D, dPressed, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_RELEASE, KEY_W, setClipOnMoveRelease, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_RELEASE, KEY_A, setClipOnMoveRelease, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_RELEASE, KEY_S, setClipOnMoveRelease, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_RELEASE, KEY_D, setClipOnMoveRelease, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_PRESS, KEY_SPACE, setClipOnJumpPress, "CharacterMovement");
+	InputManager::RegisterCallbackForKeyState(KEY_RELEASE, KEY_SPACE, setClipOnMoveRelease, "CharacterMovement");
 }

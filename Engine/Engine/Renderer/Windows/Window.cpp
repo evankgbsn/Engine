@@ -40,6 +40,7 @@
 #include "../../Input/InputManager.h"
 #include "../../UI/UserInterfaceManager.h"
 #include "../../UI/Editor/Editor.h"
+#include "../../Engine.h"
 
 #include "glm/gtc/matrix_transform.hpp"
 
@@ -55,9 +56,10 @@ Window::Window(uint32_t w, uint32_t h, std::string&& windowName) :
 {
 	CameraManager::Initialize();
 	Camera& cam = CameraManager::CreateCamera(Camera::Type::PERSPECTIVE, std::string("MainCamera"), this);
+	CameraManager::SetActiveCamera("MainCamera");
 
-	cam.SetPosition({ 30.0f, 20.0f, 100.0f });
-	cam.SetTarget({ 30.0f, 20.0f, -101.0f });
+	cam.SetPosition({0.0f, 10.0f, 30.0f });
+	cam.SetTarget({ 0.0f, 10.0f, -1.0f });
 
 	Camera& orthoCam = CameraManager::CreateCamera(Camera::Type::ORTHOGRAPHIC, std::string("MainOrthoCamera"), this);
 
@@ -154,6 +156,7 @@ bool Window::Update()
 	
 	if (glfwWindowShouldClose(window))
 	{
+		Engine::SignalEngineTermination();
 		return false;
 	}
 

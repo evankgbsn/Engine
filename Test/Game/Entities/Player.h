@@ -47,6 +47,8 @@ private:
 
 	Model* model;
 
+	Model* testModel;
+
 	Texture* texture;
 
 	float moveSpeed;

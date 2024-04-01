@@ -17,7 +17,6 @@ AxisAlignedBoundingBox::AxisAlignedBoundingBox(std::function<void(Entity*)> call
 	owner(o),
 	ownerModel(model)
 {
-
 	GraphicsObjectManager::CreateColoredStaticGraphicsObject(ModelManager::GetModel("Cube"), {0.0f, 0.5f, 0.5f, 1.0f}, [this, initialTransform](ColoredStaticGraphicsObject* go) 
 	{
 		boundingBoxVisualization = go;
@@ -165,6 +164,7 @@ void AxisAlignedBoundingBox::Initialize(Model* model, const glm::mat4& mat)
 
 	world = newWorld;
 
+	UpdateVisualization();
 }
 
 glm::mat4& AxisAlignedBoundingBox::GetWorld() const
@@ -176,6 +176,6 @@ void AxisAlignedBoundingBox::UpdateVisualization()
 {
 	if (boundingBoxVisualization != nullptr)
 	{
-		boundingBoxVisualization->SetScale({ glm::max(min.x, max.x) - glm::min(min.x, max.x), glm::max(min.y, max.y) - glm::min(min.y, max.y), glm::max(min.z, max.z) - glm::min(min.z, max.z) });
+		boundingBoxVisualization->SetTransform(world);
 	}
 }

@@ -3,6 +3,8 @@
 
 #include "CollisionVolume.h"
 
+#include <atomic>
+
 class OrientedBoundingBox;
 class ColoredStaticGraphicsObject;
 
@@ -117,6 +119,8 @@ private:
 	Model* ownerModel;
 
 	Entity* owner;
+
+	std::atomic<bool> initialized;
 
 };
 

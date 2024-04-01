@@ -386,6 +386,8 @@ Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Skybox.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Human.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/HomeModel.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Sphere.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/VikingRoom.gltf
+Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Dragon.gltf
 Success: Registered press callback for key code 256
 Success: Registered press callback for key code 87
 Success: Registered press callback for key code 65

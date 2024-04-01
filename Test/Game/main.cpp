@@ -96,6 +96,8 @@ void LoadAssets()
 	ModelManager::LoadModel("Human", "../Engine/Engine/Renderer/Model/Human.gltf");
 	ModelManager::LoadModel("Home", "../Engine/Engine/Renderer/Model/HomeModel.gltf");
 	ModelManager::LoadModel("Sphere", "../Engine/Engine/Renderer/Model/Sphere.gltf");
+	ModelManager::LoadModel("VikingRoom", "../Engine/Engine/Renderer/Model/VikingRoom.gltf");
+	ModelManager::LoadModel("Dragon", "../Engine/Engine/Renderer/Model/Dragon.gltf");
 }
 
 void StressTest()

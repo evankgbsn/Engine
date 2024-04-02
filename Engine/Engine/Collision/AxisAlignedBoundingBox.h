@@ -5,9 +5,11 @@
 
 #include <glm/glm.hpp>
 
-class Model;
+class BoundingSphere;
+class OrientedBoundingBox;
 class Entity;
 class ColoredStaticGraphicsObject;
+class Vertex;
 
 /**
 	A class that represents the axis aligned bounding box collider.
@@ -21,7 +23,7 @@ public:
 	/**
 		The constructor
 	*/
-	AxisAlignedBoundingBox(std::function<void(Entity*)> callback, Entity* owner, Model* ownerModel, const glm::mat4& initialTransform);
+	AxisAlignedBoundingBox(std::function<void(Entity*)> callback, Entity* owner, const std::vector<Vertex>& vertices, const glm::mat4& initialTransform);
 
 	/**
 		The destructor
@@ -56,7 +58,7 @@ public:
 	/**
 		Conpute the data for the CollisionVolume.
 	*/
-	void ComputeData(class Model* model, const glm::mat4& matrix) override;
+	void ComputeData(const std::vector<Vertex>& vertices, const glm::mat4& matrix) override;
 
 	/**
 		Check if this collision volume intersects with another.
@@ -66,22 +68,22 @@ public:
 	/**
 		Check if this collision volume intersects with another.
 	*/
-	bool Intersect(const class BoundingSphere& other) const override;
+	bool Intersect(const BoundingSphere& other) const override;
 
 	/**
 		Check if this collision volume intersects with another.
 	*/
-	bool Intersect(const class AxisAlignedBoundingBox& other) const override;
+	bool Intersect(const AxisAlignedBoundingBox& other) const override;
 
 	/**
 		Check if this collision volume intersects with another.
 	*/
-	bool Intersect(const class OrientedBoundingBox& other) const override;
+	bool Intersect(const OrientedBoundingBox& other) const override;
 
 	/**
 		Initialize the bounding box.
 	*/
-	void Initialize(class Model*, const glm::mat4&) override;
+	void Initialize(const std::vector<Vertex>& vertices, const glm::mat4&) override;
 
 	/**
 		Get the world matrix.
@@ -112,9 +114,6 @@ private:
 	*/
 	AxisAlignedBoundingBox& operator=(AxisAlignedBoundingBox&&) = delete;
 
-	void UpdateVisualization();
-
-
 public:
 
 private:
@@ -139,11 +138,7 @@ private:
 	*/
 	glm::mat4 world;
 
-	ColoredStaticGraphicsObject* boundingBoxVisualization;
-
 	Entity* owner;
-
-	Model* ownerModel;
 
 };
 

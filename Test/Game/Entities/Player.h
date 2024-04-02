@@ -6,9 +6,8 @@
 #include<functional>
 
 class TexturedAnimatedGraphicsObject;
-class ColoredStaticGraphicsObject;
 class BoundingSphere;
-class AxisAlignedBoundingBox;
+class OrientedBoundingBox;
 class Model;
 class Texture;
 
@@ -35,48 +34,21 @@ private:
 
 	void RegisterInput();
 
-	TexturedAnimatedGraphicsObject* graphics;
-
-	ColoredStaticGraphicsObject* testObj;
-
-	BoundingSphere* collisionVolume;
-
-	BoundingSphere* randomCollisionSphere;
-
-	AxisAlignedBoundingBox* randomCollisionBox;
-
 	Model* model;
-
-	Model* testModel;
 
 	Texture* texture;
 
-	float moveSpeed;
+	TexturedAnimatedGraphicsObject* graphics;
 
-	bool movementInProgress;
+	std::vector<OrientedBoundingBox*> boundingSpheres;
 
-	unsigned int direction = 5;
-
-	std::function<void(int)>* wPress;
-
-	std::function<void(int)>* aPress;
-
-	std::function<void(int)>* sPress;
-
-	std::function<void(int)>* dPress;
+	OrientedBoundingBox* collider;
 
 	std::function<void(int)>* wPressed;
 
-	std::function<void(int)>* aPressed;
+	std::function<void(int)>* wRelease;
 
-	std::function<void(int)>* sPressed;
-
-	std::function<void(int)>* dPressed;
-
-	std::function<void(int)>* setClipOnMoveRelease;
-
-	std::function<void(int)>* setClipOnJumpPress;   
-
+	std::function<void(int)>* wPress;
 };
 
 #endif // PLAYER_H

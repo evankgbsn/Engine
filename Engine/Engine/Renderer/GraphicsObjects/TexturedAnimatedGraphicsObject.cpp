@@ -27,6 +27,11 @@ TexturedAnimatedGraphicsObject::TexturedAnimatedGraphicsObject(Model* const m, T
 	dirLight = LightManager::GetDirectionalLight("MainDirLight");
 
 	animation = new Animation(model->GetBakedAnimation(0));
+
+	for (unsigned int i = 0; i < model->GetArmature()->GetInvBindPose().size(); i++)
+	{
+		anim.invBindPose[i] = model->GetArmature()->GetInvBindPose()[i];
+	}
 }
 
 TexturedAnimatedGraphicsObject::~TexturedAnimatedGraphicsObject()
@@ -67,11 +72,6 @@ void TexturedAnimatedGraphicsObject::Update()
 	mvp.projection = cam->GetProjection();
 	mvp.projection[1][1] *= -1;
 
-	for (unsigned int i = 0; i < model->GetArmature()->GetInvBindPose().size(); i++)
-	{
-		anim.invBindPose[i] = model->GetArmature()->GetInvBindPose()[i];
-	}
-
 	animation->Update(anim.pose);
 
 	light.color = glm::vec4(dirLight->GetColor(), 1.0f);
@@ -98,4 +98,9 @@ void TexturedAnimatedGraphicsObject::SetClip(unsigned int clipIndex)
 	Animation* oldAnimation = animation;
 	animation = new Animation(model->GetBakedAnimation(clipIndex));
 	delete oldAnimation;
+}
+
+const glm::mat4* const TexturedAnimatedGraphicsObject::GetAnimPoseArray()
+{
+	return anim.pose;
 }

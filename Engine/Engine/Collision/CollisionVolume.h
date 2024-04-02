@@ -5,7 +5,12 @@
 
 #include <functional>
 
+class BoundingSphere;
+class AxisAlignedBoundingBox;
+class OrientedBoundingBox;
 class Entity;
+class Vertex;
+class ColoredStaticGraphicsObject;
 
 /**
 	The base class for all collision volumes. AABB, OBB, Bounding sphere.
@@ -33,7 +38,7 @@ public:
 	/**
 		Conpute the data for the CollisionVolume.
 	*/
-	virtual void ComputeData(class Model* model, const glm::mat4& matrix);
+	virtual void ComputeData(const std::vector<Vertex>& vertices, const glm::mat4& matrix);
 
 	/**
 		Check if this collision volume intersects with another.
@@ -43,22 +48,30 @@ public:
 	/**
 		Check if this collision volume intersects with another.
 	*/
-	virtual bool Intersect(const class BoundingSphere& other) const = 0;
+	virtual bool Intersect(const BoundingSphere& other) const = 0;
 
 	/**
 		Check if this collision volume intersects with another.
 	*/
-	virtual bool Intersect(const class AxisAlignedBoundingBox& other) const = 0;
+	virtual bool Intersect(const AxisAlignedBoundingBox& other) const = 0;
 
 	/**
 		Check if this colliison volume intersects with another.
 	*/
-	virtual bool Intersect(const class OrientedBoundingBox& other) const = 0;
+	virtual bool Intersect(const OrientedBoundingBox& other) const = 0;
 
 	/**
 		Inisilaize the data for a collision volume with model data. Different collision volumes need to be initialized in different ways but all will have some sort of initialization.
 	*/
-	virtual void Initialize(class Model*, const glm::mat4&) = 0;
+	virtual void Initialize(const std::vector<Vertex>& vertices, const glm::mat4&) = 0;
+
+	void SetColor(const glm::vec4& newColor);
+
+	const glm::vec4& GetColor() const;
+
+	void UpdateGraphicsTransform(const glm::mat4&);
+
+	void Collide() const;
 
 private:
 
@@ -87,6 +100,8 @@ private:
 protected:
 
 	Entity* owningEntity;
+
+	ColoredStaticGraphicsObject* graphics;
 
 	std::function<void(Entity* owner)> collisionCallback;
 

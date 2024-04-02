@@ -14,7 +14,7 @@ public:
 	/**
 		The constructor
 	*/
-	OrientedBoundingBox(std::function<void(Entity*)> callback, Entity* owner);
+	OrientedBoundingBox(std::function<void(Entity*)> callback, Entity* owner, const std::vector<Vertex>& vertices, const glm::mat4& initialTransform);
 
 	/**
 		The destructor
@@ -44,7 +44,7 @@ public:
 	/**
 		Conpute the data for the CollisionVolume.
 	*/
-	void ComputeData(class Model* model, const glm::mat4& matrix) final;
+	void ComputeData(const std::vector<Vertex>& vertices, const glm::mat4& matrix) final;
 
 	/**
 		Check if this collision volume intersects with another.
@@ -69,7 +69,7 @@ public:
 	/**
 		Initialize the bounding box.
 	*/
-	void Initialize(class Model*, const glm::mat4&) final;
+	void Initialize(const std::vector<Vertex>& vertices, const glm::mat4&) final;
 
 	/**
 		Get the scale. Used in visualization.

@@ -389,23 +389,438 @@ Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Sphere.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/VikingRoom.gltf
 Success: Loaded model from file path ../Engine/Engine/Renderer/Model/Dragon.gltf
 Success: Registered press callback for key code 256
-Success: Registered press callback for key code 87
-Success: Registered press callback for key code 65
-Success: Registered press callback for key code 83
-Success: Registered press callback for key code 68
-Success: Registered pressed callback for key code 87
-Success: Registered pressed callback for key code 65
-Success: Registered pressed callback for key code 83
-Success: Registered pressed callback for key code 68
-Success: Registered release callback for key code 87
-Success: Registered release callback for key code 65
-Success: Registered release callback for key code 83
-Success: Registered release callback for key code 68
-Success: Registered press callback for key code 32
-Success: Registered release callback for key code 32
 Success: Registered pressed callback for key code 84
 Success: Registered pressed callback for key code 89
 Success: Registered pressed callback for key code 85
+Success: Registered pressed callback for key code 87
+Success: Registered press callback for key code 87
+Success: Registered release callback for key code 87
+Success: Created UserInterfaceItem: FeatureSearchToolBackground
+Success: Initialized Editor
+Success: Registered press callback for key code 65
+Success: Registered press callback for key code 66
+Success: Registered press callback for key code 67
+Success: Registered press callback for key code 68
+Success: Registered press callback for key code 69
+Success: Registered press callback for key code 70
+Success: Registered press callback for key code 71
+Success: Registered press callback for key code 72
+Success: Registered press callback for key code 73
+Success: Registered press callback for key code 74
+Success: Registered press callback for key code 75
+Success: Registered press callback for key code 76
+Success: Registered press callback for key code 77
+Success: Registered press callback for key code 78
+Success: Registered press callback for key code 79
+Success: Registered press callback for key code 80
+Success: Registered press callback for key code 81
+Success: Registered press callback for key code 82
+Success: Registered press callback for key code 83
+Success: Registered press callback for key code 84
+Success: Registered press callback for key code 85
+Success: Registered press callback for key code 86
+Success: Registered press callback for key code 87
+Success: Registered press callback for key code 88
+Success: Registered press callback for key code 89
+Success: Registered press callback for key code 90
+Success: Registered press callback for key code 32
+Success: Registered press callback for key code 340
+Success: Registered release callback for key code 340
+Success: Registered press callback for key code 259
+Info: Closed Editor
+Success: Deregistered press callback for key code 65
+Success: Deregistered press callback for key code 66
+Success: Deregistered press callback for key code 67
+Success: Deregistered press callback for key code 68
+Success: Deregistered press callback for key code 69
+Success: Deregistered press callback for key code 70
+Success: Deregistered press callback for key code 71
+Success: Deregistered press callback for key code 72
+Success: Deregistered press callback for key code 73
+Success: Deregistered press callback for key code 74
+Success: Deregistered press callback for key code 75
+Success: Deregistered press callback for key code 76
+Success: Deregistered press callback for key code 77
+Success: Deregistered press callback for key code 78
+Success: Deregistered press callback for key code 79
+Success: Deregistered press callback for key code 80
+Success: Deregistered press callback for key code 81
+Success: Deregistered press callback for key code 82
+Success: Deregistered press callback for key code 83
+Success: Deregistered press callback for key code 84
+Success: Deregistered press callback for key code 85
+Success: Deregistered press callback for key code 86
+Success: Deregistered press callback for key code 87
+Success: Deregistered press callback for key code 88
+Success: Deregistered press callback for key code 89
+Success: Deregistered press callback for key code 90
+Success: Deregistered press callback for key code 32
+Success: Deregistered press callback for key code 340
+Success: Deregistered release callback for key code 340
+Success: Deregistered press callback for key code 259
+Info: Opened Editor
+Success: Registered press callback for key code 65
+Success: Registered press callback for key code 66
+Success: Registered press callback for key code 67
+Success: Registered press callback for key code 68
+Success: Registered press callback for key code 69
+Success: Registered press callback for key code 70
+Success: Registered press callback for key code 71
+Success: Registered press callback for key code 72
+Success: Registered press callback for key code 73
+Success: Registered press callback for key code 74
+Success: Registered press callback for key code 75
+Success: Registered press callback for key code 76
+Success: Registered press callback for key code 77
+Success: Registered press callback for key code 78
+Success: Registered press callback for key code 79
+Success: Registered press callback for key code 80
+Success: Registered press callback for key code 81
+Success: Registered press callback for key code 82
+Success: Registered press callback for key code 83
+Success: Registered press callback for key code 84
+Success: Registered press callback for key code 85
+Success: Registered press callback for key code 86
+Success: Registered press callback for key code 87
+Success: Registered press callback for key code 88
+Success: Registered press callback for key code 89
+Success: Registered press callback for key code 90
+Success: Registered press callback for key code 32
+Success: Registered press callback for key code 340
+Success: Registered release callback for key code 340
+Success: Registered press callback for key code 259
+Info: Closed Editor
+Success: Deregistered press callback for key code 65
+Success: Deregistered press callback for key code 66
+Success: Deregistered press callback for key code 67
+Success: Deregistered press callback for key code 68
+Success: Deregistered press callback for key code 69
+Success: Deregistered press callback for key code 70
+Success: Deregistered press callback for key code 71
+Success: Deregistered press callback for key code 72
+Success: Deregistered press callback for key code 73
+Success: Deregistered press callback for key code 74
+Success: Deregistered press callback for key code 75
+Success: Deregistered press callback for key code 76
+Success: Deregistered press callback for key code 77
+Success: Deregistered press callback for key code 78
+Success: Deregistered press callback for key code 79
+Success: Deregistered press callback for key code 80
+Success: Deregistered press callback for key code 81
+Success: Deregistered press callback for key code 82
+Success: Deregistered press callback for key code 83
+Success: Deregistered press callback for key code 84
+Success: Deregistered press callback for key code 85
+Success: Deregistered press callback for key code 86
+Success: Deregistered press callback for key code 87
+Success: Deregistered press callback for key code 88
+Success: Deregistered press callback for key code 89
+Success: Deregistered press callback for key code 90
+Success: Deregistered press callback for key code 32
+Success: Deregistered press callback for key code 340
+Success: Deregistered release callback for key code 340
+Success: Deregistered press callback for key code 259
+Info: Opened Editor
+Success: Registered press callback for key code 65
+Success: Registered press callback for key code 66
+Success: Registered press callback for key code 67
+Success: Registered press callback for key code 68
+Success: Registered press callback for key code 69
+Success: Registered press callback for key code 70
+Success: Registered press callback for key code 71
+Success: Registered press callback for key code 72
+Success: Registered press callback for key code 73
+Success: Registered press callback for key code 74
+Success: Registered press callback for key code 75
+Success: Registered press callback for key code 76
+Success: Registered press callback for key code 77
+Success: Registered press callback for key code 78
+Success: Registered press callback for key code 79
+Success: Registered press callback for key code 80
+Success: Registered press callback for key code 81
+Success: Registered press callback for key code 82
+Success: Registered press callback for key code 83
+Success: Registered press callback for key code 84
+Success: Registered press callback for key code 85
+Success: Registered press callback for key code 86
+Success: Registered press callback for key code 87
+Success: Registered press callback for key code 88
+Success: Registered press callback for key code 89
+Success: Registered press callback for key code 90
+Success: Registered press callback for key code 32
+Success: Registered press callback for key code 340
+Success: Registered release callback for key code 340
+Success: Registered press callback for key code 259
+Info: Closed Editor
+Success: Deregistered press callback for key code 65
+Success: Deregistered press callback for key code 66
+Success: Deregistered press callback for key code 67
+Success: Deregistered press callback for key code 68
+Success: Deregistered press callback for key code 69
+Success: Deregistered press callback for key code 70
+Success: Deregistered press callback for key code 71
+Success: Deregistered press callback for key code 72
+Success: Deregistered press callback for key code 73
+Success: Deregistered press callback for key code 74
+Success: Deregistered press callback for key code 75
+Success: Deregistered press callback for key code 76
+Success: Deregistered press callback for key code 77
+Success: Deregistered press callback for key code 78
+Success: Deregistered press callback for key code 79
+Success: Deregistered press callback for key code 80
+Success: Deregistered press callback for key code 81
+Success: Deregistered press callback for key code 82
+Success: Deregistered press callback for key code 83
+Success: Deregistered press callback for key code 84
+Success: Deregistered press callback for key code 85
+Success: Deregistered press callback for key code 86
+Success: Deregistered press callback for key code 87
+Success: Deregistered press callback for key code 88
+Success: Deregistered press callback for key code 89
+Success: Deregistered press callback for key code 90
+Success: Deregistered press callback for key code 32
+Success: Deregistered press callback for key code 340
+Success: Deregistered release callback for key code 340
+Success: Deregistered press callback for key code 259
+Info: Opened Editor
+Success: Registered press callback for key code 65
+Success: Registered press callback for key code 66
+Success: Registered press callback for key code 67
+Success: Registered press callback for key code 68
+Success: Registered press callback for key code 69
+Success: Registered press callback for key code 70
+Success: Registered press callback for key code 71
+Success: Registered press callback for key code 72
+Success: Registered press callback for key code 73
+Success: Registered press callback for key code 74
+Success: Registered press callback for key code 75
+Success: Registered press callback for key code 76
+Success: Registered press callback for key code 77
+Success: Registered press callback for key code 78
+Success: Registered press callback for key code 79
+Success: Registered press callback for key code 80
+Success: Registered press callback for key code 81
+Success: Registered press callback for key code 82
+Success: Registered press callback for key code 83
+Success: Registered press callback for key code 84
+Success: Registered press callback for key code 85
+Success: Registered press callback for key code 86
+Success: Registered press callback for key code 87
+Success: Registered press callback for key code 88
+Success: Registered press callback for key code 89
+Success: Registered press callback for key code 90
+Success: Registered press callback for key code 32
+Success: Registered press callback for key code 340
+Success: Registered release callback for key code 340
+Success: Registered press callback for key code 259
+Info: Closed Editor
+Success: Deregistered press callback for key code 65
+Success: Deregistered press callback for key code 66
+Success: Deregistered press callback for key code 67
+Success: Deregistered press callback for key code 68
+Success: Deregistered press callback for key code 69
+Success: Deregistered press callback for key code 70
+Success: Deregistered press callback for key code 71
+Success: Deregistered press callback for key code 72
+Success: Deregistered press callback for key code 73
+Success: Deregistered press callback for key code 74
+Success: Deregistered press callback for key code 75
+Success: Deregistered press callback for key code 76
+Success: Deregistered press callback for key code 77
+Success: Deregistered press callback for key code 78
+Success: Deregistered press callback for key code 79
+Success: Deregistered press callback for key code 80
+Success: Deregistered press callback for key code 81
+Success: Deregistered press callback for key code 82
+Success: Deregistered press callback for key code 83
+Success: Deregistered press callback for key code 84
+Success: Deregistered press callback for key code 85
+Success: Deregistered press callback for key code 86
+Success: Deregistered press callback for key code 87
+Success: Deregistered press callback for key code 88
+Success: Deregistered press callback for key code 89
+Success: Deregistered press callback for key code 90
+Success: Deregistered press callback for key code 32
+Success: Deregistered press callback for key code 340
+Success: Deregistered release callback for key code 340
+Success: Deregistered press callback for key code 259
+Info: Opened Editor
+Success: Registered press callback for key code 65
+Success: Registered press callback for key code 66
+Success: Registered press callback for key code 67
+Success: Registered press callback for key code 68
+Success: Registered press callback for key code 69
+Success: Registered press callback for key code 70
+Success: Registered press callback for key code 71
+Success: Registered press callback for key code 72
+Success: Registered press callback for key code 73
+Success: Registered press callback for key code 74
+Success: Registered press callback for key code 75
+Success: Registered press callback for key code 76
+Success: Registered press callback for key code 77
+Success: Registered press callback for key code 78
+Success: Registered press callback for key code 79
+Success: Registered press callback for key code 80
+Success: Registered press callback for key code 81
+Success: Registered press callback for key code 82
+Success: Registered press callback for key code 83
+Success: Registered press callback for key code 84
+Success: Registered press callback for key code 85
+Success: Registered press callback for key code 86
+Success: Registered press callback for key code 87
+Success: Registered press callback for key code 88
+Success: Registered press callback for key code 89
+Success: Registered press callback for key code 90
+Success: Registered press callback for key code 32
+Success: Registered press callback for key code 340
+Success: Registered release callback for key code 340
+Success: Registered press callback for key code 259
+Info: Closed Editor
+Success: Deregistered press callback for key code 65
+Success: Deregistered press callback for key code 66
+Success: Deregistered press callback for key code 67
+Success: Deregistered press callback for key code 68
+Success: Deregistered press callback for key code 69
+Success: Deregistered press callback for key code 70
+Success: Deregistered press callback for key code 71
+Success: Deregistered press callback for key code 72
+Success: Deregistered press callback for key code 73
+Success: Deregistered press callback for key code 74
+Success: Deregistered press callback for key code 75
+Success: Deregistered press callback for key code 76
+Success: Deregistered press callback for key code 77
+Success: Deregistered press callback for key code 78
+Success: Deregistered press callback for key code 79
+Success: Deregistered press callback for key code 80
+Success: Deregistered press callback for key code 81
+Success: Deregistered press callback for key code 82
+Success: Deregistered press callback for key code 83
+Success: Deregistered press callback for key code 84
+Success: Deregistered press callback for key code 85
+Success: Deregistered press callback for key code 86
+Success: Deregistered press callback for key code 87
+Success: Deregistered press callback for key code 88
+Success: Deregistered press callback for key code 89
+Success: Deregistered press callback for key code 90
+Success: Deregistered press callback for key code 32
+Success: Deregistered press callback for key code 340
+Success: Deregistered release callback for key code 340
+Success: Deregistered press callback for key code 259
+Info: Opened Editor
+Success: Registered press callback for key code 65
+Success: Registered press callback for key code 66
+Success: Registered press callback for key code 67
+Success: Registered press callback for key code 68
+Success: Registered press callback for key code 69
+Success: Registered press callback for key code 70
+Success: Registered press callback for key code 71
+Success: Registered press callback for key code 72
+Success: Registered press callback for key code 73
+Success: Registered press callback for key code 74
+Success: Registered press callback for key code 75
+Success: Registered press callback for key code 76
+Success: Registered press callback for key code 77
+Success: Registered press callback for key code 78
+Success: Registered press callback for key code 79
+Success: Registered press callback for key code 80
+Success: Registered press callback for key code 81
+Success: Registered press callback for key code 82
+Success: Registered press callback for key code 83
+Success: Registered press callback for key code 84
+Success: Registered press callback for key code 85
+Success: Registered press callback for key code 86
+Success: Registered press callback for key code 87
+Success: Registered press callback for key code 88
+Success: Registered press callback for key code 89
+Success: Registered press callback for key code 90
+Success: Registered press callback for key code 32
+Success: Registered press callback for key code 340
+Success: Registered release callback for key code 340
+Success: Registered press callback for key code 259
+Info: Added subitem DefaultLowercaseE1
+Info: Added subitem DefaultLowercaseL1
+Info: Added subitem DefaultLowercaseL2
+Info: Added subitem DefaultLowercaseO1
+Info: Added subitem DefaultLowercaseT1
+Info: Added subitem DefaultLowercaseH1
+Info: Added subitem DefaultLowercaseI1
+Info: Added subitem DefaultLowercaseS1
+Info: Added subitem DefaultLowercaseI2
+Info: Added subitem DefaultLowercaseS2
+Info: Added subitem DefaultLowercaseE2
+Info: Added subitem DefaultLowercaseV1
+Info: Added subitem DefaultLowercaseE3
+Info: Added subitem DefaultLowercaseN1
+Info: Removed subitem DefaultLowercaseN1
+Warning: Hello this is eve : Hello this is even
+Info: Removed subitem DefaultLowercaseE3
+Warning: Hello this is ev : Hello this is eve
+Info: Added subitem DefaultLowercaseA1
+Info: Added subitem DefaultLowercaseN2
+Info: Removed subitem DefaultLowercaseN2
+Warning: Hello this is eva : Hello this is evan
+Info: Removed subitem DefaultLowercaseA1
+Warning: Hello this is ev : Hello this is eva
+Info: Removed subitem DefaultLowercaseV1
+Warning: Hello this is e : Hello this is ev
+Info: Removed subitem DefaultLowercaseE2
+Warning: Hello this is  : Hello this is e
+Warning: Hello this is : Hello this is 
+Info: Removed subitem DefaultLowercaseS2
+Warning: Hello this i : Hello this is
+Info: Removed subitem DefaultLowercaseI2
+Warning: Hello this  : Hello this i
+Warning: Hello this : Hello this 
+Info: Removed subitem DefaultLowercaseS1
+Warning: Hello thi : Hello this
+Info: Removed subitem DefaultLowercaseI1
+Warning: Hello th : Hello thi
+Info: Removed subitem DefaultLowercaseH1
+Warning: Hello t : Hello th
+Info: Removed subitem DefaultLowercaseT1
+Warning: Hello  : Hello t
+Warning: Hello : Hello 
+Info: Removed subitem DefaultLowercaseO1
+Warning: Hell : Hello
+Info: Removed subitem DefaultLowercaseL2
+Warning: Hel : Hell
+Info: Removed subitem DefaultLowercaseL1
+Warning: He : Hel
+Info: Removed subitem DefaultLowercaseE1
+Warning: H : He
+Warning: Failed to remove subitem  could not find subitem. UserInterface::RemoveSubItem
+Warning:  : H
+Info: Closed Editor
+Success: Deregistered press callback for key code 65
+Success: Deregistered press callback for key code 66
+Success: Deregistered press callback for key code 67
+Success: Deregistered press callback for key code 68
+Success: Deregistered press callback for key code 69
+Success: Deregistered press callback for key code 70
+Success: Deregistered press callback for key code 71
+Success: Deregistered press callback for key code 72
+Success: Deregistered press callback for key code 73
+Success: Deregistered press callback for key code 74
+Success: Deregistered press callback for key code 75
+Success: Deregistered press callback for key code 76
+Success: Deregistered press callback for key code 77
+Success: Deregistered press callback for key code 78
+Success: Deregistered press callback for key code 79
+Success: Deregistered press callback for key code 80
+Success: Deregistered press callback for key code 81
+Success: Deregistered press callback for key code 82
+Success: Deregistered press callback for key code 83
+Success: Deregistered press callback for key code 84
+Success: Deregistered press callback for key code 85
+Success: Deregistered press callback for key code 86
+Success: Deregistered press callback for key code 87
+Success: Deregistered press callback for key code 88
+Success: Deregistered press callback for key code 89
+Success: Deregistered press callback for key code 90
+Success: Deregistered press callback for key code 32
+Success: Deregistered press callback for key code 340
+Success: Deregistered release callback for key code 340
+Success: Deregistered press callback for key code 259
 Success: Termiated UserInterfaceManager
 Success: Terminated SceneManager
 Success: Terminated InputManager

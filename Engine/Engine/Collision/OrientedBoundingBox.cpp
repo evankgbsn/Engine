@@ -1,5 +1,8 @@
 #include "OrientedBoundingBox.h"
 
+#include "../Renderer/GraphicsObjects/GraphicsObjectManager.h"
+#include "../Renderer/GraphicsObjects/ColoredStaticGraphicsObject.h"
+#include "../Renderer/Model/ModelManager.h"
 #include "../Renderer/Model/Model.h"
 #include "../Math/Math.h"
 
@@ -7,9 +10,22 @@
 #include <glm/gtc/matrix_access.hpp>
 
 
-OrientedBoundingBox::OrientedBoundingBox(std::function<void(Entity*)> callback, Entity* owner) :
-	CollisionVolume(callback, owner)
+OrientedBoundingBox::OrientedBoundingBox(std::function<void(Entity*)> callback, Entity* owner, const std::vector<Vertex>& vertices, const glm::mat4& initialTransform) :
+	CollisionVolume(callback, owner),
+	min(glm::vec3(0.0f)),
+	worldMin(glm::vec3(0.0f)),
+	max(glm::vec3(0.0f)),
+	worldMax(glm::vec3(0.0f)),
+	center(glm::vec3(0.0f)),
+	worldMat(glm::mat4(1.0f)),
+	worldWithScale(glm::mat4(1.0f))
 {
+	GraphicsObjectManager::CreateColoredStaticGraphicsObject(ModelManager::GetModel("Cube"), { 0.0f, 0.5f, 0.5f, 1.0f }, [this, vertices, initialTransform](ColoredStaticGraphicsObject* go)
+		{
+			graphics = go;
+			GraphicsObjectManager::WireFrame(go, ObjectTypes::GraphicsObjectType::ColoredStatic);
+			Initialize(vertices, initialTransform);
+		});
 }
 
 OrientedBoundingBox::~OrientedBoundingBox()
@@ -36,11 +52,9 @@ const glm::mat4& OrientedBoundingBox::GetWorld() const
 	return worldMat;
 }
 
-void OrientedBoundingBox::ComputeData(Model* model, const glm::mat4& mat)
+void OrientedBoundingBox::ComputeData(const std::vector<Vertex>& verts, const glm::mat4& mat)
 {
-
 	// Update scale rotation and center.
-
 	worldMat = mat;
 
 	worldMin = mat * glm::vec4(min, 1.0f);
@@ -51,6 +65,9 @@ void OrientedBoundingBox::ComputeData(Model* model, const glm::mat4& mat)
 	worldWithScale = glm::scale(worldMat, glm::vec3(abs(min.x - max.x) / 2, abs(min.y - max.y) / 2, abs(min.z - max.z) / 2));
 
 	worldMat[3] = glm::vec4(center, 1.0f);
+	worldWithScale[3] = worldMat[3];
+
+	UpdateGraphicsTransform(worldWithScale);
 }
 
 bool OrientedBoundingBox::Intersect(const CollisionVolume& other) const
@@ -73,14 +90,10 @@ bool OrientedBoundingBox::Intersect(const AxisAlignedBoundingBox& other) const
 	return Math::Intersect(*this, other);
 }
 
-void OrientedBoundingBox::Initialize(Model* model, const glm::mat4& mat)
+void OrientedBoundingBox::Initialize(const std::vector<Vertex>& verts, const glm::mat4& mat)
 {
-
 	// Find the local min and max once on initialization.
-
 	worldMat = mat;
-
-	const std::vector<Vertex>& verts = model->GetVertices();
 
 	min = verts[0].GetPosition();
 	max = verts[0].GetPosition();
@@ -103,6 +116,8 @@ void OrientedBoundingBox::Initialize(Model* model, const glm::mat4& mat)
 
 	worldWithScale = glm::scale(worldMat, glm::vec3(abs(min.x - max.x) / 2, abs(min.y - max.y) / 2, abs(min.z - max.z) / 2));
 	worldMat[3] = glm::vec4(center, 1.0f);
+
+	UpdateGraphicsTransform(worldWithScale);
 }
 
 const glm::mat4& OrientedBoundingBox::GetWorldWithScale() const

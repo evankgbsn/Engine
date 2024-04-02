@@ -58,9 +58,6 @@ Window::Window(uint32_t w, uint32_t h, std::string&& windowName) :
 	Camera& cam = CameraManager::CreateCamera(Camera::Type::PERSPECTIVE, std::string("MainCamera"), this);
 	CameraManager::SetActiveCamera("MainCamera");
 
-	cam.SetPosition({0.0f, 10.0f, 30.0f });
-	cam.SetTarget({ 0.0f, 10.0f, -1.0f });
-
 	Camera& orthoCam = CameraManager::CreateCamera(Camera::Type::ORTHOGRAPHIC, std::string("MainOrthoCamera"), this);
 
 	LightManager::Initialize();
@@ -153,7 +150,6 @@ void Window::Initialize()
 
 bool Window::Update()
 {
-	
 	if (glfwWindowShouldClose(window))
 	{
 		Engine::SignalEngineTermination();

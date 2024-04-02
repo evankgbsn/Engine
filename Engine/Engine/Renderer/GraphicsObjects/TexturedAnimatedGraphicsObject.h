@@ -37,6 +37,8 @@ public:
 
 	void SetClip(unsigned int clipIndex);
 
+	const glm::mat4* const GetAnimPoseArray();
+
 protected:
 
 	struct MVPUniformBuffer

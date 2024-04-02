@@ -2,9 +2,11 @@
 #define BoundingSphere_h
 
 #include "CollisionVolume.h"
+#include "../Renderer/Model/Vertex.h"
 
 #include <atomic>
 
+class AxisAlignedBoundingBox;
 class OrientedBoundingBox;
 class ColoredStaticGraphicsObject;
 
@@ -19,7 +21,7 @@ public:
 	/**
 		The constructor.
 	*/
-	BoundingSphere(std::function<void(Entity*)> callback, Entity* owner, Model* ownerModel, const glm::mat4& initialTransform);
+	BoundingSphere(std::function<void(Entity*)> callback, Entity* owner, const std::vector<Vertex>& vertices, const glm::mat4& initialTransform);
 
 	/**
 		The destructor.
@@ -38,10 +40,10 @@ public:
 
 	/**
 		Conpute the data for this bounding sphere.
-		@param model The model to compute the bounding sphere for.
+		@param vertices Vertices to wrap with the bounding sphere volume.
 		@param matrix The matrix to use for its position.
 	*/
-	void ComputeData(class Model* model, const glm::mat4& matrix) override;
+	void ComputeData(const std::vector<Vertex>& vertices, const glm::mat4& matrix) override;
 
 	/**
 		Check intersection with another CollisionVolume.
@@ -58,21 +60,17 @@ public:
 	/**
 		Check if this collision volume intersects with another.
 	*/
-	bool Intersect(const class AxisAlignedBoundingBox& other) const override;
+	bool Intersect(const AxisAlignedBoundingBox& other) const override;
 
 	/**
 		Check if this collision volume intersects with another.
 	*/
-	bool Intersect(const class OrientedBoundingBox& other) const override;
+	bool Intersect(const OrientedBoundingBox& other) const override;
 
 	/**
 		Initialize the bounding sphere with model data.
 	*/
-	void Initialize(class Model* model, const glm::mat4& matrix = glm::mat4(1.0f)) override;
-
-	void SetColor(const glm::vec4& newColor);
-
-	const glm::vec4& GetColor() const;
+	void Initialize(const std::vector<Vertex>& vertices, const glm::mat4& matrix = glm::mat4(1.0f)) override;
 
 private:
 
@@ -113,10 +111,6 @@ private:
 	float radius;
 
 	float scalar;
-
-	ColoredStaticGraphicsObject* boundingSphereVolume;
-
-	Model* ownerModel;
 
 	Entity* owner;
 

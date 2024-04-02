@@ -10,22 +10,29 @@
 
 #include <glm/gtc/matrix_access.hpp>
 
-BoundingSphere::BoundingSphere(std::function<void(Entity*)> callback, Entity* o, Model* m, const glm::mat4& initialTransform) :
+BoundingSphere::BoundingSphere(std::function<void(Entity*)> callback, Entity* o, const std::vector<Vertex>& vertices, const glm::mat4& initialTransform) :
 	CollisionVolume(callback, owner),
 	center(0.0f),
 	originalCenter(0.0f),
 	radius(0.0f),
 	scalar(1.0f),
-	boundingSphereVolume(nullptr),
-	ownerModel(m),
 	owner(o),
-	initialized(std::atomic<bool>(false))
+	initialized()
 {
-	GraphicsObjectManager::CreateColoredStaticGraphicsObject(ModelManager::GetModel("Sphere"), glm::vec4(0.0f, 0.5f, 0.5f, 1.0f), [this, initialTransform](ColoredStaticGraphicsObject* go) 
+	initialized.store(false);
+
+	Model* sphereModel = ModelManager::GetModel("Sphere");
+
+	if (sphereModel == nullptr)
 	{
-			boundingSphereVolume = go;
+		ModelManager::LoadModel("Sphere", "../Engine/Engine/Renderer/Model/Sphere.gltf");
+	}
+
+	GraphicsObjectManager::CreateColoredStaticGraphicsObject(ModelManager::GetModel("Sphere"), glm::vec4(0.0f, 0.5f, 0.5f, 1.0f), [this, vertices, initialTransform](ColoredStaticGraphicsObject* go) 
+	{
+			graphics = go;
 			GraphicsObjectManager::WireFrame(go, ObjectTypes::GraphicsObjectType::ColoredStatic);
-			Initialize(ownerModel, initialTransform);
+			Initialize(vertices, initialTransform);
 			go->SetScale({ radius, radius, radius });
 			go->SetTransform(initialTransform);
 	});
@@ -46,7 +53,7 @@ float BoundingSphere::GetRadius() const
 	return returnVal;
 }
 
-void BoundingSphere::ComputeData(Model* model, const glm::mat4& matrix)
+void BoundingSphere::ComputeData(const std::vector<Vertex>& vertices, const glm::mat4& matrix)
 {
 	if (initialized.load() == true)
 	{
@@ -75,10 +82,7 @@ void BoundingSphere::ComputeData(Model* model, const glm::mat4& matrix)
 
 		scalar = scaleX;
 
-		if (boundingSphereVolume != nullptr)
-		{
-			boundingSphereVolume->SetTransform(translation * rotation * scale);
-		}
+		UpdateGraphicsTransform(translation * rotation * scale);
 	}
 }
 
@@ -102,138 +106,119 @@ bool BoundingSphere::Intersect(const OrientedBoundingBox& other) const
 	return Math::Intersect(other, *this);
 }
 
-void BoundingSphere::Initialize(Model* model, const glm::mat4&)
+void BoundingSphere::Initialize(const std::vector<Vertex>& verts, const glm::mat4& mat)
 {
-	const std::vector<Vertex>& verts = model->GetVertices();
-
-	// Find min and max on all axes.
-	glm::vec3 minX = verts[0].GetPosition();
-	glm::vec3 minY = verts[0].GetPosition();
-	glm::vec3 minZ = verts[0].GetPosition();
-
-	glm::vec3 maxX = verts[0].GetPosition();
-	glm::vec3 maxY = verts[0].GetPosition();
-	glm::vec3 maxZ = verts[0].GetPosition();
-
-	for (const Vertex& vert : verts)
+	if (initialized.load() == false)
 	{
-		glm::vec3 position = vert.GetPosition();
+		// Find min and max on all axes.
+		glm::vec3 minX = verts[0].GetPosition();
+		glm::vec3 minY = verts[0].GetPosition();
+		glm::vec3 minZ = verts[0].GetPosition();
 
-		if (position.x <= minX.x)
+		glm::vec3 maxX = verts[0].GetPosition();
+		glm::vec3 maxY = verts[0].GetPosition();
+		glm::vec3 maxZ = verts[0].GetPosition();
+
+		for (const Vertex& vert : verts)
 		{
-			minX = position;
+			glm::vec3 position = vert.GetPosition();
+
+			if (position.x <= minX.x)
+			{
+				minX = position;
+			}
+
+			if (position.x >= maxX.x)
+			{
+				maxX = position;
+			}
+
+			if (position.y <= minY.y)
+			{
+				minY = position;
+			}
+
+			if (position.y >= maxY.y)
+			{
+				maxY = position;
+			}
+
+			if (position.z <= minZ.z)
+			{
+				minZ = position;
+			}
+
+			if (position.z >= maxZ.z)
+			{
+				maxZ = position;
+			}
 		}
 
-		if (position.x >= maxX.x)
+		// Determine which axis has greatest range.
+		int axis = 0; // x = 0, y = 1, z = 2
+		float max = 0.0f;
+		float cur = 0.0f;
+
+		glm::vec3 xVec = minX - maxX;
+		cur = glm::length(xVec);
+
+		if (cur >= max)
 		{
-			maxX = position;
+			axis = 0;
+			max = cur;
 		}
 
-		if (position.y <= minY.y)
+
+		glm::vec3 yVec = minY - maxY;
+		cur = glm::length(yVec);
+
+		if (cur >= max)
 		{
-			minY = position;
+			axis = 1;
+			max = cur;
 		}
 
-		if (position.y >= maxY.y)
+		glm::vec3 zVec = minZ - maxZ;
+		cur = glm::length(zVec);
+
+		if (cur >= max)
 		{
-			maxY = position;
+			axis = 2;
+			max = cur;
 		}
 
-		if (position.z <= minZ.z)
+		// Determine center and radius.
+		radius = max / 2.0f;
+		switch (axis)
 		{
-			minZ = position;
+		case 0:
+			center = minX + glm::normalize(-xVec) * radius;
+			break;
+		case 1:
+			center = minY + glm::normalize(-yVec) * radius;
+			break;
+		case 2:
+			center = minZ + glm::normalize(-zVec) * radius;
+			break;
 		}
 
-		if (position.z >= maxZ.z)
+		// Adjust center and radius.
+		for (const Vertex& vertex : verts)
 		{
-			maxZ = position;
+			glm::vec3 direction = vertex.GetPosition() - center;
+			float dist = glm::length(direction);
+
+			glm::vec3 normalizedDir = glm::normalize(direction);
+
+			if (dist > radius)
+			{
+				dist -= radius;
+				radius += dist;
+				center += normalizedDir * dist;
+			}
 		}
+		originalCenter = center;
+
+		initialized.store(true);
 	}
-
-	// Determine which axis has greatest range.
-	int axis = 0; // x = 0, y = 1, z = 2
-	float max = 0.0f;
-	float cur = 0.0f;
-	
-	glm::vec3 xVec = minX - maxX;
-	cur = glm::length(xVec);
-
-	if (cur >= max)
-	{
-		axis = 0;
-		max = cur; 
-	}
-
-
-	glm::vec3 yVec = minY - maxY;
-	cur = glm::length(yVec);
-
-	if (cur >= max)
-	{
-		axis = 1; 
-		max = cur;
-	}
-
-	glm::vec3 zVec = minZ - maxZ;
-	cur = glm::length(zVec);
-
-	if (cur >= max)
-	{
-		axis = 2;
-		max = cur;
-	}
-
-	// Determine center and radius.
-	radius = max / 2.0f;
-	switch (axis)
-	{
-	case 0:
-		center = minX + glm::normalize(-xVec) * radius;
-		break;
-	case 1:
-		center = minY + glm::normalize(-yVec) * radius;
-		break;
-	case 2:
-		center = minZ + glm::normalize(-zVec) * radius;
-		break;
-	}
-
-	// Adjust center and radius.
-	for (const Vertex& vertex : verts)
-	{
-		glm::vec3 direction = vertex.GetPosition() - center;
-		float dist = glm::length(direction);
-
-		glm::vec3 normalizedDir = glm::normalize(direction);
-
-		if (dist > radius)
-		{
-			dist -= radius;
-			radius += dist;
-			center += normalizedDir * dist;
-		}
-	}
-	originalCenter = center;
-
-	initialized.store(true);
-}
-
-void BoundingSphere::SetColor(const glm::vec4& newColor)
-{
-	if (boundingSphereVolume != nullptr)
-	{
-		boundingSphereVolume->SetColor(newColor);
-	}
-}
-
-const glm::vec4& BoundingSphere::GetColor() const
-{
-	static glm::vec4 defaultReturn(1.0f);
-
-	if (boundingSphereVolume != nullptr)
-	{
-		return boundingSphereVolume->GetColor();
-	}
-
-	return defaultReturn;
 }

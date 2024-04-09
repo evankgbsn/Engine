@@ -70,7 +70,7 @@ public:
 	/**
 		Initialize the bounding sphere with model data.
 	*/
-	void Initialize(const std::vector<Vertex>& vertices, const glm::mat4& matrix = glm::mat4(1.0f)) override;
+	void Initialize(const std::vector<Vertex>& vertices, const glm::mat4& matrix = glm::mat4(1.0f), const Model* model = nullptr) override;
 
 private:
 

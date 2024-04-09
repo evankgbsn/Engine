@@ -44,7 +44,7 @@ void ColoredStaticGraphicsObject::CreateUniformBuffers()
 	uniformBuffers.push_back(colorUniformBuffer);
 }
 
-ColoredStaticGraphicsObject::ColoredStaticGraphicsObject(Model* const m, const glm::vec4& color) :
+ColoredStaticGraphicsObject::ColoredStaticGraphicsObject(const Model* const m, const glm::vec4& color) :
 	GraphicsObject(m),
 	mvp(),
 	colorUB({color})

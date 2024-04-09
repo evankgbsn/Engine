@@ -8,7 +8,7 @@ class LitTexturedStaticGraphicsObject : public GraphicsObject, public Graphics3D
 {
 public:
 
-	LitTexturedStaticGraphicsObject(Model* const model, Texture* const texture);
+	LitTexturedStaticGraphicsObject(const Model* const model, Texture* const texture);
 
 	~LitTexturedStaticGraphicsObject();
 

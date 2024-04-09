@@ -28,6 +28,8 @@ public:
 
 	static void Update();
 
+	static void CenterCursor();
+
 private:
 
 	InputManager();

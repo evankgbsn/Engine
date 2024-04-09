@@ -83,7 +83,7 @@ public:
 	/**
 		Initialize the bounding box.
 	*/
-	void Initialize(const std::vector<Vertex>& vertices, const glm::mat4&) override;
+	void Initialize(const std::vector<Vertex>& vertices, const glm::mat4&, const Model* const model = nullptr) override;
 
 	/**
 		Get the world matrix.

@@ -33,7 +33,7 @@ GraphicsObject::GraphicsObject() :
 	InitializeBuffers();
 }
 
-GraphicsObject::GraphicsObject(Model* const m) :
+GraphicsObject::GraphicsObject(const Model* const m) :
 	model(m),
 	modelVertexBuffer(new VertexBuffer(static_cast<unsigned int>(sizeof(Vertex) * model->GetVertices().size()))),
 	modelIndexBuffer(new IndexBuffer(static_cast<unsigned int>(sizeof(unsigned int) * model->GetIndices().size()))),

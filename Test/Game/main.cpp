@@ -75,29 +75,30 @@ int main(int argc, const char** argv)
 
 void LoadAssets()
 {
-	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Woman.png", "Woman");
-	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Woman1.png", "Woman1");
-	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Woman2.png", "Woman2");
-	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Woman3.png", "Woman3");
-	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Cruiser.png", "Cruiser");
-	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/VikingRoom.png", "VikingRoom");
-	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/HumanStatic.png", "Human");
-	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Skybox2.png", "Skybox");
-	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/Coco.png", "Coco");
-	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/grid.png", "Grid");
-	TextureManager::LoadTexture("../Engine/Engine/Renderer/Images/FeatureSearchToolBackground.png", "FeatureSearchToolBackground");
+	TextureManager::LoadTexture("Assets/Textures/Woman.png", "Woman");
+	TextureManager::LoadTexture("Assets/Textures/Woman1.png", "Woman1");
+	TextureManager::LoadTexture("Assets/Textures/Woman2.png", "Woman2");
+	TextureManager::LoadTexture("Assets/Textures/Woman3.png", "Woman3");
+	TextureManager::LoadTexture("Assets/Textures/Cruiser.png", "Cruiser");
+	TextureManager::LoadTexture("Assets/Textures/VikingRoom.png", "VikingRoom");
+	TextureManager::LoadTexture("Assets/Textures/HumanStatic.png", "Human");
+	TextureManager::LoadTexture("Assets/Textures/Skybox2.png", "Skybox");
+	TextureManager::LoadTexture("Assets/Textures/Coco.png", "Coco");
+	TextureManager::LoadTexture("Assets/Textures/grid.png", "Grid");
+	TextureManager::LoadTexture("Assets/Textures/FeatureSearchToolBackground.png", "FeatureSearchToolBackground");
 
-	ModelManager::LoadModel("Woman", "../Engine/Engine/Renderer/Model/Woman.gltf");
-	ModelManager::LoadModel("Cruiser", "../Engine/Engine/Renderer/Model/Cruiser.gltf");
-	ModelManager::LoadModel("CruiserAnim", "../Engine/Engine/Renderer/Model/CruiserAnim.gltf");
-	ModelManager::LoadModel("Ball", "../Engine/Engine/Renderer/Model/NewBall.gltf");
-	ModelManager::LoadModel("Cube", "../Engine/Engine/Renderer/Model/Cube.gltf");
-	ModelManager::LoadModel("Skybox", "../Engine/Engine/Renderer/Model/Skybox.gltf");
-	ModelManager::LoadModel("Human", "../Engine/Engine/Renderer/Model/Human.gltf");
-	ModelManager::LoadModel("Home", "../Engine/Engine/Renderer/Model/HomeModel.gltf");
-	ModelManager::LoadModel("Sphere", "../Engine/Engine/Renderer/Model/Sphere.gltf");
-	ModelManager::LoadModel("VikingRoom", "../Engine/Engine/Renderer/Model/VikingRoom.gltf");
-	ModelManager::LoadModel("Dragon", "../Engine/Engine/Renderer/Model/Dragon.gltf");
+	ModelManager::LoadModel("Circle", "Assets/Models/Circle.gltf");
+	ModelManager::LoadModel("Woman", "Assets/Models/Woman.gltf");
+	ModelManager::LoadModel("Cruiser", "Assets/Models/Cruiser.gltf");
+	ModelManager::LoadModel("CruiserAnim", "Assets/Models/CruiserAnim.gltf");
+	ModelManager::LoadModel("Ball", "Assets/Models/NewBall.gltf");
+	ModelManager::LoadModel("Cube", "Assets/Models/Cube.gltf");
+	ModelManager::LoadModel("Skybox", "Assets/Models/Skybox.gltf");
+	ModelManager::LoadModel("Human", "Assets/Models/Human.gltf");
+	ModelManager::LoadModel("Home", "Assets/Models/HomeModel.gltf");
+	ModelManager::LoadModel("Sphere", "Assets/Models/Sphere.gltf");
+	ModelManager::LoadModel("VikingRoom", "Assets/Models/VikingRoom.gltf");
+	ModelManager::LoadModel("Dragon", "Assets/Models/Dragon.gltf");
 }
 
 void StressTest()

@@ -36,6 +36,10 @@ public:
 	*/
 	const glm::vec3& GetMax() const;
 
+	const glm::vec3& GetWorldMin() const;
+
+	const glm::vec3& GetWorldMax() const;
+
 	/**
 		Get the world matrix.
 	*/
@@ -69,7 +73,7 @@ public:
 	/**
 		Initialize the bounding box.
 	*/
-	void Initialize(const std::vector<Vertex>& vertices, const glm::mat4&) final;
+	void Initialize(const std::vector<Vertex>& vertices, const glm::mat4&, const Model* const model = nullptr) final;
 
 	/**
 		Get the scale. Used in visualization.

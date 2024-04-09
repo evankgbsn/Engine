@@ -10,7 +10,7 @@
 #include <filesystem>
 #include <unordered_map>
 
-std::vector<std::string> Text::fontDirectories = std::vector<std::string>({ "../Engine/Engine/Renderer/Model/Fonts/Default/" });
+std::vector<std::string> Text::fontDirectories = std::vector<std::string>({ "Assets/Models/Fonts/Default/" });
 std::unordered_set<std::string> Text::fontPrefixes = std::unordered_set<std::string>();
 
 void Text::LoadFonts()

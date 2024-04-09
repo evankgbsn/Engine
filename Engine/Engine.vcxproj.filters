@@ -121,6 +121,9 @@
     <Filter Include="Source Files\Engine\Collision">
       <UniqueIdentifier>{b6ec5af2-189f-45c5-b34e-db0949bc8a53}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Math\Shapes">
+      <UniqueIdentifier>{3e337d43-b219-4553-8c56-4d859f2ae6cc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -363,23 +366,23 @@
     <ClInclude Include="Engine\UI\Editor\FeatureSearchTool.h">
       <Filter>Source Files\Engine\UI\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Collision\AxisAlignedBoundingBox.h">
-      <Filter>Source Files\Engine\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Collision\BoundingSphere.h">
-      <Filter>Source Files\Engine\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Collision\CollisionVolume.h">
-      <Filter>Source Files\Engine\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Collision\OrientedBoundingBox.h">
-      <Filter>Source Files\Engine\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Collision\CollisionManager.h">
-      <Filter>Source Files\Engine\Collision</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Renderer\GraphicsObjects\ColoredStaticGraphicsObject.h">
       <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\GraphicsObjects\ColoredAnimatedGraphicsObject.h">
+      <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Shapes\Rectangle.h">
+      <Filter>Source Files\Engine\Math\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Shapes\LineSegment.h">
+      <Filter>Source Files\Engine\Math\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Shapes\Circle.h">
+      <Filter>Source Files\Engine\Math\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Shapes\OrientedRectangle.h">
+      <Filter>Source Files\Engine\Math\Shapes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -617,20 +620,23 @@
     <ClCompile Include="Engine\UI\Editor\FeatureSearchTool.cpp">
       <Filter>Source Files\Engine\UI\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Collision\AxisAlignedBoundingBox.cpp">
-      <Filter>Source Files\Engine\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Collision\BoundingSphere.cpp">
-      <Filter>Source Files\Engine\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Collision\CollisionVolume.cpp">
-      <Filter>Source Files\Engine\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Collision\OrientedBoundingBox.cpp">
-      <Filter>Source Files\Engine\Collision</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Renderer\GraphicsObjects\ColoredStaticGraphicsObject.cpp">
       <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\GraphicsObjects\ColoredAnimatedGraphicsObject.cpp">
+      <Filter>Source Files\Engine\Renderer\GraphicsObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Shapes\LineSegment.cpp">
+      <Filter>Source Files\Engine\Math\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Shapes\Circle.cpp">
+      <Filter>Source Files\Engine\Math\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Shapes\Rectangle.cpp">
+      <Filter>Source Files\Engine\Math\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Shapes\OrientedRectangle.cpp">
+      <Filter>Source Files\Engine\Math\Shapes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -663,6 +669,12 @@
       <Filter>Source Files\Engine\Renderer\Pipeline\Shaders\glsl</Filter>
     </None>
     <None Include="Engine\Renderer\Pipeline\Shaders\glsl\ColoredStatic.frag">
+      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders\glsl</Filter>
+    </None>
+    <None Include="Engine\Renderer\Pipeline\Shaders\glsl\ColoredAnimated.vert">
+      <Filter>Source Files\Engine\Renderer\Pipeline\Shaders\glsl</Filter>
+    </None>
+    <None Include="Engine\Renderer\Pipeline\Shaders\glsl\ColoredAnimated.frag">
       <Filter>Source Files\Engine\Renderer\Pipeline\Shaders\glsl</Filter>
     </None>
   </ItemGroup>

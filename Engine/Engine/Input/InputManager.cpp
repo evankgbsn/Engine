@@ -257,6 +257,11 @@ void InputManager::Update()
 	}
 }
 
+void InputManager::CenterCursor()
+{
+	WindowManager::GetWindow("MainWindow")->CenterCursor();
+}
+
 InputManager::InputManager() :
 	inputQueue(std::list<std::function<void()>>()),
 	keysPressed(std::unordered_set<int>())

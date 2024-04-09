@@ -586,6 +586,11 @@ int Window::GetKey(int keyCode, bool clearFrameKeyStates) const
 	}
 }
 
+void Window::CenterCursor()
+{
+	glfwSetCursorPos(window, width / 2.0f, height / 2.0f);
+}
+
 void Window::Draw()
 {
 	VkDevice& device = Renderer::GetVulkanPhysicalDevice()->GetLogicalDevice();

@@ -8,8 +8,12 @@
 class TexturedAnimatedGraphicsObject;
 class BoundingSphere;
 class OrientedBoundingBox;
+class AxisAlignedBoundingBox;
 class Model;
 class Texture;
+class PerfectAnimatedCollisionVolume;
+class UserInterfaceItem;
+class Circle;
 
 class Player : public GameObject
 {
@@ -40,15 +44,21 @@ private:
 
 	TexturedAnimatedGraphicsObject* graphics;
 
-	std::vector<OrientedBoundingBox*> boundingSpheres;
+	UserInterfaceItem* collisionObj2D;
 
-	OrientedBoundingBox* collider;
+	Circle* collider2D;
+
+	bool hoveredPress;
 
 	std::function<void(int)>* wPressed;
 
 	std::function<void(int)>* wRelease;
 
 	std::function<void(int)>* wPress;
+
+	std::function<void(int)>* iPress;
+
+	std::function<void(int)>* iRelease;
 };
 
 #endif // PLAYER_H

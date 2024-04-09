@@ -90,6 +90,8 @@ public:
 
 	bool framebufferResized;
 
+	void CenterCursor();
+
 private:
 
 	void CreateFramebuffers();

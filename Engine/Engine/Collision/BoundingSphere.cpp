@@ -106,7 +106,7 @@ bool BoundingSphere::Intersect(const OrientedBoundingBox& other) const
 	return Math::Intersect(other, *this);
 }
 
-void BoundingSphere::Initialize(const std::vector<Vertex>& verts, const glm::mat4& mat)
+void BoundingSphere::Initialize(const std::vector<Vertex>& verts, const glm::mat4& mat, const Model* model)
 {
 	if (initialized.load() == false)
 	{

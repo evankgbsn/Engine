@@ -6,7 +6,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-TexturedStatic2DGraphicsObject::TexturedStatic2DGraphicsObject(Model* const m, Texture* const tex) :
+TexturedStatic2DGraphicsObject::TexturedStatic2DGraphicsObject(const Model* const m, Texture* const tex) :
 	GraphicsObject(m),
 	texture(tex),
 	mvp()

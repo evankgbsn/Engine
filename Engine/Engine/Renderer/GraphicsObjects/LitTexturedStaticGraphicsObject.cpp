@@ -6,7 +6,7 @@
 #include "../Lights/DirectionalLight.h"
 #include "../Lights/LightManager.h"
 
-LitTexturedStaticGraphicsObject::LitTexturedStaticGraphicsObject(Model* const model, Texture* const tex) :
+LitTexturedStaticGraphicsObject::LitTexturedStaticGraphicsObject(const Model* const model, Texture* const tex) :
 	GraphicsObject(model),
 	texture(tex),
 	mvp(),

@@ -13,7 +13,7 @@ public:
 
 	TexturedStaticGraphicsObject() = delete;
 
-	TexturedStaticGraphicsObject(Model* const model, Texture* const texture);
+	TexturedStaticGraphicsObject(const Model* const model, Texture* const texture);
 
 	~TexturedStaticGraphicsObject();
 

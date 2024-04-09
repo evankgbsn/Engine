@@ -47,6 +47,16 @@ const glm::vec3& OrientedBoundingBox::GetMax() const
 	return max;
 }
 
+const glm::vec3& OrientedBoundingBox::GetWorldMin() const
+{
+	return worldMin;
+}
+
+const glm::vec3& OrientedBoundingBox::GetWorldMax() const
+{
+	return worldMax;
+}
+
 const glm::mat4& OrientedBoundingBox::GetWorld() const
 {
 	return worldMat;
@@ -67,7 +77,7 @@ void OrientedBoundingBox::ComputeData(const std::vector<Vertex>& verts, const gl
 	worldMat[3] = glm::vec4(center, 1.0f);
 	worldWithScale[3] = worldMat[3];
 
-	UpdateGraphicsTransform(worldWithScale);
+	UpdateGraphicsTransform(GetWorldWithScale());
 }
 
 bool OrientedBoundingBox::Intersect(const CollisionVolume& other) const
@@ -90,7 +100,7 @@ bool OrientedBoundingBox::Intersect(const AxisAlignedBoundingBox& other) const
 	return Math::Intersect(*this, other);
 }
 
-void OrientedBoundingBox::Initialize(const std::vector<Vertex>& verts, const glm::mat4& mat)
+void OrientedBoundingBox::Initialize(const std::vector<Vertex>& verts, const glm::mat4& mat, const Model* const model)
 {
 	// Find the local min and max once on initialization.
 	worldMat = mat;
@@ -117,7 +127,9 @@ void OrientedBoundingBox::Initialize(const std::vector<Vertex>& verts, const glm
 	worldWithScale = glm::scale(worldMat, glm::vec3(abs(min.x - max.x) / 2, abs(min.y - max.y) / 2, abs(min.z - max.z) / 2));
 	worldMat[3] = glm::vec4(center, 1.0f);
 
-	UpdateGraphicsTransform(worldWithScale);
+	worldWithScale[3] = worldMat[3];
+
+	UpdateGraphicsTransform(GetWorldWithScale());
 }
 
 const glm::mat4& OrientedBoundingBox::GetWorldWithScale() const

@@ -23,7 +23,7 @@ public:
 
 	GraphicsObject();
 
-	GraphicsObject(Model* const model);
+	GraphicsObject(const Model* const model);
 
 	virtual ~GraphicsObject();
 
@@ -59,7 +59,7 @@ protected:
 
 	virtual void CreateUniformBuffers() = 0;
 
-	Model* const model;
+	const Model* const model;
 
 	VertexBuffer* modelVertexBuffer;
 	

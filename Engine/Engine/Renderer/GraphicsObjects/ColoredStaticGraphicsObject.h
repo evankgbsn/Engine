@@ -12,7 +12,7 @@ public:
 
 	ColoredStaticGraphicsObject() = delete;
 
-	ColoredStaticGraphicsObject(Model* const model, const glm::vec4& color);
+	ColoredStaticGraphicsObject(const Model* const model, const glm::vec4& color);
 
 	~ColoredStaticGraphicsObject();
 

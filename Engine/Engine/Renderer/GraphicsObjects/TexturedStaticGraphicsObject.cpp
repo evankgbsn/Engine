@@ -32,7 +32,7 @@ void TexturedStaticGraphicsObject::CreateUniformBuffers()
 	// The binding for the texture sampler is 1.
 }
 
-TexturedStaticGraphicsObject::TexturedStaticGraphicsObject(Model* const m, Texture* const tex) :
+TexturedStaticGraphicsObject::TexturedStaticGraphicsObject(const Model* const m, Texture* const tex) :
 	GraphicsObject(m),
 	texture(tex),
 	mvp()

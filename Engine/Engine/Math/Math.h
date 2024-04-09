@@ -3,12 +3,14 @@
 
 #include "../Renderer/Model/Model.h"
 
-#include "../Collision/AxisAlignedBoundingBox.h"
-#include "../Collision/BoundingSphere.h"
-#include "../Collision/OrientedBoundingBox.h"
-
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
+
+class OrientedBoundingBox;
+class AxisAlignedBoundingBox;
+class BoundingSphere;
+class PerfectCollisionVolume;
+class CollisionVolume;
 
 namespace Math
 {
@@ -26,19 +28,7 @@ namespace Math
 
 	float ChangeRange(float currentBegin, float currentEnd, float newBegin, float newEnd, float value);
 
-	bool Intersect(const class BoundingSphere& sphere1, const class BoundingSphere& sphere2);
-
-	bool Intersect(const class BoundingSphere& sphere, const class AxisAlignedBoundingBox& AABB);
-
-	bool Intersect(const class AxisAlignedBoundingBox& AABB1, const class AxisAlignedBoundingBox& AABB2);
-
-	bool Intersect(const class CollisionVolume& volume1, const class CollisionVolume& volume2);
-
-	bool Intersect(const class OrientedBoundingBox& box1, const class OrientedBoundingBox& box2);
-
-	bool Intersect(const class OrientedBoundingBox& box1, const class AxisAlignedBoundingBox& box2);
-
-	bool Intersect(const class OrientedBoundingBox& box, const class BoundingSphere& sphere);
+	float ProjLength(const glm::vec3& v, const  glm::vec3& w);
 };
 
 #endif // MATH_H

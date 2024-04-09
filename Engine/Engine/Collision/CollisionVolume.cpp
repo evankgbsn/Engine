@@ -10,6 +10,12 @@ CollisionVolume::~CollisionVolume()
 {
 }
 
+const glm::vec3& CollisionVolume::GetCenter() const
+{
+	static glm::vec3 defaultReturn;
+	return defaultReturn;
+}
+
 void CollisionVolume::ComputeData(const std::vector<Vertex>& vertices, const glm::mat4& matrix)
 {
 }

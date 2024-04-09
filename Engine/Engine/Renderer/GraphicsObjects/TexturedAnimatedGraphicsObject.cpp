@@ -14,10 +14,11 @@
 
 #include <vector>
 
-TexturedAnimatedGraphicsObject::TexturedAnimatedGraphicsObject(Model* const m, Texture* const tex) :
+TexturedAnimatedGraphicsObject::TexturedAnimatedGraphicsObject(const Model* const m, Texture* const tex) :
 	GraphicsObject(m),
 	texture(tex),
-	animation()
+	animation(),
+	clip(0U)
 {
 	type = ObjectTypes::GraphicsObjectType::AnimatedTextured;
 	mvp.model = glm::mat4(1.0f);
@@ -95,12 +96,23 @@ void TexturedAnimatedGraphicsObject::SetAnimationSpeed(float animationSpeed)
 
 void TexturedAnimatedGraphicsObject::SetClip(unsigned int clipIndex)
 {
+	clip = clipIndex;
 	Animation* oldAnimation = animation;
 	animation = new Animation(model->GetBakedAnimation(clipIndex));
 	delete oldAnimation;
 }
 
+unsigned int TexturedAnimatedGraphicsObject::GetClip() const
+{
+	return clip;
+}
+
 const glm::mat4* const TexturedAnimatedGraphicsObject::GetAnimPoseArray()
 {
 	return anim.pose;
+}
+
+const glm::mat4* const TexturedAnimatedGraphicsObject::GetAnimInvBindPoseArray()
+{
+	return anim.invBindPose;
 }

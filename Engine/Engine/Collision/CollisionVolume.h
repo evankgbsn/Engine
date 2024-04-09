@@ -11,6 +11,7 @@ class OrientedBoundingBox;
 class Entity;
 class Vertex;
 class ColoredStaticGraphicsObject;
+class Model;
 
 /**
 	The base class for all collision volumes. AABB, OBB, Bounding sphere.
@@ -33,7 +34,7 @@ public:
 	/**
 		Get the center of the volume.
 	*/
-	virtual const glm::vec3& GetCenter() const = 0;
+	virtual const glm::vec3& GetCenter() const;
 
 	/**
 		Conpute the data for the CollisionVolume.
@@ -63,7 +64,7 @@ public:
 	/**
 		Inisilaize the data for a collision volume with model data. Different collision volumes need to be initialized in different ways but all will have some sort of initialization.
 	*/
-	virtual void Initialize(const std::vector<Vertex>& vertices, const glm::mat4&) = 0;
+	virtual void Initialize(const std::vector<Vertex>& vertices, const glm::mat4&, const Model* const model = nullptr) = 0;
 
 	void SetColor(const glm::vec4& newColor);
 

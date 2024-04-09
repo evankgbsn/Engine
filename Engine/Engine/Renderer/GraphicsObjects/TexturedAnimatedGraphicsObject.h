@@ -19,7 +19,7 @@ public:
 
 	TexturedAnimatedGraphicsObject() = delete;
 
-	TexturedAnimatedGraphicsObject(Model* const model, Texture* const texture);
+	TexturedAnimatedGraphicsObject(const Model* const model, Texture* const texture);
 
 	~TexturedAnimatedGraphicsObject();
 
@@ -37,7 +37,13 @@ public:
 
 	void SetClip(unsigned int clipIndex);
 
+	unsigned int GetClip() const;
+
+	float GetAnimationSpeed() const;
+
 	const glm::mat4* const GetAnimPoseArray();
+
+	const glm::mat4* const GetAnimInvBindPoseArray();
 
 protected:
 
@@ -77,9 +83,9 @@ protected:
 
 	Texture* texture;
 
-	float shouldUpdateAnim = 0;
-
 	DirectionalLight* dirLight;
+
+	unsigned int clip;
 
 private:
 

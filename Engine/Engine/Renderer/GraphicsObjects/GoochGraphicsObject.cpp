@@ -30,7 +30,7 @@ void GoochGraphicsObject::Update()
 	uniformBuffers[0]->SetData(&mvp);
 }
 
-GoochGraphicsObject::GoochGraphicsObject(Model* const model, Texture* const tex) :
+GoochGraphicsObject::GoochGraphicsObject(const Model* const model, Texture* const tex) :
 	GraphicsObject(model),
 	mvp(),
 	texture(tex)

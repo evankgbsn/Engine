@@ -7,6 +7,7 @@
 #include "GoochGraphicsObject.h"
 #include "TexturedStatic2DGraphicsObject.h"
 #include "ColoredStaticGraphicsObject.h"
+#include "ColoredAnimatedGraphicsObject.h"
 #include "../Pipeline/Shaders/DescriptorSet.h"
 #include "../Pipeline/Shaders/DescriptorSetManager.h"
 #include "../Windows/Window.h"
@@ -32,7 +33,7 @@ GraphicsObjectManager* GraphicsObjectManager::instance = nullptr;
 
 bool GraphicsObjectManager::shouldUpdate = false;
 
-const std::string GraphicsObjectManager::shaderDirectoryName = std::string("../Engine/Engine/Renderer/Pipeline/Shaders/spv/");
+const std::string GraphicsObjectManager::shaderDirectoryName = std::string("Assets/Shaders/");
 
 void GraphicsObjectManager::Initialize(const Window& window)
 {
@@ -215,7 +216,7 @@ bool GraphicsObjectManager::IsPipelineFromShader(const std::string& pipelineKey)
 	return pipelineKeyPrefix.compare(wireFrame);
 }
 
-void GraphicsObjectManager::CreateTexturedStaticGraphicsObject(Model* const model, Texture* const texture, std::function<void(TexturedStaticGraphicsObject*)> callback)
+void GraphicsObjectManager::CreateTexturedStaticGraphicsObject(const Model* const model, Texture* const texture, std::function<void(TexturedStaticGraphicsObject*)> callback)
 {
 
 	if (instance == nullptr)
@@ -241,7 +242,7 @@ void GraphicsObjectManager::CreateTexturedStaticGraphicsObject(Model* const mode
 	instance->graphicsObjectCreateQueue.push_back(create);
 }
 
-void GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(Model* const model, Texture* const texture, std::function<void(TexturedAnimatedGraphicsObject*)> callback)
+void GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(const Model* const model, Texture* const texture, std::function<void(TexturedAnimatedGraphicsObject*)> callback)
 {
 	if (instance == nullptr)
 	{
@@ -266,7 +267,7 @@ void GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(Model* const mo
 	instance->graphicsObjectCreateQueue.push_back(create);
 }
 
-void GraphicsObjectManager::CreateGoochGraphicsObject(Model* const model, Texture* const texture, std::function<void(GoochGraphicsObject*)> callback)
+void GraphicsObjectManager::CreateGoochGraphicsObject(const Model* const model, Texture* const texture, std::function<void(GoochGraphicsObject*)> callback)
 {
 	if (instance == nullptr)
 	{
@@ -291,7 +292,7 @@ void GraphicsObjectManager::CreateGoochGraphicsObject(Model* const model, Textur
 	instance->graphicsObjectCreateQueue.push_back(create);
 }
 
-void GraphicsObjectManager::CreateLitTexturedStaticGraphicsObject(Model* const model, Texture* const texture, std::function<void(LitTexturedStaticGraphicsObject*)> callback)
+void GraphicsObjectManager::CreateLitTexturedStaticGraphicsObject(const Model* const model, Texture* const texture, std::function<void(LitTexturedStaticGraphicsObject*)> callback)
 {
 	if (instance == nullptr)
 	{
@@ -316,7 +317,7 @@ void GraphicsObjectManager::CreateLitTexturedStaticGraphicsObject(Model* const m
 	instance->graphicsObjectCreateQueue.push_back(create);
 }
 
-void GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(Model* const model, Texture* const texture, std::function<void(TexturedStatic2DGraphicsObject*)> callback)
+void GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(const Model* const model, Texture* const texture, std::function<void(TexturedStatic2DGraphicsObject*)> callback)
 {
 	if (instance == nullptr)
 	{
@@ -341,7 +342,7 @@ void GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(Model* const mo
 	instance->graphicsObjectCreateQueue.push_back(create);
 }
 
-void GraphicsObjectManager::CreateColoredStaticGraphicsObject(Model* const model, const glm::vec4& color, std::function<void(ColoredStaticGraphicsObject*)> callback)
+void GraphicsObjectManager::CreateColoredStaticGraphicsObject(const Model* const model, const glm::vec4& color, std::function<void(ColoredStaticGraphicsObject*)> callback)
 {
 	if (instance == nullptr)
 	{
@@ -359,6 +360,31 @@ void GraphicsObjectManager::CreateColoredStaticGraphicsObject(Model* const model
 			{
 				newGraphicsObject = new ColoredStaticGraphicsObject(model, color);
 				instance->coloredStaticGraphicsObjects.push_back(newGraphicsObject);
+				callback(newGraphicsObject);
+			}
+		};
+
+	instance->graphicsObjectCreateQueue.push_back(create);
+}
+
+void GraphicsObjectManager::CreateColoredAnimatedGraphicsObject(const Model* const model, const glm::vec4& color, std::function<void(ColoredAnimatedGraphicsObject*)> callback)
+{
+	if (instance == nullptr)
+	{
+		Logger::Log(std::string("Calling GraphicsObjectManager::CreateColoredAnimatedGraphicsObject() before GraphicsObjectManager::Initialize()."), Logger::Category::Warning);
+		return;
+	}
+
+	std::lock_guard<std::mutex> guard(instance->enqueueColoredAnimatedMutex);
+
+	std::function<void()> create = [model, callback, color]()
+		{
+			ColoredAnimatedGraphicsObject* newGraphicsObject = nullptr;
+
+			if (model != nullptr)
+			{
+				newGraphicsObject = new ColoredAnimatedGraphicsObject(model, color);
+				instance->coloredAnimatedGraphicsObjects.push_back(newGraphicsObject);
 				callback(newGraphicsObject);
 			}
 		};
@@ -422,6 +448,9 @@ void GraphicsObjectManager::WireFrame(GraphicsObject* obj, ObjectTypes::Graphics
 		case ObjectTypes::GraphicsObjectType::ColoredStatic:
 			moveToWireFrame(instance->coloredStaticGraphicsObjects, instance->coloredStaticGraphicsObjectsWireFrame, obj);
 			break;
+		case ObjectTypes::GraphicsObjectType::ColoredAnimated:
+			moveToWireFrame(instance->coloredAnimatedGraphicsObjects, instance->coloredAnimatedGraphicsObjectsWireFrame, obj);
+			break;
 		}
 	};
 
@@ -483,6 +512,9 @@ void GraphicsObjectManager::Solid(GraphicsObject* obj, ObjectTypes::GraphicsObje
 			break;
 		case ObjectTypes::GraphicsObjectType::ColoredStatic:
 			moveToWireFrame(instance->coloredStaticGraphicsObjects, instance->coloredStaticGraphicsObjectsWireFrame, obj);
+			break;
+		case ObjectTypes::GraphicsObjectType::ColoredAnimated:
+			moveToWireFrame(instance->coloredAnimatedGraphicsObjects, instance->coloredAnimatedGraphicsObjectsWireFrame, obj);
 			break;
 		}
 	};
@@ -609,6 +641,9 @@ void GraphicsObjectManager::ToggleGraphicsObjectDraw(GraphicsObject* const graph
 		case ObjectTypes::GraphicsObjectType::ColoredStatic:
 			toggleGraphicsObject(instance->coloredStaticGraphicsObjects, instance->disabledColoredStaticGraphicsObjects, instance->coloredStaticGraphicsObjectsWireFrame, instance->disabledColoredStaticGraphicsObjectsWireFrame);
 			break;
+		case ObjectTypes::GraphicsObjectType::ColoredAnimated:
+			toggleGraphicsObject(instance->coloredAnimatedGraphicsObjects, instance->disabledColoredAnimatedGraphicsObjects, instance->coloredStaticGraphicsObjectsWireFrame, instance->disabledColoredAnimatedGraphicsObjectsWireFrame);
+			break;
 		default:
 			break;
 		}
@@ -664,6 +699,8 @@ void GraphicsObjectManager::UpdateObjects()
 	updateObjects(instance->litTexturedStaticGraphicsObjectsWireFrame);
 	updateObjects(instance->coloredStaticGraphicsObjectsWireFrame);
 	updateObjects(instance->coloredStaticGraphicsObjects);
+	updateObjects(instance->coloredAnimatedGraphicsObjectsWireFrame);
+	updateObjects(instance->coloredAnimatedGraphicsObjects);
 }
 
 void GraphicsObjectManager::DrawObjects(VkCommandBuffer& buffer, unsigned int imageIndex)
@@ -701,6 +738,8 @@ void GraphicsObjectManager::DrawObjects(VkCommandBuffer& buffer, unsigned int im
 	drawObjects(std::string("WireFrame_LitTexturedStatic"), instance->litTexturedStaticGraphicsObjectsWireFrame);
 	drawObjects(std::string("WireFrame_ColoredStatic"), instance->coloredStaticGraphicsObjectsWireFrame);
 	drawObjects(std::string("ColoredStatic"), instance->coloredStaticGraphicsObjects);
+	drawObjects(std::string("WireFrame_ColoredAnimated"), instance->coloredAnimatedGraphicsObjectsWireFrame);
+	drawObjects(std::string("ColoredAnimated"), instance->coloredAnimatedGraphicsObjects);
 }
 
 const ShaderPipelineStage* const GraphicsObjectManager::GetShaderPipelineStage(const std::string& shaderName)
@@ -765,6 +804,8 @@ void GraphicsObjectManager::DeleteGraphicsObject(GraphicsObject* go)
 		deleteObjectFromDrawVector(instance->enqueueGoochMutex, instance->goochGraphicsObjectsWireFrame);
 		deleteObjectFromDrawVector(instance->enqueueColoredStaticMutex, instance->coloredStaticGraphicsObjects);
 		deleteObjectFromDrawVector(instance->enqueueColoredStaticMutex, instance->coloredStaticGraphicsObjectsWireFrame);
+		deleteObjectFromDrawVector(instance->enqueueColoredAnimatedMutex, instance->coloredAnimatedGraphicsObjects);
+		deleteObjectFromDrawVector(instance->enqueueColoredAnimatedMutex, instance->coloredAnimatedGraphicsObjectsWireFrame);
 	};
 
 	instance->graphicsObjectDeleteQueue.push_back(deleteFunc);
@@ -818,6 +859,8 @@ GraphicsObjectManager::~GraphicsObjectManager()
 	deleteGraphicsObjectArray(texturedStatic2DGraphicsObjectsWireFrame);
 	deleteGraphicsObjectArray(coloredStaticGraphicsObjectsWireFrame);
 	deleteGraphicsObjectArray(coloredStaticGraphicsObjects);
+	deleteGraphicsObjectArray(coloredAnimatedGraphicsObjectsWireFrame);
+	deleteGraphicsObjectArray(coloredAnimatedGraphicsObjects);
 
 	auto deleteGraphicsObjectList = [](std::list<std::pair<GraphicsObject*, unsigned int>>& goList)
 	{
@@ -837,12 +880,14 @@ GraphicsObjectManager::~GraphicsObjectManager()
 	deleteGraphicsObjectList(disabledLitTexturedStaticGraphicsObjects);
 	deleteGraphicsObjectList(disabledTexturedStatic2DGraphicsObjects);
 	deleteGraphicsObjectList(disabledColoredStaticGraphicsObjects);
+	deleteGraphicsObjectList(disabledColoredAnimatedGraphicsObjects);
 	deleteGraphicsObjectList(disabledTexturedStaticGraphicsObjectsWireFrame);
 	deleteGraphicsObjectList(disabledAnimatedTexturedGraphicsObjectsWireFrame);
 	deleteGraphicsObjectList(disabledGoochGraphicsObjectsWireFrame);
 	deleteGraphicsObjectList(disabledLitTexturedStaticGraphicsObjectsWireFrame);
 	deleteGraphicsObjectList(disabledTexturedStatic2DGraphicsObjectsWireFrame);
 	deleteGraphicsObjectList(disabledColoredStaticGraphicsObjectsWireFrame);
+	deleteGraphicsObjectList(disabledColoredAnimatedGraphicsObjectsWireFrame);
 
 	for (auto& graphicsPipeline : graphicsPipelines)
 	{

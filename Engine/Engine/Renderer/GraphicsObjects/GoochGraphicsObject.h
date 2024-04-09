@@ -11,7 +11,7 @@ public:
 
 	GoochGraphicsObject() = delete;
 
-	GoochGraphicsObject(Model* const model, Texture* const texture);
+	GoochGraphicsObject(const Model* const model, Texture* const texture);
 
 	~GoochGraphicsObject();
 

@@ -18,6 +18,7 @@ class TexturedStatic2DGraphicsObject;
 class TexturedAnimatedGraphicsObject;
 class LitTexturedStaticGraphicsObject;
 class ColoredStaticGraphicsObject;
+class ColoredAnimatedGraphicsObject;
 class GoochGraphicsObject;
 class Model;
 class DescriptorSetLayout;
@@ -36,17 +37,19 @@ public:
 
 	static void Terminate();
 
-	static void CreateTexturedStaticGraphicsObject(Model* const model, Texture* const texture, std::function<void(TexturedStaticGraphicsObject*)> callback);
+	static void CreateTexturedStaticGraphicsObject(const Model* const model, Texture* const texture, std::function<void(TexturedStaticGraphicsObject*)> callback);
 
-	static void CreateTexturedAnimatedGraphicsObject(Model* const model, Texture* const texture, std::function<void(TexturedAnimatedGraphicsObject*)> callback);
+	static void CreateTexturedAnimatedGraphicsObject(const Model* const model, Texture* const texture, std::function<void(TexturedAnimatedGraphicsObject*)> callback);
 
-	static void CreateGoochGraphicsObject(Model* const model, Texture* const texture, std::function<void(GoochGraphicsObject*)> callback);
+	static void CreateGoochGraphicsObject(const Model* const model, Texture* const texture, std::function<void(GoochGraphicsObject*)> callback);
 
-	static void CreateLitTexturedStaticGraphicsObject(Model* const model, Texture* const texture, std::function<void(LitTexturedStaticGraphicsObject*)> callback);
+	static void CreateLitTexturedStaticGraphicsObject(const Model* const model, Texture* const texture, std::function<void(LitTexturedStaticGraphicsObject*)> callback);
 
-	static void CreateTexturedStatic2DGraphicsObject(Model* const model, Texture* const texture, std::function<void(TexturedStatic2DGraphicsObject*)> callback);
+	static void CreateTexturedStatic2DGraphicsObject(const Model* const model, Texture* const texture, std::function<void(TexturedStatic2DGraphicsObject*)> callback);
 
-	static void CreateColoredStaticGraphicsObject(Model* const model, const glm::vec4& color, std::function<void(ColoredStaticGraphicsObject*)> callback);
+	static void CreateColoredStaticGraphicsObject(const Model* const model, const glm::vec4& color, std::function<void(ColoredStaticGraphicsObject*)> callback);
+
+	static void CreateColoredAnimatedGraphicsObject(const Model* const model, const glm::vec4& color, std::function<void(ColoredAnimatedGraphicsObject*)> callback);
 
 	static void WireFrame(GraphicsObject* obj, ObjectTypes::GraphicsObjectType type);
 
@@ -118,6 +121,8 @@ private:
 
 	std::mutex enqueueColoredStaticMutex;
 
+	std::mutex enqueueColoredAnimatedMutex;
+
 	std::mutex updateMutex;
 
 	std::vector<GraphicsObject*> texturedStaticGraphicsObjects;
@@ -164,9 +169,17 @@ private:
 
 	std::list<std::pair<GraphicsObject*, unsigned int>> disabledColoredStaticGraphicsObjects;
 
+	std::vector<GraphicsObject*> coloredAnimatedGraphicsObjects;
+
+	std::list<std::pair<GraphicsObject*, unsigned int>> disabledColoredAnimatedGraphicsObjects;
+
 	std::vector<GraphicsObject*> coloredStaticGraphicsObjectsWireFrame;
 
 	std::list<std::pair<GraphicsObject*, unsigned int>> disabledColoredStaticGraphicsObjectsWireFrame;
+
+	std::vector<GraphicsObject*> coloredAnimatedGraphicsObjectsWireFrame;
+
+	std::list<std::pair<GraphicsObject*, unsigned int>> disabledColoredAnimatedGraphicsObjectsWireFrame;
 
 	const Window& window;
 

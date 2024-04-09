@@ -84,13 +84,13 @@ void AxisAlignedBoundingBox::ComputeData(const std::vector<Vertex>& verts, const
 	for (const Vertex& x : verts)
 	{
 		glm::vec3 point = mat * glm::vec4(x.GetPosition(), 1.0f);
-
+	
 		if (point.x >= max.x) max.x = point.x;
 		if (point.x <= min.x) min.x = point.x;
-
+	
 		if (point.y >= max.y) max.y = point.y;
 		if (point.y <= min.y) min.y = point.y;
-
+	
 		if (point.z >= max.z) max.z = point.z;
 		if (point.z <= min.z) min.z = point.z;
 	}
@@ -128,9 +128,37 @@ bool AxisAlignedBoundingBox::Intersect(const OrientedBoundingBox& other) const
 	return Math::Intersect(other, *this);
 }
 
-void AxisAlignedBoundingBox::Initialize(const std::vector<Vertex>& verts, const glm::mat4& mat)
+void AxisAlignedBoundingBox::Initialize(const std::vector<Vertex>& verts, const glm::mat4& mat, const Model* const model)
 {
-	ComputeData(verts, mat);
+
+	min = mat * glm::vec4(verts[0].GetPosition(), 1.0f);
+	max = mat * glm::vec4(verts[0].GetPosition(), 1.0f);
+
+	for (const Vertex& x : verts)
+	{
+		glm::vec3 point = mat * glm::vec4(x.GetPosition(), 1.0f);
+
+		if (point.x >= max.x) max.x = point.x;
+		if (point.x <= min.x) min.x = point.x;
+
+		if (point.y >= max.y) max.y = point.y;
+		if (point.y <= min.y) min.y = point.y;
+
+		if (point.z >= max.z) max.z = point.z;
+		if (point.z <= min.z) min.z = point.z;
+	}
+
+	center = min + ((max - min) / 2.f);
+
+	glm::mat4 newWorld(1.0f);
+	newWorld[0] *= abs(min.x - max.x) / 2;
+	newWorld[1] *= abs(min.y - max.y) / 2;
+	newWorld[2] *= abs(min.z - max.z) / 2;
+	newWorld[3] = glm::vec4(center, 1.0f);
+
+	world = newWorld;
+
+	UpdateGraphicsTransform(world);
 }
 
 glm::mat4& AxisAlignedBoundingBox::GetWorld() const

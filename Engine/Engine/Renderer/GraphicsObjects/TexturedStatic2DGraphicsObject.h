@@ -13,7 +13,7 @@ public:
 
 	TexturedStatic2DGraphicsObject() = delete;
 
-	TexturedStatic2DGraphicsObject(Model* const model, Texture* const texture);
+	TexturedStatic2DGraphicsObject(const Model* const model, Texture* const texture);
 
 	~TexturedStatic2DGraphicsObject();
 

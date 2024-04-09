@@ -157,11 +157,6 @@
     <ClInclude Include="Engine\Animation\Pose.h" />
     <ClInclude Include="Engine\Animation\Track.h" />
     <ClInclude Include="Engine\Animation\TransformTrack.h" />
-    <ClInclude Include="Engine\Collision\AxisAlignedBoundingBox.h" />
-    <ClInclude Include="Engine\Collision\BoundingSphere.h" />
-    <ClInclude Include="Engine\Collision\CollisionManager.h" />
-    <ClInclude Include="Engine\Collision\CollisionVolume.h" />
-    <ClInclude Include="Engine\Collision\OrientedBoundingBox.h" />
     <ClInclude Include="Engine\Component\Component.h" />
     <ClInclude Include="Engine\Component\TransformComponent.h" />
     <ClInclude Include="Engine\Engine.h" />
@@ -171,12 +166,17 @@
     <ClInclude Include="Engine\Math\BezierSpline.h" />
     <ClInclude Include="Engine\Math\HermiteSpline.h" />
     <ClInclude Include="Engine\Math\Math.h" />
+    <ClInclude Include="Engine\Math\Shapes\Circle.h" />
+    <ClInclude Include="Engine\Math\Shapes\OrientedRectangle.h" />
+    <ClInclude Include="Engine\Math\Shapes\LineSegment.h" />
+    <ClInclude Include="Engine\Math\Shapes\Rectangle.h" />
     <ClInclude Include="Engine\Math\Transform.h" />
     <ClInclude Include="Engine\Renderer\Cameras\Camera.h" />
     <ClInclude Include="Engine\Renderer\Cameras\CameraManager.h" />
     <ClInclude Include="Engine\Renderer\Commands\CommandManager.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\2DTransformable.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\3DTransformable.h" />
+    <ClInclude Include="Engine\Renderer\GraphicsObjects\ColoredAnimatedGraphicsObject.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\ColoredStaticGraphicsObject.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\GoochGraphicsObject.h" />
     <ClInclude Include="Engine\Renderer\GraphicsObjects\GraphicsObject.h" />
@@ -245,10 +245,6 @@
     <ClCompile Include="Engine\Animation\Pose.cpp" />
     <ClCompile Include="Engine\Animation\Track.cpp" />
     <ClCompile Include="Engine\Animation\TransformTrack.cpp" />
-    <ClCompile Include="Engine\Collision\AxisAlignedBoundingBox.cpp" />
-    <ClCompile Include="Engine\Collision\BoundingSphere.cpp" />
-    <ClCompile Include="Engine\Collision\CollisionVolume.cpp" />
-    <ClCompile Include="Engine\Collision\OrientedBoundingBox.cpp" />
     <ClCompile Include="Engine\Component\Component.cpp" />
     <ClCompile Include="Engine\Component\TransformComponent.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
@@ -258,11 +254,16 @@
     <ClCompile Include="Engine\Math\BezierSpline.cpp" />
     <ClCompile Include="Engine\Math\HermiteSpline.cpp" />
     <ClCompile Include="Engine\Math\Math.cpp" />
+    <ClCompile Include="Engine\Math\Shapes\Circle.cpp" />
+    <ClCompile Include="Engine\Math\Shapes\OrientedRectangle.cpp" />
+    <ClCompile Include="Engine\Math\Shapes\LineSegment.cpp" />
+    <ClCompile Include="Engine\Math\Shapes\Rectangle.cpp" />
     <ClCompile Include="Engine\Math\Transform.cpp" />
     <ClCompile Include="Engine\Renderer\Cameras\Camera.cpp" />
     <ClCompile Include="Engine\Renderer\Cameras\CameraManager.cpp" />
     <ClCompile Include="Engine\Renderer\Commands\CommandManager.cpp" />
     <ClCompile Include="Engine\Renderer\GraphicsObjects\2DTransformable.cpp" />
+    <ClCompile Include="Engine\Renderer\GraphicsObjects\ColoredAnimatedGraphicsObject.cpp" />
     <ClCompile Include="Engine\Renderer\GraphicsObjects\ColoredStaticGraphicsObject.cpp" />
     <ClCompile Include="Engine\Renderer\GraphicsObjects\GoochGraphicsObject.cpp" />
     <ClCompile Include="Engine\Renderer\GraphicsObjects\GraphicsObject.cpp" />
@@ -322,6 +323,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="Engine\Renderer\Pipeline\Shaders\glsl\ColoredAnimated.frag" />
+    <None Include="Engine\Renderer\Pipeline\Shaders\glsl\ColoredAnimated.vert" />
     <None Include="Engine\Renderer\Pipeline\Shaders\glsl\ColoredStatic.frag" />
     <None Include="Engine\Renderer\Pipeline\Shaders\glsl\ColoredStatic.vert" />
     <None Include="Engine\Renderer\Pipeline\Shaders\glsl\Gooch.frag" />

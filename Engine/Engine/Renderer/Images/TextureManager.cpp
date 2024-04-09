@@ -118,5 +118,5 @@ TextureManager::~TextureManager()
 
 void TextureManager::LoadDefaultTextures()
 {
-	LoadTexture("../Engine/Engine/Renderer/Images/DefaultFontTexture.png", "DefaultFontTexture");
+	LoadTexture("Assets/Textures/DefaultFontTexture.png", "DefaultFontTexture");
 }

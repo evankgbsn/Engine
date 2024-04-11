@@ -99,6 +99,7 @@ void LoadAssets()
 	ModelManager::LoadModel("Sphere", "Assets/Models/Sphere.gltf");
 	ModelManager::LoadModel("VikingRoom", "Assets/Models/VikingRoom.gltf");
 	ModelManager::LoadModel("Dragon", "Assets/Models/Dragon.gltf");
+	ModelManager::LoadModel("Square", "Assets/Models/Square.gltf");
 }
 
 void StressTest()

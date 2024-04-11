@@ -45,6 +45,8 @@ public:
 
 	const std::unordered_map<std::string, UserInterfaceItem*>& GetSubItems() const;
 
+	TexturedStatic2DGraphicsObject* GetGraphicsObject() const;
+
 	void Hovered(std::function<void()> onHover) const;
 
 	void Scale(float x, float y);
@@ -61,7 +63,7 @@ public:
 
 	const glm::vec2& GetTranslation() const;
 
-	bool TransformReady(std::function<void()>& whenTransformReady = emptyFunctionObject);
+	bool TransformReady(const std::function<void()>& whenTransformReady = emptyFunctionObject);
 
 	Visibility InquireVisibility(Visibility set = Visibility::Default);
 

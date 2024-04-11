@@ -2,12 +2,12 @@
 #define TEXTUREDSTATIC2DGRAPHICSOBJECT_H
 
 #include "GraphicsObject.h"
-#include "2DTransformable.h"
+#include "3DTransformable.h"
 
 class Model;
 class Texture;
 
-class TexturedStatic2DGraphicsObject : public GraphicsObject, private Graphics2DTransformable
+class TexturedStatic2DGraphicsObject : public GraphicsObject, public Graphics3DTransformable
 {
 public:
 
@@ -29,29 +29,9 @@ public:
 
 	float GetZOrder() const;
 
-	void TranslateObject(const glm::vec2& translation, float zOrder = 0.0f);
-
-	void RotateObject(const float& rotation);
-
-	void ScaleObject(const glm::vec2& scale);
-
-	void TranslateObjectUnordered(const glm::vec2& translation, float zOrder = 0.0f);
-
-	void RotateObjectUnordered(const float& rotation);
-
-	void ScaleObjectUnordered(const glm::vec2& scale);
-
 	void Update() override;
 
-	glm::vec2 GetTranslation() const override;
-
-	glm::vec2 GetScale() const override;
-
-	float GetRotation() const override;
-
 	glm::mat4 GetModelMat4() const;
-
-	void SetTranslation(const glm::vec2& newTranslation) override;
 
 	const Texture* const GetTexture() const;
 

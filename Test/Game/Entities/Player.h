@@ -14,6 +14,8 @@ class Texture;
 class PerfectAnimatedCollisionVolume;
 class UserInterfaceItem;
 class Circle;
+class Rectangle;
+class OrientedRectangle;
 
 class Player : public GameObject
 {
@@ -46,7 +48,11 @@ private:
 
 	UserInterfaceItem* collisionObj2D;
 
-	Circle* collider2D;
+	OrientedRectangle* collider2D;
+
+	UserInterfaceItem* collisionObj2DOther;
+
+	OrientedRectangle* collider2DOther;
 
 	bool hoveredPress;
 

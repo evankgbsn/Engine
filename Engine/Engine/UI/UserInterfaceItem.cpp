@@ -40,8 +40,8 @@ UserInterfaceItem::UserInterfaceItem(const std::string& itemName, Model* const m
 		float width = UserInterfaceManager::GetWindowWidth();
 		float height = UserInterfaceManager::GetWindowHeight();
 
-		graphicsObject->TranslateObject({ (position.x > 0) ? glm::min(position.x, width) : 0.0f, (position.y > 0) ? glm::min(position.y, height) : 0.0f });
-		graphicsObject->ScaleObject(scale);
+		graphicsObject->Translate({ (position.x > 0) ? glm::min(position.x, width) : 0.0f, (position.y > 0) ? glm::min(position.y, height) : 0.0f , 0.0f});
+		graphicsObject->Scale(glm::vec3(scale, 0.0f));
 
 		this->transformReady = true;
 		whenTransformReady();
@@ -107,6 +107,11 @@ const std::unordered_map<std::string, UserInterfaceItem*>& UserInterfaceItem::Ge
 	return subItems;
 }
 
+TexturedStatic2DGraphicsObject* UserInterfaceItem::GetGraphicsObject() const
+{
+	return graphicsObject;
+}
+
 void UserInterfaceItem::Hovered(std::function<void()> onHover) const
 {
 	std::function<void(const glm::vec2&)> getCursorPositionCallback = [onHover, this](const glm::vec2& position)
@@ -137,7 +142,7 @@ void UserInterfaceItem::Hovered(std::function<void()> onHover) const
 
 void UserInterfaceItem::Scale(float x, float y)
 {
-	std::function<void()> graphicsObjectReadyCallback = [this, x, y]() { graphicsObject->ScaleObject(glm::vec2(x, y)); };
+	std::function<void()> graphicsObjectReadyCallback = [this, x, y]() { graphicsObject->Scale(glm::vec3(x, y, 0.0f)); };
 	
 	if (ready)
 	{
@@ -151,7 +156,7 @@ void UserInterfaceItem::Scale(float x, float y)
 
 void UserInterfaceItem::Rotate(float angle)
 {
-	std::function<void()> graphicsObjectReadyCallback = [this, angle]() { graphicsObject->RotateObject(angle); };
+	std::function<void()> graphicsObjectReadyCallback = [this, angle]() { graphicsObject->Rotate(angle, glm::vec3(0.0f, 0.0f, 1.0f)); };
 	
 	if (ready)
 	{
@@ -165,7 +170,7 @@ void UserInterfaceItem::Rotate(float angle)
 
 void UserInterfaceItem::Translate(float x, float y)
 {
-	std::function<void()> graphicsObjectReadyCallback = [this, x, y]() { graphicsObject->TranslateObject({ x, y }); };
+	std::function<void()> graphicsObjectReadyCallback = [this, x, y]() { graphicsObject->Translate({ x, y, 0.0f }); };
 	
 	if (ready)
 	{
@@ -186,13 +191,7 @@ glm::vec2 UserInterfaceItem::GetScale() const
 
 void UserInterfaceItem::SetPosition(float x, float y)
 {
-	glm::vec2 scale = graphicsObject->GetScale();
-	graphicsObject->ScaleObjectUnordered({1.0f / scale.x, 1.0f / scale.y});
-	glm::vec2 translation = graphicsObject->GetTranslation();
-	graphicsObject->TranslateObjectUnordered({ translation.x, translation.y });
-	graphicsObject->TranslateObjectUnordered({ x, y });
-	graphicsObject->ScaleObjectUnordered(scale);
-	graphicsObject->SetZOrder(zOrder);
+	graphicsObject->SetTranslation(glm::vec3(-x, -y, graphicsObject->GetZOrder()));
 }
 
 void UserInterfaceItem::OnWindowSizeUpdate()
@@ -209,7 +208,7 @@ void UserInterfaceItem::OnWindowSizeUpdate()
 		position.y = Math::ChangeRange(0.0f, previousHeight, 0.0f, height, position.y);
 
 
-		graphicsObject->SetTranslation(position);
+		graphicsObject->SetTranslation(glm::vec3(position, graphicsObject->GetZOrder()));
 	}
 }
 
@@ -221,7 +220,7 @@ const glm::vec2& UserInterfaceItem::GetTranslation() const
 	return toNotReturnATemporary;
 }
 
-bool UserInterfaceItem::TransformReady(std::function<void()>& standardFunctionObject)
+bool UserInterfaceItem::TransformReady(const std::function<void()>& standardFunctionObject)
 {
 	if (!transformReady)
 	{

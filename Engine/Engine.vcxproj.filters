@@ -124,6 +124,9 @@
     <Filter Include="Source Files\Engine\Math\Shapes">
       <UniqueIdentifier>{3e337d43-b219-4553-8c56-4d859f2ae6cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Math\SAT">
+      <UniqueIdentifier>{547766ff-e9b7-4956-80c5-22b2bb767930}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -384,6 +387,30 @@
     <ClInclude Include="Engine\Math\Shapes\OrientedRectangle.h">
       <Filter>Source Files\Engine\Math\Shapes</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Math\SAT\Interval2D.h">
+      <Filter>Source Files\Engine\Math\SAT</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Shapes\LineSegment3D.h">
+      <Filter>Source Files\Engine\Math\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Shapes\Ray.h">
+      <Filter>Source Files\Engine\Math\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Shapes\Sphere.h">
+      <Filter>Source Files\Engine\Math\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Shapes\AxisAlignedBoundingBox.h">
+      <Filter>Source Files\Engine\Math\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Shapes\OrientedBoundingBox.h">
+      <Filter>Source Files\Engine\Math\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Shapes\Plane.h">
+      <Filter>Source Files\Engine\Math\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Shapes\Triangle.h">
+      <Filter>Source Files\Engine\Math\Shapes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -637,6 +664,30 @@
     </ClCompile>
     <ClCompile Include="Engine\Math\Shapes\OrientedRectangle.cpp">
       <Filter>Source Files\Engine\Math\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Shapes\AxisAlignedBoundingBox.cpp">
+      <Filter>Source Files\Engine\Math\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Shapes\LineSegment3D.cpp">
+      <Filter>Source Files\Engine\Math\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Shapes\Ray.cpp">
+      <Filter>Source Files\Engine\Math\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Shapes\Sphere.cpp">
+      <Filter>Source Files\Engine\Math\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\SAT\Interval2D.cpp">
+      <Filter>Source Files\Engine\Math\SAT</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Shapes\OrientedBoundingBox.cpp">
+      <Filter>Source Files\Engine\Math\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Shapes\Plane.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Shapes\Triangle.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

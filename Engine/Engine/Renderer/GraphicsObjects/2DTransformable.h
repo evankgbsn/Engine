@@ -48,6 +48,14 @@ protected:
 
 private:
 
+	glm::mat4 rotation;
+
+	glm::mat4 translation;
+
+	glm::mat4 scale;
+
+	glm::mat4 transformation;
+
 	std::vector<std::pair<long long, std::function<void()>>> orderedTranslationQueue;
 
 	std::vector<std::pair<long long, std::function<void()>>> orderedRotationQueue;

@@ -9,25 +9,25 @@ class LineSegment
 {
 public:
 
-	LineSegment(const glm::vec3& startPoint, const glm::vec3& endPoint);
+	LineSegment(const glm::vec2& startPoint, const glm::vec2& endPoint);
 
-	LineSegment(const std::vector<glm::vec3>& points);
+	LineSegment(const std::vector<glm::vec2>& points);
 
 	~LineSegment();
 
-	const glm::vec3& GetStart() const;
+	const glm::vec2& GetStart() const;
 
-	const glm::vec3& GetEnd() const;
+	const glm::vec2& GetEnd() const;
 
-	void SetStart(const glm::vec3& newStart);
+	void SetStart(const glm::vec2& newStart);
 
-	void SetEnd(const glm::vec3& newEnd);
+	void SetEnd(const glm::vec2& newEnd);
 
 	float GetLength() const;
 
 	float GetLengthSq() const;
 
-	bool PointIntersect(const glm::vec3& point);
+	bool PointIntersect(const glm::vec2& point);
 
 private:
 
@@ -41,7 +41,7 @@ private:
 
 	LineSegment& operator=(LineSegment&&) = delete;
 
-	std::vector<glm::vec3> points;
+	std::vector<glm::vec2> points;
 };
 
 #endif // LINESEGMENT_H

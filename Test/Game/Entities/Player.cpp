@@ -18,6 +18,8 @@
 #include "Renderer/GraphicsObjects/TexturedStatic2DGraphicsObject.h"
 
 #include "Math/Shapes/Circle.h"
+#include "Math/Shapes/Rectangle.h"
+#include "Math/Shapes/OrientedRectangle.h"
 #include "UI/UserInterfaceManager.h"
 #include "UI/UserInterfaceItem.h"
 
@@ -34,14 +36,33 @@ Player::Player() :
 	GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(model, texture, [this](TexturedAnimatedGraphicsObject* obj)
 		{
 			graphics = obj;
-			
+
 		});
 
 	RegisterInput();
 
+
+	collisionObj2D = UserInterfaceManager::CrateUserInterfaceItem("Square0", ModelManager::GetModel("Square"), TextureManager::GetTexture("DefaultFontTexture"));
 	
-	collisionObj2D = UserInterfaceManager::CrateUserInterfaceItem("Circle", ModelManager::GetModel("Circle"), TextureManager::GetTexture("DefaultFontTexture"));
-	collisionObj2D->Scale(100.0f, 100.0f);
+	collisionObj2D->TransformReady([this]()
+		{
+			collisionObj2D->Scale(100.0f, 50.0f);
+			collisionObj2D->Rotate(45.0f);
+		});
+
+	float angleInRadians = -45.0f / 57.2957795f;
+	collider2D = new OrientedRectangle({ 100.0f, 100.0f }, { 50.0f, 25.0f }, angleInRadians);
+
+	collider2DOther = new OrientedRectangle({ 400.0f, 200.0f }, {50.0f, 25.0f}, angleInRadians);
+
+	collisionObj2DOther = UserInterfaceManager::CrateUserInterfaceItem("Square", ModelManager::GetModel("Square"), TextureManager::GetTexture("DefaultFontTexture"));
+	
+	collisionObj2DOther->TransformReady([this]()
+		{
+			collisionObj2DOther->Scale(100.0f, 50.0f);
+			collisionObj2DOther->SetPosition(350.0f, 150.0f);
+			collisionObj2DOther->Rotate(45.0f);
+		});
 }
 
 Player::~Player()
@@ -113,6 +134,17 @@ void Player::Update()
 							float windowHeight = static_cast<float>(mainWindow->GetHeight());
 							cursorPosition.y = windowHeight - cursorPosition.y;
 							collisionObj2D->SetPosition(pos.x, cursorPosition.y);
+
+							collider2D->SetPosition({ pos.x + 50.0f, cursorPosition.y + 50.0f });
+
+							if (collider2D->OrientedRectangleIntersect(*collider2DOther))
+							{
+								GraphicsObjectManager::WireFrame(collisionObj2D->GetGraphicsObject(), ObjectTypes::GraphicsObjectType::TexturedStatic2D);
+							}
+							else
+							{
+								GraphicsObjectManager::Solid(collisionObj2D->GetGraphicsObject(), ObjectTypes::GraphicsObjectType::TexturedStatic2D);
+							}
 						}
 					};
 				collisionObj2D->Hovered(hovered);

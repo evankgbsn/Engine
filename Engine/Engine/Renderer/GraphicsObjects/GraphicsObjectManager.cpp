@@ -399,7 +399,7 @@ void GraphicsObjectManager::WireFrame(GraphicsObject* obj, ObjectTypes::Graphics
 		if (obj == nullptr)
 			return;
 
-		auto moveToWireFrame = [](std::vector<GraphicsObject*>& solidArray, std::vector<GraphicsObject*>& wireFrameArray, GraphicsObject* obj)
+		auto moveToWireFrame = [](std::vector<GraphicsObject*>& solidArray, std::vector<std::pair<GraphicsObject*, unsigned int>>& wireFrameArray, GraphicsObject* obj)
 		{
 			// queue these calls to update before draw each frame or mutex.
 			for (unsigned int i = 0; i < solidArray.size(); i++)
@@ -412,9 +412,10 @@ void GraphicsObjectManager::WireFrame(GraphicsObject* obj, ObjectTypes::Graphics
 					bool placedInWireFrameArray = false;
 					for (unsigned int j = 0; j < wireFrameArray.size(); j++)
 					{
-						if (wireFrameArray[j] == nullptr)
+						if (wireFrameArray[j].first == nullptr)
 						{
-							wireFrameArray[j] = obj;
+							wireFrameArray[j].first = obj;
+							wireFrameArray[j].second = i;
 							placedInWireFrameArray = true;
 							break;
 						}
@@ -422,7 +423,7 @@ void GraphicsObjectManager::WireFrame(GraphicsObject* obj, ObjectTypes::Graphics
 
 					if (!placedInWireFrameArray)
 					{
-						wireFrameArray.push_back(obj);
+						wireFrameArray.push_back(std::make_pair(obj, i));
 					}
 				}
 			}
@@ -464,31 +465,14 @@ void GraphicsObjectManager::Solid(GraphicsObject* obj, ObjectTypes::GraphicsObje
 		if (obj == nullptr)
 			return;
 
-		auto moveToWireFrame = [](std::vector<GraphicsObject*>& solidArray, std::vector<GraphicsObject*>& wireFrameArray, GraphicsObject* obj)
+		auto moveToSolid = [](std::vector<GraphicsObject*>& solidArray, std::vector<std::pair<GraphicsObject*, unsigned int>>& wireFrameArray, GraphicsObject* obj)
 		{
-			// queue these calls to update before draw each frame or mutex.
-			for (unsigned int i = 0; i < solidArray.size(); i++)
+			for (std::pair<GraphicsObject*, unsigned int>& go : wireFrameArray)
 			{
-				GraphicsObject* graphicsObjectAtIndex = solidArray[i];
-
-				if (graphicsObjectAtIndex == obj)
+				if (go.first == obj)
 				{
-					solidArray[i] = nullptr;
-					bool placedInWireFrameArray = false;
-					for (unsigned int j = 0; j < wireFrameArray.size(); j++)
-					{
-						if (wireFrameArray[j] == nullptr)
-						{
-							wireFrameArray[j] = obj;
-							placedInWireFrameArray = true;
-							break;
-						}
-					}
-
-					if (!placedInWireFrameArray)
-					{
-						wireFrameArray.push_back(obj);
-					}
+					solidArray[go.second] = obj;
+					go.first = nullptr;
 				}
 			}
 		};
@@ -496,25 +480,25 @@ void GraphicsObjectManager::Solid(GraphicsObject* obj, ObjectTypes::GraphicsObje
 		switch (type)
 		{
 		case ObjectTypes::GraphicsObjectType::TexturedStatic:
-			moveToWireFrame(instance->texturedStaticGraphicsObjects, instance->texturedStaticGraphicsObjectsWireFrame, obj);
+			moveToSolid(instance->texturedStaticGraphicsObjects, instance->texturedStaticGraphicsObjectsWireFrame, obj);
 			break;
 		case ObjectTypes::GraphicsObjectType::LitTexturedStatic:
-			moveToWireFrame(instance->litTexturedStaticGraphicsObjects, instance->litTexturedStaticGraphicsObjectsWireFrame, obj);
+			moveToSolid(instance->litTexturedStaticGraphicsObjects, instance->litTexturedStaticGraphicsObjectsWireFrame, obj);
 			break;
 		case ObjectTypes::GraphicsObjectType::AnimatedTextured:
-			moveToWireFrame(instance->animatedTexturedGraphicsObjects, instance->animatedTexturedGraphicsObjectsWireFrame, obj);
+			moveToSolid(instance->animatedTexturedGraphicsObjects, instance->animatedTexturedGraphicsObjectsWireFrame, obj);
 			break;
 		case ObjectTypes::GraphicsObjectType::TexturedStatic2D:
-			moveToWireFrame(instance->texturedStatic2DGraphicsObjects, instance->texturedStatic2DGraphicsObjectsWireFrame, obj);
+			moveToSolid(instance->texturedStatic2DGraphicsObjects, instance->texturedStatic2DGraphicsObjectsWireFrame, obj);
 			break;
 		case ObjectTypes::GraphicsObjectType::Gooch:
-			moveToWireFrame(instance->goochGraphicsObjects, instance->goochGraphicsObjectsWireFrame, obj);
+			moveToSolid(instance->goochGraphicsObjects, instance->goochGraphicsObjectsWireFrame, obj);
 			break;
 		case ObjectTypes::GraphicsObjectType::ColoredStatic:
-			moveToWireFrame(instance->coloredStaticGraphicsObjects, instance->coloredStaticGraphicsObjectsWireFrame, obj);
+			moveToSolid(instance->coloredStaticGraphicsObjects, instance->coloredStaticGraphicsObjectsWireFrame, obj);
 			break;
 		case ObjectTypes::GraphicsObjectType::ColoredAnimated:
-			moveToWireFrame(instance->coloredAnimatedGraphicsObjects, instance->coloredAnimatedGraphicsObjectsWireFrame, obj);
+			moveToSolid(instance->coloredAnimatedGraphicsObjects, instance->coloredAnimatedGraphicsObjectsWireFrame, obj);
 			break;
 		}
 	};
@@ -566,6 +550,21 @@ void GraphicsObjectManager::ToggleGraphicsObjectDraw(GraphicsObject* const graph
 			return false;
 		};
 
+		auto inWireFrameCollectionLambda = [&index, graphicsObject](const std::vector<std::pair<GraphicsObject*, unsigned int>>& graphicsObjectContainer) -> bool
+			{
+				size_t size = graphicsObjectContainer.size();
+				for (size_t i = 0; i < size; i++)
+				{
+					if (graphicsObjectContainer[i].first == graphicsObject)
+					{
+						index = i;
+						return true;
+					}
+				}
+
+				return false;
+			};
+
 		auto isDisabledLambda = [graphicsObject](std::list<std::pair<GraphicsObject*, unsigned int>>& graphicsObjectDisabledContainer, std::list<std::pair<GraphicsObject*, unsigned int>>::iterator& outIt) -> bool
 		{
 			for (std::list<std::pair<GraphicsObject*, unsigned int>>::iterator it = graphicsObjectDisabledContainer.begin(); it != graphicsObjectDisabledContainer.end(); it++)
@@ -586,7 +585,14 @@ void GraphicsObjectManager::ToggleGraphicsObjectDraw(GraphicsObject* const graph
 				disableList.erase(graphicsObjectToRemoveFromDisableListIterator);
 		};
 
-		auto toggleGraphicsObject = [&index, inCollectionLambda, isDisabledLambda, insertFromDisabledListAddToDrawVectorLambda](std::vector<GraphicsObject*>& graphicsObjectContainer, std::list<std::pair<GraphicsObject*, unsigned int>>& graphicsObjectDisableList, std::vector<GraphicsObject*>& graphicsObjectWireFrameContainer, std::list<std::pair<GraphicsObject*, unsigned int>>& graphicsObjectWireFrameDisableList)
+		auto insertFromDisabledListAddToWireFrameDrawVectorLambda = [graphicsObject](std::vector<std::pair<GraphicsObject*, unsigned int>>& drawVector, std::list<std::pair<GraphicsObject*, unsigned int>>& disableList, std::list<std::pair<GraphicsObject*, unsigned int>>::iterator graphicsObjectToRemoveFromDisableListIterator)
+			{
+				drawVector[graphicsObjectToRemoveFromDisableListIterator->second].first = graphicsObjectToRemoveFromDisableListIterator->first;
+				disableList.erase(graphicsObjectToRemoveFromDisableListIterator);
+			};
+
+
+		auto toggleGraphicsObject = [&index, inCollectionLambda, inWireFrameCollectionLambda, isDisabledLambda, insertFromDisabledListAddToDrawVectorLambda, insertFromDisabledListAddToWireFrameDrawVectorLambda](std::vector<GraphicsObject*>& graphicsObjectContainer, std::list<std::pair<GraphicsObject*, unsigned int>>& graphicsObjectDisableList, std::vector<std::pair<GraphicsObject*, unsigned int>>& graphicsObjectWireFrameContainer, std::list<std::pair<GraphicsObject*, unsigned int>>& graphicsObjectWireFrameDisableList)
 		{
 			std::list<std::pair<GraphicsObject*, unsigned int>>::iterator outIt;
 			std::list<std::pair<GraphicsObject*, unsigned int>>::iterator outItWireframe;
@@ -594,7 +600,7 @@ void GraphicsObjectManager::ToggleGraphicsObjectDraw(GraphicsObject* const graph
 			bool isDisabledGraphicsObject = isDisabledLambda(graphicsObjectDisableList, outIt);
 			bool isDisabledGraphicsObjectWireFrame = isDisabledLambda(graphicsObjectWireFrameDisableList, outItWireframe);
 
-			bool inCollectionWireFrame = inCollectionLambda(graphicsObjectWireFrameContainer);
+			bool inCollectionWireFrame = inWireFrameCollectionLambda(graphicsObjectWireFrameContainer);
 			bool inCollection = inCollectionLambda(graphicsObjectContainer);
 
 			bool isWireframe = !isDisabledGraphicsObjectWireFrame && inCollectionWireFrame || isDisabledGraphicsObjectWireFrame;
@@ -603,7 +609,7 @@ void GraphicsObjectManager::ToggleGraphicsObjectDraw(GraphicsObject* const graph
 			
 			if (isWireframe && isDisabledGraphicsObjectWireFrame)
 			{
-				insertFromDisabledListAddToDrawVectorLambda(graphicsObjectWireFrameContainer, graphicsObjectWireFrameDisableList, outItWireframe);
+				insertFromDisabledListAddToWireFrameDrawVectorLambda(graphicsObjectWireFrameContainer, graphicsObjectWireFrameDisableList, outItWireframe);
 			}
 			else if(notWireframe && isDisabledGraphicsObject)
 			{
@@ -611,8 +617,8 @@ void GraphicsObjectManager::ToggleGraphicsObjectDraw(GraphicsObject* const graph
 			}
 			else if (isWireframe && !isDisabledGraphicsObjectWireFrame)
 			{
-				graphicsObjectWireFrameDisableList.push_back(std::make_pair(graphicsObjectWireFrameContainer[index], static_cast<unsigned int>(index)));
-				graphicsObjectWireFrameContainer[index] = nullptr;
+				graphicsObjectWireFrameDisableList.push_back(std::make_pair(graphicsObjectWireFrameContainer[index].first, static_cast<unsigned int>(index)));
+				graphicsObjectWireFrameContainer[index].first = nullptr;
 			}
 			else if (notWireframe && !isDisabledGraphicsObject)
 			{
@@ -687,20 +693,32 @@ void GraphicsObjectManager::UpdateObjects()
 			});
 	};
 
+	auto updateWireFrameObjects = [](std::vector<std::pair<GraphicsObject*, unsigned int>>& goArray)
+		{
+			std::lock_guard<std::mutex> guard(instance->updateMutex);
+			std::for_each(std::execution::par, goArray.begin(), goArray.end(),
+				[](std::pair<GraphicsObject*, unsigned int>& obj)
+				{
+					if (obj.first != nullptr)
+						obj.first->Update();
+				});
+		};
+
 	updateObjects(instance->texturedStatic2DGraphicsObjects);
-	updateObjects(instance->texturedStatic2DGraphicsObjectsWireFrame);
 	updateObjects(instance->animatedTexturedGraphicsObjects);
-	updateObjects(instance->animatedTexturedGraphicsObjectsWireFrame);
 	updateObjects(instance->texturedStaticGraphicsObjects);
-	updateObjects(instance->texturedStaticGraphicsObjectsWireFrame);
-	updateObjects(instance->goochGraphicsObjects);
-	updateObjects(instance->goochGraphicsObjectsWireFrame);
 	updateObjects(instance->litTexturedStaticGraphicsObjects);
-	updateObjects(instance->litTexturedStaticGraphicsObjectsWireFrame);
-	updateObjects(instance->coloredStaticGraphicsObjectsWireFrame);
+	updateObjects(instance->goochGraphicsObjects);
 	updateObjects(instance->coloredStaticGraphicsObjects);
-	updateObjects(instance->coloredAnimatedGraphicsObjectsWireFrame);
 	updateObjects(instance->coloredAnimatedGraphicsObjects);
+
+	updateWireFrameObjects(instance->texturedStatic2DGraphicsObjectsWireFrame);
+	updateWireFrameObjects(instance->animatedTexturedGraphicsObjectsWireFrame);
+	updateWireFrameObjects(instance->texturedStaticGraphicsObjectsWireFrame);
+	updateWireFrameObjects(instance->goochGraphicsObjectsWireFrame);
+	updateWireFrameObjects(instance->litTexturedStaticGraphicsObjectsWireFrame);
+	updateWireFrameObjects(instance->coloredStaticGraphicsObjectsWireFrame);
+	updateWireFrameObjects(instance->coloredAnimatedGraphicsObjectsWireFrame);
 }
 
 void GraphicsObjectManager::DrawObjects(VkCommandBuffer& buffer, unsigned int imageIndex)
@@ -725,21 +743,40 @@ void GraphicsObjectManager::DrawObjects(VkCommandBuffer& buffer, unsigned int im
 			}
 		}
 	};
+
+	auto drawWireFrameObjects = [&buffer](const std::string& pipelineName, std::vector<std::pair<GraphicsObject*, unsigned int>>& objects)
+		{
+			VkDeviceSize offsets[] = { 0 };
+			vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **instance->graphicsPipelines.find(pipelineName)->second.second);
+
+			// Look into command pools for threaded draw calls.
+			for (std::pair<GraphicsObject*, unsigned int>& obj : objects)
+			{
+				if (obj.first != nullptr)
+				{
+					vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, **(instance->graphicsPipelines.find(pipelineName)->second.second->GetPipelineLayout()), 0, 1, &obj.first->GetDescriptorSet()(), 0, nullptr);
+					vkCmdBindVertexBuffers(buffer, 0, 1, &obj.first->GetVertexBuffer()(), offsets);
+					vkCmdBindIndexBuffer(buffer, obj.first->GetIndexBuffer()(), 0, VK_INDEX_TYPE_UINT32);
+					vkCmdDrawIndexed(buffer, static_cast<unsigned int>(obj.first->GetModel()->GetIndices().size()), 1, 0, 0, 0);
+				}
+			}
+		};
 	
-	drawObjects(std::string("WireFrame_TexturedAnimated"), instance->animatedTexturedGraphicsObjectsWireFrame);
 	drawObjects(std::string("TexturedAnimated"), instance->animatedTexturedGraphicsObjects);
-	drawObjects(std::string("WireFrame_TexturedStatic"), instance->texturedStaticGraphicsObjectsWireFrame);
-	drawObjects(std::string("WireFrame_TexturedStatic"), instance->texturedStatic2DGraphicsObjectsWireFrame);
 	drawObjects(std::string("TexturedStatic"), instance->texturedStaticGraphicsObjects);
 	drawObjects(std::string("TexturedStatic"), instance->texturedStatic2DGraphicsObjects);
 	drawObjects(std::string("Gooch"), instance->goochGraphicsObjects);
-	drawObjects(std::string("WireFrame_Gooch"), instance->goochGraphicsObjectsWireFrame);
 	drawObjects(std::string("LitTexturedStatic"), instance->litTexturedStaticGraphicsObjects);
-	drawObjects(std::string("WireFrame_LitTexturedStatic"), instance->litTexturedStaticGraphicsObjectsWireFrame);
-	drawObjects(std::string("WireFrame_ColoredStatic"), instance->coloredStaticGraphicsObjectsWireFrame);
 	drawObjects(std::string("ColoredStatic"), instance->coloredStaticGraphicsObjects);
-	drawObjects(std::string("WireFrame_ColoredAnimated"), instance->coloredAnimatedGraphicsObjectsWireFrame);
 	drawObjects(std::string("ColoredAnimated"), instance->coloredAnimatedGraphicsObjects);
+	
+	drawWireFrameObjects(std::string("WireFrame_TexturedAnimated"), instance->animatedTexturedGraphicsObjectsWireFrame);
+	drawWireFrameObjects(std::string("WireFrame_TexturedStatic"), instance->texturedStatic2DGraphicsObjectsWireFrame);
+	drawWireFrameObjects(std::string("WireFrame_TexturedStatic"), instance->texturedStaticGraphicsObjectsWireFrame);
+	drawWireFrameObjects(std::string("WireFrame_Gooch"), instance->goochGraphicsObjectsWireFrame);
+	drawWireFrameObjects(std::string("WireFrame_LitTexturedStatic"), instance->litTexturedStaticGraphicsObjectsWireFrame);
+	drawWireFrameObjects(std::string("WireFrame_ColoredStatic"), instance->coloredStaticGraphicsObjectsWireFrame);
+	drawWireFrameObjects(std::string("WireFrame_ColoredAnimated"), instance->coloredAnimatedGraphicsObjectsWireFrame);
 }
 
 const ShaderPipelineStage* const GraphicsObjectManager::GetShaderPipelineStage(const std::string& shaderName)
@@ -791,21 +828,35 @@ void GraphicsObjectManager::DeleteGraphicsObject(GraphicsObject* go)
 		}
 	};
 
-	auto deleteFunc = [deleteObjectFromDrawVector]()
+	auto deleteWireFrameObjectFromDrawVector = [go](std::mutex& queueMutex, std::vector<std::pair<GraphicsObject*, unsigned int>>& graphicsObjects)
+		{
+			std::lock_guard<std::mutex> guard(queueMutex);
+			for (std::pair<GraphicsObject*, unsigned int>& obj : graphicsObjects)
+			{
+				if (obj.first == go)
+				{
+					delete obj.first;
+					obj.first = nullptr;
+					return;
+				}
+			}
+		};
+
+	auto deleteFunc = [deleteObjectFromDrawVector, deleteWireFrameObjectFromDrawVector]()
 	{
 		std::lock_guard<std::mutex> guard(instance->updateMutex);
 		deleteObjectFromDrawVector(instance->enqueueStatic2DMutex, instance->texturedStatic2DGraphicsObjects);
-		deleteObjectFromDrawVector(instance->enqueueStatic2DMutex, instance->texturedStatic2DGraphicsObjectsWireFrame);
+		deleteWireFrameObjectFromDrawVector(instance->enqueueStatic2DMutex, instance->texturedStatic2DGraphicsObjectsWireFrame);
 		deleteObjectFromDrawVector(instance->enqueueAnimatedMutex, instance->animatedTexturedGraphicsObjects);
-		deleteObjectFromDrawVector(instance->enqueueAnimatedMutex, instance->animatedTexturedGraphicsObjectsWireFrame);
+		deleteWireFrameObjectFromDrawVector(instance->enqueueAnimatedMutex, instance->animatedTexturedGraphicsObjectsWireFrame);
 		deleteObjectFromDrawVector(instance->enqueueLitStaticMutex, instance->litTexturedStaticGraphicsObjects);
-		deleteObjectFromDrawVector(instance->enqueueLitStaticMutex, instance->litTexturedStaticGraphicsObjectsWireFrame);
+		deleteWireFrameObjectFromDrawVector(instance->enqueueLitStaticMutex, instance->litTexturedStaticGraphicsObjectsWireFrame);
 		deleteObjectFromDrawVector(instance->enqueueGoochMutex, instance->goochGraphicsObjects);
-		deleteObjectFromDrawVector(instance->enqueueGoochMutex, instance->goochGraphicsObjectsWireFrame);
+		deleteWireFrameObjectFromDrawVector(instance->enqueueGoochMutex, instance->goochGraphicsObjectsWireFrame);
 		deleteObjectFromDrawVector(instance->enqueueColoredStaticMutex, instance->coloredStaticGraphicsObjects);
-		deleteObjectFromDrawVector(instance->enqueueColoredStaticMutex, instance->coloredStaticGraphicsObjectsWireFrame);
+		deleteWireFrameObjectFromDrawVector(instance->enqueueColoredStaticMutex, instance->coloredStaticGraphicsObjectsWireFrame);
 		deleteObjectFromDrawVector(instance->enqueueColoredAnimatedMutex, instance->coloredAnimatedGraphicsObjects);
-		deleteObjectFromDrawVector(instance->enqueueColoredAnimatedMutex, instance->coloredAnimatedGraphicsObjectsWireFrame);
+		deleteWireFrameObjectFromDrawVector(instance->enqueueColoredAnimatedMutex, instance->coloredAnimatedGraphicsObjectsWireFrame);
 	};
 
 	instance->graphicsObjectDeleteQueue.push_back(deleteFunc);
@@ -814,7 +865,7 @@ void GraphicsObjectManager::DeleteGraphicsObject(GraphicsObject* go)
 GraphicsObjectManager::GraphicsObjectManager(const Window& w) :
 	texturedStaticGraphicsObjects(std::vector<GraphicsObject*>()),
 	disabledTexturedStaticGraphicsObjects(std::list<std::pair<GraphicsObject*, unsigned int>>()),
-	texturedStaticGraphicsObjectsWireFrame(std::vector<GraphicsObject*>()),
+	texturedStaticGraphicsObjectsWireFrame(std::vector<std::pair<GraphicsObject*, unsigned int>>()),
 	disabledTexturedStaticGraphicsObjectsWireFrame(std::list<std::pair<GraphicsObject*, unsigned int>>()),
 	animatedTexturedGraphicsObjects(std::vector<GraphicsObject*>()),
 	disabledAnimatedTexturedGraphicsObjects(std::list<std::pair<GraphicsObject*, unsigned int>>()),
@@ -852,15 +903,28 @@ GraphicsObjectManager::~GraphicsObjectManager()
 	deleteGraphicsObjectArray(goochGraphicsObjects);
 	deleteGraphicsObjectArray(litTexturedStaticGraphicsObjects);
 	deleteGraphicsObjectArray(texturedStatic2DGraphicsObjects);
-	deleteGraphicsObjectArray(texturedStaticGraphicsObjectsWireFrame);
-	deleteGraphicsObjectArray(animatedTexturedGraphicsObjectsWireFrame);
-	deleteGraphicsObjectArray(goochGraphicsObjectsWireFrame);
-	deleteGraphicsObjectArray(litTexturedStaticGraphicsObjectsWireFrame);
-	deleteGraphicsObjectArray(texturedStatic2DGraphicsObjectsWireFrame);
-	deleteGraphicsObjectArray(coloredStaticGraphicsObjectsWireFrame);
 	deleteGraphicsObjectArray(coloredStaticGraphicsObjects);
-	deleteGraphicsObjectArray(coloredAnimatedGraphicsObjectsWireFrame);
 	deleteGraphicsObjectArray(coloredAnimatedGraphicsObjects);
+
+	auto deleteGraphicsObjectWireFrameArray = [](std::vector<std::pair<GraphicsObject*, unsigned int>>& goArray)
+		{
+			for (unsigned int i = 0; i < goArray.size(); i++)
+			{
+				if (goArray[i].first != nullptr)
+				{
+					delete goArray[i].first;
+					goArray[i].first = nullptr;
+				}
+			}
+		};
+
+	deleteGraphicsObjectWireFrameArray(texturedStaticGraphicsObjectsWireFrame);
+	deleteGraphicsObjectWireFrameArray(animatedTexturedGraphicsObjectsWireFrame);
+	deleteGraphicsObjectWireFrameArray(goochGraphicsObjectsWireFrame);
+	deleteGraphicsObjectWireFrameArray(litTexturedStaticGraphicsObjectsWireFrame);
+	deleteGraphicsObjectWireFrameArray(texturedStatic2DGraphicsObjectsWireFrame);
+	deleteGraphicsObjectWireFrameArray(coloredStaticGraphicsObjectsWireFrame);
+	deleteGraphicsObjectWireFrameArray(coloredAnimatedGraphicsObjectsWireFrame);
 
 	auto deleteGraphicsObjectList = [](std::list<std::pair<GraphicsObject*, unsigned int>>& goList)
 	{

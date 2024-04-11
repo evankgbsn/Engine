@@ -129,7 +129,7 @@ private:
 
 	std::list<std::pair<GraphicsObject*, unsigned int>> disabledTexturedStaticGraphicsObjects;
 
-	std::vector<GraphicsObject*> texturedStaticGraphicsObjectsWireFrame;
+	std::vector<std::pair<GraphicsObject*, unsigned int>> texturedStaticGraphicsObjectsWireFrame;
 
 	std::list<std::pair<GraphicsObject*, unsigned int>> disabledTexturedStaticGraphicsObjectsWireFrame;
 
@@ -137,7 +137,7 @@ private:
 
 	std::list<std::pair<GraphicsObject*, unsigned int>> disabledAnimatedTexturedGraphicsObjects;
 
-	std::vector<GraphicsObject*> animatedTexturedGraphicsObjectsWireFrame;
+	std::vector<std::pair<GraphicsObject*, unsigned int>> animatedTexturedGraphicsObjectsWireFrame;
 
 	std::list<std::pair<GraphicsObject*, unsigned int>> disabledAnimatedTexturedGraphicsObjectsWireFrame;
 
@@ -145,7 +145,7 @@ private:
 
 	std::list<std::pair<GraphicsObject*, unsigned int>>  disabledGoochGraphicsObjects;
 
-	std::vector<GraphicsObject*> goochGraphicsObjectsWireFrame;
+	std::vector<std::pair<GraphicsObject*, unsigned int>> goochGraphicsObjectsWireFrame;
 
 	std::list<std::pair<GraphicsObject*, unsigned int>> disabledGoochGraphicsObjectsWireFrame;
 
@@ -153,7 +153,7 @@ private:
 
 	std::list<std::pair<GraphicsObject*, unsigned int>> disabledLitTexturedStaticGraphicsObjects;
 
-	std::vector<GraphicsObject*> litTexturedStaticGraphicsObjectsWireFrame;
+	std::vector<std::pair<GraphicsObject*, unsigned int>> litTexturedStaticGraphicsObjectsWireFrame;
 
 	std::list<std::pair<GraphicsObject*, unsigned int>> disabledLitTexturedStaticGraphicsObjectsWireFrame;
 
@@ -161,23 +161,23 @@ private:
 
 	std::list<std::pair<GraphicsObject*, unsigned int>> disabledTexturedStatic2DGraphicsObjects;
 
-	std::vector<GraphicsObject*> texturedStatic2DGraphicsObjectsWireFrame;
+	std::vector<std::pair<GraphicsObject*, unsigned int>> texturedStatic2DGraphicsObjectsWireFrame;
 
 	std::list<std::pair<GraphicsObject*, unsigned int>> disabledTexturedStatic2DGraphicsObjectsWireFrame;
 
 	std::vector<GraphicsObject*> coloredStaticGraphicsObjects;
 
+	std::list<std::pair<GraphicsObject*, unsigned int>> disabledColoredStaticGraphicsObjectsWireFrame;
+
 	std::list<std::pair<GraphicsObject*, unsigned int>> disabledColoredStaticGraphicsObjects;
+
+	std::vector<std::pair<GraphicsObject*, unsigned int>> coloredStaticGraphicsObjectsWireFrame;
 
 	std::vector<GraphicsObject*> coloredAnimatedGraphicsObjects;
 
 	std::list<std::pair<GraphicsObject*, unsigned int>> disabledColoredAnimatedGraphicsObjects;
 
-	std::vector<GraphicsObject*> coloredStaticGraphicsObjectsWireFrame;
-
-	std::list<std::pair<GraphicsObject*, unsigned int>> disabledColoredStaticGraphicsObjectsWireFrame;
-
-	std::vector<GraphicsObject*> coloredAnimatedGraphicsObjectsWireFrame;
+	std::vector<std::pair<GraphicsObject*, unsigned int>> coloredAnimatedGraphicsObjectsWireFrame;
 
 	std::list<std::pair<GraphicsObject*, unsigned int>> disabledColoredAnimatedGraphicsObjectsWireFrame;
 

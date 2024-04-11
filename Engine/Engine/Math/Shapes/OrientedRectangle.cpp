@@ -14,6 +14,31 @@ OrientedRectangle::~OrientedRectangle()
 {
 }
 
+const glm::vec2& OrientedRectangle::GetPosition() const
+{
+	return position;
+}
+
+float OrientedRectangle::GetRotation() const
+{
+	return rotation;
+}
+
+void OrientedRectangle::SetPosition(const glm::vec2& newPosition)
+{
+	position = newPosition;
+}
+
+void OrientedRectangle::SetRotation(float angle)
+{
+	rotation = angle;
+}
+
+const glm::vec2& OrientedRectangle::GetHalfExtents() const
+{
+	return halfExtents;
+}
+
 bool OrientedRectangle::PointIntersect(const glm::vec3& point) const
 {
 	glm::vec2 rotVec = glm::vec2(point) - position;
@@ -35,8 +60,8 @@ bool OrientedRectangle::PointIntersect(const glm::vec3& point) const
 
 bool OrientedRectangle::LineIntersect(const LineSegment& line) const
 {
-	const glm::vec3& lineStart = line.GetStart();
-	const glm::vec3& lineEnd = line.GetEnd();
+	const glm::vec2& lineStart = line.GetStart();
+	const glm::vec2& lineEnd = line.GetEnd();
 
 	glm::mat2 zRotation =
 	{
@@ -59,4 +84,27 @@ bool OrientedRectangle::LineIntersect(const LineSegment& line) const
 	Rectangle localRectangle(glm::vec2(), halfExtents * 2.0f);
 
 	return localRectangle.LineIntersect(localLine);
+}
+
+bool OrientedRectangle::OrientedRectangleIntersect(const OrientedRectangle& rectangle)
+{
+	Rectangle localRectangle(glm::vec2(0.0f), halfExtents * 2.0f);
+
+	glm::vec2 r = rectangle.position - position;
+
+	OrientedRectangle localRectangle2(rectangle.position, rectangle.halfExtents, rectangle.rotation);
+
+	localRectangle2.rotation = localRectangle2.rotation - rotation;
+
+	glm::mat2 zRotation =
+	{
+		cosf(rotation), sinf(rotation),
+		-sinf(rotation), cosf(rotation)
+	};
+
+	r = zRotation * r;
+
+	localRectangle2.position = r + halfExtents;
+
+	return localRectangle.OrientedRectangleIntersect(localRectangle2);
 }

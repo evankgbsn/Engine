@@ -13,9 +13,21 @@ public:
 
 	~OrientedRectangle();
 
+	const glm::vec2& GetPosition() const;
+
+	float GetRotation() const;
+
+	void SetPosition(const glm::vec2& newPosition);
+
+	void SetRotation(float angle);
+
+	const glm::vec2& GetHalfExtents() const;
+
 	bool PointIntersect(const glm::vec3& point) const;
 
 	bool LineIntersect(const LineSegment& line) const;
+
+	bool OrientedRectangleIntersect(const OrientedRectangle& rectangle);
 
 private:
 

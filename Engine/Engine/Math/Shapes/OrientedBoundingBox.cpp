@@ -1,6 +1,7 @@
 #include "OrientedBoundingBox.h"
 
 #include "../SAT/Interval3D.h"
+#include "../../Renderer/Model/Vertex.h"
 
 OrientedBoundingBox::OrientedBoundingBox(const glm::vec3& initialOrigin, const glm::vec3& initialSize, const glm::mat4& initialOrientation) :
     origin(initialOrigin),
@@ -26,6 +27,11 @@ const glm::vec3& OrientedBoundingBox::GetSize() const
 const glm::mat4& OrientedBoundingBox::GetOrientation() const
 {
     return orientation;
+}
+
+const glm::vec3& OrientedBoundingBox::GetOffset() const
+{
+    return offset;
 }
 
 void OrientedBoundingBox::SetOrigin(const glm::vec3& newOrigin)
@@ -82,6 +88,50 @@ bool OrientedBoundingBox::OrientedBoundingBoxIntersect(const OrientedBoundingBox
     }
 
     return true;
+}
+
+void OrientedBoundingBox::SizeToMesh(const std::vector<Vertex>& verts)
+{
+    glm::vec3 min(FLT_MAX, FLT_MAX, FLT_MAX);
+    glm::vec3 max(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+
+    glm::vec3 point;
+
+    for (const Vertex& x : verts)
+    {
+         point = x.GetPosition();
+
+        if (point.x >= max.x) max.x = point.x;
+        if (point.x <= min.x) min.x = point.x;
+
+        if (point.y >= max.y) max.y = point.y;
+        if (point.y <= min.y) min.y = point.y;
+
+        if (point.z >= max.z) max.z = point.z;
+        if (point.z <= min.z) min.z = point.z;
+    }
+
+    // Eight vertices of the bounding box.
+    glm::vec3 vertex[8] =
+    {
+        glm::vec3(min.x, max.y, max.z),
+        glm::vec3(min.x, max.y, min.z),
+        glm::vec3(min.x, min.y, max.z),
+        min,
+        max,
+        glm::vec3(max.x, max.y, min.z),
+        glm::vec3(max.x, min.y, max.z),
+        glm::vec3(max.x, min.y, min.z)
+    };
+    
+    // Half-length of sides
+    float halfWidth = glm::length(min - vertex[7]) / 2.0f;
+    float halfDepth = glm::length(min - vertex[2]) / 2.0f;
+    float halfHeight = glm::length(min - vertex[1]) / 2.0f;
+
+    size = glm::vec3(halfWidth, halfHeight, halfDepth);
+
+    offset = min + ((max - min) / 2.f);
 }
 
 void OrientedBoundingBox::SetSize(const glm::vec3& newSize)

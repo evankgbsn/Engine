@@ -43,17 +43,14 @@ private:
 
 	TexturedAnimatedGraphicsObject* graphics;
 
-	OrientedBoundingBox* obb;
+	struct OBB
+	{
+		OrientedBoundingBox* obb;
+		ColoredStaticGraphicsObject* graphics;
+		unsigned int jointIndex;
+	};
 
-	AxisAlignedBoundingBox* aabb;
-
-	OrientedBoundingBox* obbOther;
-
-	ColoredStaticGraphicsObject* obbGraphics;
-
-	ColoredStaticGraphicsObject* aabbGraphics;
-
-	ColoredStaticGraphicsObject* obbOtherGraphics;
+	std::vector<OBB*> obbs;
 
 	bool hoveredPress;
 

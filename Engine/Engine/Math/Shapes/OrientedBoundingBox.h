@@ -3,6 +3,10 @@
 
 #include <glm/glm.hpp>
 
+#include <vector>
+
+class Vertex;
+
 class OrientedBoundingBox
 {
 public:
@@ -17,6 +21,8 @@ public:
 
 	const glm::mat4& GetOrientation() const;
 
+	const glm::vec3& GetOffset() const;
+
 	void SetOrigin(const glm::vec3& newOrigin);
 
 	void SetSize(const glm::vec3& newSize);
@@ -28,6 +34,8 @@ public:
 	bool PointIntersect(const glm::vec3& point) const;
 
 	bool OrientedBoundingBoxIntersect(const OrientedBoundingBox& other) const;
+
+	void SizeToMesh(const std::vector<Vertex>& vertices);
 
 private:
 
@@ -42,6 +50,8 @@ private:
 	bool OverlapOnAxis(const OrientedBoundingBox& other, glm::vec3& axis) const;
 
 	glm::vec3 origin;
+
+	glm::vec3 offset;
 
 	glm::vec3 size;
 

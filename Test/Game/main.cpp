@@ -289,30 +289,6 @@ void AddGrid()
 	GraphicsObjectManager::CreateTexturedStaticGraphicsObject(ModelManager::GetModel("DefaultRectangleWithDepth"), TextureManager::GetTexture("Grid"),
 		[](GraphicsObject* go)
 		{
-			TexturedStaticGraphicsObject* tsgo = static_cast<TexturedStaticGraphicsObject*>(go);
-			tsgo->Scale({ 100.0f, 100.0f, 0.0f });
-			tsgo->Rotate(-90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
-
-			tPress = new std::function<void(int)>([tsgo](int keyCode)
-				{
-					float rotSpeed = 1.0f * TimeManager::DeltaTime();
-					tsgo->Rotate(rotSpeed, glm::vec3(1.0f, 0.0f, 0.0f));
-				});
-
-			yPress = new std::function<void(int)>([tsgo](int keyCode)
-				{
-					float rotSpeed = 1.0f * TimeManager::DeltaTime();
-					tsgo->Rotate(rotSpeed, glm::vec3(0.0f, 1.0f, 0.0f));
-				});
-
-			uPress = new std::function<void(int)>([tsgo](int keyCode)
-				{
-					float rotSpeed = 1.0f * TimeManager::DeltaTime();
-					tsgo->Rotate(rotSpeed, glm::vec3(0.0f, 0.0f, 1.0f));
-				});
-
-			InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_T, tPress, "PlaneMove");
-			InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_Y, yPress, "PlaneMove");
-			InputManager::RegisterCallbackForKeyState(KEY_PRESSED, KEY_U, uPress, "PlaneMove");
+			
 		});
 }

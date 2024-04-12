@@ -37,6 +37,8 @@ public:
 
 	void SizeToMesh(const std::vector<Vertex>& vertices);
 
+	void UpdateOrigin(const glm::mat4& mat);
+
 private:
 
 	OrientedBoundingBox(const OrientedBoundingBox&) = delete;

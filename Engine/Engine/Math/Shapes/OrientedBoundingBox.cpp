@@ -134,6 +134,11 @@ void OrientedBoundingBox::SizeToMesh(const std::vector<Vertex>& verts)
     offset = min + ((max - min) / 2.f);
 }
 
+void OrientedBoundingBox::UpdateOrigin(const glm::mat4& mat)
+{
+    origin = mat * glm::vec4(origin, 1.0f);
+}
+
 void OrientedBoundingBox::SetSize(const glm::vec3& newSize)
 {
     size = newSize;

@@ -24,7 +24,7 @@
 #include "UI/UserInterfaceItem.h"
 
 #include "Animation/BakedAnimation.h"
-#include "Animation/Animation.h";
+#include "Animation/Animation.h"
 #include "Animation/Armature.h"
 
 Player::Player() :
@@ -49,7 +49,18 @@ Player::Player() :
 
 	for (const Vertex& vert : vertices)
 	{
-		jointsVertices[jointNames[vert.GetInfluences()[0]]].push_back(vert);
+		unsigned int jointWithMostInfluence = 0;
+		float influence = vert.GetWeights()[jointWithMostInfluence];
+		for (unsigned int i = 1; i < 4; ++i)
+		{
+			if (vert.GetWeights()[i] > influence)
+			{
+				jointWithMostInfluence = i;
+				influence = vert.GetWeights()[i];
+			}
+		}
+
+		jointsVertices[jointNames[vert.GetInfluences()[jointWithMostInfluence]]].push_back(vert);
 	}
 
 	for (const std::pair<std::string, std::vector<Vertex>>& jointVerts : jointsVertices)
@@ -67,16 +78,30 @@ Player::Player() :
 			}
 		}
 
-		GraphicsObjectManager::CreateColoredStaticGraphicsObject(ModelManager::GetModel("Cube"), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), [newObb, &jointVerts](ColoredStaticGraphicsObject* go)
+		GraphicsObjectManager::CreateColoredStaticGraphicsObject(ModelManager::GetModel("Cube"), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), [newObb, &jointVerts, this](ColoredStaticGraphicsObject* go)
 			{
 				newObb->graphics = go;
-				newObb->graphics->Scale(newObb->obb->GetSize());
-				newObb->graphics->SetTranslation(newObb->obb->GetOffset());
+				go->SetScale(newObb->obb->GetSize());
+				go->SetTranslation(newObb->obb->GetOffset());
 				GraphicsObjectManager::WireFrame(go, ObjectTypes::GraphicsObjectType::ColoredStatic);
 			});
 
 		obbs.push_back(newObb);
 	}
+
+	otherObb = new OBB();
+
+	otherObb->obb = new OrientedBoundingBox(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::mat4(1.0f));
+	otherObb->obb->SizeToMesh(model->GetVertices());
+
+	GraphicsObjectManager::CreateColoredStaticGraphicsObject(ModelManager::GetModel("Cube"), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), [this](ColoredStaticGraphicsObject* go)
+		{
+			otherObb->graphics = go;
+			go->SetScale(otherObb->obb->GetSize());
+			go->SetTranslation(otherObb->obb->GetOffset());
+			otherObb->obb->SetOrigin(otherObb->obb->GetOffset());
+			GraphicsObjectManager::WireFrame(go, ObjectTypes::GraphicsObjectType::ColoredStatic);
+		});
 
 	RegisterInput();
 }
@@ -88,6 +113,15 @@ Player::~Player()
 	delete wPressed;
 	delete iPress;
 	delete iRelease;
+
+	for (const auto& obb : obbs)
+	{
+		delete obb->obb;
+		delete obb;
+	}
+
+	delete otherObb->obb;
+	delete otherObb;
 }
 
 void Player::Update()
@@ -144,8 +178,24 @@ void Player::Update()
 		{
 			if (obb->graphics != nullptr)
 			{
-				obb->graphics->SetTranslation(graphics->GetTranslation() + obb->obb->GetOffset());
-				obb->graphics->SetRotation(graphics->GetRotation() * graphics->GetAnimPoseArray()[obb->jointIndex] * graphics->GetAnimInvBindPoseArray()[obb->jointIndex]);
+				glm::mat4 scale(1.0f);
+				scale = glm::scale(scale, obb->obb->GetSize());
+
+				glm::mat4 translation(1.0f);
+				translation = glm::translate(translation, obb->obb->GetOffset());
+
+				obb->graphics->SetTransform(graphics->GetTransform()  * graphics->GetAnimPoseArray()[obb->jointIndex] * graphics->GetAnimInvBindPoseArray()[obb->jointIndex] * translation * scale);
+
+				obb->obb->SetOrigin(obb->graphics->GetTranslation());
+
+				if (obb->obb->OrientedBoundingBoxIntersect(*otherObb->obb))
+				{
+					obb->graphics->SetColor(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+				}
+				else
+				{
+					obb->graphics->SetColor(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+				}
 			}
 		}
 	}
@@ -168,7 +218,7 @@ void Player::RegisterInput()
 
 	wRelease = new std::function<void(int)>([this](int keyCode)
 		{
-			graphics->SetClip(9);
+			graphics->SetClip(4);
 		});
 
 	iRelease = new std::function<void(int)>([this](int keyCode)

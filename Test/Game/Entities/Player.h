@@ -52,6 +52,8 @@ private:
 
 	std::vector<OBB*> obbs;
 
+	OBB* otherObb;
+
 	bool hoveredPress;
 
 	std::function<void(int)>* wPressed;

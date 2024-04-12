@@ -3,6 +3,10 @@
 
 #include <glm/glm.hpp>
 
+class AxisAlignedBoundingBox;
+class OrientedBoundingBox;
+class Plane;
+
 class Sphere
 {
 
@@ -18,7 +22,15 @@ public:
 
 	bool PointIntersect(const glm::vec3& point) const;
 
-	const glm::vec3& ClosestPoint(const glm::vec3& point) const;
+	bool SphereIntersect(const Sphere& other) const;
+
+	bool AxisAlignedBoundingBoxIntersect(const AxisAlignedBoundingBox& aabb) const;
+
+	bool OrientedBoundingBoxIntersect(const OrientedBoundingBox& obb) const;
+
+	bool PlaneIntersect(const Plane& plane) const;
+
+	glm::vec3 ClosestPoint(const glm::vec3& point) const;
 
 private:
 

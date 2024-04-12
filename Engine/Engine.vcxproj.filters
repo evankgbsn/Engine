@@ -411,6 +411,9 @@
     <ClInclude Include="Engine\Math\Shapes\Triangle.h">
       <Filter>Source Files\Engine\Math\Shapes</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Math\SAT\Interval3D.h">
+      <Filter>Source Files\Engine\Math\SAT</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -684,10 +687,13 @@
       <Filter>Source Files\Engine\Math\Shapes</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Math\Shapes\Plane.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Engine\Math\Shapes</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Math\Shapes\Triangle.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Engine\Math\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\SAT\Interval3D.cpp">
+      <Filter>Source Files\Engine\Math\SAT</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

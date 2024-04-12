@@ -167,6 +167,7 @@
     <ClInclude Include="Engine\Math\HermiteSpline.h" />
     <ClInclude Include="Engine\Math\Math.h" />
     <ClInclude Include="Engine\Math\SAT\Interval2D.h" />
+    <ClInclude Include="Engine\Math\SAT\Interval3D.h" />
     <ClInclude Include="Engine\Math\Shapes\AxisAlignedBoundingBox.h" />
     <ClInclude Include="Engine\Math\Shapes\Circle.h" />
     <ClInclude Include="Engine\Math\Shapes\LineSegment3D.h" />
@@ -263,6 +264,7 @@
     <ClCompile Include="Engine\Math\HermiteSpline.cpp" />
     <ClCompile Include="Engine\Math\Math.cpp" />
     <ClCompile Include="Engine\Math\SAT\Interval2D.cpp" />
+    <ClCompile Include="Engine\Math\SAT\Interval3D.cpp" />
     <ClCompile Include="Engine\Math\Shapes\AxisAlignedBoundingBox.cpp" />
     <ClCompile Include="Engine\Math\Shapes\Circle.cpp" />
     <ClCompile Include="Engine\Math\Shapes\LineSegment3D.cpp" />

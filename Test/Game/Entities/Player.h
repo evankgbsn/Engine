@@ -6,16 +6,13 @@
 #include<functional>
 
 class TexturedAnimatedGraphicsObject;
+class ColoredStaticGraphicsObject;
 class BoundingSphere;
 class OrientedBoundingBox;
 class AxisAlignedBoundingBox;
 class Model;
 class Texture;
-class PerfectAnimatedCollisionVolume;
-class UserInterfaceItem;
-class Circle;
-class Rectangle;
-class OrientedRectangle;
+
 
 class Player : public GameObject
 {
@@ -46,13 +43,17 @@ private:
 
 	TexturedAnimatedGraphicsObject* graphics;
 
-	UserInterfaceItem* collisionObj2D;
+	OrientedBoundingBox* obb;
 
-	OrientedRectangle* collider2D;
+	AxisAlignedBoundingBox* aabb;
 
-	UserInterfaceItem* collisionObj2DOther;
+	OrientedBoundingBox* obbOther;
 
-	OrientedRectangle* collider2DOther;
+	ColoredStaticGraphicsObject* obbGraphics;
+
+	ColoredStaticGraphicsObject* aabbGraphics;
+
+	ColoredStaticGraphicsObject* obbOtherGraphics;
 
 	bool hoveredPress;
 

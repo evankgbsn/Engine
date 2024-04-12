@@ -19,6 +19,10 @@ public:
 	// Will return 0 if the point is on the plane.
 	float PlaneEquation(const glm::vec3& point) const;
 
+	bool PointOnPlane(const glm::vec3& point) const;
+
+	glm::vec3 ClosestPoint(const glm::vec3& point) const;
+
 private:
 
 	Plane(const Plane&) = delete;

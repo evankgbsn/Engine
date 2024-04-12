@@ -17,6 +17,18 @@ public:
 
 	const glm::mat4& GetOrientation() const;
 
+	void SetOrigin(const glm::vec3& newOrigin);
+
+	void SetSize(const glm::vec3& newSize);
+
+	void SetOrientation(const glm::mat4& newOrientation);
+
+	glm::vec3 ClosestPoint(const glm::vec3& point) const;
+
+	bool PointIntersect(const glm::vec3& point) const;
+
+	bool OrientedBoundingBoxIntersect(const OrientedBoundingBox& other) const;
+
 private:
 
 	OrientedBoundingBox(const OrientedBoundingBox&) = delete;
@@ -26,6 +38,8 @@ private:
 	OrientedBoundingBox(OrientedBoundingBox&&) = delete;
 
 	OrientedBoundingBox& operator=(OrientedBoundingBox&&) = delete;
+
+	bool OverlapOnAxis(const OrientedBoundingBox& other, glm::vec3& axis) const;
 
 	glm::vec3 origin;
 

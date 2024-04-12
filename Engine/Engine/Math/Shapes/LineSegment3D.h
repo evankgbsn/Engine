@@ -15,6 +15,10 @@ public:
 
 	float GetLengthSq() const;
 
+	bool PointIntersect(const glm::vec3& point) const;
+
+	glm::vec3 ClosestPoint(const glm::vec3& point) const;
+
 private:
 
 	LineSegment3D(const LineSegment3D&) = delete;

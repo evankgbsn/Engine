@@ -15,6 +15,10 @@ public:
 
 	const glm::vec3& GetDirection() const;
 
+	bool PointIntersect(const glm::vec3& point) const;
+
+	glm::vec3 ClosestPoint(const glm::vec3& point) const;
+
 private:
 
 	Ray(const Ray&) = delete;

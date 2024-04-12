@@ -12,9 +12,9 @@
 #include "Renderer/Cameras/Camera.h"
 #include "Renderer/Images/TextureManager.h"
 #include "Input/InputManager.h"
-#include "Collision/BoundingSphere.h"
-#include "Collision/AxisAlignedBoundingBox.h"
-#include "Collision/OrientedBoundingBox.h"
+#include "Math/Shapes/Sphere.h"
+#include "Math/Shapes/AxisAlignedBoundingBox.h"
+#include "Math/Shapes/OrientedBoundingBox.h"
 #include "Renderer/GraphicsObjects/TexturedStatic2DGraphicsObject.h"
 
 #include "Math/Shapes/Circle.h"
@@ -39,30 +39,26 @@ Player::Player() :
 
 		});
 
+	GraphicsObjectManager::CreateColoredStaticGraphicsObject(ModelManager::GetModel("Cube"), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), [this](ColoredStaticGraphicsObject* go)
+		{
+			GraphicsObjectManager::WireFrame(go, ObjectTypes::GraphicsObjectType::ColoredStatic);
+			
+			obbGraphics = go;
+
+			obb = new OrientedBoundingBox(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), go->GetRotation());
+		});
+
+
+	GraphicsObjectManager::CreateColoredStaticGraphicsObject(ModelManager::GetModel("Cube"), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), [this](ColoredStaticGraphicsObject* go)
+		{
+			GraphicsObjectManager::WireFrame(go, ObjectTypes::GraphicsObjectType::ColoredStatic);
+
+			obbOtherGraphics = go;
+
+			obbOther = new OrientedBoundingBox(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), go->GetRotation());
+		});
+
 	RegisterInput();
-
-
-	collisionObj2D = UserInterfaceManager::CrateUserInterfaceItem("Square0", ModelManager::GetModel("Square"), TextureManager::GetTexture("DefaultFontTexture"));
-	
-	collisionObj2D->TransformReady([this]()
-		{
-			collisionObj2D->Scale(100.0f, 50.0f);
-			collisionObj2D->Rotate(45.0f);
-		});
-
-	float angleInRadians = -45.0f / 57.2957795f;
-	collider2D = new OrientedRectangle({ 100.0f, 100.0f }, { 50.0f, 25.0f }, angleInRadians);
-
-	collider2DOther = new OrientedRectangle({ 400.0f, 200.0f }, {50.0f, 25.0f}, angleInRadians);
-
-	collisionObj2DOther = UserInterfaceManager::CrateUserInterfaceItem("Square", ModelManager::GetModel("Square"), TextureManager::GetTexture("DefaultFontTexture"));
-	
-	collisionObj2DOther->TransformReady([this]()
-		{
-			collisionObj2DOther->Scale(100.0f, 50.0f);
-			collisionObj2DOther->SetPosition(350.0f, 150.0f);
-			collisionObj2DOther->Rotate(45.0f);
-		});
 }
 
 Player::~Player()
@@ -122,33 +118,25 @@ void Player::Update()
 				}
 			});
 
-		static glm::vec2 cursorPos;
-		InputManager::GetCursorPosition([this](const glm::vec2& pos)
+		if (obbGraphics != nullptr)
+		{
+			obbGraphics->SetTranslation(graphics->GetTranslation());
+			obbGraphics->SetRotation(graphics->GetRotation());
+			obb->SetOrientation(graphics->GetRotation());
+			obb->SetOrigin(graphics->GetTranslation());
+
+			if (obbOther != nullptr)
 			{
-				std::function<void()> hovered = [this, pos]()
-					{
-						if (hoveredPress)
-						{
-							Window* mainWindow = WindowManager::GetWindow("MainWindow");
-							glm::vec2 cursorPosition = pos;
-							float windowHeight = static_cast<float>(mainWindow->GetHeight());
-							cursorPosition.y = windowHeight - cursorPosition.y;
-							collisionObj2D->SetPosition(pos.x, cursorPosition.y);
-
-							collider2D->SetPosition({ pos.x + 50.0f, cursorPosition.y + 50.0f });
-
-							if (collider2D->OrientedRectangleIntersect(*collider2DOther))
-							{
-								GraphicsObjectManager::WireFrame(collisionObj2D->GetGraphicsObject(), ObjectTypes::GraphicsObjectType::TexturedStatic2D);
-							}
-							else
-							{
-								GraphicsObjectManager::Solid(collisionObj2D->GetGraphicsObject(), ObjectTypes::GraphicsObjectType::TexturedStatic2D);
-							}
-						}
-					};
-				collisionObj2D->Hovered(hovered);
-			});
+				if (obb->OrientedBoundingBoxIntersect(*obbOther))
+				{
+					obbGraphics->SetColor(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+				}
+				else
+				{
+					obbGraphics->SetColor(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+				}
+			}
+		}
 	}
 }
 

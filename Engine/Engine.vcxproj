@@ -157,6 +157,9 @@
     <ClInclude Include="Engine\Animation\Pose.h" />
     <ClInclude Include="Engine\Animation\Track.h" />
     <ClInclude Include="Engine\Animation\TransformTrack.h" />
+    <ClInclude Include="Engine\Collision\AnimatedCollider.h" />
+    <ClInclude Include="Engine\Collision\Collider.h" />
+    <ClInclude Include="Engine\Collision\OrientedBoundingBoxWithVisualization.h" />
     <ClInclude Include="Engine\Component\Component.h" />
     <ClInclude Include="Engine\Component\TransformComponent.h" />
     <ClInclude Include="Engine\Engine.h" />
@@ -254,6 +257,9 @@
     <ClCompile Include="Engine\Animation\Pose.cpp" />
     <ClCompile Include="Engine\Animation\Track.cpp" />
     <ClCompile Include="Engine\Animation\TransformTrack.cpp" />
+    <ClCompile Include="Engine\Collision\AnimatedCollider.cpp" />
+    <ClCompile Include="Engine\Collision\Collider.cpp" />
+    <ClCompile Include="Engine\Collision\OrientedBoundingBoxWithVisualization.cpp" />
     <ClCompile Include="Engine\Component\Component.cpp" />
     <ClCompile Include="Engine\Component\TransformComponent.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />

@@ -17,6 +17,8 @@
 #include "Math/Shapes/OrientedBoundingBox.h"
 #include "Renderer/GraphicsObjects/TexturedStatic2DGraphicsObject.h"
 
+#include "Collision/OrientedBoundingBoxWithVisualization.h"
+
 #include "Math/Shapes/Circle.h"
 #include "Math/Shapes/Rectangle.h"
 #include "Math/Shapes/OrientedRectangle.h"
@@ -37,6 +39,7 @@ Player::Player() :
 		{
 			graphics = obj;
 
+			otherObb = new OrientedBoundingBoxWithVisualization(graphics->GetModel()->GetVertices());
 		});
 
 	std::unordered_map<std::string, std::vector<Vertex>> jointsVertices;
@@ -89,19 +92,7 @@ Player::Player() :
 		obbs.push_back(newObb);
 	}
 
-	otherObb = new OBB();
-
-	otherObb->obb = new OrientedBoundingBox(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::mat4(1.0f));
-	otherObb->obb->SizeToMesh(model->GetVertices());
-
-	GraphicsObjectManager::CreateColoredStaticGraphicsObject(ModelManager::GetModel("Cube"), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), [this](ColoredStaticGraphicsObject* go)
-		{
-			otherObb->graphics = go;
-			go->SetScale(otherObb->obb->GetSize());
-			go->SetTranslation(otherObb->obb->GetOffset());
-			otherObb->obb->SetOrigin(otherObb->obb->GetOffset());
-			GraphicsObjectManager::WireFrame(go, ObjectTypes::GraphicsObjectType::ColoredStatic);
-		});
+	
 
 	RegisterInput();
 }
@@ -120,7 +111,6 @@ Player::~Player()
 		delete obb;
 	}
 
-	delete otherObb->obb;
 	delete otherObb;
 }
 
@@ -188,7 +178,7 @@ void Player::Update()
 
 				obb->obb->SetOrigin(obb->graphics->GetTranslation());
 
-				if (obb->obb->OrientedBoundingBoxIntersect(*otherObb->obb))
+				if (obb->obb->OrientedBoundingBoxIntersect(*otherObb))
 				{
 					obb->graphics->SetColor(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 				}

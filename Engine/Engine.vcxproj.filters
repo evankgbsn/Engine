@@ -414,6 +414,15 @@
     <ClInclude Include="Engine\Math\SAT\Interval3D.h">
       <Filter>Source Files\Engine\Math\SAT</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Collision\Collider.h">
+      <Filter>Source Files\Engine\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Collision\AnimatedCollider.h">
+      <Filter>Source Files\Engine\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Collision\OrientedBoundingBoxWithVisualization.h">
+      <Filter>Source Files\Engine\Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -694,6 +703,15 @@
     </ClCompile>
     <ClCompile Include="Engine\Math\SAT\Interval3D.cpp">
       <Filter>Source Files\Engine\Math\SAT</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Collision\Collider.cpp">
+      <Filter>Source Files\Engine\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Collision\OrientedBoundingBoxWithVisualization.cpp">
+      <Filter>Source Files\Engine\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Collision\AnimatedCollider.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

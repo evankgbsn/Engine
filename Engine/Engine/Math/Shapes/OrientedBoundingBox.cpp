@@ -10,6 +10,13 @@ OrientedBoundingBox::OrientedBoundingBox(const glm::vec3& initialOrigin, const g
 {
 }
 
+OrientedBoundingBox::OrientedBoundingBox(const std::vector<Vertex>& vertices, const glm::mat4& initialOrientation) :
+    orientation(initialOrientation)
+{
+    SizeToMesh(vertices);
+    origin = offset;
+}
+
 OrientedBoundingBox::~OrientedBoundingBox()
 {
 }

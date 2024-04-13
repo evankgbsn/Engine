@@ -12,6 +12,7 @@ class OrientedBoundingBox;
 class AxisAlignedBoundingBox;
 class Model;
 class Texture;
+class OrientedBoundingBoxWithVisualization;
 
 
 class Player : public GameObject
@@ -52,7 +53,7 @@ private:
 
 	std::vector<OBB*> obbs;
 
-	OBB* otherObb;
+	OrientedBoundingBoxWithVisualization* otherObb;
 
 	bool hoveredPress;
 

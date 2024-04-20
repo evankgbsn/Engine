@@ -234,6 +234,7 @@ void GraphicsObjectManager::CreateTexturedStaticGraphicsObject(const Model* cons
 		if (model != nullptr && texture != nullptr)
 		{
 			newGraphicsObject = new TexturedStaticGraphicsObject(model, texture);
+			newGraphicsObject->Load();
 			instance->texturedStaticGraphicsObjects.push_back(newGraphicsObject);
 			callback(newGraphicsObject);
 		}
@@ -259,6 +260,7 @@ void GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(const Model* co
 		if (model != nullptr && texture != nullptr)
 		{
 			newGraphicsObject = new TexturedAnimatedGraphicsObject(model, texture);
+			newGraphicsObject->Load();
 			instance->animatedTexturedGraphicsObjects.push_back(newGraphicsObject);
 			callback(newGraphicsObject);
 		}
@@ -284,6 +286,7 @@ void GraphicsObjectManager::CreateGoochGraphicsObject(const Model* const model, 
 		if (model != nullptr)
 		{
 			newGraphicsObject = new GoochGraphicsObject(model, texture);
+			newGraphicsObject->Load();
 			instance->goochGraphicsObjects.push_back(newGraphicsObject);
 			callback(newGraphicsObject);
 		}
@@ -309,6 +312,7 @@ void GraphicsObjectManager::CreateLitTexturedStaticGraphicsObject(const Model* c
 		if (model != nullptr)
 		{
 			newGraphicsObject = new LitTexturedStaticGraphicsObject(model, texture);
+			newGraphicsObject->Load();
 			instance->litTexturedStaticGraphicsObjects.push_back(newGraphicsObject);
 			callback(newGraphicsObject);
 		}
@@ -334,6 +338,7 @@ void GraphicsObjectManager::CreateTexturedStatic2DGraphicsObject(const Model* co
 		if (model != nullptr && texture != nullptr)
 		{
 			newGraphicsObject = new TexturedStatic2DGraphicsObject(model, texture);
+			newGraphicsObject->Load();
 			instance->texturedStatic2DGraphicsObjects.push_back(newGraphicsObject);
 			callback(newGraphicsObject);
 		}
@@ -359,6 +364,7 @@ void GraphicsObjectManager::CreateColoredStaticGraphicsObject(const Model* const
 			if (model != nullptr)
 			{
 				newGraphicsObject = new ColoredStaticGraphicsObject(model, color);
+				newGraphicsObject->Load();
 				instance->coloredStaticGraphicsObjects.push_back(newGraphicsObject);
 				callback(newGraphicsObject);
 			}
@@ -384,6 +390,7 @@ void GraphicsObjectManager::CreateColoredAnimatedGraphicsObject(const Model* con
 			if (model != nullptr)
 			{
 				newGraphicsObject = new ColoredAnimatedGraphicsObject(model, color);
+				newGraphicsObject->Load();
 				instance->coloredAnimatedGraphicsObjects.push_back(newGraphicsObject);
 				callback(newGraphicsObject);
 			}

@@ -160,6 +160,7 @@
     <ClInclude Include="Engine\Collision\AnimatedCollider.h" />
     <ClInclude Include="Engine\Collision\Collider.h" />
     <ClInclude Include="Engine\Collision\OrientedBoundingBoxWithVisualization.h" />
+    <ClInclude Include="Engine\Collision\SphereWithVisualization.h" />
     <ClInclude Include="Engine\Component\Component.h" />
     <ClInclude Include="Engine\Component\TransformComponent.h" />
     <ClInclude Include="Engine\Engine.h" />
@@ -222,6 +223,7 @@
     <ClInclude Include="Engine\Renderer\Pipeline\PipelineLayout.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\Rasterizer\RasterizerPipelineState.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\Rasterizer\WireFrameRasterizerPipelineState.h" />
+    <ClInclude Include="Engine\Renderer\Pipeline\RenderPass\OffscreenRenderPass.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\RenderPass\RenderPass.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\Shaders\DescriptorSet.h" />
     <ClInclude Include="Engine\Renderer\Pipeline\Shaders\DescriptorSetLayout.h" />
@@ -260,6 +262,7 @@
     <ClCompile Include="Engine\Collision\AnimatedCollider.cpp" />
     <ClCompile Include="Engine\Collision\Collider.cpp" />
     <ClCompile Include="Engine\Collision\OrientedBoundingBoxWithVisualization.cpp" />
+    <ClCompile Include="Engine\Collision\SphereWithVisualization.cpp" />
     <ClCompile Include="Engine\Component\Component.cpp" />
     <ClCompile Include="Engine\Component\TransformComponent.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
@@ -320,6 +323,7 @@
     <ClCompile Include="Engine\Renderer\Pipeline\PipelineLayout.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\Rasterizer\RasterizerPipelineState.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\Rasterizer\WireFrameRasterizerPipelineState.cpp" />
+    <ClCompile Include="Engine\Renderer\Pipeline\RenderPass\OffscreenRenderPass.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\RenderPass\RenderPass.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\Shaders\DescriptorSet.cpp" />
     <ClCompile Include="Engine\Renderer\Pipeline\Shaders\DescriptorSetLayout.cpp" />

@@ -17,8 +17,6 @@
 #include "Renderer/Lights/LightManager.h"
 #include "Renderer/Lights/DirectionalLight.h"
 #include "UI/Text.h"
-#include "Collision/BoundingSphere.h"
-
 
 #include <glm/gtc/matrix_transform.hpp>
 

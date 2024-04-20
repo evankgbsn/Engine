@@ -16,6 +16,8 @@ public:
 
 	const VkRenderPass& operator*() const { return renderPass; };
 
+	virtual void Create();
+
 private:
 
 	RenderPass() = delete;
@@ -28,11 +30,13 @@ private:
 
 	RenderPass& operator=(const RenderPass&&) = delete;
 
+protected:
+
 	// The window that created this render pass.
 	const Window& window;
 
 	// In our case we'll have just a single color buffer attachment represented by one of the images from the swap chain.
-	VkAttachmentDescription colorAttachment{};
+	VkAttachmentDescription attachmentDescription{};
 
 	// Describes the layout for the color attachment subpass.
 	VkAttachmentReference colorAttachmentRef{};

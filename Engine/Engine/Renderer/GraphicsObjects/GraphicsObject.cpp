@@ -28,7 +28,8 @@ GraphicsObject::GraphicsObject() :
 	uniformBuffers(std::vector<UniformBuffer*>()),
 	descriptorSet(nullptr),
 	textures(std::vector<Texture*>()),
-	type()
+	type(),
+	loaded(false)
 {
 	InitializeBuffers();
 }
@@ -39,7 +40,8 @@ GraphicsObject::GraphicsObject(const Model* const m) :
 	modelIndexBuffer(new IndexBuffer(static_cast<unsigned int>(sizeof(unsigned int) * model->GetIndices().size()))),
 	uniformBuffers(std::vector<UniformBuffer*>()),
 	descriptorSet(nullptr),
-	textures(std::vector<Texture*>())
+	textures(std::vector<Texture*>()),
+	loaded(false)
 {
 	InitializeBuffers();
 }
@@ -110,6 +112,11 @@ ObjectTypes::GraphicsObjectType GraphicsObject::GetGraphicsObjectType() const
 	return type;
 }
 
+bool GraphicsObject::Loaded()
+{
+	return this != nullptr && loaded.load();
+}
+
 void GraphicsObject::InitializeDescriptorSets()
 {
 	CreateUniformBuffers();
@@ -126,6 +133,11 @@ void GraphicsObject::InitializeBuffers()
 	StagingBuffer indexStagingBuffer(modelIndexBuffer->Size());
 	indexStagingBuffer.Map((void*)model->GetIndices().data(), modelIndexBuffer->Size());
 	modelIndexBuffer->CopyFrom(indexStagingBuffer);
+}
+
+void GraphicsObject::Load()
+{
+	loaded.store(true);
 }
 
 void GraphicsObject::CreateDescriptorSets()

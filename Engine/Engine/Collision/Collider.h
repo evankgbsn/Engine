@@ -13,6 +13,8 @@ protected:
 
 	virtual void Update() = 0;
 
+	virtual void ToggleVisibility() = 0;
+
 private:
 
 	Collider(const Collider&) = delete;

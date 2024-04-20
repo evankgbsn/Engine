@@ -25,20 +25,32 @@ OrientedBoundingBoxWithVisualization::~OrientedBoundingBoxWithVisualization()
 
 void OrientedBoundingBoxWithVisualization::Update(const glm::mat4& transform)
 {
-	glm::mat4 scale(1.0f);
-	scale = glm::scale(scale, GetSize());
+	if (graphics->Loaded())
+	{
+		glm::mat4 scale(1.0f);
+		scale = glm::scale(scale, GetSize());
 
-	glm::mat4 translation(1.0f);
-	translation = glm::translate(translation, GetOffset());
+		glm::mat4 translation(1.0f);
+		translation = glm::translate(translation, GetOffset());
 
-	graphics->SetTransform(transform * translation * scale);
+		graphics->SetTransform(transform * translation * scale);
 
-	SetOrigin(graphics->GetTranslation());
+		SetOrigin(graphics->GetTranslation());
+		SetOrientation(graphics->GetRotation());
+	}
 }
 
 void OrientedBoundingBoxWithVisualization::ToggleVisibility()
 {
 	GraphicsObjectManager::ToggleGraphicsObjectDraw(graphics, ObjectTypes::GraphicsObjectType::ColoredStatic);
+}
+
+void OrientedBoundingBoxWithVisualization::SetColor(const glm::vec4& newColor)
+{
+	if (graphics != nullptr)
+	{
+		graphics->SetColor(newColor);
+	}
 }
 
 void OrientedBoundingBoxWithVisualization::CreateGraphics()

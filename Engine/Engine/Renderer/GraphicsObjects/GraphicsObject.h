@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <string>
+#include <atomic>
 
 class Model;
 class UniformBuffer;
@@ -51,6 +52,9 @@ public:
 
 	ObjectTypes::GraphicsObjectType GetGraphicsObjectType() const;
 
+	bool Loaded();
+
+
 protected:
 
 	void InitializeDescriptorSets();
@@ -75,8 +79,13 @@ protected:
 
 	ObjectTypes::GraphicsObjectType type;
 
+	std::atomic<bool> loaded;
+
 private:
 	
+	friend class GraphicsObjectManager;
+	void Load();
+
 	void CreateDescriptorSets();
 
 	void InitializeBuffers();

@@ -14,7 +14,6 @@ OrientedBoundingBox::OrientedBoundingBox(const std::vector<Vertex>& vertices, co
     orientation(initialOrientation)
 {
     SizeToMesh(vertices);
-    origin = offset;
 }
 
 OrientedBoundingBox::~OrientedBoundingBox()

@@ -13,6 +13,7 @@ class AxisAlignedBoundingBox;
 class Model;
 class Texture;
 class OrientedBoundingBoxWithVisualization;
+class AnimatedCollider;
 
 
 class Player : public GameObject
@@ -38,6 +39,8 @@ private:
 
 	void RegisterInput();
 
+	void CameraAndPlayerRotation();
+
 	Model* model;
 
 	Texture* texture;
@@ -54,6 +57,8 @@ private:
 	std::vector<OBB*> obbs;
 
 	OrientedBoundingBoxWithVisualization* otherObb;
+
+	AnimatedCollider* collider;
 
 	bool hoveredPress;
 

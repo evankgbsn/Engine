@@ -1,10 +1,5 @@
 #include "Math.h"
 
-#include "../Collision/AxisAlignedBoundingBox.h"
-#include "../Collision/BoundingSphere.h"
-#include "../Collision/OrientedBoundingBox.h"
-#include "../Collision/PerfectAnimatedCollisionVolume.h"
-
 #include "glm/gtc/matrix_access.hpp"
 #include "glm/gtx/projection.hpp"
 

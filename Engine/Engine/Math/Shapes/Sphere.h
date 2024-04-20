@@ -3,9 +3,12 @@
 
 #include <glm/glm.hpp>
 
+#include <vector>
+
 class AxisAlignedBoundingBox;
 class OrientedBoundingBox;
 class Plane;
+class Vertex;
 
 class Sphere
 {
@@ -14,11 +17,19 @@ public:
 
 	Sphere(const glm::vec3& initialOrigin, float initialRadius);
 
+	Sphere(const std::vector<Vertex>& vertices);
+
 	~Sphere();
 
 	const glm::vec3& GetOrigin() const;
 
+	const glm::vec3& GetOffset() const;
+
 	float GetRadius() const;
+
+	void SetOrigin(const glm::vec3& newOrigin);
+
+	void Transform(const glm::mat4& transform);
 
 	bool PointIntersect(const glm::vec3& point) const;
 
@@ -45,6 +56,8 @@ private:
 	glm::vec3 origin;
 
 	float radius;
+
+	glm::vec3 offset;
 };
 
 #endif // SPHERE_H

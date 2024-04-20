@@ -12,6 +12,7 @@
 #include "Renderer/GraphicsObjects/TexturedAnimatedGraphicsObject.h"
 #include "Renderer/GraphicsObjects/TexturedStatic2DGraphicsObject.h"
 #include "Renderer/GraphicsObjects/TexturedStaticGraphicsObject.h"
+#include "Renderer/GraphicsObjects/TexturedStaticGraphicsObject.h"
 #include "UI/UserInterfaceItem.h"
 #include "Input/InputManager.h"
 #include "Renderer/Cameras/CameraManager.h"
@@ -52,7 +53,6 @@ std::function<void(int)>* uPress = nullptr;
 
 static HeapProfiling heapProfiling;
 
-void StressTest();
 void LoadAssets();
 void Game();
 void SetInput();
@@ -102,61 +102,6 @@ void LoadAssets()
 	ModelManager::LoadModel("Square", "Assets/Models/Square.gltf");
 }
 
-void StressTest()
-{
-	Texture* womanTextures[5] = { 
-		TextureManager::GetTexture("Woman"), 
-		TextureManager::GetTexture("Woman1"), 
-		TextureManager::GetTexture("Woman2"), 
-		TextureManager::GetTexture("Woman3"), 
-		TextureManager::GetTexture("Woman")
-	};
-
-	//const float translationScalar = 7.0f;
-	//srand(static_cast<unsigned int>(std::chrono::high_resolution_clock::now().time_since_epoch().count()));
-	//unsigned int clipNum = 0;
-	//unsigned int womanTextureNum;
-	//
-	//int count = 10;
-
-	//for (int i = 0; i < count; i++)
-	//{
-	//	for (int j = 0; j < count; j++)
-	//	{
-	//		if (clipNum > 9)
-	//			clipNum = 0;
-	//
-	//		womanTextureNum = rand() % 5;
-	//
-	//		auto animationCreationCallback = [translationScalar, i, j, count](GraphicsObject* go)
-	//			{
-	//				TexturedAnimatedGraphicsObject* ago = static_cast<TexturedAnimatedGraphicsObject*>(go);
-	//				if (go != nullptr)
-	//				{
-	//					ago->Translate(glm::vec3(i * translationScalar + -count*3, 0.0f, j * translationScalar + -count*3));
-	//					ago->SetClip(8);
-	//					ago->SetAnimationSpeed(2.0f);
-	//				}
-	//
-	//				if (i == j)
-	//				{
-	//					GraphicsObjectManager::WireFrame(go, ObjectTypes::GraphicsObjectType::AnimatedTextured);
-	//				}
-	//
-	//			};
-	//		//std::this_thread::sleep_for(std::chrono::milliseconds(10));
-	//		GraphicsObjectManager::CreateTexturedAnimatedGraphicsObject(ModelManager::GetModel("Woman"), TextureManager::GetTexture("Woman2"), animationCreationCallback);
-	//
-	//	}
-	//}
-
-	
-
-	
-
-	SetInput();
-}
-
 std::vector<std::function<void(int)>**> keyList = { &wPress, &aPress, &dPress, &lctrPress, &qPress, &ePress };
 
 void Game()
@@ -198,73 +143,66 @@ void Game()
 
 void SetInput()
 {
-	wPress = new std::function<void(int)>([](int keyCode)
+
+	Camera& cam = CameraManager::GetCamera("MainCamera");
+
+	wPress = new std::function<void(int)>([&cam](int keyCode)
 	{
-		Camera& cam = CameraManager::GetCamera("MainCamera");
 		float speed = 4.0f * TimeManager::DeltaTime();
 		cam.Translate(cam.GetForwardVector() * speed);
 	});
 
-	aPress = new std::function<void(int)>([](int keyCode)
+	aPress = new std::function<void(int)>([&cam](int keyCode)
 	{
-		Camera& cam = CameraManager::GetCamera("MainCamera");
 		float speed = 4.0f * TimeManager::DeltaTime();
 		cam.Translate(cam.GetRightVector() * -speed);
 	});
 
-	sPress = new std::function<void(int)>([](int keyCode)
+	sPress = new std::function<void(int)>([&cam](int keyCode)
 	{
-		Camera& cam = CameraManager::GetCamera("MainCamera");
 		float speed = 4.0f * TimeManager::DeltaTime();
 		cam.Translate(cam.GetForwardVector() * -speed);
 	});
 
-	dPress = new std::function<void(int)>([](int keyCode)
+	dPress = new std::function<void(int)>([&cam](int keyCode)
 	{
-		Camera& cam = CameraManager::GetCamera("MainCamera");
 		float speed = 4.0f * TimeManager::DeltaTime();
 		cam.Translate(cam.GetRightVector() * speed);
 	});
 
-	lctrPress = new std::function<void(int)>([](int keyCode)
+	lctrPress = new std::function<void(int)>([&cam](int keyCode)
 	{
-		Camera& cam = CameraManager::GetCamera("MainCamera");
 		float speed = 4.0f * TimeManager::DeltaTime();
 		cam.Translate(glm::vec3(0.0f, -speed, 0.0f));
 	});
 
-	spacePress = new std::function<void(int)>([](int keyCode)
+	spacePress = new std::function<void(int)>([&cam](int keyCode)
 	{
-		Camera& cam = CameraManager::GetCamera("MainCamera");
 		float speed = 4.0f * TimeManager::DeltaTime();
 		cam.Translate(glm::vec3(0.0f, speed, 0.0f));
 	});
 
-	qPress = new std::function<void(int)>([](int keyCode)
+	qPress = new std::function<void(int)>([&cam](int keyCode)
 	{
-		Camera& cam = CameraManager::GetCamera("MainCamera");
 		float rotSpeed = 2.0f * TimeManager::DeltaTime();
 		cam.Rotate(cam.GetUpVector(), rotSpeed);
 	});
 
-	ePress = new std::function<void(int)>([](int keyCode)
+	ePress = new std::function<void(int)>([&cam](int keyCode)
 	{
-		Camera& cam = CameraManager::GetCamera("MainCamera");
 		float rotSpeed = 2.0f * TimeManager::DeltaTime();
 		cam.Rotate(cam.GetUpVector(), -rotSpeed);
 	});
 	
 
-	zPress = new std::function<void(int)>([](int keyCode)
+	zPress = new std::function<void(int)>([&cam](int keyCode)
 	{
-		Camera& cam = CameraManager::GetCamera("MainCamera");
 		float rotSpeed = 2.0f * TimeManager::DeltaTime();
 		cam.Rotate(cam.GetRightVector(), -rotSpeed);
 	});
 
-	cPress = new std::function<void(int)>([](int keyCode)
+	cPress = new std::function<void(int)>([&cam](int keyCode)
 	{
-		Camera& cam = CameraManager::GetCamera("MainCamera");
 		float rotSpeed = 2.0f * TimeManager::DeltaTime();
 		cam.Rotate(cam.GetRightVector(), rotSpeed);
 	});
@@ -287,8 +225,10 @@ void SetInput()
 void AddGrid()
 {
 	GraphicsObjectManager::CreateTexturedStaticGraphicsObject(ModelManager::GetModel("DefaultRectangleWithDepth"), TextureManager::GetTexture("Grid"),
-		[](GraphicsObject* go)
+		[](TexturedStaticGraphicsObject* go)
 		{
-			
+			go->Rotate(-90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+			go->SetScale({ 50.0f, 50.0f, 1.0f });
+			go->Translate({ 0.0f, -1.0f, 0.0f });
 		});
 }

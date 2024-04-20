@@ -42,6 +42,8 @@
 #include "../../UI/Editor/Editor.h"
 #include "../../Engine.h"
 
+#include "../Pipeline/RenderPass/OffscreenRenderPass.h"
+
 #include "glm/gtc/matrix_transform.hpp"
 
 static void FramebufferResizeCallback(GLFWwindow* window, int width, int height);
@@ -125,6 +127,7 @@ void Window::Initialize()
 		CreateMSAARenderTarget();
 		CreateDepthBuffer();
 		renderPass = new RenderPass(*this);
+		renderPass->Create();
 		viewportPipelineState = new ViewportPipelineState(*this);
 		TextureManager::Initialize();
 		GraphicsObjectManager::Initialize(*this);

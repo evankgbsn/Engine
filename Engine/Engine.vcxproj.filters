@@ -423,6 +423,12 @@
     <ClInclude Include="Engine\Collision\OrientedBoundingBoxWithVisualization.h">
       <Filter>Source Files\Engine\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Collision\SphereWithVisualization.h">
+      <Filter>Source Files\Engine\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Renderer\Pipeline\RenderPass\OffscreenRenderPass.h">
+      <Filter>Source Files\Engine\Renderer\Pipeline\RenderPass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
@@ -711,6 +717,12 @@
       <Filter>Source Files\Engine\Collision</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Collision\AnimatedCollider.cpp">
+      <Filter>Source Files\Engine\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Collision\SphereWithVisualization.cpp">
+      <Filter>Source Files\Engine\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Renderer\Pipeline\RenderPass\OffscreenRenderPass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
